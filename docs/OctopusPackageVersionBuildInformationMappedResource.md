@@ -1,0 +1,31 @@
+
+
+# OctopusPackageVersionBuildInformationMappedResource
+
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**branch** | **String** |  |  [optional]
+**buildEnvironment** | **String** |  |  [optional]
+**buildNumber** | **String** |  |  [optional]
+**buildUrl** | **String** |  |  [optional]
+**commits** | [**List&lt;CommitDetails&gt;**](CommitDetails.md) |  |  [optional]
+**created** | **OffsetDateTime** |  |  [optional]
+**id** | **String** |  |  [optional]
+**incompleteDataWarning** | **String** |  |  [optional]
+**issueTrackerName** | **String** |  |  [optional]
+**lastModifiedBy** | **String** |  |  [optional]
+**lastModifiedOn** | **OffsetDateTime** |  |  [optional]
+**links** | **Map&lt;String, String&gt;** |  |  [optional]
+**packageId** | **String** |  |  [optional]
+**vcsCommitNumber** | **String** |  |  [optional]
+**vcsCommitUrl** | **String** |  |  [optional]
+**vcsRoot** | **String** |  |  [optional]
+**vcsType** | **String** |  |  [optional]
+**version** | **String** |  |  [optional]
+**workItems** | [**List&lt;WorkItemLink&gt;**](WorkItemLink.md) |  |  [optional]
+
+
+

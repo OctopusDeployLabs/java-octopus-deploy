@@ -21,3 +21,32 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# exclude jar for gradle wrapper
+!gradle/wrapper/*.jar
+
+# build files
+**/target
+target
+.gradle
+build
+bin
+
+# ignore generation files
+.classpath
+.openapi*
+.project
+.settings
+.travis.yml
+api
+build.sbt
+git_push.sh
+*gradle*
+docs/.openapi*
+src/.openapi*
+src/.npmignore
+src/.gitignore
+src/git_push.sh
+src/README.md
+src/package.json
+src/tsconfig.json

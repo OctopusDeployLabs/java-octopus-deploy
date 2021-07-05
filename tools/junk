@@ -1,0 +1,22 @@
+{
+        "Self": "/api/Spaces-42/projects/Projects-1",
+        "Releases": "/api/Spaces-42/projects/Projects-1/releases{/version}{?skip,take,searchByVersion}",
+        "Channels": "/api/Spaces-42/projects/Projects-1/channels{?skip,take,partialName}",
+        "Triggers": "/api/Spaces-42/projects/Projects-1/triggers{?skip,take,partialName,triggerActionType,triggerActionCategory,runbooks}",
+        "ScheduledTriggers": "/api/Spaces-42/projects/Projects-1/scheduledtriggers{?skip,take,partialName}",
+        "OrderChannels": "/api/Spaces-42/projects/Projects-1/channels/order",
+        "Variables": "/api/Spaces-42/variables/variableset-Projects-1",
+        "Progression": "/api/Spaces-42/progression/Projects-1{?aggregate}",
+        "RunbookTaskRunDashboardItemsTemplate": "/api/Spaces-42/progression/runbooks/taskRuns{?skip,take,ids,projectIds,runbookIds,environmentIds,tenantIds,taskIds}",
+        "DeploymentProcess": "/api/Spaces-42/deploymentprocesses/deploymentprocess-Projects-1",
+        "DeploymentSettings": "/api/Spaces-42/deploymentsettings/deploymentsettings-Projects-1",
+        "Web": "/app#/Spaces-42/projects/Projects-1",
+        "Logo": "/api/Spaces-42/projects/Projects-1/logo?cb=2021.1.7500",
+        "Metadata": "/api/Spaces-42/projects/Projects-1/metadata",
+        "Runbooks": "/api/Spaces-42/projects/Projects-1/runbooks{?skip,take}",
+        "RunbookSnapshots": "/api/Spaces-42/projects/Projects-1/runbookSnapshots{/name}{?skip,take,searchByName}",
+        "VersionControlSettingsConnectionTest": "/api/Spaces-42/projects/Projects-1/versioncontrolsettings/test",
+        "VersionControlCompatibilityReport": "/api/Spaces-42/projects/Projects-1/versioncontrolcompatibility/report",
+        "Summary": "/api/Spaces-42/projects/Projects-1/summary",
+        "ConvertToVcs": "/api/Spaces-42/projects/Projects-1/versioncontrol/convert"
+      }

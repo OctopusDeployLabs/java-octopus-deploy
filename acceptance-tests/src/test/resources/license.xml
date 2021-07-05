@@ -1,0 +1,10 @@
+<License Signature="ZqM16CedCAARyZfjn8g6vORQbNdm3JDKJaoz3e3TWBf/K6ZAw+DoesI4Gv1qAXGkmiRLIFKuMrnWfD2Tq0l3ig==">
+  <LicensedTo>Octopus Deploy</LicensedTo>
+  <LicenseKey>41803-02696-21427-19483</LicenseKey>
+  <Version>2.0<!-- License Schema Version --></Version>
+  <ValidFrom>2021-06-29</ValidFrom>
+  <MaintenanceExpires>2023-06-29</MaintenanceExpires>
+  <ProjectLimit>Unlimited</ProjectLimit>
+  <MachineLimit>Unlimited</MachineLimit>
+  <UserLimit>Unlimited</UserLimit>
+</License>

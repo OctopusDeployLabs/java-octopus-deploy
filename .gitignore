@@ -1,23 +1,22 @@
-# Compiled class file
+.idea
 *.class
-
-# Log file
-*.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+./.gradle
 
 # Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+**/build/**/*.jar
+**/out
+*.nupkg
+.idea
+*.iml
+
+.gradle/
+
+**/target
+**/build
+*.DS_Store
+
+
+acceptance-tests/out/**
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
@@ -38,7 +37,6 @@ bin
 .project
 .settings
 .travis.yml
-api
 build.sbt
 git_push.sh
 *gradle*
@@ -50,3 +48,4 @@ src/git_push.sh
 src/README.md
 src/package.json
 src/tsconfig.json
+

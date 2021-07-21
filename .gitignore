@@ -4,6 +4,7 @@
 
 # Package Files #
 **/build/**/*.jar
+**/out
 *.nupkg
 .idea
 *.iml

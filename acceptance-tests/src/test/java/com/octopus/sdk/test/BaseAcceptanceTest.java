@@ -29,7 +29,7 @@ public class BaseAcceptanceTest {
 
   //Adjust these values if running a pre-running octopus server.
   private static final boolean DEFAULT_USE_EXISTING_SERVER = true;
-  protected static String serverURL = "http://localhost:8066";
+  protected static String serverURL = "http://localhost:8065";
   protected static String apiKey = "API-D62EQ9I4EVET1E2LJUBKEHLNBYWMO3";
 
 

@@ -1,4 +1,4 @@
-name: Build, Test, Package and Push
+name: Build and Test
 
 # Controls when the action will run.
 on:
@@ -22,5 +22,7 @@ jobs:
           distribution: 'adopt'
       - name: Build and test
         run: ./gradlew test
+        env:
+          OCTOPUS_SDK_AT_USE_EXISTING_SERVER:false
       - name: Run Acceptance Tests
         run: ./gradlew acceptancetest

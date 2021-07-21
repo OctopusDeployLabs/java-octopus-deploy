@@ -20,5 +20,7 @@ jobs:
         with:
           java-version: '8'
           distribution: 'adopt'
-      - name: Build with gradle
+      - name: Build and test
         run: ./gradlew test
+      - name: Run Acceptance Tests
+        run: ./gradlew acceptancetest

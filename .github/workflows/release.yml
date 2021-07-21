@@ -26,6 +26,6 @@ jobs:
       - name: Run acceptanceTests
         run: ./gradlew acceptancetest
         env:
-          OCTOPUS_SDK_AT_USE_EXISTING_SERVER:false
+          OCTOPUS_SDK_AT_USE_EXISTING_SERVER: false
       - name: Publish to Maven
         run: ./gradlew artifactoryPublish

@@ -23,6 +23,6 @@ jobs:
       - name: Build and test
         run: ./gradlew test
         env:
-          OCTOPUS_SDK_AT_USE_EXISTING_SERVER:false
+          OCTOPUS_SDK_AT_USE_EXISTING_SERVER: false
       - name: Run Acceptance Tests
         run: ./gradlew acceptancetest

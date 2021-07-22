@@ -25,4 +25,5 @@ jobs:
       - name: Run Acceptance Tests
         run: ./gradlew acceptancetest
         env:
+          OCTOPUS_LICENSE: ${{ secrets.OCTOPUS_LICENSE }}
           OCTOPUS_SDK_AT_USE_EXISTING_SERVER: false

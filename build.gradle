@@ -28,7 +28,7 @@ plugins {
     id 'com.github.hierynomus.license' version '0.15.0'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'net.ltgt.errorprone' version '1.3.0'
-    id "org.openapi.generator" version '5.1.1'
+    id "org.openapi.generator" version '5.2.0'
     id "com.jfrog.artifactory" version '4.18.0'
     id 'com.adarshr.test-logger' version '3.0.0'
     id 'maven-publish'
@@ -184,7 +184,7 @@ openApiGenerate {
 
     // Ignore files does not alter behaviour
     ignoreFileOverride = project(":octopus-openapi-wrapper").projectDir.toPath().resolve(".openapi-generator-ignore").toString()
-    inputSpec = project(":octopus-openapi-wrapper").projectDir.toPath().resolve("spec").resolve("swagger.json").toString()
+    inputSpec = project(":octopus-openapi-wrapper").projectDir.toPath().resolve("spec").resolve("new.json").toString()
     templateDir = project(":octopus-openapi-wrapper").projectDir.toPath().resolve("templates").toString()
     outputDir = project(":octopus-openapi-wrapper").buildDir.toPath().resolve("generated").toString()
     apiPackage = "com.octopus.openapi.api"

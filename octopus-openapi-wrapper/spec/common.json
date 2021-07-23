@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "definitions": {
+    "BaseCollection": {
+      "type": "object",
+      "discriminator": "unused",
+      "properties": {
+        "ItemType": {
+          "type": "string"
+        },
+        "TotalResults": {
+          "type": "integer"
+        },
+        "ItemsPerPage": {
+          "type": "integer"
+        },
+        "NumberOfPages": {
+          "type": "integer"
+        },
+        "LastPageNumber": {
+          "type": "integer"
+        },
+        "Links": {
+          "type": "object",
+          "$ref": "#/definitions/CollectionPaginationLinks"
+        }
+      }
+    },
+    "CollectionPaginationLinks": {
+      "type": "object",
+      "properties": {
+        "Self": {
+          "type": "string"
+        },
+        "Template": {
+          "type": "string"
+        },
+        "Page.All": {
+          "type": "string"
+        },
+        "Page.Next": {
+          "type": "string"
+        },
+        "Page.Current": {
+          "type": "string"
+        },
+        "Page.Last": {
+          "type": "string"
+        }
+      }
+    },
+    "BaseResource": {
+      "type": "object",
+      "discriminator": "abc",
+      "properties": {
+        "Id": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

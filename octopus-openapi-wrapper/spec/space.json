@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "definitions": {
+    "SpaceOverviewResource": {
+      "allOf": [
+        {
+          "$ref": "common.json#/definitions/BaseResource"
+        }
+      ],
+      "properties": {
+        "IsDefault": {
+          "type": "boolean"
+        },
+        "SpaceManagersTeamMembers": {
+          "uniqueItems": true,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "SpaceManagersTeams": {
+          "uniqueItems": true,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "TaskQueueStopped": {
+          "type": "boolean"
+        },
+        "Links": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "SpaceResourceCollection": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "common.json#/definitions/BaseCollection"
+        }
+      ]
+    }
+  }
+}

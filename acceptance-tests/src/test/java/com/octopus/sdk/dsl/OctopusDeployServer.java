@@ -42,8 +42,7 @@ public class OctopusDeployServer {
 
   private static final Logger LOG = LoggerFactory.getLogger(OctopusDeployServer.class);
   private static final String OCTOPUS_SERVER_LICENSE_TEXT_ENV_VAR = "OCTOPUS_LICENSE";
-  
-  
+
   public static final String OCTOPUS_SERVER_IMAGE = "octopusdeploy/octopusdeploy";
   public static final String MS_SQL_IMAGE = "mcr.microsoft.com/mssql/server";
   public static final String MS_SQL_CONTAINER_NETWORK_ALIAS = "sql-server";

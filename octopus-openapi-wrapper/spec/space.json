@@ -308,6 +308,28 @@
           "type": "string"
         }
       }
+    },
+    "SpaceCreationParameters": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "type": "string"
+        },
+        "SpaceManagersTeamMembers": {
+          "uniqueItems": true,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "SpaceManagersTeams": {
+          "uniqueItems": true,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     }
   }
 }

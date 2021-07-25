@@ -94,7 +94,7 @@ class SpacesOverviewApiTest {
 
   @Test
   public void noMatchingSpacesWithNameReturnsOptionalEmpty() throws IOException {
-        final SpaceOverviewPaginatedCollection returnedObject =
+    final SpaceOverviewPaginatedCollection returnedObject =
         new SpaceOverviewPaginatedCollection(emptyMap(), 0, 30, 1, 0, emptyList());
     mockOctopusServer
         .when(request().withPath("/api/spaces"))

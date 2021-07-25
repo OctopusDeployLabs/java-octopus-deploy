@@ -108,7 +108,9 @@ public class SpacesOverviewApi extends BaseApi<SpaceOverview, SpaceOverviewPagin
           e.getMessage());
       return Optional.empty();
     } catch (final JsonSyntaxException e) {
-      final String error = String.format("Failed to deserialize returned resource for space %s on Octopus Server %s",
+      final String error =
+          String.format(
+              "Failed to deserialize returned resource for space %s on Octopus Server %s",
               id, client.getServerUrl());
       throw new RuntimeException(error, e);
     }

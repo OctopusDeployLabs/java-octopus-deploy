@@ -55,7 +55,9 @@ public class SampleOperations {
       if (client.defaultSpaceAvailable()) {
         return client.getRootDocument();
       }
-      final String error = String.format("Requested space name was not defined, but Octopus Server at %s has no "
+      final String error =
+          String.format(
+              "Requested space name was not defined, but Octopus Server at %s has no "
                   + "default space available.",
               client.getServerUrl());
       throw new IllegalArgumentException(error);
@@ -64,7 +66,9 @@ public class SampleOperations {
     final SpacesOverviewApi spacesApi = SpacesOverviewApi.create(client);
     final Optional<SpaceOverview> containingSpace = spacesApi.getByName(spaceName.get());
     if (!containingSpace.isPresent()) {
-      final String error = String.format("Unable to find a space with name '%s' on server '%s'",
+      final String error =
+          String.format(
+              "Unable to find a space with name '%s' on server '%s'",
               spaceName.get(), client.getServerUrl());
       throw new IllegalArgumentException(error);
     }

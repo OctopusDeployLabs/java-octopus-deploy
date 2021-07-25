@@ -15,15 +15,16 @@
 
 package com.octopus.sdk.test;
 
+import static java.util.Collections.singletonList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+
 import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.api.UsersApi;
 import com.octopus.sdk.http.HttpException;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.OctopusClientFactory;
 import com.octopus.sdk.model.SpaceOverview;
-import org.assertj.core.util.Lists;
-import org.assertj.core.util.Sets;
-import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -34,9 +35,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static java.util.Collections.singletonList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import org.assertj.core.util.Lists;
+import org.assertj.core.util.Sets;
+import org.junit.jupiter.api.Test;
 
 public class SpacesTest extends BaseAcceptanceTest {
 

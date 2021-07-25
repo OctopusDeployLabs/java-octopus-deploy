@@ -22,15 +22,12 @@ import com.octopus.sdk.http.OctopusClientFactory;
 import com.octopus.sdk.model.RootDocument;
 import com.octopus.sdk.model.User;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
 
-import com.google.common.io.Resources;
 import okhttp3.OkHttpClient;
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
@@ -167,9 +164,11 @@ public class OctopusDeployServer {
   public static void installLicense(final OctopusClient client) throws IOException {
 
     final String licenseText = System.getenv(OCTOPUS_SERVER_LICENSE_TEXT_ENV_VAR);
-    if(licenseText == null) {
-      throw new IllegalStateException(OCTOPUS_SERVER_LICENSE_TEXT_ENV_VAR + " env var was not set, therefore license " +
-          "cannot be added to the Octopus server, which prevents tests being executed");
+    if (licenseText == null) {
+      throw new IllegalStateException(
+          OCTOPUS_SERVER_LICENSE_TEXT_ENV_VAR
+              + " env var was not set, therefore license "
+              + "cannot be added to the Octopus server, which prevents tests being executed");
     }
     final LicenseApi licenseApi = new LicenseApi(client);
     licenseApi.insertLicense(licenseText);

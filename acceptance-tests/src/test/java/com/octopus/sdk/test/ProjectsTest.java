@@ -20,7 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.octopus.sdk.api.ProjectApi;
 import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.api.UsersApi;
-import com.octopus.sdk.dsl.OctopusDeployServer;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.OctopusClientFactory;
 import com.octopus.sdk.http.RequestEndpoint;
@@ -32,8 +31,6 @@ import java.io.IOException;
 import java.net.URL;
 
 import com.google.common.collect.Sets;
-import okhttp3.OkHttpClient;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class ProjectsTest extends BaseAcceptanceTest {

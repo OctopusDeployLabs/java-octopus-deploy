@@ -15,27 +15,96 @@
 
 package com.octopus.sdk.model;
 
-import com.octopus.openapi.model.SpaceResource;
+import com.google.gson.annotations.SerializedName;
 
-public class SpaceOverview extends SpaceResource {
+import java.time.OffsetDateTime;
+import java.util.Set;
+
+public class SpaceOverview extends NamedResource {
+
+  @SerializedName("IsDefault")
+  private Boolean isDefault;
+
+  @SerializedName("LastModifiedBy")
+  private String lastModifiedBy;
+
+  @SerializedName("LastModifiedOn")
+  private OffsetDateTime lastModifiedOn;
+
+  @SerializedName("SpaceManagersTeamMembers")
+  private Set<String> spaceManagersTeamMembers = null;
+
+  @SerializedName("SpaceManagersTeams")
+  private Set<String> spaceManagersTeams = null;
+
+  @SerializedName("TaskQueueStopped")
+  private Boolean taskQueueStopped;
+
+  public Boolean getDefault() {
+    return isDefault;
+  }
+
+  public String getLastModifiedBy() {
+    return lastModifiedBy;
+  }
+
+  public OffsetDateTime getLastModifiedOn() {
+    return lastModifiedOn;
+  }
+
+  public Set<String> getSpaceManagersTeamMembers() {
+    return spaceManagersTeamMembers;
+  }
+
+  public Set<String> getSpaceManagersTeams() {
+    return spaceManagersTeams;
+  }
+
+  public Boolean getTaskQueueStopped() {
+    return taskQueueStopped;
+  }
 
   public String getLogoLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("Logo"));
+    return getCleansedLink("Logo");
   }
 
   public String getSearchLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("Search"));
+    return getCleansedLink("Search");
   }
 
   public String getSelfLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("Self"));
+    return getCleansedLink("Self");
   }
 
   public String getSpaceHomeLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("SpaceHome"));
+    return getCleansedLink("SpaceHome");
   }
 
   public String getWebLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("Web"));
+    return getCleansedLink("Web");
+  }
+
+  public void setDefault(final Boolean aDefault) {
+    isDefault = aDefault;
+  }
+
+  public void setLastModifiedBy(final String lastModifiedBy) {
+    this.lastModifiedBy = lastModifiedBy;
+  }
+
+  public void setLastModifiedOn(final OffsetDateTime lastModifiedOn) {
+    this.lastModifiedOn = lastModifiedOn;
+  }
+
+  public void setSpaceManagersTeamMembers(final Set<String> spaceManagersTeamMembers) {
+    this.spaceManagersTeamMembers = spaceManagersTeamMembers;
+  }
+
+  public void setSpaceManagersTeams(final Set<String> spaceManagersTeams) {
+    this.spaceManagersTeams = spaceManagersTeams;
+  }
+
+  public void setTaskQueueStopped(final Boolean taskQueueStopped) {
+    this.taskQueueStopped = taskQueueStopped;
   }
 }

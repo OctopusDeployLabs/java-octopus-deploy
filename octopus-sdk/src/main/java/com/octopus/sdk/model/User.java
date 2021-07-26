@@ -15,35 +15,72 @@
 
 package com.octopus.sdk.model;
 
-import com.octopus.openapi.model.UserResource;
+import com.google.gson.annotations.SerializedName;
+import com.octopus.openapi.model.IdentityResource;
 
-public class User extends UserResource {
+import java.time.OffsetDateTime;
+import java.util.List;
+
+public class User extends BaseResource {
+
+  @SerializedName("CanPasswordBeEdited")
+  private Boolean canPasswordBeEdited;
+
+  @SerializedName("DisplayName")
+  private String displayName;
+
+  @SerializedName("EmailAddress")
+  private String emailAddress;
+
+  @SerializedName("Identities")
+  private List<IdentityResource> identities = null;
+
+  @SerializedName("IsActive")
+  private Boolean isActive;
+
+  @SerializedName("IsRequestor")
+  private Boolean isRequestor;
+
+  @SerializedName("IsService")
+  private Boolean isService;
+
+  @SerializedName("LastModifiedBy")
+  private String lastModifiedBy;
+
+  @SerializedName("LastModifiedOn")
+  private OffsetDateTime lastModifiedOn;
+
+  @SerializedName("Password")
+  private String password;
+
+  @SerializedName("Username")
+  private String username;
 
   public String getApiKeysLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get(("ApiKeys")));
+    return getCleansedLink("ApiKeys");
   }
 
   public String getAvatarLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get(("Avatar")));
+    return getCleansedLink("Avatar");
   }
 
   public String getPermissionsLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get(("Permissions")));
+    return getCleansedLink("Permissions");
   }
 
   public String getPermissionsConfigurationLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get(("PermissionsConfiguration")));
+    return getCleansedLink("PermissionsConfiguration");
   }
 
   public String getSelfLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get(("Self")));
+    return getCleansedLink("Self");
   }
 
   public String getSpacesLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get(("Spaces")));
+    return getCleansedLink("Spaces");
   }
 
   public String getTeamsLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get(("Teams")));
+    return getCleansedLink("Teams");
   }
 }

@@ -17,7 +17,9 @@ createClassFromLinksBLock() {
 wrapStringInFunc() {
   for i in $@
   do
-    echo $i: {\"type\": \"string\"},
+    echo $i: {\"type\": \"string\",
+    echo "readonly": true
+    echo "}"
   done
 }
 

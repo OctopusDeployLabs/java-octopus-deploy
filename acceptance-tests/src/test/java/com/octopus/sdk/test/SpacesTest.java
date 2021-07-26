@@ -74,7 +74,7 @@ public class SpacesTest extends BaseAcceptanceTest {
     assertThat(spacesOverviewApi.getByName(spaceName)).isEmpty();
 
     final SpaceOverview createdSpace =
-        spacesOverviewApi.createSpace(
+        spacesOverviewApi.create(
             spaceName, Sets.newLinkedHashSet(users.getCurrentUser().getId()));
 
     try {
@@ -103,7 +103,7 @@ public class SpacesTest extends BaseAcceptanceTest {
     try {
       for (int i = 0; i < 10; i++) {
         spacesCreated.add(
-            spacesOverviewApi.createSpace(
+            spacesOverviewApi.create(
                 String.format("Space%d", i),
                 Sets.newLinkedHashSet(users.getCurrentUser().getId())));
       }
@@ -134,6 +134,6 @@ public class SpacesTest extends BaseAcceptanceTest {
       final SpacesOverviewApi spacesOverviewApi, final SpaceOverview space) throws IOException {
     space.setTaskQueueStopped(true);
     spacesOverviewApi.update(space);
-    spacesOverviewApi.deleteSpace(space);
+    spacesOverviewApi.delete(space);
   }
 }

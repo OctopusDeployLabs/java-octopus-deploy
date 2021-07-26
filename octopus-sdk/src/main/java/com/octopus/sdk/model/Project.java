@@ -15,88 +15,180 @@
 
 package com.octopus.sdk.model;
 
-import com.octopus.openapi.model.ProjectResource;
+import com.google.gson.annotations.SerializedName;
+import com.octopus.openapi.model.ActionTemplateParameterResource;
+import com.octopus.openapi.model.AutoDeployReleaseOverrideResource;
+import com.octopus.openapi.model.DeploymentConnectivityPolicy;
+import com.octopus.openapi.model.ExtensionSettingsValues;
+import com.octopus.openapi.model.GuidedFailureMode;
+import com.octopus.openapi.model.PersistenceSettingsResource;
+import com.octopus.openapi.model.ReleaseCreationStrategyResource;
+import com.octopus.openapi.model.TenantedDeploymentMode;
+import com.octopus.openapi.model.VersioningStrategyResource;
+
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.Set;
 
 // Trying to work out if this is worth doing.
-public class Project extends ProjectResource {
+public class Project extends NamedResource {
+
+  @SerializedName("AutoCreateRelease")
+  private Boolean autoCreateRelease;
+
+  @SerializedName("AutoDeployReleaseOverrides")
+  private Set<AutoDeployReleaseOverrideResource> autoDeployReleaseOverrides = null;
+
+  @SerializedName("ClonedFromProjectId")
+  private String clonedFromProjectId;
+
+  @SerializedName("DefaultGuidedFailureMode")
+  private GuidedFailureMode defaultGuidedFailureMode;
+
+  @SerializedName("DefaultToSkipIfAlreadyInstalled")
+  private Boolean defaultToSkipIfAlreadyInstalled;
+
+  @SerializedName("DeploymentChangesTemplate")
+  private String deploymentChangesTemplate;
+
+  @SerializedName("DeploymentProcessId")
+  private String deploymentProcessId;
+
+
+  @SerializedName("DiscreteChannelRelease")
+  private Boolean discreteChannelRelease;
+
+  @SerializedName("ExtensionSettings")
+  private List<ExtensionSettingsValues> extensionSettings = null;
+
+  @SerializedName("IncludedLibraryVariableSetIds")
+  private List<String> includedLibraryVariableSetIds = null;
+
+  @SerializedName("IsDisabled")
+  private Boolean isDisabled;
+
+  @SerializedName("IsVersionControlled")
+  private Boolean isVersionControlled;
+
+  @SerializedName("LastModifiedBy")
+  private String lastModifiedBy;
+
+  @SerializedName("LastModifiedOn")
+  private OffsetDateTime lastModifiedOn;
+
+  @SerializedName("LifecycleId")
+  private String lifecycleId;
+
+  @SerializedName("PersistenceSettings")
+  private PersistenceSettingsResource persistenceSettings;
+
+  @SerializedName("ProjectConnectivityPolicy")
+  private DeploymentConnectivityPolicy projectConnectivityPolicy;
+
+  @SerializedName("ProjectGroupId")
+  private String projectGroupId;
+
+  @SerializedName("ReleaseCreationStrategy")
+  private ReleaseCreationStrategyResource releaseCreationStrategy;
+
+  @SerializedName("ReleaseNotesTemplate")
+  private String releaseNotesTemplate;
+
+  @SerializedName("Slug")
+  private String slug;
+
+  @SerializedName("SpaceId")
+  private String spaceId;
+
+  @SerializedName("Templates")
+  private List<ActionTemplateParameterResource> templates = null;
+
+  @SerializedName("TenantedDeploymentMode")
+  private TenantedDeploymentMode tenantedDeploymentMode;
+
+  @SerializedName("VariableSetId")
+  private String variableSetId;
+
+  @SerializedName("VersioningStrategy")
+  private VersioningStrategyResource versioningStrategy;
 
   public String getChannelsLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("Channels"));
+    return getCleansedLink("Channels");
   }
 
   public String getConvertToVcsLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("ConvertToVcs"));
+    return getCleansedLink("ConvertToVcs");
   }
 
   public String getDeploymentProcessLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("DeploymentProcess"));
+    return getCleansedLink("DeploymentProcess");
   }
 
   public String getDeploymentSettingsLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("DeploymentSettings"));
+    return getCleansedLink("DeploymentSettings");
   }
 
   public String getLogoLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("Logo"));
+    return getCleansedLink("Logo");
   }
 
   public String getMetadataLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("Metadata"));
+    return getCleansedLink("Metadata");
   }
 
   public String getOrderChannelsLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("OrderChannels"));
+    return getCleansedLink("OrderChannels");
   }
 
   public String getProgressionLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("Progression"));
+    return getCleansedLink("Progression");
   }
 
   public String getReleasesLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("Releases"));
+    return getCleansedLink("Releases");
   }
 
   public String getRunbookSnapshotsLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("RunbookSnapshots"));
+    return getCleansedLink("RunbookSnapshots");
   }
 
   public String getRunbookTaskRunDashboardItemsTemplateLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("RunbookTaskRunDashboardItemsTemplate"));
+    return getCleansedLink("RunbookTaskRunDashboardItemsTemplate");
   }
 
   public String getRunbooksLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("Runbooks"));
+    return getCleansedLink("Runbooks");
   }
 
   public String getScheduledTriggersLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("ScheduledTriggers"));
+    return getCleansedLink("ScheduledTriggers");
   }
 
   public String getSelfLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("Self"));
+    return getCleansedLink("Self");
   }
 
   public String getSummaryLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("Summary"));
+    return getCleansedLink("Summary");
   }
 
   public String getTriggersLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("Triggers"));
+    return getCleansedLink("Triggers");
   }
 
   public String getVariablesLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("Variables"));
+    return getCleansedLink("Variables");
   }
 
   public String getVersionControlCompatibilityReportLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("VersionControlCompatibilityReport"));
+    return getCleansedLink("VersionControlCompatibilityReport");
   }
 
   public String getVersionControlSettingsConnectionTestLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("VersionControlSettingsConnectionTest"));
+    return getCleansedLink("VersionControlSettingsConnectionTest");
   }
 
   public String getWebLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("Web"));
+    return getCleansedLink("Web");
   }
 }

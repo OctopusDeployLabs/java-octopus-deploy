@@ -43,7 +43,7 @@ public class ProjectsTest extends BaseAcceptanceTest {
     final UsersApi users = UsersApi.create(client);
 
     final SpaceOverview space =
-        spacesOverviewApi.createSpace(
+        spacesOverviewApi.create(
             "ProjectTestSpace", Sets.newHashSet(users.getCurrentUser().getId()));
     try {
       final SpaceHome spaceHome =
@@ -65,7 +65,7 @@ public class ProjectsTest extends BaseAcceptanceTest {
     final UsersApi users = UsersApi.create(client);
 
     final SpaceOverview space =
-        spacesOverviewApi.createSpace(
+        spacesOverviewApi.create(
             "ProjectTestSpace", Sets.newHashSet(users.getCurrentUser().getId()));
 
     final SpaceHome spaceHome =

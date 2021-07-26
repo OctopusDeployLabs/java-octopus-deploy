@@ -16,11 +16,14 @@
 package com.octopus.sdk.api;
 
 import com.octopus.sdk.http.OctopusClient;
+import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.Project;
 import com.octopus.sdk.model.ProjectPaginatedCollection;
 import com.octopus.sdk.model.SpaceHome;
 
 import com.google.common.base.Preconditions;
+
+import java.io.IOException;
 
 public class ProjectApi extends BaseNamedResourceApi<Project, ProjectPaginatedCollection> {
 
@@ -34,5 +37,9 @@ public class ProjectApi extends BaseNamedResourceApi<Project, ProjectPaginatedCo
     Preconditions.checkNotNull(client, "Supplied a null client");
     Preconditions.checkNotNull(spaceHome, "Cannot create a project in a space with a 'null' space");
     return new ProjectApi(client, spaceHome.getProjectsLink());
+  }
+
+  public Project create(final Project project) throws IOException {
+    return client.post(RequestEndpoint.fromPath(rootPath), project, Project.class);
   }
 }

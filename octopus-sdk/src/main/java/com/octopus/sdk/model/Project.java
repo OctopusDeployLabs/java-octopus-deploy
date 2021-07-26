@@ -191,4 +191,108 @@ public class Project extends NamedResource {
   public String getWebLink() {
     return getCleansedLink("Web");
   }
+
+  public void setAutoCreateRelease(final Boolean autoCreateRelease) {
+    this.autoCreateRelease = autoCreateRelease;
+  }
+
+  public void setAutoDeployReleaseOverrides(final Set<AutoDeployReleaseOverrideResource> autoDeployReleaseOverrides) {
+    this.autoDeployReleaseOverrides = autoDeployReleaseOverrides;
+  }
+
+  public void setClonedFromProjectId(final String clonedFromProjectId) {
+    this.clonedFromProjectId = clonedFromProjectId;
+  }
+
+  public void setDefaultGuidedFailureMode(final GuidedFailureMode defaultGuidedFailureMode) {
+    this.defaultGuidedFailureMode = defaultGuidedFailureMode;
+  }
+
+  public void setDefaultToSkipIfAlreadyInstalled(final Boolean defaultToSkipIfAlreadyInstalled) {
+    this.defaultToSkipIfAlreadyInstalled = defaultToSkipIfAlreadyInstalled;
+  }
+
+  public void setDeploymentChangesTemplate(final String deploymentChangesTemplate) {
+    this.deploymentChangesTemplate = deploymentChangesTemplate;
+  }
+
+  public void setDeploymentProcessId(final String deploymentProcessId) {
+    this.deploymentProcessId = deploymentProcessId;
+  }
+
+  public void setDiscreteChannelRelease(final Boolean discreteChannelRelease) {
+    this.discreteChannelRelease = discreteChannelRelease;
+  }
+
+  public void setExtensionSettings(final List<ExtensionSettingsValues> extensionSettings) {
+    this.extensionSettings = extensionSettings;
+  }
+
+  public void setIncludedLibraryVariableSetIds(final List<String> includedLibraryVariableSetIds) {
+    this.includedLibraryVariableSetIds = includedLibraryVariableSetIds;
+  }
+
+  public void setDisabled(final Boolean disabled) {
+    isDisabled = disabled;
+  }
+
+  public void setVersionControlled(final Boolean versionControlled) {
+    isVersionControlled = versionControlled;
+  }
+
+  public void setLastModifiedBy(final String lastModifiedBy) {
+    this.lastModifiedBy = lastModifiedBy;
+  }
+
+  public void setLastModifiedOn(final OffsetDateTime lastModifiedOn) {
+    this.lastModifiedOn = lastModifiedOn;
+  }
+
+  public void setLifecycleId(final String lifecycleId) {
+    this.lifecycleId = lifecycleId;
+  }
+
+  public void setPersistenceSettings(final PersistenceSettingsResource persistenceSettings) {
+    this.persistenceSettings = persistenceSettings;
+  }
+
+  public void setProjectConnectivityPolicy(final DeploymentConnectivityPolicy projectConnectivityPolicy) {
+    this.projectConnectivityPolicy = projectConnectivityPolicy;
+  }
+
+  public void setProjectGroupId(final String projectGroupId) {
+    this.projectGroupId = projectGroupId;
+  }
+
+  public void setReleaseCreationStrategy(final ReleaseCreationStrategyResource releaseCreationStrategy) {
+    this.releaseCreationStrategy = releaseCreationStrategy;
+  }
+
+  public void setReleaseNotesTemplate(final String releaseNotesTemplate) {
+    this.releaseNotesTemplate = releaseNotesTemplate;
+  }
+
+  public void setSlug(final String slug) {
+    this.slug = slug;
+  }
+
+  public void setSpaceId(final String spaceId) {
+    this.spaceId = spaceId;
+  }
+
+  public void setTemplates(final List<ActionTemplateParameterResource> templates) {
+    this.templates = templates;
+  }
+
+  public void setTenantedDeploymentMode(final TenantedDeploymentMode tenantedDeploymentMode) {
+    this.tenantedDeploymentMode = tenantedDeploymentMode;
+  }
+
+  public void setVariableSetId(final String variableSetId) {
+    this.variableSetId = variableSetId;
+  }
+
+  public void setVersioningStrategy(final VersioningStrategyResource versioningStrategy) {
+    this.versioningStrategy = versioningStrategy;
+  }
 }

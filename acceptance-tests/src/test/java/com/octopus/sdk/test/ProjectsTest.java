@@ -53,7 +53,7 @@ public class ProjectsTest extends BaseAcceptanceTest {
     } finally {
       space.setTaskQueueStopped(true);
       spacesOverviewApi.update(space);
-      spacesOverviewApi.deleteSpace(space);
+      spacesOverviewApi.delete(space);
     }
   }
 
@@ -81,7 +81,7 @@ public class ProjectsTest extends BaseAcceptanceTest {
     } finally {
       space.setTaskQueueStopped(true);
       spacesOverviewApi.update(space);
-      spacesOverviewApi.deleteSpace(space);
+      spacesOverviewApi.delete(space);
     }
   }
 }

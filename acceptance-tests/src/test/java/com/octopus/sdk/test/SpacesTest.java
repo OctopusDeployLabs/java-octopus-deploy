@@ -25,6 +25,7 @@ import com.octopus.sdk.http.HttpException;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.OctopusClientFactory;
 import com.octopus.sdk.model.spaces.SpaceOverviewResource;
+import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -35,7 +36,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.Test;
@@ -59,7 +59,8 @@ public class SpacesTest extends BaseAcceptanceTest {
     final OctopusClient client =
         OctopusClientFactory.createClientAt(httpClient, new URL(serverURL), apiKey);
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
-    final Optional<SpaceOverviewWithLinks> requestedSpace = spacesOverviewApi.getByName("NonExistentSpace");
+    final Optional<SpaceOverviewWithLinks> requestedSpace =
+        spacesOverviewApi.getByName("NonExistentSpace");
 
     assertThat(requestedSpace).isEmpty();
   }
@@ -135,7 +136,8 @@ public class SpacesTest extends BaseAcceptanceTest {
     }
   }
 
-  private void deleteSpaceValidly(final SpacesOverviewApi spacesOverviewApi, final SpaceOverviewWithLinks space)
+  private void deleteSpaceValidly(
+      final SpacesOverviewApi spacesOverviewApi, final SpaceOverviewWithLinks space)
       throws IOException {
     space.setTaskQueueStopped(true);
     spacesOverviewApi.update(space);

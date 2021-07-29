@@ -15,24 +15,15 @@
 
 package com.octopus.sdk.api;
 
-import com.octopus.openapi.model.SpaceResource;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.spaces.SpaceOverviewPaginatedCollection;
-import com.octopus.sdk.model.spaces.SpaceOverviewResource;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
-
-import java.io.IOException;
-import java.util.Set;
 
 public class SpacesOverviewApi
     extends BaseNamedResourceApi<SpaceOverviewWithLinks, SpaceOverviewPaginatedCollection> {
 
-  private final String rootPath;
-
   protected SpacesOverviewApi(final OctopusClient client, final String rootPath) {
     super(client, rootPath, SpaceOverviewWithLinks.class, SpaceOverviewPaginatedCollection.class);
-    this.rootPath = rootPath;
   }
 
   public static SpacesOverviewApi create(final OctopusClient client) {
@@ -46,14 +37,4 @@ public class SpacesOverviewApi
     }
     return new SpacesOverviewApi(client, client.getRootDocument().getSpacesLink());
   }
-
-//  public SpaceOverviewResource create(final String spaceName, final Set<String> managerUserIds)
-//      throws IOException {
-//    final SpaceResource spaceResource = new SpaceResource();
-//    spaceResource.setName(spaceName);
-//    spaceResource.setSpaceManagersTeamMembers(managerUserIds);
-//
-//    return client.post(
-//        RequestEndpoint.fromPath(rootPath), spaceResource, SpaceOverviewResource.class);
-//  }
 }

@@ -25,7 +25,7 @@ import com.octopus.sdk.http.OctopusClientFactory;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.project.ProjectResource;
 import com.octopus.sdk.model.spaces.SpaceHome;
-import com.octopus.sdk.model.spaces.SpaceOverviewResource;
+import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 
 import java.io.IOException;
 import java.net.URL;
@@ -42,18 +42,21 @@ public class ProjectsTest extends BaseAcceptanceTest {
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final UsersApi users = UsersApi.create(client);
 
-    final SpaceOverviewResource space =
-        spacesOverviewApi.create(
-            "ProjectTestSpace", Sets.newHashSet(users.getCurrentUser().getId()));
+    final SpaceOverviewWithLinks toCreate = new SpaceOverviewWithLinks();
+    toCreate.setName("ProjectTestSpace");
+    toCreate.setSpaceManagersTeamMembers(Sets.newHashSet(users.getCurrentUser().getId()));
+
+    final SpaceOverviewWithLinks createdSpace = spacesOverviewApi.create(toCreate);
+
     try {
       final SpaceHome spaceHome =
-          client.get(RequestEndpoint.fromPath(space.getSpaceHomeLink()), SpaceHome.class);
+          client.get(RequestEndpoint.fromPath(createdSpace.getSpaceHomeLink()), SpaceHome.class);
       final ProjectApi projectApi = ProjectApi.create(client, spaceHome);
       assertThat(projectApi).isNotNull();
     } finally {
-      space.setTaskQueueStopped(true);
-      spacesOverviewApi.update(space);
-      spacesOverviewApi.delete(space);
+      createdSpace.setTaskQueueStopped(true);
+      spacesOverviewApi.update(createdSpace);
+      spacesOverviewApi.delete(createdSpace);
     }
   }
 
@@ -64,12 +67,13 @@ public class ProjectsTest extends BaseAcceptanceTest {
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final UsersApi users = UsersApi.create(client);
 
-    final SpaceOverviewResource space =
-        spacesOverviewApi.create(
-            "ProjectTestSpace", Sets.newHashSet(users.getCurrentUser().getId()));
+    final SpaceOverviewWithLinks toCreate = new SpaceOverviewWithLinks();
+    toCreate.setName("ProjectTestSpace");
+    toCreate.setSpaceManagersTeamMembers(Sets.newHashSet(users.getCurrentUser().getId()));
+    final SpaceOverviewWithLinks createdSpace = spacesOverviewApi.create(toCreate);
 
     final SpaceHome spaceHome =
-        client.get(RequestEndpoint.fromPath(space.getSpaceHomeLink()), SpaceHome.class);
+        client.get(RequestEndpoint.fromPath(createdSpace.getSpaceHomeLink()), SpaceHome.class);
     final ProjectApi projectApi = ProjectApi.create(client, spaceHome);
     final ProjectResource projectToCreate = new ProjectResource();
     projectToCreate.setName("Test Project");
@@ -79,9 +83,9 @@ public class ProjectsTest extends BaseAcceptanceTest {
     try {
       assertThat(createdProject).isNotNull();
     } finally {
-      space.setTaskQueueStopped(true);
-      spacesOverviewApi.update(space);
-      spacesOverviewApi.delete(space);
+      createdSpace.setTaskQueueStopped(true);
+      spacesOverviewApi.update(createdSpace);
+      spacesOverviewApi.delete(createdSpace);
     }
   }
 }

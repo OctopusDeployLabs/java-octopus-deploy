@@ -27,7 +27,7 @@ import static org.mockserver.model.HttpResponse.response;
 
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.spaces.SpaceOverviewPaginatedCollection;
-import com.octopus.sdk.model.spaces.SpaceOverviewResource;
+import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 import com.octopus.sdk.support.TestHelpers;
 
 import java.io.IOException;
@@ -69,7 +69,7 @@ class SpacesOverviewApiTest {
         .respond(response().withStatusCode(200).withBody(gson.toJson(returnedObject)));
 
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
-    final List<SpaceOverviewResource> matchedSpaces =
+    final List<SpaceOverviewWithLinks> matchedSpaces =
         spacesOverviewApi.getByPartialName(SPACE_NAME);
     assertThat(matchedSpaces).isNotNull();
     assertThat(matchedSpaces).isEmpty();
@@ -78,7 +78,7 @@ class SpacesOverviewApiTest {
   @Test
   public void exactMatchNameReturnsASingleItem() throws IOException {
     final String SPACE_NAME = "ArbitraryName";
-    final SpaceOverviewResource toReturn = new SpaceOverviewResource();
+    final SpaceOverviewWithLinks toReturn = new SpaceOverviewWithLinks();
     toReturn.setName(SPACE_NAME);
 
     final SpaceOverviewPaginatedCollection returnedCollection =
@@ -88,7 +88,7 @@ class SpacesOverviewApiTest {
         .respond(response().withStatusCode(200).withBody(gson.toJson(returnedCollection)));
 
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
-    final Optional<SpaceOverviewResource> matchedSpace = spacesOverviewApi.getByName(SPACE_NAME);
+    final Optional<SpaceOverviewWithLinks> matchedSpace = spacesOverviewApi.getByName(SPACE_NAME);
     assertThat(matchedSpace).isNotEmpty();
     assertThat(matchedSpace.get().getName()).isEqualTo(SPACE_NAME);
   }
@@ -102,7 +102,7 @@ class SpacesOverviewApiTest {
         .respond(response().withStatusCode(200).withBody(gson.toJson(returnedObject)));
 
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
-    final Optional<SpaceOverviewResource> matchedSpace =
+    final Optional<SpaceOverviewWithLinks> matchedSpace =
         spacesOverviewApi.getByName("NotCorrectName");
     assertThat(matchedSpace).isEmpty();
   }
@@ -110,7 +110,7 @@ class SpacesOverviewApiTest {
   @Test
   public void canFindSpaceContainingWhoseNameContainsASpace() throws IOException {
     final String SPACE_NAME = "Arbitrary Name With Spaces";
-    final SpaceOverviewResource toReturn = new SpaceOverviewResource();
+    final SpaceOverviewWithLinks toReturn = new SpaceOverviewWithLinks();
     toReturn.setName(SPACE_NAME);
 
     final SpaceOverviewPaginatedCollection returnedCollection =
@@ -120,7 +120,7 @@ class SpacesOverviewApiTest {
         .respond(response().withStatusCode(200).withBody(gson.toJson(returnedCollection)));
 
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
-    final Optional<SpaceOverviewResource> matchedSpace = spacesOverviewApi.getByName(SPACE_NAME);
+    final Optional<SpaceOverviewWithLinks> matchedSpace = spacesOverviewApi.getByName(SPACE_NAME);
     assertThat(matchedSpace).isNotEmpty();
     assertThat(matchedSpace.get().getName()).isEqualTo(SPACE_NAME);
   }

@@ -23,6 +23,7 @@ import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings({"UnusedVariable", "FieldCanBeFinal"})
 public class User extends BaseResource {
 
   @SerializedName("CanPasswordBeEdited")

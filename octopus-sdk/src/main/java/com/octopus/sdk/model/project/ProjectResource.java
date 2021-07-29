@@ -32,6 +32,7 @@ import java.util.Set;
 
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("UnusedVariable")
 public class ProjectResource extends NamedResource {
 
   @SerializedName("AutoCreateRelease")

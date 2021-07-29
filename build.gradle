@@ -173,38 +173,7 @@ subprojects {
     }
 }
 
-
-apply plugin: "org.openapi.generator"
-project(":octopus-openapi-wrapper").getTasks().getByName("compileJava").dependsOn tasks.openApiGenerate
-
-openApiGenerate {
-    generatorName = "java"
-    validateSpec = false
-    skipValidateSpec = true
-
-    // Ignore files does not alter behaviour
-    ignoreFileOverride = project(":octopus-openapi-wrapper").projectDir.toPath().resolve(".openapi-generator-ignore").toString()
-    inputSpec = project(":octopus-openapi-wrapper").projectDir.toPath().resolve("spec").resolve("swagger.json")
-.toString()
-    //inputSpec = project(":octopus-openapi-wrapper").projectDir.toPath().resolve("spec").resolve("new.json").toString()
-    templateDir = project(":octopus-openapi-wrapper").projectDir.toPath().resolve("templates").toString()
-    outputDir = project(":octopus-openapi-wrapper").buildDir.toPath().resolve("generated").toString()
-    apiPackage = "com.octopus.openapi.api"
-    modelPackage = "com.octopus.openapi.model"
-    invokerPackage = "com.octopus.openapi.invoker"
-    groupId = "com.octopus"
-    generateModelTests = false
-    generateModelDocumentation = false
-    generateApiTests = false
-    generateApiDocumentation = false
-    id = "sdk-api"
-    configOptions = [
-            dateLibrary: "java8",
-            licenseName: "APache 2.0",
-            licenseUrl : "https://www.apache.org/licenses/LICENSE-2.0.txt"
-    ]
-}
-
+tasks.getByName("compileJava").dependsOn project(":octopus-openapi-wrapper").getTasksByName("openApiGenerate", false)
 jar { enabled = false }
 
 
@@ -218,8 +187,8 @@ artifactory {
     publish {
         repository {
             repoKey = 'maven'
-            username = "${artifactory_user}"
-            password = "${artifactory_password}"
+            username = "${artifactoryUser}"
+            password = "${artifactoryPassword}"
             maven = true
         }
         defaults {
@@ -227,7 +196,3 @@ artifactory {
         }
     }
 }
-//
-//artifactoryPublish {
-//  dependsOn jar
-//}

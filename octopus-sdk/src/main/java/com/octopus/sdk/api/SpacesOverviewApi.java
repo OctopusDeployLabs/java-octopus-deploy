@@ -18,8 +18,8 @@ package com.octopus.sdk.api;
 import com.octopus.openapi.model.SpaceResource;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
-import com.octopus.sdk.model.SpaceOverview;
-import com.octopus.sdk.model.SpaceOverviewPaginatedCollection;
+import com.octopus.sdk.model.spaces.SpaceOverviewResource;
+import com.octopus.sdk.model.spaces.SpaceOverviewPaginatedCollection;
 
 import java.io.IOException;
 import java.util.Set;
@@ -27,14 +27,14 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class SpacesOverviewApi extends BaseNamedResourceApi<SpaceOverview, SpaceOverviewPaginatedCollection> {
+public class SpacesOverviewApi extends BaseNamedResourceApi<SpaceOverviewResource, SpaceOverviewPaginatedCollection> {
 
   private static final Logger LOG = LogManager.getLogger();
 
   private final String rootPath;
 
   protected SpacesOverviewApi(final OctopusClient client, final String rootPath) {
-    super(client, rootPath, SpaceOverview.class, SpaceOverviewPaginatedCollection.class);
+    super(client, rootPath, SpaceOverviewResource.class, SpaceOverviewPaginatedCollection.class);
     this.rootPath = rootPath;
   }
 
@@ -50,17 +50,17 @@ public class SpacesOverviewApi extends BaseNamedResourceApi<SpaceOverview, Space
     return new SpacesOverviewApi(client, client.getRootDocument().getSpacesLink());
   }
 
-  public SpaceOverview update(final SpaceOverview alteredSpace) throws IOException {
+  public SpaceOverviewResource update(final SpaceOverviewResource alteredSpace) throws IOException {
     return client.put(
-        RequestEndpoint.fromPath(alteredSpace.getSelfLink()), alteredSpace, SpaceOverview.class);
+        RequestEndpoint.fromPath(alteredSpace.getSelfLink()), alteredSpace, SpaceOverviewResource.class);
   }
 
-  public SpaceOverview create(final String spaceName, final Set<String> managerUserIds)
+  public SpaceOverviewResource create(final String spaceName, final Set<String> managerUserIds)
       throws IOException {
     final SpaceResource spaceResource = new SpaceResource();
     spaceResource.setName(spaceName);
     spaceResource.setSpaceManagersTeamMembers(managerUserIds);
 
-    return client.post(RequestEndpoint.fromPath(rootPath), spaceResource, SpaceOverview.class);
+    return client.post(RequestEndpoint.fromPath(rootPath), spaceResource, SpaceOverviewResource.class);
   }
 }

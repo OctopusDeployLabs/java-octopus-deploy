@@ -20,7 +20,7 @@ import com.octopus.openapi.model.UserResourceCollection;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.RootDocument;
-import com.octopus.sdk.model.User;
+import com.octopus.sdk.model.users.User;
 
 import java.io.IOException;
 import java.time.Instant;

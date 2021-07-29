@@ -1,7 +1,5 @@
 apply plugin: 'java'
-
-//group = 'com.octopus'
-//id = 'sdk-api'
+apply plugin: "org.openapi.generator"
 
 tasks.named('jar') {
   archiveBaseName = 'octopus-sdk-api'
@@ -33,6 +31,32 @@ compileJava {
   }
 }
 
+
+openApiGenerate {
+  generatorName = "java"
+  validateSpec = false
+  skipValidateSpec = true
+
+  // Ignore files does not alter behaviour
+  ignoreFileOverride = ".openapi-generator-ignore"
+  inputSpec = "${projectDir}/spec/swagger.json"
+  templateDir = "${projectDir}/templates"
+  outputDir = "${buildDir}/generated"
+  apiPackage = "com.octopus.openapi.api"
+  modelPackage = "com.octopus.openapi.model"
+  invokerPackage = "com.octopus.openapi.invoker"
+  groupId = "com.octopus"
+  generateModelTests = false
+  generateModelDocumentation = false
+  generateApiTests = false
+  generateApiDocumentation = false
+  id = "sdk-api"
+  configOptions = [
+          dateLibrary: "java8",
+          licenseName: "APache 2.0",
+          licenseUrl : "https://www.apache.org/licenses/LICENSE-2.0.txt"
+  ]
+}
 
 dependencies {
   implementation 'io.swagger:swagger-annotations'

@@ -19,9 +19,9 @@ import com.octopus.sdk.api.ProjectApi;
 import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
-import com.octopus.sdk.model.Project;
-import com.octopus.sdk.model.SpaceHome;
-import com.octopus.sdk.model.SpaceOverview;
+import com.octopus.sdk.model.project.ProjectResource;
+import com.octopus.sdk.model.spaces.SpaceHome;
+import com.octopus.sdk.model.spaces.SpaceOverviewResource;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -34,12 +34,12 @@ public class SampleOperations {
     this.client = client;
   }
 
-  final Project getProjectInSpace(final Optional<String> spaceName, final String projectName)
+  final ProjectResource getProjectInSpace(final Optional<String> spaceName, final String projectName)
       throws IOException {
     final SpaceHome spaceHome = determineSpaceHome(spaceName);
 
     final ProjectApi projectApi = new ProjectApi(client, spaceHome.getProjectsLink());
-    final Optional<Project> project = projectApi.getByName(projectName);
+    final Optional<ProjectResource> project = projectApi.getByName(projectName);
     if (!project.isPresent()) {
       final String errorMsg =
           String.format(
@@ -64,7 +64,7 @@ public class SampleOperations {
     }
 
     final SpacesOverviewApi spacesApi = SpacesOverviewApi.create(client);
-    final Optional<SpaceOverview> containingSpace = spacesApi.getByName(spaceName.get());
+    final Optional<SpaceOverviewResource> containingSpace = spacesApi.getByName(spaceName.get());
     if (!containingSpace.isPresent()) {
       final String error =
           String.format(

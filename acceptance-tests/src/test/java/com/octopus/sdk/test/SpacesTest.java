@@ -24,7 +24,7 @@ import com.octopus.sdk.api.UsersApi;
 import com.octopus.sdk.http.HttpException;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.OctopusClientFactory;
-import com.octopus.sdk.model.SpaceOverview;
+import com.octopus.sdk.model.spaces.SpaceOverviewResource;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -58,7 +58,7 @@ public class SpacesTest extends BaseAcceptanceTest {
     final OctopusClient client =
         OctopusClientFactory.createClientAt(httpClient, new URL(serverURL), apiKey);
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
-    final Optional<SpaceOverview> requestedSpace = spacesOverviewApi.getByName("NonExistentSpace");
+    final Optional<SpaceOverviewResource> requestedSpace = spacesOverviewApi.getByName("NonExistentSpace");
 
     assertThat(requestedSpace).isEmpty();
   }
@@ -73,7 +73,7 @@ public class SpacesTest extends BaseAcceptanceTest {
 
     assertThat(spacesOverviewApi.getByName(spaceName)).isEmpty();
 
-    final SpaceOverview createdSpace =
+    final SpaceOverviewResource createdSpace =
         spacesOverviewApi.create(
             spaceName, Sets.newLinkedHashSet(users.getCurrentUser().getId()));
 
@@ -84,7 +84,7 @@ public class SpacesTest extends BaseAcceptanceTest {
           .containsExactly(users.getCurrentUser().getId());
 
       createdSpace.setTaskQueueStopped(true);
-      final SpaceOverview modifiedSpace = spacesOverviewApi.update(createdSpace);
+      final SpaceOverviewResource modifiedSpace = spacesOverviewApi.update(createdSpace);
       assertThat(modifiedSpace.getTaskQueueStopped()).isTrue();
 
     } finally {
@@ -99,7 +99,7 @@ public class SpacesTest extends BaseAcceptanceTest {
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final UsersApi users = UsersApi.create(client);
 
-    final List<SpaceOverview> spacesCreated = Lists.newArrayList();
+    final List<SpaceOverviewResource> spacesCreated = Lists.newArrayList();
     try {
       for (int i = 0; i < 10; i++) {
         spacesCreated.add(
@@ -108,19 +108,19 @@ public class SpacesTest extends BaseAcceptanceTest {
                 Sets.newLinkedHashSet(users.getCurrentUser().getId())));
       }
       final List<String> createdSpaceNames =
-          spacesCreated.stream().map(SpaceOverview::getName).collect(Collectors.toList());
+          spacesCreated.stream().map(SpaceOverviewResource::getName).collect(Collectors.toList());
 
       // ensure all 10 spaces are reported, regardless of pagesize.
       for (int pageSize = 1; pageSize < 4; pageSize++) {
         final Map<String, List<String>> queryParams = new HashMap<>();
         queryParams.put("take", singletonList(Integer.toString(pageSize)));
-        final List<SpaceOverview> spaces = spacesOverviewApi.getByQuery(queryParams);
+        final List<SpaceOverviewResource> spaces = spacesOverviewApi.getByQuery(queryParams);
         final List<String> spaceNamesFound =
-            spaces.stream().map(SpaceOverview::getName).collect(Collectors.toList());
+            spaces.stream().map(SpaceOverviewResource::getName).collect(Collectors.toList());
         assertThat(spaceNamesFound).containsAll(createdSpaceNames);
       }
     } finally {
-      for (SpaceOverview space : spacesCreated) {
+      for (SpaceOverviewResource space : spacesCreated) {
         try {
           deleteSpaceValidly(spacesOverviewApi, space);
         } catch (final Exception e) {
@@ -131,7 +131,7 @@ public class SpacesTest extends BaseAcceptanceTest {
   }
 
   private void deleteSpaceValidly(
-      final SpacesOverviewApi spacesOverviewApi, final SpaceOverview space) throws IOException {
+      final SpacesOverviewApi spacesOverviewApi, final SpaceOverviewResource space) throws IOException {
     space.setTaskQueueStopped(true);
     spacesOverviewApi.update(space);
     spacesOverviewApi.delete(space);

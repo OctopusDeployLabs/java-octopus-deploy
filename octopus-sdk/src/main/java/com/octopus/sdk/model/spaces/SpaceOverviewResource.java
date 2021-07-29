@@ -13,14 +13,15 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.model;
+package com.octopus.sdk.model.spaces;
 
 import com.google.gson.annotations.SerializedName;
+import com.octopus.sdk.model.NamedResource;
 
 import java.time.OffsetDateTime;
 import java.util.Set;
 
-public class SpaceOverview extends NamedResource {
+public class SpaceOverviewResource extends NamedResource {
 
   @SerializedName("IsDefault")
   private Boolean isDefault;
@@ -62,26 +63,6 @@ public class SpaceOverview extends NamedResource {
 
   public Boolean getTaskQueueStopped() {
     return taskQueueStopped;
-  }
-
-  public String getLogoLink() {
-    return getCleansedLink("Logo");
-  }
-
-  public String getSearchLink() {
-    return getCleansedLink("Search");
-  }
-
-  public String getSelfLink() {
-    return getCleansedLink("Self");
-  }
-
-  public String getSpaceHomeLink() {
-    return getCleansedLink("SpaceHome");
-  }
-
-  public String getWebLink() {
-    return getCleansedLink("Web");
   }
 
   public void setDefault(final Boolean aDefault) {

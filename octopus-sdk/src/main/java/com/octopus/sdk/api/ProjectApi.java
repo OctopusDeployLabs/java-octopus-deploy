@@ -17,18 +17,18 @@ package com.octopus.sdk.api;
 
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
-import com.octopus.sdk.model.Project;
-import com.octopus.sdk.model.ProjectPaginatedCollection;
-import com.octopus.sdk.model.SpaceHome;
+import com.octopus.sdk.model.project.ProjectResource;
+import com.octopus.sdk.model.project.ProjectPaginatedCollection;
+import com.octopus.sdk.model.spaces.SpaceHome;
 
 import com.google.common.base.Preconditions;
 
 import java.io.IOException;
 
-public class ProjectApi extends BaseNamedResourceApi<Project, ProjectPaginatedCollection> {
+public class ProjectApi extends BaseNamedResourceApi<ProjectResource, ProjectPaginatedCollection> {
 
   public ProjectApi(final OctopusClient client, final String rootPath) {
-    super(client, rootPath, Project.class, ProjectPaginatedCollection.class);
+    super(client, rootPath, ProjectResource.class, ProjectPaginatedCollection.class);
   }
 
   // BasePath is either the SpaceOverview.homelink, or otherwise the root of the server (if
@@ -39,7 +39,7 @@ public class ProjectApi extends BaseNamedResourceApi<Project, ProjectPaginatedCo
     return new ProjectApi(client, spaceHome.getProjectsLink());
   }
 
-  public Project create(final Project project) throws IOException {
-    return client.post(RequestEndpoint.fromPath(rootPath), project, Project.class);
+  public ProjectResource create(final ProjectResource project) throws IOException {
+    return client.post(RequestEndpoint.fromPath(rootPath), project, ProjectResource.class);
   }
 }

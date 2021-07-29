@@ -13,22 +13,22 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.model;
+package com.octopus.sdk.model.project;
 
-import com.google.gson.annotations.SerializedName;
+import com.octopus.sdk.model.PaginatedCollection;
 
-public class LoginBody {
+import java.util.List;
+import java.util.Map;
 
-  @SuppressWarnings("UnusedVariable")
-  @SerializedName("Username")
-  private final String username;
+public class ProjectPaginatedCollection extends PaginatedCollection<ProjectResource> {
 
-  @SuppressWarnings("UnusedVariable")
-  @SerializedName("Password")
-  private final String passsword;
-
-  public LoginBody(final String username, final String passsword) {
-    this.username = username;
-    this.passsword = passsword;
+  public ProjectPaginatedCollection(
+      final Map<String, String> rawLinks,
+      final int totalResults,
+      final int itemsPerPage,
+      final int numberOfPages,
+      final int pageNumber,
+      final List<ProjectResource> items) {
+    super(rawLinks, totalResults, itemsPerPage, numberOfPages, pageNumber, items);
   }
 }

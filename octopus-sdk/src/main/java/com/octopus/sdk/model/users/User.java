@@ -13,10 +13,11 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.model;
+package com.octopus.sdk.model.users;
 
 import com.google.gson.annotations.SerializedName;
 import com.octopus.openapi.model.IdentityResource;
+import com.octopus.sdk.model.BaseResource;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -70,10 +71,6 @@ public class User extends BaseResource {
 
   public String getPermissionsConfigurationLink() {
     return getCleansedLink("PermissionsConfiguration");
-  }
-
-  public String getSelfLink() {
-    return getCleansedLink("Self");
   }
 
   public String getSpacesLink() {

@@ -13,12 +13,14 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.model;
+package com.octopus.sdk.model.spaces;
+
+import com.octopus.sdk.model.PaginatedCollection;
 
 import java.util.List;
 import java.util.Map;
 
-public class SpaceOverviewPaginatedCollection extends PaginatedCollection<SpaceOverview> {
+public class SpaceOverviewPaginatedCollection extends PaginatedCollection<SpaceOverviewResource> {
 
   public SpaceOverviewPaginatedCollection(
       final Map<String, String> rawLinks,
@@ -26,7 +28,7 @@ public class SpaceOverviewPaginatedCollection extends PaginatedCollection<SpaceO
       final int itemsPerPage,
       final int numberOfPages,
       final int pageNumber,
-      final List<SpaceOverview> items) {
+      final List<SpaceOverviewResource> items) {
     super(rawLinks, totalResults, itemsPerPage, numberOfPages, pageNumber, items);
   }
 }

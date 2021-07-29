@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.google.gson.annotations.SerializedName;
+import com.octopus.sdk.model.spaces.SpaceHome;
 
 public class RootDocument extends SpaceHome {
 

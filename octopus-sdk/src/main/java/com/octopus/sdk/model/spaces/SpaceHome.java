@@ -13,11 +13,12 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.model;
+package com.octopus.sdk.model.spaces;
 
 import java.util.Map;
 
 import com.google.gson.annotations.SerializedName;
+import com.octopus.sdk.model.LinkHelpers;
 
 // This is used to decode a space-home resource as received from OctopusServer
 public class SpaceHome {

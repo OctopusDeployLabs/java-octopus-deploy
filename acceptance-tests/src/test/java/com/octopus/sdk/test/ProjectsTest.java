@@ -23,9 +23,9 @@ import com.octopus.sdk.api.UsersApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.OctopusClientFactory;
 import com.octopus.sdk.http.RequestEndpoint;
-import com.octopus.sdk.model.Project;
-import com.octopus.sdk.model.SpaceHome;
-import com.octopus.sdk.model.SpaceOverview;
+import com.octopus.sdk.model.project.ProjectResource;
+import com.octopus.sdk.model.spaces.SpaceHome;
+import com.octopus.sdk.model.spaces.SpaceOverviewResource;
 
 import java.io.IOException;
 import java.net.URL;
@@ -42,7 +42,7 @@ public class ProjectsTest extends BaseAcceptanceTest {
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final UsersApi users = UsersApi.create(client);
 
-    final SpaceOverview space =
+    final SpaceOverviewResource space =
         spacesOverviewApi.create(
             "ProjectTestSpace", Sets.newHashSet(users.getCurrentUser().getId()));
     try {
@@ -64,18 +64,18 @@ public class ProjectsTest extends BaseAcceptanceTest {
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final UsersApi users = UsersApi.create(client);
 
-    final SpaceOverview space =
+    final SpaceOverviewResource space =
         spacesOverviewApi.create(
             "ProjectTestSpace", Sets.newHashSet(users.getCurrentUser().getId()));
 
     final SpaceHome spaceHome =
         client.get(RequestEndpoint.fromPath(space.getSpaceHomeLink()), SpaceHome.class);
     final ProjectApi projectApi = ProjectApi.create(client, spaceHome);
-    final Project projectToCreate = new Project();
+    final ProjectResource projectToCreate = new ProjectResource();
     projectToCreate.setName("Test Project");
     projectToCreate.setLifecycleId("Lifecycles-1");
     projectToCreate.setProjectGroupId("ProjectGroups-42");
-    final Project createdProject = projectApi.create(projectToCreate);
+    final ProjectResource createdProject = projectApi.create(projectToCreate);
     try {
       assertThat(createdProject).isNotNull();
     } finally {

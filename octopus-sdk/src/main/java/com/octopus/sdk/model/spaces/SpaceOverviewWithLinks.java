@@ -13,20 +13,24 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.model;
+package com.octopus.sdk.model.spaces;
 
-import java.util.List;
-import java.util.Map;
+public class SpaceOverviewWithLinks extends SpaceOverviewResource {
 
-public class ProjectPaginatedCollection extends PaginatedCollection<Project> {
-
-  public ProjectPaginatedCollection(
-      final Map<String, String> rawLinks,
-      final int totalResults,
-      final int itemsPerPage,
-      final int numberOfPages,
-      final int pageNumber,
-      final List<Project> items) {
-    super(rawLinks, totalResults, itemsPerPage, numberOfPages, pageNumber, items);
+  public String getLogoLink() {
+    return getCleansedLink("Logo");
   }
+
+  public String getSearchLink() {
+    return getCleansedLink("Search");
+  }
+
+  public String getSpaceHomeLink() {
+    return getCleansedLink("SpaceHome");
+  }
+
+  public String getWebLink() {
+    return getCleansedLink("Web");
+  }
+
 }

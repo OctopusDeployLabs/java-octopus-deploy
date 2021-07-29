@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.Test;
@@ -58,8 +59,7 @@ public class SpacesTest extends BaseAcceptanceTest {
     final OctopusClient client =
         OctopusClientFactory.createClientAt(httpClient, new URL(serverURL), apiKey);
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
-    final Optional<SpaceOverviewResource> requestedSpace =
-        spacesOverviewApi.getByName("NonExistentSpace");
+    final Optional<SpaceOverviewWithLinks> requestedSpace = spacesOverviewApi.getByName("NonExistentSpace");
 
     assertThat(requestedSpace).isEmpty();
   }
@@ -74,8 +74,11 @@ public class SpacesTest extends BaseAcceptanceTest {
 
     assertThat(spacesOverviewApi.getByName(spaceName)).isEmpty();
 
-    final SpaceOverviewResource createdSpace =
-        spacesOverviewApi.create(spaceName, Sets.newLinkedHashSet(users.getCurrentUser().getId()));
+    final SpaceOverviewWithLinks toCreate = new SpaceOverviewWithLinks();
+    toCreate.setName(spaceName);
+    toCreate.setSpaceManagersTeamMembers(Sets.newLinkedHashSet(users.getCurrentUser().getId()));
+
+    final SpaceOverviewWithLinks createdSpace = spacesOverviewApi.create(toCreate);
 
     try {
       assertThat(createdSpace).isNotNull();
@@ -99,14 +102,16 @@ public class SpacesTest extends BaseAcceptanceTest {
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final UsersApi users = UsersApi.create(client);
 
-    final List<SpaceOverviewResource> spacesCreated = Lists.newArrayList();
+    final List<SpaceOverviewWithLinks> spacesCreated = Lists.newArrayList();
     try {
       for (int i = 0; i < 10; i++) {
-        spacesCreated.add(
-            spacesOverviewApi.create(
-                String.format("Space%d", i),
-                Sets.newLinkedHashSet(users.getCurrentUser().getId())));
+        final SpaceOverviewWithLinks toCreate = new SpaceOverviewWithLinks();
+        toCreate.setName(String.format("Space%d", i));
+        toCreate.setSpaceManagersTeamMembers(Sets.newLinkedHashSet(users.getCurrentUser().getId()));
+
+        spacesCreated.add(spacesOverviewApi.create(toCreate));
       }
+
       final List<String> createdSpaceNames =
           spacesCreated.stream().map(SpaceOverviewResource::getName).collect(Collectors.toList());
 
@@ -114,13 +119,13 @@ public class SpacesTest extends BaseAcceptanceTest {
       for (int pageSize = 1; pageSize < 4; pageSize++) {
         final Map<String, List<String>> queryParams = new HashMap<>();
         queryParams.put("take", singletonList(Integer.toString(pageSize)));
-        final List<SpaceOverviewResource> spaces = spacesOverviewApi.getByQuery(queryParams);
+        final List<SpaceOverviewWithLinks> spaces = spacesOverviewApi.getByQuery(queryParams);
         final List<String> spaceNamesFound =
             spaces.stream().map(SpaceOverviewResource::getName).collect(Collectors.toList());
         assertThat(spaceNamesFound).containsAll(createdSpaceNames);
       }
     } finally {
-      for (SpaceOverviewResource space : spacesCreated) {
+      for (SpaceOverviewWithLinks space : spacesCreated) {
         try {
           deleteSpaceValidly(spacesOverviewApi, space);
         } catch (final Exception e) {
@@ -130,8 +135,7 @@ public class SpacesTest extends BaseAcceptanceTest {
     }
   }
 
-  private void deleteSpaceValidly(
-      final SpacesOverviewApi spacesOverviewApi, final SpaceOverviewResource space)
+  private void deleteSpaceValidly(final SpacesOverviewApi spacesOverviewApi, final SpaceOverviewWithLinks space)
       throws IOException {
     space.setTaskQueueStopped(true);
     spacesOverviewApi.update(space);

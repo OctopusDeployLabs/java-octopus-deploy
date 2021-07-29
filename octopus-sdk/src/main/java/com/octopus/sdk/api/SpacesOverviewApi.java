@@ -47,13 +47,13 @@ public class SpacesOverviewApi
     return new SpacesOverviewApi(client, client.getRootDocument().getSpacesLink());
   }
 
-  public SpaceOverviewResource create(final String spaceName, final Set<String> managerUserIds)
-      throws IOException {
-    final SpaceResource spaceResource = new SpaceResource();
-    spaceResource.setName(spaceName);
-    spaceResource.setSpaceManagersTeamMembers(managerUserIds);
-
-    return client.post(
-        RequestEndpoint.fromPath(rootPath), spaceResource, SpaceOverviewResource.class);
-  }
+//  public SpaceOverviewResource create(final String spaceName, final Set<String> managerUserIds)
+//      throws IOException {
+//    final SpaceResource spaceResource = new SpaceResource();
+//    spaceResource.setName(spaceName);
+//    spaceResource.setSpaceManagersTeamMembers(managerUserIds);
+//
+//    return client.post(
+//        RequestEndpoint.fromPath(rootPath), spaceResource, SpaceOverviewResource.class);
+//  }
 }

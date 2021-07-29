@@ -17,13 +17,13 @@ package com.octopus.sdk.api;
 
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
-import com.octopus.sdk.model.project.ProjectResource;
 import com.octopus.sdk.model.project.ProjectPaginatedCollection;
+import com.octopus.sdk.model.project.ProjectResource;
 import com.octopus.sdk.model.spaces.SpaceHome;
 
-import com.google.common.base.Preconditions;
-
 import java.io.IOException;
+
+import com.google.common.base.Preconditions;
 
 public class ProjectApi extends BaseNamedResourceApi<ProjectResource, ProjectPaginatedCollection> {
 
@@ -31,8 +31,6 @@ public class ProjectApi extends BaseNamedResourceApi<ProjectResource, ProjectPag
     super(client, rootPath, ProjectResource.class, ProjectPaginatedCollection.class);
   }
 
-  // BasePath is either the SpaceOverview.homelink, or otherwise the root of the server (if
-  // pre-spaces installation)
   public static ProjectApi create(final OctopusClient client, final SpaceHome spaceHome) {
     Preconditions.checkNotNull(client, "Supplied a null client");
     Preconditions.checkNotNull(spaceHome, "Cannot create a project in a space with a 'null' space");

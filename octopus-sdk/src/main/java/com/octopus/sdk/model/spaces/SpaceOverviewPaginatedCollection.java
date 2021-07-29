@@ -20,7 +20,7 @@ import com.octopus.sdk.model.PaginatedCollection;
 import java.util.List;
 import java.util.Map;
 
-public class SpaceOverviewPaginatedCollection extends PaginatedCollection<SpaceOverviewResource> {
+public class SpaceOverviewPaginatedCollection extends PaginatedCollection<SpaceOverviewWithLinks> {
 
   public SpaceOverviewPaginatedCollection(
       final Map<String, String> rawLinks,
@@ -28,7 +28,7 @@ public class SpaceOverviewPaginatedCollection extends PaginatedCollection<SpaceO
       final int itemsPerPage,
       final int numberOfPages,
       final int pageNumber,
-      final List<SpaceOverviewResource> items) {
+      final List<SpaceOverviewWithLinks> items) {
     super(rawLinks, totalResults, itemsPerPage, numberOfPages, pageNumber, items);
   }
 }

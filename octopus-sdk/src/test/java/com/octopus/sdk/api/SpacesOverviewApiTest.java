@@ -26,8 +26,8 @@ import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.spaces.SpaceOverviewResource;
 import com.octopus.sdk.model.spaces.SpaceOverviewPaginatedCollection;
+import com.octopus.sdk.model.spaces.SpaceOverviewResource;
 import com.octopus.sdk.support.TestHelpers;
 
 import java.io.IOException;
@@ -69,7 +69,8 @@ class SpacesOverviewApiTest {
         .respond(response().withStatusCode(200).withBody(gson.toJson(returnedObject)));
 
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
-    final List<SpaceOverviewResource> matchedSpaces = spacesOverviewApi.getByPartialName(SPACE_NAME);
+    final List<SpaceOverviewResource> matchedSpaces =
+        spacesOverviewApi.getByPartialName(SPACE_NAME);
     assertThat(matchedSpaces).isNotNull();
     assertThat(matchedSpaces).isEmpty();
   }
@@ -101,7 +102,8 @@ class SpacesOverviewApiTest {
         .respond(response().withStatusCode(200).withBody(gson.toJson(returnedObject)));
 
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
-    final Optional<SpaceOverviewResource> matchedSpace = spacesOverviewApi.getByName("NotCorrectName");
+    final Optional<SpaceOverviewResource> matchedSpace =
+        spacesOverviewApi.getByName("NotCorrectName");
     assertThat(matchedSpace).isEmpty();
   }
 

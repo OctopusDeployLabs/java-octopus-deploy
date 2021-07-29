@@ -52,9 +52,9 @@ openApiGenerate {
   generateApiDocumentation = false
   id = "sdk-api"
   configOptions = [
-          dateLibrary: "java8",
-          licenseName: "APache 2.0",
-          licenseUrl : "https://www.apache.org/licenses/LICENSE-2.0.txt"
+    dateLibrary: "java8",
+    licenseName: "APache 2.0",
+    licenseUrl : "https://www.apache.org/licenses/LICENSE-2.0.txt"
   ]
 }
 

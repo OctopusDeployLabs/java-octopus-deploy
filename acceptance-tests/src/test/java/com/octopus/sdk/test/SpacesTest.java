@@ -58,7 +58,8 @@ public class SpacesTest extends BaseAcceptanceTest {
     final OctopusClient client =
         OctopusClientFactory.createClientAt(httpClient, new URL(serverURL), apiKey);
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
-    final Optional<SpaceOverviewResource> requestedSpace = spacesOverviewApi.getByName("NonExistentSpace");
+    final Optional<SpaceOverviewResource> requestedSpace =
+        spacesOverviewApi.getByName("NonExistentSpace");
 
     assertThat(requestedSpace).isEmpty();
   }
@@ -74,8 +75,7 @@ public class SpacesTest extends BaseAcceptanceTest {
     assertThat(spacesOverviewApi.getByName(spaceName)).isEmpty();
 
     final SpaceOverviewResource createdSpace =
-        spacesOverviewApi.create(
-            spaceName, Sets.newLinkedHashSet(users.getCurrentUser().getId()));
+        spacesOverviewApi.create(spaceName, Sets.newLinkedHashSet(users.getCurrentUser().getId()));
 
     try {
       assertThat(createdSpace).isNotNull();
@@ -131,7 +131,8 @@ public class SpacesTest extends BaseAcceptanceTest {
   }
 
   private void deleteSpaceValidly(
-      final SpacesOverviewApi spacesOverviewApi, final SpaceOverviewResource space) throws IOException {
+      final SpacesOverviewApi spacesOverviewApi, final SpaceOverviewResource space)
+      throws IOException {
     space.setTaskQueueStopped(true);
     spacesOverviewApi.update(space);
     spacesOverviewApi.delete(space);

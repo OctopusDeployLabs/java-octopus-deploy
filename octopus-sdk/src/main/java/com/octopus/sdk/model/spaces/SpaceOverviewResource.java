@@ -15,11 +15,12 @@
 
 package com.octopus.sdk.model.spaces;
 
-import com.google.gson.annotations.SerializedName;
 import com.octopus.sdk.model.NamedResource;
 
 import java.time.OffsetDateTime;
 import java.util.Set;
+
+import com.google.gson.annotations.SerializedName;
 
 public class SpaceOverviewResource extends NamedResource {
 

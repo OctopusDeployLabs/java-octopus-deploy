@@ -22,6 +22,7 @@ import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.project.ProjectResource;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.model.spaces.SpaceOverviewResource;
+import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -34,8 +35,8 @@ public class SampleOperations {
     this.client = client;
   }
 
-  final ProjectResource getProjectInSpace(final Optional<String> spaceName, final String projectName)
-      throws IOException {
+  final ProjectResource getProjectInSpace(
+      final Optional<String> spaceName, final String projectName) throws IOException {
     final SpaceHome spaceHome = determineSpaceHome(spaceName);
 
     final ProjectApi projectApi = new ProjectApi(client, spaceHome.getProjectsLink());
@@ -64,7 +65,7 @@ public class SampleOperations {
     }
 
     final SpacesOverviewApi spacesApi = SpacesOverviewApi.create(client);
-    final Optional<SpaceOverviewResource> containingSpace = spacesApi.getByName(spaceName.get());
+    final Optional<SpaceOverviewWithLinks> containingSpace = spacesApi.getByName(spaceName.get());
     if (!containingSpace.isPresent()) {
       final String error =
           String.format(

@@ -18,23 +18,20 @@ package com.octopus.sdk.api;
 import com.octopus.openapi.model.SpaceResource;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
-import com.octopus.sdk.model.spaces.SpaceOverviewResource;
 import com.octopus.sdk.model.spaces.SpaceOverviewPaginatedCollection;
+import com.octopus.sdk.model.spaces.SpaceOverviewResource;
+import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 
 import java.io.IOException;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-public class SpacesOverviewApi extends BaseNamedResourceApi<SpaceOverviewResource, SpaceOverviewPaginatedCollection> {
-
-  private static final Logger LOG = LogManager.getLogger();
+public class SpacesOverviewApi
+    extends BaseNamedResourceApi<SpaceOverviewWithLinks, SpaceOverviewPaginatedCollection> {
 
   private final String rootPath;
 
   protected SpacesOverviewApi(final OctopusClient client, final String rootPath) {
-    super(client, rootPath, SpaceOverviewResource.class, SpaceOverviewPaginatedCollection.class);
+    super(client, rootPath, SpaceOverviewWithLinks.class, SpaceOverviewPaginatedCollection.class);
     this.rootPath = rootPath;
   }
 
@@ -50,17 +47,13 @@ public class SpacesOverviewApi extends BaseNamedResourceApi<SpaceOverviewResourc
     return new SpacesOverviewApi(client, client.getRootDocument().getSpacesLink());
   }
 
-  public SpaceOverviewResource update(final SpaceOverviewResource alteredSpace) throws IOException {
-    return client.put(
-        RequestEndpoint.fromPath(alteredSpace.getSelfLink()), alteredSpace, SpaceOverviewResource.class);
-  }
-
   public SpaceOverviewResource create(final String spaceName, final Set<String> managerUserIds)
       throws IOException {
     final SpaceResource spaceResource = new SpaceResource();
     spaceResource.setName(spaceName);
     spaceResource.setSpaceManagersTeamMembers(managerUserIds);
 
-    return client.post(RequestEndpoint.fromPath(rootPath), spaceResource, SpaceOverviewResource.class);
+    return client.post(
+        RequestEndpoint.fromPath(rootPath), spaceResource, SpaceOverviewResource.class);
   }
 }

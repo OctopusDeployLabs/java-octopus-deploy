@@ -32,5 +32,4 @@ public class SpaceOverviewWithLinks extends SpaceOverviewResource {
   public String getWebLink() {
     return getCleansedLink("Web");
   }
-
 }

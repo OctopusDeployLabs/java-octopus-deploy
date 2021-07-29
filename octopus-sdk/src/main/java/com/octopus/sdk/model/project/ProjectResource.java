@@ -15,7 +15,6 @@
 
 package com.octopus.sdk.model.project;
 
-import com.google.gson.annotations.SerializedName;
 import com.octopus.openapi.model.ActionTemplateParameterResource;
 import com.octopus.openapi.model.AutoDeployReleaseOverrideResource;
 import com.octopus.openapi.model.DeploymentConnectivityPolicy;
@@ -30,6 +29,8 @@ import com.octopus.sdk.model.NamedResource;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Set;
+
+import com.google.gson.annotations.SerializedName;
 
 public class ProjectResource extends NamedResource {
 
@@ -53,7 +54,6 @@ public class ProjectResource extends NamedResource {
 
   @SerializedName("DeploymentProcessId")
   private String deploymentProcessId;
-
 
   @SerializedName("DiscreteChannelRelease")
   private Boolean discreteChannelRelease;
@@ -116,7 +116,8 @@ public class ProjectResource extends NamedResource {
     this.autoCreateRelease = autoCreateRelease;
   }
 
-  public void setAutoDeployReleaseOverrides(final Set<AutoDeployReleaseOverrideResource> autoDeployReleaseOverrides) {
+  public void setAutoDeployReleaseOverrides(
+      final Set<AutoDeployReleaseOverrideResource> autoDeployReleaseOverrides) {
     this.autoDeployReleaseOverrides = autoDeployReleaseOverrides;
   }
 
@@ -176,7 +177,8 @@ public class ProjectResource extends NamedResource {
     this.persistenceSettings = persistenceSettings;
   }
 
-  public void setProjectConnectivityPolicy(final DeploymentConnectivityPolicy projectConnectivityPolicy) {
+  public void setProjectConnectivityPolicy(
+      final DeploymentConnectivityPolicy projectConnectivityPolicy) {
     this.projectConnectivityPolicy = projectConnectivityPolicy;
   }
 
@@ -184,7 +186,8 @@ public class ProjectResource extends NamedResource {
     this.projectGroupId = projectGroupId;
   }
 
-  public void setReleaseCreationStrategy(final ReleaseCreationStrategyResource releaseCreationStrategy) {
+  public void setReleaseCreationStrategy(
+      final ReleaseCreationStrategyResource releaseCreationStrategy) {
     this.releaseCreationStrategy = releaseCreationStrategy;
   }
 

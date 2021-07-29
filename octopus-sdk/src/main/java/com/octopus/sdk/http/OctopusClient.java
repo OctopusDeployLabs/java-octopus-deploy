@@ -17,8 +17,8 @@ package com.octopus.sdk.http;
 
 import static java.util.Collections.singletonList;
 
-import com.octopus.sdk.model.login.LoginBody;
 import com.octopus.sdk.model.RootDocument;
+import com.octopus.sdk.model.login.LoginBody;
 
 import java.io.IOException;
 import java.net.URL;

@@ -15,12 +15,13 @@
 
 package com.octopus.sdk.model.users;
 
-import com.google.gson.annotations.SerializedName;
 import com.octopus.openapi.model.IdentityResource;
 import com.octopus.sdk.model.BaseResource;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+
+import com.google.gson.annotations.SerializedName;
 
 public class User extends BaseResource {
 

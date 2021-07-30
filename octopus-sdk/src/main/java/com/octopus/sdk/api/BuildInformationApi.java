@@ -28,9 +28,9 @@ public class BuildInformationApi extends BaseResourceApi<PackageVersionBuildInfo
         super(client, rootPath, PackageVersionBuildInformationMappedResource.class, PackageVersionBuildInformationMappedResourcePaginatedCollection.class);
     }
 
-    public static ProjectApi create(final OctopusClient client, final SpaceHome spaceHome) {
+    public static BuildInformationApi create(final OctopusClient client, final SpaceHome spaceHome) {
         Preconditions.checkNotNull(client, "Supplied a null client");
         Preconditions.checkNotNull(spaceHome, "Cannot create a project in a space with a 'null' space");
-        return new ProjectApi(client, spaceHome.getProjectsLink());
+        return new BuildInformationApi(client, spaceHome.getProjectsLink());
     }
 }

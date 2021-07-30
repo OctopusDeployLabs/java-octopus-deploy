@@ -178,7 +178,7 @@ jar { enabled = false }
 
 
 // Do not allow publishing if all tests haven't passed
-//artifactoryPublish.dependsOn(acceptanceTest)
+artifactoryPublish.dependsOn(test)
 
 def artifactoryUser = project.hasProperty('artifactoryUser') ? project.property('artifactoryUser') : System.getenv('ARTIFACTORY_USER')
 def artifactoryPassword = project.hasProperty('artifactoryApiKey') ? project.property('artifactoryApiKey') :

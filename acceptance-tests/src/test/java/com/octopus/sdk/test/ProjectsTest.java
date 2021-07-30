@@ -24,6 +24,7 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.OctopusClientFactory;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.project.ProjectResource;
+import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 
@@ -75,7 +76,7 @@ public class ProjectsTest extends BaseAcceptanceTest {
     final SpaceHome spaceHome =
         client.get(RequestEndpoint.fromPath(createdSpace.getSpaceHomeLink()), SpaceHome.class);
     final ProjectApi projectApi = ProjectApi.create(client, spaceHome);
-    final ProjectResource projectToCreate = new ProjectResource();
+    final ProjectResourceWithLinks projectToCreate = new ProjectResourceWithLinks();
     projectToCreate.setName("Test Project");
     projectToCreate.setLifecycleId("Lifecycles-1");
     projectToCreate.setProjectGroupId("ProjectGroups-42");

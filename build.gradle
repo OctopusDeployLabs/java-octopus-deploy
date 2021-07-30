@@ -152,7 +152,7 @@ subprojects {
 
     test {
         useJUnitPlatform()
-        testLogging.showStandardStreams = true
+        testLogging.showStandardStreams = false
     }
 
     if (project.name != "acceptance-tests") {

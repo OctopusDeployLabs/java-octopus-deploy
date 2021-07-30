@@ -20,6 +20,7 @@ import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.project.ProjectResource;
+import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 
@@ -39,7 +40,7 @@ public class SampleOperations {
     final SpaceHome spaceHome = determineSpaceHome(spaceName);
 
     final ProjectApi projectApi = new ProjectApi(client, spaceHome.getProjectsLink());
-    final Optional<ProjectResource> project = projectApi.getByName(projectName);
+    final Optional<ProjectResourceWithLinks> project = projectApi.getByName(projectName);
     if (!project.isPresent()) {
       final String errorMsg =
           String.format(

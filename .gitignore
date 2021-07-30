@@ -37,7 +37,6 @@ bin
 .project
 .settings
 .travis.yml
-api
 build.sbt
 git_push.sh
 *gradle*

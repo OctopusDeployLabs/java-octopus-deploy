@@ -15,17 +15,16 @@
 
 package com.octopus.sdk.api;
 
+import com.google.common.base.Preconditions;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.project.ProjectPaginatedCollection;
-import com.octopus.sdk.model.project.ProjectResource;
+import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
 
-import com.google.common.base.Preconditions;
-
-public class ProjectApi extends BaseNamedResourceApi<ProjectResource, ProjectPaginatedCollection> {
+public class ProjectApi extends BaseNamedResourceApi<ProjectResourceWithLinks, ProjectPaginatedCollection> {
 
   public ProjectApi(final OctopusClient client, final String rootPath) {
-    super(client, rootPath, ProjectResource.class, ProjectPaginatedCollection.class);
+    super(client, rootPath, ProjectResourceWithLinks.class, ProjectPaginatedCollection.class);
   }
 
   public static ProjectApi create(final OctopusClient client, final SpaceHome spaceHome) {

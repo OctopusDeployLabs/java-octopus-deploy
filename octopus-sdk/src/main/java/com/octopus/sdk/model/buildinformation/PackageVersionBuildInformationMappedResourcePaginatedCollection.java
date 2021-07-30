@@ -13,22 +13,23 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.model.project;
+package com.octopus.sdk.model.buildinformation;
 
 import com.octopus.sdk.model.PaginatedCollection;
+import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 
 import java.util.List;
 import java.util.Map;
 
-public class ProjectPaginatedCollection extends PaginatedCollection<ProjectResourceWithLinks> {
+public class PackageVersionBuildInformationMappedResourcePaginatedCollection extends PaginatedCollection<PackageVersionBuildInformationMappedResource> {
 
-  public ProjectPaginatedCollection(
+  public PackageVersionBuildInformationMappedResourcePaginatedCollection(
       final Map<String, String> rawLinks,
       final int totalResults,
       final int itemsPerPage,
       final int numberOfPages,
       final int pageNumber,
-      final List<ProjectResourceWithLinks> items) {
+      final List<PackageVersionBuildInformationMappedResource> items) {
     super(rawLinks, totalResults, itemsPerPage, numberOfPages, pageNumber, items);
   }
 }

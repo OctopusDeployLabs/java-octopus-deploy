@@ -40,7 +40,7 @@ import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.Test;
 
-public class SpacesTest extends BaseAcceptanceTest {
+public class SpacesAcceptanceTest extends BaseAcceptanceTest {
 
   @Test
   public void throwsHttpExceptionIndicatingNotAuthorisedIfIncorrectApiKey()

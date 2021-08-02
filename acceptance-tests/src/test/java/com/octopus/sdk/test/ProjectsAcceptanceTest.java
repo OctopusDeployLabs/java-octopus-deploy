@@ -34,7 +34,7 @@ import java.net.URL;
 import com.google.common.collect.Sets;
 import org.junit.jupiter.api.Test;
 
-public class ProjectsTest extends BaseAcceptanceTest {
+public class ProjectsAcceptanceTest extends BaseAcceptanceTest {
 
   @Test
   public void returnsAProjectApiForAKnownSpace() throws IOException {

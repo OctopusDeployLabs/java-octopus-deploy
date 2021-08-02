@@ -43,17 +43,17 @@ public abstract class BaseNamedResourceApi<T extends NamedResource, U extends Pa
   public Optional<T> getByName(final String completeName) throws IOException {
     Preconditions.checkNotNull(completeName, "Cannot search for a space with a null name");
 
-    final List<T> spaces = getByPartialName(completeName);
+    final List<T> partialNameMatch = getByPartialName(completeName);
 
-    final List<T> matchingSpaces =
-        spaces.stream()
+    final List<T> exactNameMatch =
+        partialNameMatch.stream()
             .filter(sr -> sr.getName().equals(completeName))
             .collect(Collectors.toList());
 
-    if (matchingSpaces.size() == 0) {
+    if (exactNameMatch.size() == 0) {
       return Optional.empty();
-    } else if (matchingSpaces.size() == 1) {
-      return Optional.of(matchingSpaces.get(0));
+    } else if (exactNameMatch.size() == 1) {
+      return Optional.of(exactNameMatch.get(0));
     } else {
       throw new IllegalStateException(
           "Octopus Server reports more than 1 space with an identical name");

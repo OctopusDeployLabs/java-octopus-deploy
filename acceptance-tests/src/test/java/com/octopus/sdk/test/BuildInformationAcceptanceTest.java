@@ -48,6 +48,8 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
   private SpaceOverviewWithLinks createdSpace;
   private SpaceHome spaceHome;
 
+  private static final String initialBuildUrl = "http://localhost/myBuildUrl";
+
   @BeforeEach
   public void localSetup() throws IOException {
 
@@ -115,12 +117,9 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
     resource.withVersion("1.0");
     resource.withResource(buildInfo);
 
-    final OctopusPackageVersionBuildInformationMappedResource createdBuildInfo =
-        buildInfoApi.create(resource, OverwriteMode.FailIfExists);
-    buildInfo.buildUrl("differentURL");
+    buildInfoApi.create(resource, OverwriteMode.FailIfExists);
 
-    assertThatThrownBy(() -> buildInfoApi.create(resource, OverwriteMode.FailIfExists))
-        .isInstanceOf(HttpException.class);
+    buildInfo.buildUrl("differentURL");
 
     final OctopusPackageVersionBuildInformationMappedResource response =
         buildInfoApi.create(resource, OverwriteMode.OverwriteExisting);
@@ -128,14 +127,50 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
   }
 
   @Test
-  public void willFailIfOverWriteModeIsFailAndBuildInfoAlreadyExists() {}
+  public void willNotOverwriteServerContentIfIgnoreIsSet() throws IOException {
+    final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);
+    final BuildInformationResource buildInfo = createValidBuildInformation();
+
+    final OctopusPackageVersionBuildInformation resource =
+        new OctopusPackageVersionBuildInformation();
+    resource.withPackageId("packageId");
+    resource.withVersion("1.0");
+    resource.withResource(buildInfo);
+
+    buildInfoApi.create(resource, OverwriteMode.FailIfExists);
+
+    buildInfo.buildUrl("differentURL");
+
+    final OctopusPackageVersionBuildInformationMappedResource response =
+        buildInfoApi.create(resource, OverwriteMode.IgnoreIfExists);
+    assertThat(response.getBuildUrl()).isEqualTo(initialBuildUrl);
+  }
+
+  @Test
+  public void willFailIfOverWriteModeIsFailAndBuildInfoAlreadyExists() throws IOException {
+    final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);
+    final BuildInformationResource buildInfo = createValidBuildInformation();
+
+    final OctopusPackageVersionBuildInformation resource =
+        new OctopusPackageVersionBuildInformation();
+    resource.withPackageId("packageId");
+    resource.withVersion("1.0");
+    resource.withResource(buildInfo);
+
+    buildInfoApi.create(resource, OverwriteMode.FailIfExists);
+
+    buildInfo.buildUrl("differentURL");
+
+    assertThatThrownBy(() -> buildInfoApi.create(resource, OverwriteMode.FailIfExists))
+        .isInstanceOf(HttpException.class);
+  }
 
   private BuildInformationResource createValidBuildInformation() {
     final BuildInformationResource buildInfo = new BuildInformationResource();
     buildInfo
         .buildEnvironment("TeamCity")
         .buildNumber("12345")
-        .buildUrl("http://localhost/myBuildUrl")
+        .buildUrl(initialBuildUrl)
         .branch("ArbitraryBranch")
         .vcsType("git")
         .vcsRoot("https://github.com/OctopusDeploy/Octopus-TeamCity.git")

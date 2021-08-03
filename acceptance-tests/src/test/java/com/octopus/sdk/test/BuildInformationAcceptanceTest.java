@@ -15,7 +15,8 @@
 
 package com.octopus.sdk.test;
 
-import com.google.common.collect.Sets;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.octopus.sdk.api.BuildInformationApi;
 import com.octopus.sdk.api.OverwriteMode;
 import com.octopus.sdk.api.SpacesOverviewApi;
@@ -27,15 +28,15 @@ import com.octopus.sdk.model.buildinformation.BuildInformationResource;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import com.google.common.collect.Sets;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
 
@@ -58,7 +59,8 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
       toCreate.setSpaceManagersTeamMembers(Sets.newHashSet(users.getCurrentUser().getId()));
 
       createdSpace = spacesOverviewApi.create(toCreate);
-      spaceHome = client.get(RequestEndpoint.fromPath(createdSpace.getSpaceHomeLink()), SpaceHome.class);
+      spaceHome =
+          client.get(RequestEndpoint.fromPath(createdSpace.getSpaceHomeLink()), SpaceHome.class);
     } catch (final Exception e) {
       deleteSpaceValidly(spacesOverviewApi, toCreate);
       spacesOverviewApi = null;
@@ -69,7 +71,6 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
   public void cleanup() throws IOException {
     deleteSpaceValidly(spacesOverviewApi, createdSpace);
     spacesOverviewApi = null;
-
   }
 
   @Test
@@ -87,22 +88,20 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
         .vcsCommitNumber("12345")
         .commits(Collections.emptyList());
 
-    final OctopusPackageVersionBuildInformation resource = new OctopusPackageVersionBuildInformation();
+    final OctopusPackageVersionBuildInformation resource =
+        new OctopusPackageVersionBuildInformation();
     resource.withPackageId("packageId");
     resource.withVersion("1.0");
     resource.withResource(buildInfo);
 
-    final OctopusPackageVersionBuildInformation response = buildInfoApi.create(resource, OverwriteMode.FailIfExists);
+    final OctopusPackageVersionBuildInformation response =
+        buildInfoApi.create(resource, OverwriteMode.FailIfExists);
     assertThat(response).isNotNull();
   }
 
   @Test
-  public void canOverwriteBuildInformationOnServer() {
-
-  }
+  public void canOverwriteBuildInformationOnServer() {}
 
   @Test
-  public void willFailIfOverWriteModeIsFailAndBuildInfoAlreadyExists() {
-
-  }
+  public void willFailIfOverWriteModeIsFailAndBuildInfoAlreadyExists() {}
 }

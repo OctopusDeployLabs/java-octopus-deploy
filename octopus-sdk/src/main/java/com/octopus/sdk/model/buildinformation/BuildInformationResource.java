@@ -2,7 +2,6 @@
 
 package com.octopus.sdk.model.buildinformation;
 
-import com.google.gson.annotations.SerializedName;
 import com.octopus.openapi.model.CommitDetails;
 import com.octopus.openapi.model.WorkItemLink;
 import com.octopus.sdk.model.BaseResource;
@@ -12,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * PackageVersionBuildInformationMappedResource
- */
+import com.google.gson.annotations.SerializedName;
+
+/** PackageVersionBuildInformationMappedResource */
 @SuppressWarnings("UnusedVariable")
 public class BuildInformationResource extends BaseResource {
   @SerializedName("Branch")
@@ -63,7 +62,7 @@ public class BuildInformationResource extends BaseResource {
   private List<WorkItemLink> workItems = null;
 
   public BuildInformationResource branch(String branch) {
-    
+
     this.branch = branch;
     return this;
   }
@@ -76,9 +75,8 @@ public class BuildInformationResource extends BaseResource {
     this.branch = branch;
   }
 
-
   public BuildInformationResource buildEnvironment(String buildEnvironment) {
-    
+
     this.buildEnvironment = buildEnvironment;
     return this;
   }
@@ -91,9 +89,8 @@ public class BuildInformationResource extends BaseResource {
     this.buildEnvironment = buildEnvironment;
   }
 
-
   public BuildInformationResource buildNumber(String buildNumber) {
-    
+
     this.buildNumber = buildNumber;
     return this;
   }
@@ -106,9 +103,8 @@ public class BuildInformationResource extends BaseResource {
     this.buildNumber = buildNumber;
   }
 
-
   public BuildInformationResource buildUrl(String buildUrl) {
-    
+
     this.buildUrl = buildUrl;
     return this;
   }
@@ -121,9 +117,8 @@ public class BuildInformationResource extends BaseResource {
     this.buildUrl = buildUrl;
   }
 
-
   public BuildInformationResource commits(List<CommitDetails> commits) {
-    
+
     this.commits = commits;
     return this;
   }
@@ -144,9 +139,8 @@ public class BuildInformationResource extends BaseResource {
     this.commits = commits;
   }
 
-
   public BuildInformationResource created(OffsetDateTime created) {
-    
+
     this.created = created;
     return this;
   }
@@ -159,9 +153,8 @@ public class BuildInformationResource extends BaseResource {
     this.created = created;
   }
 
-
   public BuildInformationResource incompleteDataWarning(String incompleteDataWarning) {
-    
+
     this.incompleteDataWarning = incompleteDataWarning;
     return this;
   }
@@ -174,9 +167,8 @@ public class BuildInformationResource extends BaseResource {
     this.incompleteDataWarning = incompleteDataWarning;
   }
 
-
   public BuildInformationResource issueTrackerName(String issueTrackerName) {
-    
+
     this.issueTrackerName = issueTrackerName;
     return this;
   }
@@ -189,9 +181,8 @@ public class BuildInformationResource extends BaseResource {
     this.issueTrackerName = issueTrackerName;
   }
 
-
   public BuildInformationResource lastModifiedBy(String lastModifiedBy) {
-    
+
     this.lastModifiedBy = lastModifiedBy;
     return this;
   }
@@ -204,9 +195,8 @@ public class BuildInformationResource extends BaseResource {
     this.lastModifiedBy = lastModifiedBy;
   }
 
-
   public BuildInformationResource lastModifiedOn(OffsetDateTime lastModifiedOn) {
-    
+
     this.lastModifiedOn = lastModifiedOn;
     return this;
   }
@@ -219,9 +209,8 @@ public class BuildInformationResource extends BaseResource {
     this.lastModifiedOn = lastModifiedOn;
   }
 
-
   public BuildInformationResource vcsCommitNumber(String vcsCommitNumber) {
-    
+
     this.vcsCommitNumber = vcsCommitNumber;
     return this;
   }
@@ -234,9 +223,8 @@ public class BuildInformationResource extends BaseResource {
     this.vcsCommitNumber = vcsCommitNumber;
   }
 
-
   public BuildInformationResource vcsCommitUrl(String vcsCommitUrl) {
-    
+
     this.vcsCommitUrl = vcsCommitUrl;
     return this;
   }
@@ -249,9 +237,8 @@ public class BuildInformationResource extends BaseResource {
     this.vcsCommitUrl = vcsCommitUrl;
   }
 
-
   public BuildInformationResource vcsRoot(String vcsRoot) {
-    
+
     this.vcsRoot = vcsRoot;
     return this;
   }
@@ -264,9 +251,8 @@ public class BuildInformationResource extends BaseResource {
     this.vcsRoot = vcsRoot;
   }
 
-
   public BuildInformationResource vcsType(String vcsType) {
-    
+
     this.vcsType = vcsType;
     return this;
   }
@@ -279,9 +265,8 @@ public class BuildInformationResource extends BaseResource {
     this.vcsType = vcsType;
   }
 
-
   public BuildInformationResource workItems(List<WorkItemLink> workItems) {
-    
+
     this.workItems = workItems;
     return this;
   }
@@ -302,7 +287,6 @@ public class BuildInformationResource extends BaseResource {
     this.workItems = workItems;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -312,26 +296,42 @@ public class BuildInformationResource extends BaseResource {
       return false;
     }
     BuildInformationResource buildInformationResource = (BuildInformationResource) o;
-    return Objects.equals(this.branch, buildInformationResource.branch) &&
-        Objects.equals(this.buildEnvironment, buildInformationResource.buildEnvironment) &&
-        Objects.equals(this.buildNumber, buildInformationResource.buildNumber) &&
-        Objects.equals(this.buildUrl, buildInformationResource.buildUrl) &&
-        Objects.equals(this.commits, buildInformationResource.commits) &&
-        Objects.equals(this.created, buildInformationResource.created) &&
-        Objects.equals(this.incompleteDataWarning, buildInformationResource.incompleteDataWarning) &&
-        Objects.equals(this.issueTrackerName, buildInformationResource.issueTrackerName) &&
-        Objects.equals(this.lastModifiedBy, buildInformationResource.lastModifiedBy) &&
-        Objects.equals(this.lastModifiedOn, buildInformationResource.lastModifiedOn) &&
-        Objects.equals(this.vcsCommitNumber, buildInformationResource.vcsCommitNumber) &&
-        Objects.equals(this.vcsCommitUrl, buildInformationResource.vcsCommitUrl) &&
-        Objects.equals(this.vcsRoot, buildInformationResource.vcsRoot) &&
-        Objects.equals(this.vcsType, buildInformationResource.vcsType) &&
-        Objects.equals(this.workItems, buildInformationResource.workItems);
+    return Objects.equals(this.branch, buildInformationResource.branch)
+        && Objects.equals(this.buildEnvironment, buildInformationResource.buildEnvironment)
+        && Objects.equals(this.buildNumber, buildInformationResource.buildNumber)
+        && Objects.equals(this.buildUrl, buildInformationResource.buildUrl)
+        && Objects.equals(this.commits, buildInformationResource.commits)
+        && Objects.equals(this.created, buildInformationResource.created)
+        && Objects.equals(
+            this.incompleteDataWarning, buildInformationResource.incompleteDataWarning)
+        && Objects.equals(this.issueTrackerName, buildInformationResource.issueTrackerName)
+        && Objects.equals(this.lastModifiedBy, buildInformationResource.lastModifiedBy)
+        && Objects.equals(this.lastModifiedOn, buildInformationResource.lastModifiedOn)
+        && Objects.equals(this.vcsCommitNumber, buildInformationResource.vcsCommitNumber)
+        && Objects.equals(this.vcsCommitUrl, buildInformationResource.vcsCommitUrl)
+        && Objects.equals(this.vcsRoot, buildInformationResource.vcsRoot)
+        && Objects.equals(this.vcsType, buildInformationResource.vcsType)
+        && Objects.equals(this.workItems, buildInformationResource.workItems);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(branch, buildEnvironment, buildNumber, buildUrl, commits, created, incompleteDataWarning, issueTrackerName, lastModifiedBy, lastModifiedOn, vcsCommitNumber, vcsCommitUrl, vcsRoot, vcsType, workItems);
+    return Objects.hash(
+        branch,
+        buildEnvironment,
+        buildNumber,
+        buildUrl,
+        commits,
+        created,
+        incompleteDataWarning,
+        issueTrackerName,
+        lastModifiedBy,
+        lastModifiedOn,
+        vcsCommitNumber,
+        vcsCommitUrl,
+        vcsRoot,
+        vcsType,
+        workItems);
   }
 
   @Override
@@ -344,7 +344,9 @@ public class BuildInformationResource extends BaseResource {
     sb.append("    buildUrl: ").append(toIndentedString(buildUrl)).append("\n");
     sb.append("    commits: ").append(toIndentedString(commits)).append("\n");
     sb.append("    created: ").append(toIndentedString(created)).append("\n");
-    sb.append("    incompleteDataWarning: ").append(toIndentedString(incompleteDataWarning)).append("\n");
+    sb.append("    incompleteDataWarning: ")
+        .append(toIndentedString(incompleteDataWarning))
+        .append("\n");
     sb.append("    issueTrackerName: ").append(toIndentedString(issueTrackerName)).append("\n");
     sb.append("    lastModifiedBy: ").append(toIndentedString(lastModifiedBy)).append("\n");
     sb.append("    lastModifiedOn: ").append(toIndentedString(lastModifiedOn)).append("\n");
@@ -358,8 +360,7 @@ public class BuildInformationResource extends BaseResource {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -367,6 +368,4 @@ public class BuildInformationResource extends BaseResource {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
 }
-

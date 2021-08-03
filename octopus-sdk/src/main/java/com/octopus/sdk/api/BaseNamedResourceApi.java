@@ -15,7 +15,9 @@
 
 package com.octopus.sdk.api;
 
-import com.google.common.base.Preconditions;
+import static java.util.Collections.singletonList;
+import static java.util.Collections.singletonMap;
+
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.NamedResource;
 import com.octopus.sdk.model.PaginatedCollection;
@@ -25,13 +27,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static java.util.Collections.singletonList;
-import static java.util.Collections.singletonMap;
+import com.google.common.base.Preconditions;
 
-public abstract class BaseNamedResourceApi<T extends NamedResource, U extends PaginatedCollection<T>> extends BaseResourceApi<T, U> {
+public abstract class BaseNamedResourceApi<
+        T extends NamedResource, U extends PaginatedCollection<T>>
+    extends BaseResourceApi<T, U> {
 
-  public BaseNamedResourceApi(final OctopusClient client, final String rootPath, final Class<T> resourceType,
-                              final Class<U> collectionType) {
+  public BaseNamedResourceApi(
+      final OctopusClient client,
+      final String rootPath,
+      final Class<T> resourceType,
+      final Class<U> collectionType) {
     super(client, rootPath, resourceType, collectionType);
   }
 

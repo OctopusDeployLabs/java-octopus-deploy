@@ -20,7 +20,8 @@ import com.octopus.sdk.model.PaginatedCollection;
 import java.util.List;
 import java.util.Map;
 
-public class PackageVersionBuildInformationMappedResourcePaginatedCollection extends PaginatedCollection<OctopusPackageVersionBuildInformation> {
+public class PackageVersionBuildInformationMappedResourcePaginatedCollection
+    extends PaginatedCollection<OctopusPackageVersionBuildInformation> {
 
   public PackageVersionBuildInformationMappedResourcePaginatedCollection(
       final Map<String, String> rawLinks,

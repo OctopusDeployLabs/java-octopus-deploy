@@ -24,7 +24,8 @@ import java.io.IOException;
 
 public class SpaceHomeApi {
 
-  public static SpaceHome getSpaceHome(final OctopusClient client, final SpaceOverviewWithLinks spaceOverview) throws IOException {
+  public static SpaceHome getSpaceHome(
+      final OctopusClient client, final SpaceOverviewWithLinks spaceOverview) throws IOException {
     return client.get(RequestEndpoint.fromPath(spaceOverview.getSpaceHomeLink()), SpaceHome.class);
   }
 }

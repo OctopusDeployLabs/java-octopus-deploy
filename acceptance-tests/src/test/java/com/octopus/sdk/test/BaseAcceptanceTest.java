@@ -17,11 +17,11 @@ package com.octopus.sdk.test;
 
 import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.dsl.OctopusDeployServer;
+import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 
 import java.io.IOException;
 import java.util.Optional;
 
-import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 import okhttp3.OkHttpClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -67,7 +67,7 @@ public class BaseAcceptanceTest {
   protected void deleteSpaceValidly(
       final SpacesOverviewApi spacesOverviewApi, final SpaceOverviewWithLinks space)
       throws IOException {
-    if((spacesOverviewApi != null) && (space != null)) {
+    if ((spacesOverviewApi != null) && (space != null)) {
       space.setTaskQueueStopped(true);
       spacesOverviewApi.update(space);
       spacesOverviewApi.delete(space);

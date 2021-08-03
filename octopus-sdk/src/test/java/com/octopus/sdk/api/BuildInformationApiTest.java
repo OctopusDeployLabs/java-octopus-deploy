@@ -15,22 +15,23 @@
 
 package com.octopus.sdk.api;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.spaces.SpaceHome;
-import com.octopus.sdk.support.TestHelpers;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockserver.integration.ClientAndServer;
-
-import java.net.URL;
-import java.util.Map;
-
 import static com.octopus.sdk.support.TestHelpers.defaultRootDoc;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
+
+import com.octopus.sdk.http.OctopusClient;
+import com.octopus.sdk.model.spaces.SpaceHome;
+import com.octopus.sdk.support.TestHelpers;
+
+import java.net.URL;
+import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockserver.integration.ClientAndServer;
 
 class BuildInformationApiTest {
 
@@ -52,11 +53,15 @@ class BuildInformationApiTest {
 
   @Test
   public void updatingBuildInformationThrowsUnsupportedException() {
-    final SpaceHome spaceHome = new SpaceHome(Map.of("BuildInformation",
-        "/api/Spaces-1/build-information{/id}{?packageId,filter,latest,skip,take,overwriteMode}"));
+    final SpaceHome spaceHome =
+        new SpaceHome(
+            Map.of(
+                "BuildInformation",
+                "/api/Spaces-1/build-information{/id}{?packageId,filter,latest,skip,take,overwriteMode}"));
 
     final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);
 
-    assertThatThrownBy(() -> buildInfoApi.update(null)).isInstanceOf(UnsupportedOperationException.class);
+    assertThatThrownBy(() -> buildInfoApi.update(null))
+        .isInstanceOf(UnsupportedOperationException.class);
   }
 }

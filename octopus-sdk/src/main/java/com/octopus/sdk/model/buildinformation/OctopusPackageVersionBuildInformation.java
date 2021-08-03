@@ -15,24 +15,22 @@
 
 package com.octopus.sdk.model.buildinformation;
 
-import com.google.gson.annotations.SerializedName;
 import com.octopus.sdk.model.BaseResource;
+
+import com.google.gson.annotations.SerializedName;
 
 public class OctopusPackageVersionBuildInformation extends BaseResource {
 
   @SerializedName("PackageId")
   private String packageId = null;
 
-
   @SerializedName("Version")
   private String version = null;
-
 
   @SerializedName("OctopusBuildInformation")
   private BuildInformationResource resource = null;
 
-  public OctopusPackageVersionBuildInformation() {
-  }
+  public OctopusPackageVersionBuildInformation() {}
 
   public OctopusPackageVersionBuildInformation withPackageId(final String packageId) {
     this.packageId = packageId;

@@ -2,7 +2,6 @@
 
 package com.octopus.sdk.model.buildinformation;
 
-import com.google.gson.annotations.SerializedName;
 import com.octopus.openapi.model.CommitDetails;
 import com.octopus.openapi.model.WorkItemLink;
 import com.octopus.sdk.model.BaseResource;
@@ -11,6 +10,8 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import com.google.gson.annotations.SerializedName;
 
 /** OctopusPackageVersionBuildInformationMappedResource */
 @SuppressWarnings("UnusedVariable")

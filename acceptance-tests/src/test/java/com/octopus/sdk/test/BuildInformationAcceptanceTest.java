@@ -87,17 +87,20 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
     resource.withVersion("1.0");
     resource.withResource(buildInfo);
 
-    final OctopusPackageVersionBuildInformationMappedResource response = buildInfoApi.create(resource,
-        OverwriteMode.FailIfExists);
+    final OctopusPackageVersionBuildInformationMappedResource response =
+        buildInfoApi.create(resource, OverwriteMode.FailIfExists);
     assertThat(response).isNotNull();
     assertThat(response.getPackageId()).isEqualTo(resource.getPackageId());
     assertThat(response.getVersion()).isEqualTo(resource.getVersion());
-    assertThat(response.getBuildEnvironment()).isEqualTo(resource.getBuildInformation().getBuildEnvironment());
-    assertThat(response.getBuildNumber()).isEqualTo(resource.getBuildInformation().getBuildNumber());
+    assertThat(response.getBuildEnvironment())
+        .isEqualTo(resource.getBuildInformation().getBuildEnvironment());
+    assertThat(response.getBuildNumber())
+        .isEqualTo(resource.getBuildInformation().getBuildNumber());
     assertThat(response.getBuildUrl()).isEqualTo(resource.getBuildInformation().getBuildUrl());
     assertThat(response.getBranch()).isEqualTo(resource.getBuildInformation().getBranch());
     assertThat(response.getVcsType()).isEqualTo(resource.getBuildInformation().getVcsType());
-    assertThat(response.getVcsCommitNumber()).isEqualTo(resource.getBuildInformation().getVcsCommitNumber());
+    assertThat(response.getVcsCommitNumber())
+        .isEqualTo(resource.getBuildInformation().getVcsCommitNumber());
     assertThat(response.getCommits()).containsAll(resource.getBuildInformation().getCommits());
   }
 

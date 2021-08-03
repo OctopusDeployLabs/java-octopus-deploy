@@ -55,6 +55,11 @@ subprojects {
     apply from: "${rootDir}/gradle/check-licenses.gradle"
 
     version = rootProject.version
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(11)
+        }
+    }
 
     task sourcesJar(type: Jar, dependsOn: classes) {
         classifier = 'sources'
@@ -65,9 +70,6 @@ subprojects {
         classifier = 'javadoc'
         from javadoc.destinationDir
     }
-
-    sourceCompatibility = 8
-    targetCompatibility = 8
 
     repositories {
         mavenLocal()

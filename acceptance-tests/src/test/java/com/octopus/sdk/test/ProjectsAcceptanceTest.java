@@ -55,9 +55,7 @@ public class ProjectsAcceptanceTest extends BaseAcceptanceTest {
       final ProjectApi projectApi = ProjectApi.create(client, spaceHome);
       assertThat(projectApi).isNotNull();
     } finally {
-      createdSpace.setTaskQueueStopped(true);
-      spacesOverviewApi.update(createdSpace);
-      spacesOverviewApi.delete(createdSpace);
+      deleteSpaceValidly(spacesOverviewApi, createdSpace);
     }
   }
 
@@ -84,9 +82,7 @@ public class ProjectsAcceptanceTest extends BaseAcceptanceTest {
     try {
       assertThat(createdProject).isNotNull();
     } finally {
-      createdSpace.setTaskQueueStopped(true);
-      spacesOverviewApi.update(createdSpace);
-      spacesOverviewApi.delete(createdSpace);
+      deleteSpaceValidly(spacesOverviewApi, createdSpace);
     }
   }
 }

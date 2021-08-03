@@ -25,9 +25,10 @@ import org.junit.jupiter.api.Test;
 import org.mockserver.integration.ClientAndServer;
 
 import java.net.URL;
+import java.util.Map;
 
 import static com.octopus.sdk.support.TestHelpers.defaultRootDoc;
-import static java.util.Collections.emptyMap;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
@@ -49,12 +50,13 @@ class BuildInformationApiTest {
         .respond(response().withStatusCode(200).withBody("NOT YET " + "POPULATED"));
   }
 
-
   @Test
   public void updatingBuildInformationThrowsUnsupportedException() {
-    final SpaceHome spaceHome = new SpaceHome(emptyMap());
+    final SpaceHome spaceHome = new SpaceHome(Map.of("BuildInformation",
+        "/api/Spaces-1/build-information{/id}{?packageId,filter,latest,skip,take,overwriteMode}"));
+
     final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);
 
+    assertThatThrownBy(() -> buildInfoApi.update(null)).isInstanceOf(UnsupportedOperationException.class);
   }
-
 }

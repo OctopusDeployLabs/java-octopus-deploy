@@ -135,12 +135,4 @@ public class SpacesAcceptanceTest extends BaseAcceptanceTest {
       }
     }
   }
-
-  private void deleteSpaceValidly(
-      final SpacesOverviewApi spacesOverviewApi, final SpaceOverviewWithLinks space)
-      throws IOException {
-    space.setTaskQueueStopped(true);
-    spacesOverviewApi.update(space);
-    spacesOverviewApi.delete(space);
-  }
 }

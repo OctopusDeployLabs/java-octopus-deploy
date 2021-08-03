@@ -16,7 +16,7 @@ import java.util.Objects;
  * PackageVersionBuildInformationMappedResource
  */
 @SuppressWarnings("UnusedVariable")
-public class PackageVersionBuildInformationMappedResource extends BaseResource {
+public class BuildInformationResource extends BaseResource {
   @SerializedName("Branch")
   private String branch;
 
@@ -47,9 +47,6 @@ public class PackageVersionBuildInformationMappedResource extends BaseResource {
   @SerializedName("LastModifiedOn")
   private OffsetDateTime lastModifiedOn;
 
-  @SerializedName("PackageId")
-  private String packageId;
-
   @SerializedName("VcsCommitNumber")
   private String vcsCommitNumber;
 
@@ -62,15 +59,10 @@ public class PackageVersionBuildInformationMappedResource extends BaseResource {
   @SerializedName("VcsType")
   private String vcsType;
 
-  @SerializedName("Version")
-  private String version;
-
   @SerializedName("WorkItems")
   private List<WorkItemLink> workItems = null;
 
-
-
-  public PackageVersionBuildInformationMappedResource branch(String branch) {
+  public BuildInformationResource branch(String branch) {
     
     this.branch = branch;
     return this;
@@ -85,7 +77,7 @@ public class PackageVersionBuildInformationMappedResource extends BaseResource {
   }
 
 
-  public PackageVersionBuildInformationMappedResource buildEnvironment(String buildEnvironment) {
+  public BuildInformationResource buildEnvironment(String buildEnvironment) {
     
     this.buildEnvironment = buildEnvironment;
     return this;
@@ -100,7 +92,7 @@ public class PackageVersionBuildInformationMappedResource extends BaseResource {
   }
 
 
-  public PackageVersionBuildInformationMappedResource buildNumber(String buildNumber) {
+  public BuildInformationResource buildNumber(String buildNumber) {
     
     this.buildNumber = buildNumber;
     return this;
@@ -115,7 +107,7 @@ public class PackageVersionBuildInformationMappedResource extends BaseResource {
   }
 
 
-  public PackageVersionBuildInformationMappedResource buildUrl(String buildUrl) {
+  public BuildInformationResource buildUrl(String buildUrl) {
     
     this.buildUrl = buildUrl;
     return this;
@@ -130,13 +122,13 @@ public class PackageVersionBuildInformationMappedResource extends BaseResource {
   }
 
 
-  public PackageVersionBuildInformationMappedResource commits(List<CommitDetails> commits) {
+  public BuildInformationResource commits(List<CommitDetails> commits) {
     
     this.commits = commits;
     return this;
   }
 
-  public PackageVersionBuildInformationMappedResource addCommitsItem(CommitDetails commitsItem) {
+  public BuildInformationResource addCommitsItem(CommitDetails commitsItem) {
     if (this.commits == null) {
       this.commits = new ArrayList<>();
     }
@@ -153,7 +145,7 @@ public class PackageVersionBuildInformationMappedResource extends BaseResource {
   }
 
 
-  public PackageVersionBuildInformationMappedResource created(OffsetDateTime created) {
+  public BuildInformationResource created(OffsetDateTime created) {
     
     this.created = created;
     return this;
@@ -168,7 +160,7 @@ public class PackageVersionBuildInformationMappedResource extends BaseResource {
   }
 
 
-  public PackageVersionBuildInformationMappedResource incompleteDataWarning(String incompleteDataWarning) {
+  public BuildInformationResource incompleteDataWarning(String incompleteDataWarning) {
     
     this.incompleteDataWarning = incompleteDataWarning;
     return this;
@@ -183,7 +175,7 @@ public class PackageVersionBuildInformationMappedResource extends BaseResource {
   }
 
 
-  public PackageVersionBuildInformationMappedResource issueTrackerName(String issueTrackerName) {
+  public BuildInformationResource issueTrackerName(String issueTrackerName) {
     
     this.issueTrackerName = issueTrackerName;
     return this;
@@ -198,7 +190,7 @@ public class PackageVersionBuildInformationMappedResource extends BaseResource {
   }
 
 
-  public PackageVersionBuildInformationMappedResource lastModifiedBy(String lastModifiedBy) {
+  public BuildInformationResource lastModifiedBy(String lastModifiedBy) {
     
     this.lastModifiedBy = lastModifiedBy;
     return this;
@@ -213,7 +205,7 @@ public class PackageVersionBuildInformationMappedResource extends BaseResource {
   }
 
 
-  public PackageVersionBuildInformationMappedResource lastModifiedOn(OffsetDateTime lastModifiedOn) {
+  public BuildInformationResource lastModifiedOn(OffsetDateTime lastModifiedOn) {
     
     this.lastModifiedOn = lastModifiedOn;
     return this;
@@ -227,22 +219,8 @@ public class PackageVersionBuildInformationMappedResource extends BaseResource {
     this.lastModifiedOn = lastModifiedOn;
   }
 
-  public PackageVersionBuildInformationMappedResource packageId(String packageId) {
-    
-    this.packageId = packageId;
-    return this;
-  }
 
-  public String getPackageId() {
-    return packageId;
-  }
-
-  public void setPackageId(String packageId) {
-    this.packageId = packageId;
-  }
-
-
-  public PackageVersionBuildInformationMappedResource vcsCommitNumber(String vcsCommitNumber) {
+  public BuildInformationResource vcsCommitNumber(String vcsCommitNumber) {
     
     this.vcsCommitNumber = vcsCommitNumber;
     return this;
@@ -257,7 +235,7 @@ public class PackageVersionBuildInformationMappedResource extends BaseResource {
   }
 
 
-  public PackageVersionBuildInformationMappedResource vcsCommitUrl(String vcsCommitUrl) {
+  public BuildInformationResource vcsCommitUrl(String vcsCommitUrl) {
     
     this.vcsCommitUrl = vcsCommitUrl;
     return this;
@@ -272,7 +250,7 @@ public class PackageVersionBuildInformationMappedResource extends BaseResource {
   }
 
 
-  public PackageVersionBuildInformationMappedResource vcsRoot(String vcsRoot) {
+  public BuildInformationResource vcsRoot(String vcsRoot) {
     
     this.vcsRoot = vcsRoot;
     return this;
@@ -287,7 +265,7 @@ public class PackageVersionBuildInformationMappedResource extends BaseResource {
   }
 
 
-  public PackageVersionBuildInformationMappedResource vcsType(String vcsType) {
+  public BuildInformationResource vcsType(String vcsType) {
     
     this.vcsType = vcsType;
     return this;
@@ -302,28 +280,13 @@ public class PackageVersionBuildInformationMappedResource extends BaseResource {
   }
 
 
-  public PackageVersionBuildInformationMappedResource version(String version) {
-    
-    this.version = version;
-    return this;
-  }
-
-  public String getVersion() {
-    return version;
-  }
-
-  public void setVersion(String version) {
-    this.version = version;
-  }
-
-
-  public PackageVersionBuildInformationMappedResource workItems(List<WorkItemLink> workItems) {
+  public BuildInformationResource workItems(List<WorkItemLink> workItems) {
     
     this.workItems = workItems;
     return this;
   }
 
-  public PackageVersionBuildInformationMappedResource addWorkItemsItem(WorkItemLink workItemsItem) {
+  public BuildInformationResource addWorkItemsItem(WorkItemLink workItemsItem) {
     if (this.workItems == null) {
       this.workItems = new ArrayList<>();
     }
@@ -348,29 +311,27 @@ public class PackageVersionBuildInformationMappedResource extends BaseResource {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    PackageVersionBuildInformationMappedResource packageVersionBuildInformationMappedResource = (PackageVersionBuildInformationMappedResource) o;
-    return Objects.equals(this.branch, packageVersionBuildInformationMappedResource.branch) &&
-        Objects.equals(this.buildEnvironment, packageVersionBuildInformationMappedResource.buildEnvironment) &&
-        Objects.equals(this.buildNumber, packageVersionBuildInformationMappedResource.buildNumber) &&
-        Objects.equals(this.buildUrl, packageVersionBuildInformationMappedResource.buildUrl) &&
-        Objects.equals(this.commits, packageVersionBuildInformationMappedResource.commits) &&
-        Objects.equals(this.created, packageVersionBuildInformationMappedResource.created) &&
-        Objects.equals(this.incompleteDataWarning, packageVersionBuildInformationMappedResource.incompleteDataWarning) &&
-        Objects.equals(this.issueTrackerName, packageVersionBuildInformationMappedResource.issueTrackerName) &&
-        Objects.equals(this.lastModifiedBy, packageVersionBuildInformationMappedResource.lastModifiedBy) &&
-        Objects.equals(this.lastModifiedOn, packageVersionBuildInformationMappedResource.lastModifiedOn) &&
-        Objects.equals(this.packageId, packageVersionBuildInformationMappedResource.packageId) &&
-        Objects.equals(this.vcsCommitNumber, packageVersionBuildInformationMappedResource.vcsCommitNumber) &&
-        Objects.equals(this.vcsCommitUrl, packageVersionBuildInformationMappedResource.vcsCommitUrl) &&
-        Objects.equals(this.vcsRoot, packageVersionBuildInformationMappedResource.vcsRoot) &&
-        Objects.equals(this.vcsType, packageVersionBuildInformationMappedResource.vcsType) &&
-        Objects.equals(this.version, packageVersionBuildInformationMappedResource.version) &&
-        Objects.equals(this.workItems, packageVersionBuildInformationMappedResource.workItems);
+    BuildInformationResource buildInformationResource = (BuildInformationResource) o;
+    return Objects.equals(this.branch, buildInformationResource.branch) &&
+        Objects.equals(this.buildEnvironment, buildInformationResource.buildEnvironment) &&
+        Objects.equals(this.buildNumber, buildInformationResource.buildNumber) &&
+        Objects.equals(this.buildUrl, buildInformationResource.buildUrl) &&
+        Objects.equals(this.commits, buildInformationResource.commits) &&
+        Objects.equals(this.created, buildInformationResource.created) &&
+        Objects.equals(this.incompleteDataWarning, buildInformationResource.incompleteDataWarning) &&
+        Objects.equals(this.issueTrackerName, buildInformationResource.issueTrackerName) &&
+        Objects.equals(this.lastModifiedBy, buildInformationResource.lastModifiedBy) &&
+        Objects.equals(this.lastModifiedOn, buildInformationResource.lastModifiedOn) &&
+        Objects.equals(this.vcsCommitNumber, buildInformationResource.vcsCommitNumber) &&
+        Objects.equals(this.vcsCommitUrl, buildInformationResource.vcsCommitUrl) &&
+        Objects.equals(this.vcsRoot, buildInformationResource.vcsRoot) &&
+        Objects.equals(this.vcsType, buildInformationResource.vcsType) &&
+        Objects.equals(this.workItems, buildInformationResource.workItems);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(branch, buildEnvironment, buildNumber, buildUrl, commits, created, incompleteDataWarning, issueTrackerName, lastModifiedBy, lastModifiedOn, packageId, vcsCommitNumber, vcsCommitUrl, vcsRoot, vcsType, version, workItems);
+    return Objects.hash(branch, buildEnvironment, buildNumber, buildUrl, commits, created, incompleteDataWarning, issueTrackerName, lastModifiedBy, lastModifiedOn, vcsCommitNumber, vcsCommitUrl, vcsRoot, vcsType, workItems);
   }
 
   @Override
@@ -387,12 +348,10 @@ public class PackageVersionBuildInformationMappedResource extends BaseResource {
     sb.append("    issueTrackerName: ").append(toIndentedString(issueTrackerName)).append("\n");
     sb.append("    lastModifiedBy: ").append(toIndentedString(lastModifiedBy)).append("\n");
     sb.append("    lastModifiedOn: ").append(toIndentedString(lastModifiedOn)).append("\n");
-    sb.append("    packageId: ").append(toIndentedString(packageId)).append("\n");
     sb.append("    vcsCommitNumber: ").append(toIndentedString(vcsCommitNumber)).append("\n");
     sb.append("    vcsCommitUrl: ").append(toIndentedString(vcsCommitUrl)).append("\n");
     sb.append("    vcsRoot: ").append(toIndentedString(vcsRoot)).append("\n");
     sb.append("    vcsType: ").append(toIndentedString(vcsType)).append("\n");
-    sb.append("    version: ").append(toIndentedString(version)).append("\n");
     sb.append("    workItems: ").append(toIndentedString(workItems)).append("\n");
     sb.append("}");
     return sb.toString();

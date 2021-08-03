@@ -18,7 +18,8 @@ package com.octopus.sdk.api;
 import com.google.common.base.Preconditions;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
-import com.octopus.sdk.model.buildinformation.PackageVersionBuildInformationMappedResource;
+import com.octopus.sdk.model.buildinformation.BuildInformationResource;
+import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
 import com.octopus.sdk.model.buildinformation.PackageVersionBuildInformationMappedResourcePaginatedCollection;
 import com.octopus.sdk.model.spaces.SpaceHome;
 
@@ -29,31 +30,36 @@ import java.util.Map;
 
 import static java.util.Collections.singletonList;
 
-public class BuildInformationApi extends BaseResourceApi<PackageVersionBuildInformationMappedResource,
+public class BuildInformationApi extends BaseResourceApi<OctopusPackageVersionBuildInformation,
     PackageVersionBuildInformationMappedResourcePaginatedCollection> {
 
   public BuildInformationApi(final OctopusClient client, final String rootPath) {
-    super(client, rootPath, PackageVersionBuildInformationMappedResource.class,
+    super(client, rootPath, OctopusPackageVersionBuildInformation.class,
         PackageVersionBuildInformationMappedResourcePaginatedCollection.class);
   }
 
   public static BuildInformationApi create(final OctopusClient client, final SpaceHome spaceHome) {
     Preconditions.checkNotNull(client, "Supplied a null client");
-    Preconditions.checkNotNull(spaceHome, "Cannot create a project in a space with a 'null' space");
+    Preconditions.checkNotNull(spaceHome, "Cannot create a BuildInformationApi in a space with a 'null' space");
     return new BuildInformationApi(client, spaceHome.getBuildInformationLink());
   }
 
-  public PackageVersionBuildInformationMappedResource create(
-      final PackageVersionBuildInformationMappedResource resource, String overWriteMode) throws IOException {
+  @Override
+  public OctopusPackageVersionBuildInformation create(
+      final OctopusPackageVersionBuildInformation resourceToCreate) throws IOException {
+    throw new UnsupportedOperationException("Build Information cannot be created without specifying an overwriteMode");
+  }
+
+  public OctopusPackageVersionBuildInformation create(
+      final OctopusPackageVersionBuildInformation resource, final OverwriteMode overWriteMode) throws IOException {
     final Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put("overwriteMode", singletonList(overWriteMode));
+    queryParams.put("overwriteMode", singletonList(overWriteMode.toString()));
     return client.post(new RequestEndpoint(rootPath, queryParams), resource,
-        PackageVersionBuildInformationMappedResource.class);
+        OctopusPackageVersionBuildInformation.class);
   }
 
   @Override
-  public PackageVersionBuildInformationMappedResource update(
-      final PackageVersionBuildInformationMappedResource resource) {
+  public OctopusPackageVersionBuildInformation update(final OctopusPackageVersionBuildInformation resource) {
     throw new UnsupportedOperationException(
         "Build Information cannot be updated - it must be re-created with " + "overwriteMode=overwrite");
   }

@@ -16,12 +16,11 @@
 package com.octopus.sdk.model.buildinformation;
 
 import com.octopus.sdk.model.PaginatedCollection;
-import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 
 import java.util.List;
 import java.util.Map;
 
-public class PackageVersionBuildInformationMappedResourcePaginatedCollection extends PaginatedCollection<PackageVersionBuildInformationMappedResource> {
+public class PackageVersionBuildInformationMappedResourcePaginatedCollection extends PaginatedCollection<OctopusPackageVersionBuildInformation> {
 
   public PackageVersionBuildInformationMappedResourcePaginatedCollection(
       final Map<String, String> rawLinks,
@@ -29,7 +28,7 @@ public class PackageVersionBuildInformationMappedResourcePaginatedCollection ext
       final int itemsPerPage,
       final int numberOfPages,
       final int pageNumber,
-      final List<PackageVersionBuildInformationMappedResource> items) {
+      final List<OctopusPackageVersionBuildInformation> items) {
     super(rawLinks, totalResults, itemsPerPage, numberOfPages, pageNumber, items);
   }
 }

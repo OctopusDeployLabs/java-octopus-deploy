@@ -20,7 +20,7 @@ import com.octopus.sdk.model.spaces.SpaceOverviewPaginatedCollection;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 
 public class SpacesOverviewApi
-    extends BaseNamedResourceApi<SpaceOverviewWithLinks, SpaceOverviewPaginatedCollection> {
+    extends SymmetricApi<SpaceOverviewWithLinks, SpaceOverviewPaginatedCollection> {
 
   protected SpacesOverviewApi(final OctopusClient client, final String rootPath) {
     super(client, rootPath, SpaceOverviewWithLinks.class, SpaceOverviewPaginatedCollection.class);

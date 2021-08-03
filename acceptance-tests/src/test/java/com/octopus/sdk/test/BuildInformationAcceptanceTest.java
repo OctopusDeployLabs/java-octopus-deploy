@@ -28,13 +28,13 @@ import com.octopus.sdk.http.OctopusClientFactory;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.buildinformation.BuildInformationResource;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
+import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformationMappedResource;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
-import java.util.Optional;
 
 import com.google.common.collect.Sets;
 import org.junit.jupiter.api.AfterEach;
@@ -87,20 +87,18 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
     resource.withVersion("1.0");
     resource.withResource(buildInfo);
 
-    final OctopusPackageVersionBuildInformation response = buildInfoApi.create(resource, OverwriteMode.FailIfExists);
+    final OctopusPackageVersionBuildInformationMappedResource response = buildInfoApi.create(resource,
+        OverwriteMode.FailIfExists);
     assertThat(response).isNotNull();
     assertThat(response.getPackageId()).isEqualTo(resource.getPackageId());
     assertThat(response.getVersion()).isEqualTo(resource.getVersion());
-    assertThat(response.getBuildInformation().getBuildEnvironment()).isEqualTo(
-        resource.getBuildInformation().getBuildEnvironment());
-    assertThat(response.getBuildInformation().getBuildNumber()).isEqualTo(
-        resource.getBuildInformation().getBuildNumber());
-    assertThat(response.getBuildInformation().getBuildUrl()).isEqualTo(resource.getBuildInformation().getBuildUrl());
-    assertThat(response.getBuildInformation().getBranch()).isEqualTo(resource.getBuildInformation().getBranch());
-    assertThat(response.getBuildInformation().getVcsType()).isEqualTo(resource.getBuildInformation().getVcsType());
-    assertThat(response.getBuildInformation().getVcsCommitNumber()).isEqualTo(
-        resource.getBuildInformation().getVcsCommitNumber());
-    assertThat(response.getBuildInformation().getCommits()).containsAll(resource.getBuildInformation().getCommits());
+    assertThat(response.getBuildEnvironment()).isEqualTo(resource.getBuildInformation().getBuildEnvironment());
+    assertThat(response.getBuildNumber()).isEqualTo(resource.getBuildInformation().getBuildNumber());
+    assertThat(response.getBuildUrl()).isEqualTo(resource.getBuildInformation().getBuildUrl());
+    assertThat(response.getBranch()).isEqualTo(resource.getBuildInformation().getBranch());
+    assertThat(response.getVcsType()).isEqualTo(resource.getBuildInformation().getVcsType());
+    assertThat(response.getVcsCommitNumber()).isEqualTo(resource.getBuildInformation().getVcsCommitNumber());
+    assertThat(response.getCommits()).containsAll(resource.getBuildInformation().getCommits());
   }
 
   @Test
@@ -114,21 +112,20 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
     resource.withVersion("1.0");
     resource.withResource(buildInfo);
 
-    final OctopusPackageVersionBuildInformation createdBuildInfo = buildInfoApi.create(resource,
-        OverwriteMode.FailIfExists);
+    final OctopusPackageVersionBuildInformationMappedResource createdBuildInfo =
+        buildInfoApi.create(resource, OverwriteMode.FailIfExists);
     buildInfo.buildUrl("differentURL");
 
-    assertThatThrownBy(() -> buildInfoApi.create(resource, OverwriteMode.FailIfExists)).isInstanceOf(HttpException.class);
+    assertThatThrownBy(() -> buildInfoApi.create(resource, OverwriteMode.FailIfExists))
+        .isInstanceOf(HttpException.class);
 
-    final OctopusPackageVersionBuildInformation response = buildInfoApi.create(resource, OverwriteMode.OverwriteExisting);
-    final Optional<OctopusPackageVersionBuildInformation> fetchedBuildInfo = buildInfoApi.getById(response.getId());
-    assertThat(fetchedBuildInfo).isNotEmpty();
-    assertThat(fetchedBuildInfo.get().getBuildInformation().getBuildUrl()).isEqualTo("differentURL");
+    final OctopusPackageVersionBuildInformationMappedResource response =
+        buildInfoApi.create(resource, OverwriteMode.OverwriteExisting);
+    assertThat(response.getBuildUrl()).isEqualTo("differentURL");
   }
 
   @Test
-  public void willFailIfOverWriteModeIsFailAndBuildInfoAlreadyExists() {
-  }
+  public void willFailIfOverWriteModeIsFailAndBuildInfoAlreadyExists() {}
 
   private BuildInformationResource createValidBuildInformation() {
     final BuildInformationResource buildInfo = new BuildInformationResource();

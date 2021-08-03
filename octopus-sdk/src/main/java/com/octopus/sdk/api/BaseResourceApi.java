@@ -32,8 +32,10 @@ import com.google.gson.JsonSyntaxException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
-public class BaseResourceApi<CREATE_TYPE extends BaseResource, RESPONSE_TYPE extends BaseResource,PAGINATION_TYPE extends PaginatedCollection<RESPONSE_TYPE>> {
+public class BaseResourceApi<
+    CREATE_TYPE extends BaseResource,
+    RESPONSE_TYPE extends BaseResource,
+    PAGINATION_TYPE extends PaginatedCollection<RESPONSE_TYPE>> {
 
   private static final Logger LOG = LogManager.getLogger();
 
@@ -88,13 +90,15 @@ public class BaseResourceApi<CREATE_TYPE extends BaseResource, RESPONSE_TYPE ext
     return client.post(RequestEndpoint.fromPath(rootPath), resourceToCreate, responseType);
   }
 
-  public List<RESPONSE_TYPE> getByQuery(final Map<String, List<String>> queryParams) throws IOException {
+  public List<RESPONSE_TYPE> getByQuery(final Map<String, List<String>> queryParams)
+      throws IOException {
     final RequestEndpoint endpoint = new RequestEndpoint(rootPath, queryParams);
     final PAGINATION_TYPE itemCollection = client.get(endpoint, collectionType);
     return getItemsFromPages(itemCollection);
   }
 
-  protected List<RESPONSE_TYPE> getItemsFromPages(final PAGINATION_TYPE collection) throws IOException {
+  protected List<RESPONSE_TYPE> getItemsFromPages(final PAGINATION_TYPE collection)
+      throws IOException {
     final List<RESPONSE_TYPE> result = Lists.newArrayList(collection.getItems());
     PAGINATION_TYPE localCollection = collection;
 

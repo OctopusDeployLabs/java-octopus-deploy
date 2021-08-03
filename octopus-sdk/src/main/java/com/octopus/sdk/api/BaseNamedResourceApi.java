@@ -19,7 +19,6 @@ import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
 
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.BaseResource;
 import com.octopus.sdk.model.NamedResource;
 import com.octopus.sdk.model.PaginatedCollection;
 
@@ -30,8 +29,10 @@ import java.util.stream.Collectors;
 
 import com.google.common.base.Preconditions;
 
-public abstract class BaseNamedResourceApi<CREATE_TYPE extends NamedResource, RESPONSE_TYPE extends NamedResource,
-    PAGINATION_TYPE extends PaginatedCollection<RESPONSE_TYPE>>
+public abstract class BaseNamedResourceApi<
+        CREATE_TYPE extends NamedResource,
+        RESPONSE_TYPE extends NamedResource,
+        PAGINATION_TYPE extends PaginatedCollection<RESPONSE_TYPE>>
     extends BaseResourceApi<CREATE_TYPE, RESPONSE_TYPE, PAGINATION_TYPE> {
 
   public BaseNamedResourceApi(

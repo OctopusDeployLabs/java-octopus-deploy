@@ -31,9 +31,11 @@ import java.util.Map;
 
 import com.google.common.base.Preconditions;
 
-public class BuildInformationApi extends BaseResourceApi<OctopusPackageVersionBuildInformation,
-    OctopusPackageVersionBuildInformationMappedResource,
-    PackageVersionBuildInformationMappedResourcePaginatedCollection> {
+public class BuildInformationApi
+    extends BaseResourceApi<
+        OctopusPackageVersionBuildInformation,
+        OctopusPackageVersionBuildInformationMappedResource,
+        PackageVersionBuildInformationMappedResourcePaginatedCollection> {
 
   public BuildInformationApi(final OctopusClient client, final String rootPath) {
     super(

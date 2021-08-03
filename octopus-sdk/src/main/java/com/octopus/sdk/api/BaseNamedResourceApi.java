@@ -19,6 +19,7 @@ import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
 
 import com.octopus.sdk.http.OctopusClient;
+import com.octopus.sdk.model.BaseResource;
 import com.octopus.sdk.model.NamedResource;
 import com.octopus.sdk.model.PaginatedCollection;
 
@@ -29,29 +30,29 @@ import java.util.stream.Collectors;
 
 import com.google.common.base.Preconditions;
 
-public abstract class BaseNamedResourceApi<
-        T extends NamedResource, U extends PaginatedCollection<T>>
-    extends BaseResourceApi<T, U> {
+public abstract class BaseNamedResourceApi<CREATE_TYPE extends NamedResource, RESPONSE_TYPE extends NamedResource,
+    PAGINATION_TYPE extends PaginatedCollection<RESPONSE_TYPE>>
+    extends BaseResourceApi<CREATE_TYPE, RESPONSE_TYPE, PAGINATION_TYPE> {
 
   public BaseNamedResourceApi(
       final OctopusClient client,
       final String rootPath,
-      final Class<T> resourceType,
-      final Class<U> collectionType) {
+      final Class<RESPONSE_TYPE> resourceType,
+      final Class<PAGINATION_TYPE> collectionType) {
     super(client, rootPath, resourceType, collectionType);
   }
 
-  public List<T> getByPartialName(final String partialName) throws IOException {
+  public List<RESPONSE_TYPE> getByPartialName(final String partialName) throws IOException {
     Preconditions.checkNotNull(partialName, "Cannot search for a project with a null partial name");
     return getByQuery(singletonMap("partialName", singletonList(partialName)));
   }
 
-  public Optional<T> getByName(final String completeName) throws IOException {
+  public Optional<RESPONSE_TYPE> getByName(final String completeName) throws IOException {
     Preconditions.checkNotNull(completeName, "Cannot search for a space with a null name");
 
-    final List<T> partialNameMatch = getByPartialName(completeName);
+    final List<RESPONSE_TYPE> partialNameMatch = getByPartialName(completeName);
 
-    final List<T> exactNameMatch =
+    final List<RESPONSE_TYPE> exactNameMatch =
         partialNameMatch.stream()
             .filter(sr -> sr.getName().equals(completeName))
             .collect(Collectors.toList());

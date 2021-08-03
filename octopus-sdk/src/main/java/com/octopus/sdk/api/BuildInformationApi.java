@@ -20,6 +20,7 @@ import static java.util.Collections.singletonList;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
+import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformationMappedResource;
 import com.octopus.sdk.model.buildinformation.PackageVersionBuildInformationMappedResourcePaginatedCollection;
 import com.octopus.sdk.model.spaces.SpaceHome;
 
@@ -30,16 +31,15 @@ import java.util.Map;
 
 import com.google.common.base.Preconditions;
 
-public class BuildInformationApi
-    extends BaseResourceApi<
-        OctopusPackageVersionBuildInformation,
-        PackageVersionBuildInformationMappedResourcePaginatedCollection> {
+public class BuildInformationApi extends BaseResourceApi<OctopusPackageVersionBuildInformation,
+    OctopusPackageVersionBuildInformationMappedResource,
+    PackageVersionBuildInformationMappedResourcePaginatedCollection> {
 
   public BuildInformationApi(final OctopusClient client, final String rootPath) {
     super(
         client,
         rootPath,
-        OctopusPackageVersionBuildInformation.class,
+        OctopusPackageVersionBuildInformationMappedResource.class,
         PackageVersionBuildInformationMappedResourcePaginatedCollection.class);
   }
 
@@ -51,13 +51,13 @@ public class BuildInformationApi
   }
 
   @Override
-  public OctopusPackageVersionBuildInformation create(
+  public OctopusPackageVersionBuildInformationMappedResource create(
       final OctopusPackageVersionBuildInformation resourceToCreate) throws IOException {
     throw new UnsupportedOperationException(
         "Build Information cannot be created without specifying an overwriteMode");
   }
 
-  public OctopusPackageVersionBuildInformation create(
+  public OctopusPackageVersionBuildInformationMappedResource create(
       final OctopusPackageVersionBuildInformation resource, final OverwriteMode overWriteMode)
       throws IOException {
     final Map<String, List<String>> queryParams = new HashMap<>();
@@ -65,11 +65,11 @@ public class BuildInformationApi
     return client.post(
         new RequestEndpoint(rootPath, queryParams),
         resource,
-        OctopusPackageVersionBuildInformation.class);
+        OctopusPackageVersionBuildInformationMappedResource.class);
   }
 
   @Override
-  public OctopusPackageVersionBuildInformation update(
+  public OctopusPackageVersionBuildInformationMappedResource update(
       final OctopusPackageVersionBuildInformation resource) {
     throw new UnsupportedOperationException(
         "Build Information cannot be updated - it must be re-created with "

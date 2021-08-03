@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PackageVersionBuildInformationMappedResourcePaginatedCollection
-    extends PaginatedCollection<OctopusPackageVersionBuildInformation> {
+    extends PaginatedCollection<OctopusPackageVersionBuildInformationMappedResource> {
 
   public PackageVersionBuildInformationMappedResourcePaginatedCollection(
       final Map<String, String> rawLinks,
@@ -29,7 +29,7 @@ public class PackageVersionBuildInformationMappedResourcePaginatedCollection
       final int itemsPerPage,
       final int numberOfPages,
       final int pageNumber,
-      final List<OctopusPackageVersionBuildInformation> items) {
+      final List<OctopusPackageVersionBuildInformationMappedResource> items) {
     super(rawLinks, totalResults, itemsPerPage, numberOfPages, pageNumber, items);
   }
 }

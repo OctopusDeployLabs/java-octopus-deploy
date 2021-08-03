@@ -28,7 +28,7 @@ public class OctopusPackageVersionBuildInformation extends BaseResource {
   private String version = null;
 
   @SerializedName("OctopusBuildInformation")
-  private BuildInformationResource resource = null;
+  private BuildInformationResource buildInformation = null;
 
   public OctopusPackageVersionBuildInformation() {}
 
@@ -44,7 +44,19 @@ public class OctopusPackageVersionBuildInformation extends BaseResource {
 
   public OctopusPackageVersionBuildInformation withResource(
       final BuildInformationResource resource) {
-    this.resource = resource;
+    this.buildInformation = resource;
     return this;
+  }
+
+  public String getPackageId() {
+    return packageId;
+  }
+
+  public String getVersion() {
+    return version;
+  }
+
+  public BuildInformationResource getBuildInformation() {
+    return buildInformation;
   }
 }

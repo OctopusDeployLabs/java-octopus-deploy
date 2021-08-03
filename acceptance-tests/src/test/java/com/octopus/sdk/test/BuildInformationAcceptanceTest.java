@@ -16,11 +16,13 @@
 package com.octopus.sdk.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.octopus.sdk.api.BuildInformationApi;
 import com.octopus.sdk.api.OverwriteMode;
 import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.api.UsersApi;
+import com.octopus.sdk.http.HttpException;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.OctopusClientFactory;
 import com.octopus.sdk.http.RequestEndpoint;
@@ -32,6 +34,7 @@ import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
+import java.util.Optional;
 
 import com.google.common.collect.Sets;
 import org.junit.jupiter.api.AfterEach;
@@ -76,8 +79,59 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
   @Test
   public void canCreatBuildInformationOnServer() throws IOException {
     final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);
-    final BuildInformationResource buildInfo = new BuildInformationResource();
+    final BuildInformationResource buildInfo = createValidBuildInformation();
 
+    final OctopusPackageVersionBuildInformation resource =
+        new OctopusPackageVersionBuildInformation();
+    resource.withPackageId("packageId");
+    resource.withVersion("1.0");
+    resource.withResource(buildInfo);
+
+    final OctopusPackageVersionBuildInformation response = buildInfoApi.create(resource, OverwriteMode.FailIfExists);
+    assertThat(response).isNotNull();
+    assertThat(response.getPackageId()).isEqualTo(resource.getPackageId());
+    assertThat(response.getVersion()).isEqualTo(resource.getVersion());
+    assertThat(response.getBuildInformation().getBuildEnvironment()).isEqualTo(
+        resource.getBuildInformation().getBuildEnvironment());
+    assertThat(response.getBuildInformation().getBuildNumber()).isEqualTo(
+        resource.getBuildInformation().getBuildNumber());
+    assertThat(response.getBuildInformation().getBuildUrl()).isEqualTo(resource.getBuildInformation().getBuildUrl());
+    assertThat(response.getBuildInformation().getBranch()).isEqualTo(resource.getBuildInformation().getBranch());
+    assertThat(response.getBuildInformation().getVcsType()).isEqualTo(resource.getBuildInformation().getVcsType());
+    assertThat(response.getBuildInformation().getVcsCommitNumber()).isEqualTo(
+        resource.getBuildInformation().getVcsCommitNumber());
+    assertThat(response.getBuildInformation().getCommits()).containsAll(resource.getBuildInformation().getCommits());
+  }
+
+  @Test
+  public void canOverwriteBuildInformationOnServer() throws IOException {
+    final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);
+    final BuildInformationResource buildInfo = createValidBuildInformation();
+
+    final OctopusPackageVersionBuildInformation resource =
+        new OctopusPackageVersionBuildInformation();
+    resource.withPackageId("packageId");
+    resource.withVersion("1.0");
+    resource.withResource(buildInfo);
+
+    final OctopusPackageVersionBuildInformation createdBuildInfo = buildInfoApi.create(resource,
+        OverwriteMode.FailIfExists);
+    buildInfo.buildUrl("differentURL");
+
+    assertThatThrownBy(() -> buildInfoApi.create(resource, OverwriteMode.FailIfExists)).isInstanceOf(HttpException.class);
+
+    final OctopusPackageVersionBuildInformation response = buildInfoApi.create(resource, OverwriteMode.OverwriteExisting);
+    final Optional<OctopusPackageVersionBuildInformation> fetchedBuildInfo = buildInfoApi.getById(response.getId());
+    assertThat(fetchedBuildInfo).isNotEmpty();
+    assertThat(fetchedBuildInfo.get().getBuildInformation().getBuildUrl()).isEqualTo("differentURL");
+  }
+
+  @Test
+  public void willFailIfOverWriteModeIsFailAndBuildInfoAlreadyExists() {
+  }
+
+  private BuildInformationResource createValidBuildInformation() {
+    final BuildInformationResource buildInfo = new BuildInformationResource();
     buildInfo
         .buildEnvironment("TeamCity")
         .buildNumber("12345")
@@ -87,21 +141,6 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
         .vcsRoot("https://github.com/OctopusDeploy/Octopus-TeamCity.git")
         .vcsCommitNumber("12345")
         .commits(Collections.emptyList());
-
-    final OctopusPackageVersionBuildInformation resource =
-        new OctopusPackageVersionBuildInformation();
-    resource.withPackageId("packageId");
-    resource.withVersion("1.0");
-    resource.withResource(buildInfo);
-
-    final OctopusPackageVersionBuildInformation response =
-        buildInfoApi.create(resource, OverwriteMode.FailIfExists);
-    assertThat(response).isNotNull();
+    return buildInfo;
   }
-
-  @Test
-  public void canOverwriteBuildInformationOnServer() {}
-
-  @Test
-  public void willFailIfOverWriteModeIsFailAndBuildInfoAlreadyExists() {}
 }

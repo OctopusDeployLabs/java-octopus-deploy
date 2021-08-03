@@ -32,31 +32,32 @@ import com.google.gson.JsonSyntaxException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class BaseResourceApi<T extends BaseResource, U extends PaginatedCollection<T>> {
+
+public class BaseResourceApi<CREATE_TYPE extends BaseResource, RESPONSE_TYPE extends BaseResource,PAGINATION_TYPE extends PaginatedCollection<RESPONSE_TYPE>> {
 
   private static final Logger LOG = LogManager.getLogger();
 
   protected final OctopusClient client;
   protected final String rootPath;
-  private final Class<T> resourceType;
-  private final Class<U> collectionType;
+  private final Class<RESPONSE_TYPE> responseType;
+  private final Class<PAGINATION_TYPE> collectionType;
 
   public BaseResourceApi(
       final OctopusClient client,
       final String rootPath,
-      final Class<T> resourceType,
-      final Class<U> collectionType) {
+      final Class<RESPONSE_TYPE> responseType,
+      final Class<PAGINATION_TYPE> collectionType) {
     this.client = client;
     this.rootPath = rootPath;
-    this.resourceType = resourceType;
+    this.responseType = responseType;
     this.collectionType = collectionType;
   }
 
-  public Optional<T> getById(final String id) throws IOException {
+  public Optional<RESPONSE_TYPE> getById(final String id) throws IOException {
     Preconditions.checkNotNull(id, "Cannot provide a resource with a null id");
     final String spacePath = String.format("%s/%s", rootPath, id);
     try {
-      final T overview = client.get(RequestEndpoint.fromPath(spacePath), resourceType);
+      final RESPONSE_TYPE overview = client.get(RequestEndpoint.fromPath(spacePath), responseType);
       return Optional.of(overview);
     } catch (final HttpException e) {
       LOG.error(
@@ -74,28 +75,28 @@ public class BaseResourceApi<T extends BaseResource, U extends PaginatedCollecti
     }
   }
 
-  public void delete(final T resource) throws IOException {
+  public void delete(final CREATE_TYPE resource) throws IOException {
     client.delete(RequestEndpoint.fromPath(resource.getSelfLink()));
   }
 
-  public T update(final T resourceToUpdate) throws IOException {
+  public RESPONSE_TYPE update(final CREATE_TYPE resourceToUpdate) throws IOException {
     return client.put(
-        RequestEndpoint.fromPath(resourceToUpdate.getSelfLink()), resourceToUpdate, resourceType);
+        RequestEndpoint.fromPath(resourceToUpdate.getSelfLink()), resourceToUpdate, responseType);
   }
 
-  public T create(final T resourceToCreate) throws IOException {
-    return client.post(RequestEndpoint.fromPath(rootPath), resourceToCreate, resourceType);
+  public RESPONSE_TYPE create(final CREATE_TYPE resourceToCreate) throws IOException {
+    return client.post(RequestEndpoint.fromPath(rootPath), resourceToCreate, responseType);
   }
 
-  public List<T> getByQuery(final Map<String, List<String>> queryParams) throws IOException {
+  public List<RESPONSE_TYPE> getByQuery(final Map<String, List<String>> queryParams) throws IOException {
     final RequestEndpoint endpoint = new RequestEndpoint(rootPath, queryParams);
-    final U itemCollection = client.get(endpoint, collectionType);
+    final PAGINATION_TYPE itemCollection = client.get(endpoint, collectionType);
     return getItemsFromPages(itemCollection);
   }
 
-  protected List<T> getItemsFromPages(final U collection) throws IOException {
-    final List<T> result = Lists.newArrayList(collection.getItems());
-    U localCollection = collection;
+  protected List<RESPONSE_TYPE> getItemsFromPages(final PAGINATION_TYPE collection) throws IOException {
+    final List<RESPONSE_TYPE> result = Lists.newArrayList(collection.getItems());
+    PAGINATION_TYPE localCollection = collection;
 
     while (localCollection.getPageNext() != null) {
       localCollection =

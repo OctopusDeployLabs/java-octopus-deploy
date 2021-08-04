@@ -25,6 +25,8 @@ import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.support.TestHelpers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.RequestDefinition;
@@ -78,8 +80,9 @@ class BuildInformationApiTest {
         .isInstanceOf(UnsupportedOperationException.class);
   }
 
-  @Test
-  public void creatingNewBuildInformationHitsCorrectEndpoint() throws IOException {
+  @ParameterizedTest
+  @EnumSource(OverwriteMode.class)
+  public void creatingNewBuildInformationHitsCorrectEndpoint(final OverwriteMode mode) throws IOException {
     final SpaceHome spaceHome = new SpaceHome(Map.of("BuildInformation",
         "/api/Spaces-1/build-information{/id}{?packageId,filter,latest,skip,take,overwriteMode}"));
     final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);
@@ -93,8 +96,7 @@ class BuildInformationApiTest {
     mockOctopusServer.when(request())
         .respond(response().withStatusCode(200).withBody(gson.toJson(buildResponse(buildInfo))));
 
-    final OctopusPackageVersionBuildInformationMappedResource response = buildInfoApi.create(resourceToSend,
-        OverwriteMode.OverwriteExisting);
+    final OctopusPackageVersionBuildInformationMappedResource response = buildInfoApi.create(resourceToSend, mode);
 
     //check that the mockServer received a request with appropriateQueryParams etc.
     final RequestDefinition[] requestsReceivedAtServer = mockOctopusServer.retrieveRecordedRequests(request());
@@ -102,8 +104,7 @@ class BuildInformationApiTest {
     assertThat(requestsReceivedAtServer[0]).isInstanceOf(HttpRequest.class);
     final HttpRequest request = (HttpRequest) requestsReceivedAtServer[0];
     assertThat(request.getPath().toString()).isEqualTo("/api/Spaces-1/build-information");
-    assertThat(request.getQueryStringParameters().getValues("OverwriteMode")).containsExactly(
-        OverwriteMode.OverwriteExisting.toString());
+    assertThat(request.getQueryStringParameters().getValues("OverwriteMode")).containsExactly(mode.toString());
 
     final OctopusPackageVersionBuildInformation capturedRequestBody =
         gson.fromJson(request.getBodyAsString(), OctopusPackageVersionBuildInformation.class);
@@ -111,7 +112,6 @@ class BuildInformationApiTest {
     assertThat(request.getMethod().toString()).isEqualTo("POST");
 
     assertThat(response).usingRecursiveComparison().isEqualTo(buildResponse(buildInfo));
-
   }
 
   private BuildInformationResource createValidBuildInformation() {

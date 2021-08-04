@@ -87,7 +87,7 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
         new OctopusPackageVersionBuildInformation();
     resource.withPackageId("packageId");
     resource.withVersion("1.0");
-    resource.withResource(buildInfo);
+    resource.withBuildInformation(buildInfo);
 
     final OctopusPackageVersionBuildInformationMappedResource response =
         buildInfoApi.create(resource, OverwriteMode.FailIfExists);
@@ -115,7 +115,7 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
         new OctopusPackageVersionBuildInformation();
     resource.withPackageId("packageId");
     resource.withVersion("1.0");
-    resource.withResource(buildInfo);
+    resource.withBuildInformation(buildInfo);
 
     buildInfoApi.create(resource, OverwriteMode.FailIfExists);
 
@@ -135,7 +135,7 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
         new OctopusPackageVersionBuildInformation();
     resource.withPackageId("packageId");
     resource.withVersion("1.0");
-    resource.withResource(buildInfo);
+    resource.withBuildInformation(buildInfo);
 
     buildInfoApi.create(resource, OverwriteMode.FailIfExists);
 
@@ -155,7 +155,7 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
         new OctopusPackageVersionBuildInformation();
     resource.withPackageId("packageId");
     resource.withVersion("1.0");
-    resource.withResource(buildInfo);
+    resource.withBuildInformation(buildInfo);
 
     buildInfoApi.create(resource, OverwriteMode.FailIfExists);
 

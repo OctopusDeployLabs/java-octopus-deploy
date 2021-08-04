@@ -42,9 +42,9 @@ public class OctopusPackageVersionBuildInformation extends BaseResource {
     return this;
   }
 
-  public OctopusPackageVersionBuildInformation withResource(
-      final BuildInformationResource resource) {
-    this.buildInformation = resource;
+  public OctopusPackageVersionBuildInformation withBuildInformation(
+      final BuildInformationResource buildInformation) {
+    this.buildInformation = buildInformation;
     return this;
   }
 

@@ -15,25 +15,25 @@
 
 package com.octopus.sdk.api;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.packages.PackageFromBuiltInFeedResource;
 import com.octopus.sdk.model.packages.PackagePaginationedCollection;
 import com.octopus.sdk.model.packages.PackageResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
-import okhttp3.Request;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PackagesApi extends BaseResourceApi<PackageResourceWithLinks, PackageResourceWithLinks,
-    PackagePaginationedCollection> {
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
+
+public class PackagesApi
+    extends BaseResourceApi<
+        PackageResourceWithLinks, PackageResourceWithLinks, PackagePaginationedCollection> {
 
   private final String creationPath;
 
@@ -44,19 +44,19 @@ public class PackagesApi extends BaseResourceApi<PackageResourceWithLinks, Packa
 
   public static PackagesApi create(final OctopusClient client, final SpaceHome spaceHome) {
     Preconditions.checkNotNull(client, "Supplied a null client");
-    Preconditions.checkNotNull(spaceHome, "Cannot create a Packages API in a space with a 'null' space");
+    Preconditions.checkNotNull(
+        spaceHome, "Cannot create a Packages API in a space with a 'null' space");
     return new PackagesApi(client, spaceHome.getPackagesLink(), spaceHome.getPackageUploadLink());
   }
 
   public PackageFromBuiltInFeedResource create(final File fileToUpload) throws IOException {
-    return client.postStream(RequestEndpoint.fromPath(creationPath), fileToUpload,
-        PackageFromBuiltInFeedResource.class);
+    return client.postStream(
+        RequestEndpoint.fromPath(creationPath), fileToUpload, PackageFromBuiltInFeedResource.class);
   }
-
 
   public PackageFromBuiltInFeedResource update(final File fileToUpload) throws IOException {
     final Map<String, List<String>> queryParams = new HashMap<>();
-        queryParams.put("overwriteMode", Lists.newArrayList("OverwriteExisting"));
+    queryParams.put("overwriteMode", Lists.newArrayList("OverwriteExisting"));
     final RequestEndpoint endpoint = new RequestEndpoint(creationPath, queryParams);
 
     return client.postStream(endpoint, fileToUpload, PackageFromBuiltInFeedResource.class);
@@ -64,12 +64,14 @@ public class PackagesApi extends BaseResourceApi<PackageResourceWithLinks, Packa
 
   @Override
   public PackageResourceWithLinks create(final PackageResourceWithLinks input) {
-    throw new UnsupportedOperationException("Packages cannot be created via this interface, it must be conducted via "
-        + "the PackageUpload capability");
+    throw new UnsupportedOperationException(
+        "Packages cannot be created via this interface, it must be conducted via "
+            + "the PackageUpload capability");
   }
 
   @Override
   public PackageResourceWithLinks update(final PackageResourceWithLinks input) {
-    throw new UnsupportedOperationException("Packages cannot be updated via this interface, it must be conducted via");
+    throw new UnsupportedOperationException(
+        "Packages cannot be updated via this interface, it must be conducted via");
   }
 }

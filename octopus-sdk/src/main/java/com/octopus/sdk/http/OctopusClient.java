@@ -16,7 +16,6 @@
 package com.octopus.sdk.http;
 
 import static java.util.Collections.singletonList;
-import static javax.swing.text.html.HTML.Tag.FORM;
 
 import com.octopus.sdk.model.RootDocument;
 import com.octopus.sdk.model.login.LoginBody;
@@ -106,13 +105,16 @@ public class OctopusClient {
     return executeCall(call, responseType);
   }
 
-  public <U> U postStream(final RequestEndpoint endpoint, final File file, final Class<U> responseType)
+  public <U> U postStream(
+      final RequestEndpoint endpoint, final File file, final Class<U> responseType)
       throws IOException {
-    final RequestBody streamingBody = RequestBody.create(file, MediaType.parse("application/octet-stream"));
-    final MultipartBody multipartBody = new MultipartBody.Builder()
-        .setType(MultipartBody.FORM)
-        .addFormDataPart("file", file.getName(), streamingBody)
-        .build();
+    final RequestBody streamingBody =
+        RequestBody.create(file, MediaType.parse("application/octet-stream"));
+    final MultipartBody multipartBody =
+        new MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("file", file.getName(), streamingBody)
+            .build();
 
     final Call call = createCall(endpoint, "POST", multipartBody);
     return executeCall(call, responseType);
@@ -152,7 +154,8 @@ public class OctopusClient {
     return createCall(endpoint, method, body);
   }
 
-  private Call createCall(final RequestEndpoint endpoint, final String method, final RequestBody body) {
+  private Call createCall(
+      final RequestEndpoint endpoint, final String method, final RequestBody body) {
     final String url = generateUrl(endpoint);
     final Request.Builder builder = new Request.Builder().method(method, body).url(url);
     requiredHeaders.forEach(
@@ -160,7 +163,6 @@ public class OctopusClient {
             items.forEach(headerVal -> builder.addHeader(headerName, headerVal)));
     return httpClient.newCall(builder.build());
   }
-
 
   private <T> T executeCall(final Call call, final Class<T> responseType) throws IOException {
     try (final Response response = call.execute()) {
@@ -189,7 +191,8 @@ public class OctopusClient {
     final LoginBody login = new LoginBody(username, password);
     final String loginPath = getRootDocument().getSignInLink();
 
-    final Call loginCall = createCallWithJsonBody(RequestEndpoint.fromPath(loginPath), "POST", login);
+    final Call loginCall =
+        createCallWithJsonBody(RequestEndpoint.fromPath(loginPath), "POST", login);
     try (final Response response = loginCall.execute()) {
       if (response.isSuccessful()) {
         final String csrfCookieContent = response.headers("Set-Cookie").get(1);

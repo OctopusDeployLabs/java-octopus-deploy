@@ -30,7 +30,8 @@ public class ProjectApi extends SymmetricApi<ProjectResourceWithLinks, ProjectPa
 
   public static ProjectApi create(final OctopusClient client, final SpaceHome spaceHome) {
     Preconditions.checkNotNull(client, "Supplied a null client");
-    Preconditions.checkNotNull(spaceHome, "Cannot create a Projects API in a space with a 'null' space");
+    Preconditions.checkNotNull(
+        spaceHome, "Cannot create a Projects API in a space with a 'null' space");
     return new ProjectApi(client, spaceHome.getProjectsLink());
   }
 }

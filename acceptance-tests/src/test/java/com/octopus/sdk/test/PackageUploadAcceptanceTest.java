@@ -15,7 +15,9 @@
 
 package com.octopus.sdk.test;
 
-import com.google.common.collect.Sets;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.octopus.sdk.api.PackagesApi;
 import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.api.UsersApi;
@@ -26,9 +28,6 @@ import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.packages.PackageFromBuiltInFeedResource;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
-import org.apache.commons.io.FilenameUtils;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
 import java.net.URL;
@@ -36,13 +35,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import com.google.common.collect.Sets;
+import org.apache.commons.io.FilenameUtils;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
 
   @Test
-  public void fileCanBeUploadedAndResponseContainsExpectedSize(@TempDir final Path testDir) throws IOException {
+  public void fileCanBeUploadedAndResponseContainsExpectedSize(@TempDir final Path testDir)
+      throws IOException {
     final OctopusClient client =
         OctopusClientFactory.createClientAt(httpClient, new URL(serverURL), apiKey);
 
@@ -58,15 +60,20 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
       final SpaceHome spaceHome =
           client.get(RequestEndpoint.fromPath(createdSpace.getSpaceHomeLink()), SpaceHome.class);
 
-      final Path packagePath = Files.writeString(testDir.resolve("package.1.2.3.zip"), "FileContent",
-          StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE);
+      final Path packagePath =
+          Files.writeString(
+              testDir.resolve("package.1.2.3.zip"),
+              "FileContent",
+              StandardOpenOption.CREATE_NEW,
+              StandardOpenOption.WRITE);
 
       final PackagesApi packagesApi = PackagesApi.create(client, spaceHome);
 
       final PackageFromBuiltInFeedResource result = packagesApi.create(packagePath.toFile());
 
       assertThat(result.getPackageSizeBytes()).isEqualTo(packagePath.toFile().length());
-      assertThat(result.getFileExtension()).isEqualTo("." + FilenameUtils.getExtension(packagePath.toString()));
+      assertThat(result.getFileExtension())
+          .isEqualTo("." + FilenameUtils.getExtension(packagePath.toString()));
     } finally {
       deleteSpaceValidly(spacesOverviewApi, createdSpace);
     }
@@ -89,13 +96,18 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
       final SpaceHome spaceHome =
           client.get(RequestEndpoint.fromPath(createdSpace.getSpaceHomeLink()), SpaceHome.class);
 
-      final Path packagePath = Files.writeString(testDir.resolve("package.1.2.3.zip"), "FileContent",
-          StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE);
+      final Path packagePath =
+          Files.writeString(
+              testDir.resolve("package.1.2.3.zip"),
+              "FileContent",
+              StandardOpenOption.CREATE_NEW,
+              StandardOpenOption.WRITE);
 
       final PackagesApi packagesApi = PackagesApi.create(client, spaceHome);
 
       packagesApi.create(packagePath.toFile());
-      assertThatThrownBy(() -> packagesApi.create(packagePath.toFile())).isInstanceOf(HttpException.class);
+      assertThatThrownBy(() -> packagesApi.create(packagePath.toFile()))
+          .isInstanceOf(HttpException.class);
 
     } finally {
       deleteSpaceValidly(spacesOverviewApi, createdSpace);
@@ -103,8 +115,8 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
   }
 
   @Test
-  public void canUpdateAGivenPackageWithANewOneWithSameNameAndGetNewHash(@TempDir final Path testDir)
-      throws IOException {
+  public void canUpdateAGivenPackageWithANewOneWithSameNameAndGetNewHash(
+      @TempDir final Path testDir) throws IOException {
     final OctopusClient client =
         OctopusClientFactory.createClientAt(httpClient, new URL(serverURL), apiKey);
 
@@ -122,17 +134,26 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
 
       final String filename = "package.1.2.3.zip";
 
-      final Path packagePath = Files.writeString(testDir.resolve(filename), "FileContent",
-          StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE);
+      final Path packagePath =
+          Files.writeString(
+              testDir.resolve(filename),
+              "FileContent",
+              StandardOpenOption.CREATE_NEW,
+              StandardOpenOption.WRITE);
 
       final PackagesApi packagesApi = PackagesApi.create(client, spaceHome);
 
       final PackageFromBuiltInFeedResource initialResult = packagesApi.create(packagePath.toFile());
 
-      final Path newPackagePath = Files.writeString(testDir.resolve(filename), "DifferentContent",
-          StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+      final Path newPackagePath =
+          Files.writeString(
+              testDir.resolve(filename),
+              "DifferentContent",
+              StandardOpenOption.CREATE,
+              StandardOpenOption.WRITE);
 
-      final PackageFromBuiltInFeedResource updateResult = packagesApi.update(newPackagePath.toFile());
+      final PackageFromBuiltInFeedResource updateResult =
+          packagesApi.update(newPackagePath.toFile());
 
       assertThat(updateResult.getHash()).isNotEqualTo(initialResult.getHash());
 

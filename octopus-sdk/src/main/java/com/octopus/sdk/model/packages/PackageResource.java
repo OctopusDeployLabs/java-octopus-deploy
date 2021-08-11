@@ -2,18 +2,15 @@
 
 package com.octopus.sdk.model.packages;
 
-import com.google.gson.annotations.SerializedName;
 import com.octopus.openapi.model.OctopusPackageVersionBuildInformationMappedResource;
 import com.octopus.sdk.model.BaseResource;
 
 import java.time.OffsetDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
-/**
- * PackageResource
- */
+import com.google.gson.annotations.SerializedName;
+
+/** PackageResource */
 @SuppressWarnings("UnusedVariable")
 public class PackageResource extends BaseResource {
   @SerializedName("Description")
@@ -58,8 +55,6 @@ public class PackageResource extends BaseResource {
   @SerializedName("Version")
   private String version;
 
-
-
   public PackageResource description(String description) {
 
     this.description = description;
@@ -73,7 +68,6 @@ public class PackageResource extends BaseResource {
   public void setDescription(String description) {
     this.description = description;
   }
-
 
   public PackageResource feedId(String feedId) {
 
@@ -89,7 +83,6 @@ public class PackageResource extends BaseResource {
     this.feedId = feedId;
   }
 
-
   public PackageResource fileExtension(String fileExtension) {
 
     this.fileExtension = fileExtension;
@@ -103,7 +96,6 @@ public class PackageResource extends BaseResource {
   public void setFileExtension(String fileExtension) {
     this.fileExtension = fileExtension;
   }
-
 
   public PackageResource lastModifiedBy(String lastModifiedBy) {
 
@@ -119,7 +111,6 @@ public class PackageResource extends BaseResource {
     this.lastModifiedBy = lastModifiedBy;
   }
 
-
   public PackageResource lastModifiedOn(OffsetDateTime lastModifiedOn) {
 
     this.lastModifiedOn = lastModifiedOn;
@@ -133,7 +124,6 @@ public class PackageResource extends BaseResource {
   public void setLastModifiedOn(OffsetDateTime lastModifiedOn) {
     this.lastModifiedOn = lastModifiedOn;
   }
-
 
   public PackageResource nuGetFeedId(String nuGetFeedId) {
 
@@ -149,7 +139,6 @@ public class PackageResource extends BaseResource {
     this.nuGetFeedId = nuGetFeedId;
   }
 
-
   public PackageResource nuGetPackageId(String nuGetPackageId) {
 
     this.nuGetPackageId = nuGetPackageId;
@@ -164,7 +153,6 @@ public class PackageResource extends BaseResource {
     this.nuGetPackageId = nuGetPackageId;
   }
 
-
   public PackageResource packageId(String packageId) {
 
     this.packageId = packageId;
@@ -178,7 +166,6 @@ public class PackageResource extends BaseResource {
   public void setPackageId(String packageId) {
     this.packageId = packageId;
   }
-
 
   public PackageResource packageVersionBuildInformation(
       OctopusPackageVersionBuildInformationMappedResource packageVersionBuildInformation) {
@@ -196,7 +183,6 @@ public class PackageResource extends BaseResource {
     this.packageVersionBuildInformation = packageVersionBuildInformation;
   }
 
-
   public PackageResource published(OffsetDateTime published) {
 
     this.published = published;
@@ -210,7 +196,6 @@ public class PackageResource extends BaseResource {
   public void setPublished(OffsetDateTime published) {
     this.published = published;
   }
-
 
   public PackageResource releaseNotes(String releaseNotes) {
 
@@ -226,7 +211,6 @@ public class PackageResource extends BaseResource {
     this.releaseNotes = releaseNotes;
   }
 
-
   public PackageResource summary(String summary) {
 
     this.summary = summary;
@@ -240,7 +224,6 @@ public class PackageResource extends BaseResource {
   public void setSummary(String summary) {
     this.summary = summary;
   }
-
 
   public PackageResource title(String title) {
 
@@ -256,7 +239,6 @@ public class PackageResource extends BaseResource {
     this.title = title;
   }
 
-
   public PackageResource version(String version) {
 
     this.version = version;
@@ -271,7 +253,6 @@ public class PackageResource extends BaseResource {
     this.version = version;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -281,26 +262,40 @@ public class PackageResource extends BaseResource {
       return false;
     }
     PackageResource packageResource = (PackageResource) o;
-    return Objects.equals(this.description, packageResource.description) &&
-        Objects.equals(this.feedId, packageResource.feedId) &&
-        Objects.equals(this.fileExtension, packageResource.fileExtension) &&
-        Objects.equals(this.lastModifiedBy, packageResource.lastModifiedBy) &&
-        Objects.equals(this.lastModifiedOn, packageResource.lastModifiedOn) &&
-        Objects.equals(this.nuGetFeedId, packageResource.nuGetFeedId) &&
-        Objects.equals(this.nuGetPackageId, packageResource.nuGetPackageId) &&
-        Objects.equals(this.packageId, packageResource.packageId) &&
-        Objects.equals(this.packageVersionBuildInformation, packageResource.packageVersionBuildInformation) &&
-        Objects.equals(this.published, packageResource.published) &&
-        Objects.equals(this.releaseNotes, packageResource.releaseNotes) &&
-        Objects.equals(this.summary, packageResource.summary) &&
-        Objects.equals(this.title, packageResource.title) &&
-        Objects.equals(this.version, packageResource.version);
+    return Objects.equals(this.description, packageResource.description)
+        && Objects.equals(this.feedId, packageResource.feedId)
+        && Objects.equals(this.fileExtension, packageResource.fileExtension)
+        && Objects.equals(this.lastModifiedBy, packageResource.lastModifiedBy)
+        && Objects.equals(this.lastModifiedOn, packageResource.lastModifiedOn)
+        && Objects.equals(this.nuGetFeedId, packageResource.nuGetFeedId)
+        && Objects.equals(this.nuGetPackageId, packageResource.nuGetPackageId)
+        && Objects.equals(this.packageId, packageResource.packageId)
+        && Objects.equals(
+            this.packageVersionBuildInformation, packageResource.packageVersionBuildInformation)
+        && Objects.equals(this.published, packageResource.published)
+        && Objects.equals(this.releaseNotes, packageResource.releaseNotes)
+        && Objects.equals(this.summary, packageResource.summary)
+        && Objects.equals(this.title, packageResource.title)
+        && Objects.equals(this.version, packageResource.version);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(description, feedId, fileExtension, lastModifiedBy, lastModifiedOn, nuGetFeedId, nuGetPackageId,
-        packageId, packageVersionBuildInformation, published, releaseNotes, summary, title, version);
+    return Objects.hash(
+        description,
+        feedId,
+        fileExtension,
+        lastModifiedBy,
+        lastModifiedOn,
+        nuGetFeedId,
+        nuGetPackageId,
+        packageId,
+        packageVersionBuildInformation,
+        published,
+        releaseNotes,
+        summary,
+        title,
+        version);
   }
 
   @Override
@@ -328,8 +323,7 @@ public class PackageResource extends BaseResource {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -337,6 +331,4 @@ public class PackageResource extends BaseResource {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
 }
-

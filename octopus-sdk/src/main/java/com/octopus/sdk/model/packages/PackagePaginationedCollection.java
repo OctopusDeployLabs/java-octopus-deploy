@@ -22,9 +22,12 @@ import java.util.Map;
 
 public class PackagePaginationedCollection extends PaginatedCollection<PackageResourceWithLinks> {
 
-  public PackagePaginationedCollection(final Map<String, String> links, final int totalResults,
+  public PackagePaginationedCollection(
+      final Map<String, String> links,
+      final int totalResults,
       final int itemsPerPage,
-      final int numberOfPages, final int pageNumber,
+      final int numberOfPages,
+      final int pageNumber,
       final List<PackageResourceWithLinks> items) {
     super(links, totalResults, itemsPerPage, numberOfPages, pageNumber, items);
   }

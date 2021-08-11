@@ -73,5 +73,4 @@ public class BaseAcceptanceTest {
       spacesOverviewApi.delete(space);
     }
   }
-
 }

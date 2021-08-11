@@ -2,17 +2,11 @@
 
 package com.octopus.sdk.model.packages;
 
-import com.google.gson.annotations.SerializedName;
-import com.octopus.openapi.model.OctopusPackageVersionBuildInformationMappedResource;
-
-import java.time.OffsetDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
-/**
- * PackageFromBuiltInFeedResource
- */
+import com.google.gson.annotations.SerializedName;
+
+/** PackageFromBuiltInFeedResource */
 @SuppressWarnings("UnusedVariable")
 public class PackageFromBuiltInFeedResource extends PackageResource {
 
@@ -23,7 +17,7 @@ public class PackageFromBuiltInFeedResource extends PackageResource {
   private Long packageSizeBytes;
 
   public PackageFromBuiltInFeedResource hash(String hash) {
-    
+
     this.hash = hash;
     return this;
   }
@@ -37,7 +31,7 @@ public class PackageFromBuiltInFeedResource extends PackageResource {
   }
 
   public PackageFromBuiltInFeedResource packageSizeBytes(Long packageSizeBytes) {
-    
+
     this.packageSizeBytes = packageSizeBytes;
     return this;
   }
@@ -58,9 +52,10 @@ public class PackageFromBuiltInFeedResource extends PackageResource {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    PackageFromBuiltInFeedResource packageFromBuiltInFeedResource = (PackageFromBuiltInFeedResource) o;
-    return Objects.equals(this.hash, packageFromBuiltInFeedResource.hash) &&
-        Objects.equals(this.packageSizeBytes, packageFromBuiltInFeedResource.packageSizeBytes);
+    PackageFromBuiltInFeedResource packageFromBuiltInFeedResource =
+        (PackageFromBuiltInFeedResource) o;
+    return Objects.equals(this.hash, packageFromBuiltInFeedResource.hash)
+        && Objects.equals(this.packageSizeBytes, packageFromBuiltInFeedResource.packageSizeBytes);
   }
 
   @Override
@@ -79,8 +74,7 @@ public class PackageFromBuiltInFeedResource extends PackageResource {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -88,6 +82,4 @@ public class PackageFromBuiltInFeedResource extends PackageResource {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
 }
-

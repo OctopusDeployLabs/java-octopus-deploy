@@ -17,11 +17,21 @@ package com.octopus.sdk.model.packages;
 
 public class PackageResourceWithLinks extends PackageResource {
 
-  public PackageResourceWithLinks() {
+  public PackageResourceWithLinks() {}
+
+  public String getAllVersionsLink() {
+    return getCleansedLink("AllVersions");
   }
 
-  public String getAllVersionsLink() { return getCleansedLink("AllVersions"); }
-  public String getFeedLink() { return getCleansedLink("Feed"); }
-  public String getRawLink() { return getCleansedLink("Raw"); }
-  public String getSelfLink() { return getCleansedLink("Self"); }
+  public String getFeedLink() {
+    return getCleansedLink("Feed");
+  }
+
+  public String getRawLink() {
+    return getCleansedLink("Raw");
+  }
+
+  public String getSelfLink() {
+    return getCleansedLink("Self");
+  }
 }

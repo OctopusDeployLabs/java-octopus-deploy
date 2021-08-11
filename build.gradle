@@ -86,7 +86,7 @@ subprojects {
     apply plugin: 'com.diffplug.spotless'
     spotless {
         java {
-            // This path needs to be relative to each project   
+            // This path needs to be relative to each project
             target '**/src/*/java/**/*.java'
             removeUnusedImports()
             googleJavaFormat('1.7')

@@ -19,6 +19,7 @@ import com.google.common.collect.Sets;
 import com.octopus.sdk.api.PackagesApi;
 import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.api.UsersApi;
+import com.octopus.sdk.http.HttpException;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.OctopusClientFactory;
 import com.octopus.sdk.http.RequestEndpoint;
@@ -36,12 +37,12 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
 
-
   @Test
-  public void testFileCanBeUploaded(@TempDir final Path testDir) throws IOException {
+  public void fileCanBeUploadedAndResponseContainsExpectedSize(@TempDir final Path testDir) throws IOException {
     final OctopusClient client =
         OctopusClientFactory.createClientAt(httpClient, new URL(serverURL), apiKey);
 
@@ -66,7 +67,76 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
 
       assertThat(result.getPackageSizeBytes()).isEqualTo(packagePath.toFile().length());
       assertThat(result.getFileExtension()).isEqualTo("." + FilenameUtils.getExtension(packagePath.toString()));
-    }finally {
+    } finally {
+      deleteSpaceValidly(spacesOverviewApi, createdSpace);
+    }
+  }
+
+  @Test
+  public void creatingSameFileTwiceThrowsException(@TempDir final Path testDir) throws IOException {
+    final OctopusClient client =
+        OctopusClientFactory.createClientAt(httpClient, new URL(serverURL), apiKey);
+
+    final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
+    final UsersApi users = UsersApi.create(client);
+
+    final SpaceOverviewWithLinks toCreate = new SpaceOverviewWithLinks();
+    toCreate.setName("ProjectTestSpace");
+    toCreate.setSpaceManagersTeamMembers(Sets.newHashSet(users.getCurrentUser().getId()));
+    final SpaceOverviewWithLinks createdSpace = spacesOverviewApi.create(toCreate);
+    try {
+
+      final SpaceHome spaceHome =
+          client.get(RequestEndpoint.fromPath(createdSpace.getSpaceHomeLink()), SpaceHome.class);
+
+      final Path packagePath = Files.writeString(testDir.resolve("package.1.2.3.zip"), "FileContent",
+          StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE);
+
+      final PackagesApi packagesApi = PackagesApi.create(client, spaceHome);
+
+      packagesApi.create(packagePath.toFile());
+      assertThatThrownBy(() -> packagesApi.create(packagePath.toFile())).isInstanceOf(HttpException.class);
+
+    } finally {
+      deleteSpaceValidly(spacesOverviewApi, createdSpace);
+    }
+  }
+
+  @Test
+  public void canUpdateAGivenPackageWithANewOneWithSameNameAndGetNewHash(@TempDir final Path testDir)
+      throws IOException {
+    final OctopusClient client =
+        OctopusClientFactory.createClientAt(httpClient, new URL(serverURL), apiKey);
+
+    final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
+    final UsersApi users = UsersApi.create(client);
+
+    final SpaceOverviewWithLinks toCreate = new SpaceOverviewWithLinks();
+    toCreate.setName("ProjectTestSpace");
+    toCreate.setSpaceManagersTeamMembers(Sets.newHashSet(users.getCurrentUser().getId()));
+    final SpaceOverviewWithLinks createdSpace = spacesOverviewApi.create(toCreate);
+    try {
+
+      final SpaceHome spaceHome =
+          client.get(RequestEndpoint.fromPath(createdSpace.getSpaceHomeLink()), SpaceHome.class);
+
+      final String filename = "package.1.2.3.zip";
+
+      final Path packagePath = Files.writeString(testDir.resolve(filename), "FileContent",
+          StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE);
+
+      final PackagesApi packagesApi = PackagesApi.create(client, spaceHome);
+
+      final PackageFromBuiltInFeedResource initialResult = packagesApi.create(packagePath.toFile());
+
+      final Path newPackagePath = Files.writeString(testDir.resolve(filename), "DifferentContent",
+          StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+
+      final PackageFromBuiltInFeedResource updateResult = packagesApi.update(newPackagePath.toFile());
+
+      assertThat(updateResult.getHash()).isNotEqualTo(initialResult.getHash());
+
+    } finally {
       deleteSpaceValidly(spacesOverviewApi, createdSpace);
     }
   }

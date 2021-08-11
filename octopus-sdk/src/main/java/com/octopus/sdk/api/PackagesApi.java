@@ -16,15 +16,21 @@
 package com.octopus.sdk.api;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.packages.PackageFromBuiltInFeedResource;
 import com.octopus.sdk.model.packages.PackagePaginationedCollection;
 import com.octopus.sdk.model.packages.PackageResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
+import okhttp3.Request;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PackagesApi extends BaseResourceApi<PackageResourceWithLinks, PackageResourceWithLinks,
     PackagePaginationedCollection> {
@@ -45,6 +51,15 @@ public class PackagesApi extends BaseResourceApi<PackageResourceWithLinks, Packa
   public PackageFromBuiltInFeedResource create(final File fileToUpload) throws IOException {
     return client.postStream(RequestEndpoint.fromPath(creationPath), fileToUpload,
         PackageFromBuiltInFeedResource.class);
+  }
+
+
+  public PackageFromBuiltInFeedResource update(final File fileToUpload) throws IOException {
+    final Map<String, List<String>> queryParams = new HashMap<>();
+        queryParams.put("overwriteMode", Lists.newArrayList("OverwriteExisting"));
+    final RequestEndpoint endpoint = new RequestEndpoint(creationPath, queryParams);
+
+    return client.postStream(endpoint, fileToUpload, PackageFromBuiltInFeedResource.class);
   }
 
   @Override

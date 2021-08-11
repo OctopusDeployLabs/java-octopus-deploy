@@ -52,16 +52,6 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
   private SpaceOverviewWithLinks containingSpace;
   private SpaceHome spaceHome;
 
-  @BeforeAll
-  public static void setup() {
-    try {
-      client = OctopusClientFactory.createClientAt(httpClient, new URL(serverURL), apiKey);
-      users = UsersApi.create(client);
-    } catch (final Exception e) {
-      throw new RuntimeException("Unable to construct required dependencies for test.", e);
-    }
-  }
-
   @AfterEach
   public void cleanup() {
     if (containingSpace != null) {
@@ -74,8 +64,11 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
   }
 
   @BeforeEach
-  public void preTestSetup() {
+  public void localSetup() {
     try {
+      client = OctopusClientFactory.createClientAt(httpClient, new URL(serverURL), apiKey);
+      users = UsersApi.create(client);
+
       final SpaceOverviewWithLinks toCreate = new SpaceOverviewWithLinks();
       toCreate.setName("ProjectTestSpace");
       toCreate.setSpaceManagersTeamMembers(Sets.newHashSet(users.getCurrentUser().getId()));

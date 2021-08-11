@@ -15,7 +15,9 @@
 
 package com.octopus.sdk.test;
 
-import com.google.common.collect.Sets;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.octopus.sdk.api.PackagesApi;
 import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.api.UsersApi;
@@ -26,12 +28,6 @@ import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.packages.PackageFromBuiltInFeedResource;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
-import org.apache.commons.io.FilenameUtils;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
 import java.net.URL;
@@ -39,8 +35,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import com.google.common.collect.Sets;
+import org.apache.commons.io.FilenameUtils;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
 
@@ -79,12 +80,12 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
       toCreate.setName("ProjectTestSpace");
       toCreate.setSpaceManagersTeamMembers(Sets.newHashSet(users.getCurrentUser().getId()));
       containingSpace = spacesOverviewApi.create(toCreate);
-      spaceHome = client.get(RequestEndpoint.fromPath(containingSpace.getSpaceHomeLink()), SpaceHome.class);
+      spaceHome =
+          client.get(RequestEndpoint.fromPath(containingSpace.getSpaceHomeLink()), SpaceHome.class);
     } catch (final Exception e) {
       throw new RuntimeException("Unable to construct required dependencies for test.", e);
     }
   }
-
 
   @Test
   public void fileCanBeUploadedAndResponseContainsExpectedSize(@TempDir final Path testDir)
@@ -119,7 +120,6 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
     packagesApi.create(packagePath.toFile());
     assertThatThrownBy(() -> packagesApi.create(packagePath.toFile()))
         .isInstanceOf(HttpException.class);
-
   }
 
   @Test
@@ -146,8 +146,7 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
             StandardOpenOption.CREATE,
             StandardOpenOption.WRITE);
 
-    final PackageFromBuiltInFeedResource updateResult =
-        packagesApi.update(newPackagePath.toFile());
+    final PackageFromBuiltInFeedResource updateResult = packagesApi.update(newPackagePath.toFile());
 
     assertThat(updateResult.getHash()).isNotEqualTo(initialResult.getHash());
   }

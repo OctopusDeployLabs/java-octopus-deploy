@@ -30,8 +30,4 @@ public class PackageResourceWithLinks extends PackageResource {
   public String getRawLink() {
     return getCleansedLink("Raw");
   }
-
-  public String getSelfLink() {
-    return getCleansedLink("Self");
-  }
 }

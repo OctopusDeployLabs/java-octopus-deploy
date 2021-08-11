@@ -47,7 +47,7 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
   private static OctopusClient client;
   private static UsersApi users;
 
-  private final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
+  private SpacesOverviewApi spacesOverviewApi;
   private SpaceOverviewWithLinks containingSpace;
   private SpaceHome spaceHome;
 
@@ -66,6 +66,7 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
   public void localSetup() {
     try {
       client = OctopusClientFactory.createClientAt(httpClient, new URL(serverURL), apiKey);
+      spacesOverviewApi = SpacesOverviewApi.create(client);
       users = UsersApi.create(client);
 
       final SpaceOverviewWithLinks toCreate = new SpaceOverviewWithLinks();

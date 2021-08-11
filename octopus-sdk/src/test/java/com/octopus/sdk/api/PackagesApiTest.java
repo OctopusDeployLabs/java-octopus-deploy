@@ -27,6 +27,7 @@ import com.octopus.sdk.support.TestHelpers;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,16 +49,16 @@ class PackagesApiTest {
         .respond(response().withStatusCode(200).withBody("NOT YET " + "POPULATED"));
   }
 
+  private Map<String, String> createSpaceHomeLinks() {
+    final Map<String, String> result = new HashMap<>();
+    result.put("Packages", "api/arbitrary-path");
+    result.put("PackageUpload", "api/upload-path");
+    return result;
+  }
+
   @Test
   public void standardCreateFunctionThrowsUnsupportedException() {
-    final SpaceHome spaceHome =
-        new SpaceHome(
-            new HashMap<String, String>() {
-              {
-                put("Packages", "api/arbitrary-path");
-                put("PackageUPload", "api/upload-path");
-              }
-            });
+    final SpaceHome spaceHome = new SpaceHome(createSpaceHomeLinks());
     final PackagesApi api = PackagesApi.create(client, spaceHome);
 
     assertThatThrownBy(() -> api.create(new PackageResourceWithLinks()))
@@ -66,14 +67,7 @@ class PackagesApiTest {
 
   @Test
   public void standardUpdateFunctionThrowsUnsupportedException() {
-    final SpaceHome spaceHome =
-        new SpaceHome(
-            new HashMap<String, String>() {
-              {
-                put("Packages", "api/arbitrary-path");
-                put("PackageUPload", "api/upload-path");
-              }
-            });
+    final SpaceHome spaceHome = new SpaceHome(createSpaceHomeLinks());
     final PackagesApi api = PackagesApi.create(client, spaceHome);
 
     assertThatThrownBy(() -> api.update(new PackageResourceWithLinks()))

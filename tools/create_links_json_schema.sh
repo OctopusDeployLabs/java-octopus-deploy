@@ -34,7 +34,3 @@ echo \"properties\": {
 wrapStringInFunc $LINKS_CONTENT
 echo }
 echo }
-
-#SUB_LINKS=`echo $CONTENT | jq '.Items[0].Links'`
-#SUB_LINK_CLASS_NAME=${INPUT}Item
-#createClassFromLinksBLock "$SUB_LINK_CLASS_NAME" "$SUB_LINKS"

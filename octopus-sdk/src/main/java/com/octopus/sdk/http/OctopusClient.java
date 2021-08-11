@@ -16,10 +16,12 @@
 package com.octopus.sdk.http;
 
 import static java.util.Collections.singletonList;
+import static javax.swing.text.html.HTML.Tag.FORM;
 
 import com.octopus.sdk.model.RootDocument;
 import com.octopus.sdk.model.login.LoginBody;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -36,6 +38,7 @@ import com.google.gson.JsonSyntaxException;
 import okhttp3.Call;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -99,14 +102,26 @@ public class OctopusClient {
   public <T, U> U post(
       final RequestEndpoint endpoint, final T bodyObject, final Class<U> responseType)
       throws IOException {
-    final Call call = createCall(endpoint, "POST", bodyObject);
+    final Call call = createCallWithJsonBody(endpoint, "POST", bodyObject);
+    return executeCall(call, responseType);
+  }
+
+  public <U> U postStream(final RequestEndpoint endpoint, final File file, final Class<U> responseType)
+      throws IOException {
+    final RequestBody streamingBody = RequestBody.create(file, MediaType.parse("application/octet-stream"));
+    final MultipartBody multipartBody = new MultipartBody.Builder()
+        .setType(MultipartBody.FORM)
+        .addFormDataPart("file", file.getName(), streamingBody)
+        .build();
+
+    final Call call = createCall(endpoint, "POST", multipartBody);
     return executeCall(call, responseType);
   }
 
   public <T, U> U put(
       final RequestEndpoint endpoint, final T bodyObject, final Class<U> responseType)
       throws IOException {
-    final Call call = createCall(endpoint, "PUT", bodyObject);
+    final Call call = createCallWithJsonBody(endpoint, "PUT", bodyObject);
     return executeCall(call, responseType);
   }
 
@@ -127,20 +142,25 @@ public class OctopusClient {
     return builder.build().url().toString().replace("//", "/");
   }
 
-  private <T> Call createCall(
+  private <T> Call createCallWithJsonBody(
       final RequestEndpoint endpoint, final String method, final T bodyObject) {
 
-    final String url = generateUrl(endpoint);
     RequestBody body = null;
     if (bodyObject != null) {
       body = RequestBody.create(MediaType.parse("application/json"), gson.toJson(bodyObject));
     }
+    return createCall(endpoint, method, body);
+  }
+
+  private Call createCall(final RequestEndpoint endpoint, final String method, final RequestBody body) {
+    final String url = generateUrl(endpoint);
     final Request.Builder builder = new Request.Builder().method(method, body).url(url);
     requiredHeaders.forEach(
         (headerName, items) ->
             items.forEach(headerVal -> builder.addHeader(headerName, headerVal)));
     return httpClient.newCall(builder.build());
   }
+
 
   private <T> T executeCall(final Call call, final Class<T> responseType) throws IOException {
     try (final Response response = call.execute()) {
@@ -169,7 +189,7 @@ public class OctopusClient {
     final LoginBody login = new LoginBody(username, password);
     final String loginPath = getRootDocument().getSignInLink();
 
-    final Call loginCall = createCall(RequestEndpoint.fromPath(loginPath), "POST", login);
+    final Call loginCall = createCallWithJsonBody(RequestEndpoint.fromPath(loginPath), "POST", login);
     try (final Response response = loginCall.execute()) {
       if (response.isSuccessful()) {
         final String csrfCookieContent = response.headers("Set-Cookie").get(1);

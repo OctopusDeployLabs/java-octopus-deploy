@@ -37,7 +37,8 @@ public class PackagesApi
 
   private final String creationPath;
 
-  public PackagesApi(final OctopusClient client, final String rootPath, final String creationPath) {
+  protected PackagesApi(
+      final OctopusClient client, final String rootPath, final String creationPath) {
     super(client, rootPath, PackageResourceWithLinks.class, PackagePaginationedCollection.class);
     this.creationPath = creationPath;
   }

@@ -39,7 +39,7 @@ public class SampleOperations {
       final Optional<String> spaceName, final String projectName) throws IOException {
     final SpaceHome spaceHome = determineSpaceHome(spaceName);
 
-    final ProjectApi projectApi = new ProjectApi(client, spaceHome.getProjectsLink());
+    final ProjectApi projectApi = ProjectApi.create(client, spaceHome);
     final Optional<ProjectResourceWithLinks> project = projectApi.getByName(projectName);
     if (!project.isPresent()) {
       final String errorMsg =

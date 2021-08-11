@@ -30,7 +30,7 @@ public class UsersApi {
   private final UserResourceCollection resources;
   private final OctopusClient client;
 
-  public UsersApi(final OctopusClient client, final UserResourceCollection resources) {
+  protected UsersApi(final OctopusClient client, final UserResourceCollection resources) {
     this.resources = resources;
     this.client = client;
   }

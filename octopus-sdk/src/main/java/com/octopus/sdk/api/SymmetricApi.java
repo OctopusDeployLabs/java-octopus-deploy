@@ -24,7 +24,7 @@ public class SymmetricApi<
         PAGINATION_TYPE extends PaginatedCollection<RESOURCE_TYPE>>
     extends BaseNamedResourceApi<RESOURCE_TYPE, RESOURCE_TYPE, PAGINATION_TYPE> {
 
-  public SymmetricApi(
+  protected SymmetricApi(
       final OctopusClient client,
       final String rootPath,
       final Class<RESOURCE_TYPE> responseType,

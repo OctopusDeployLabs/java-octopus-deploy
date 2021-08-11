@@ -24,7 +24,7 @@ import com.google.common.base.Preconditions;
 
 public class ProjectApi extends SymmetricApi<ProjectResourceWithLinks, ProjectPaginatedCollection> {
 
-  public ProjectApi(final OctopusClient client, final String rootPath) {
+  protected ProjectApi(final OctopusClient client, final String rootPath) {
     super(client, rootPath, ProjectResourceWithLinks.class, ProjectPaginatedCollection.class);
   }
 

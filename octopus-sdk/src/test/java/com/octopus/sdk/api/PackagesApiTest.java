@@ -59,7 +59,7 @@ class PackagesApiTest {
   @Test
   public void standardCreateFunctionThrowsUnsupportedException() {
     final SpaceHome spaceHome = new SpaceHome(createSpaceHomeLinks());
-    final PackagesApi api = PackagesApi.create(client, spaceHome);
+    final PackagesApi api = PackagesApi.uploadPackage(client, spaceHome);
 
     assertThatThrownBy(() -> api.create(new PackageResourceWithLinks()))
         .isInstanceOf(UnsupportedOperationException.class);
@@ -68,7 +68,7 @@ class PackagesApiTest {
   @Test
   public void standardUpdateFunctionThrowsUnsupportedException() {
     final SpaceHome spaceHome = new SpaceHome(createSpaceHomeLinks());
-    final PackagesApi api = PackagesApi.create(client, spaceHome);
+    final PackagesApi api = PackagesApi.uploadPackage(client, spaceHome);
 
     assertThatThrownBy(() -> api.update(new PackageResourceWithLinks()))
         .isInstanceOf(UnsupportedOperationException.class);

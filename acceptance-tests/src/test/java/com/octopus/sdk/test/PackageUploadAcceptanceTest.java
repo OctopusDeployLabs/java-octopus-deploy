@@ -18,6 +18,7 @@ package com.octopus.sdk.test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.octopus.sdk.api.OverwriteMode;
 import com.octopus.sdk.api.PackagesApi;
 import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.api.UsersApi;
@@ -90,9 +91,10 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
             StandardOpenOption.CREATE_NEW,
             StandardOpenOption.WRITE);
 
-    final PackagesApi packagesApi = PackagesApi.create(client, spaceHome);
+    final PackagesApi packagesApi = PackagesApi.uploadPackage(client, spaceHome);
 
-    final PackageFromBuiltInFeedResource result = packagesApi.create(packagePath.toFile());
+    final PackageFromBuiltInFeedResource result =
+        packagesApi.uploadPackage(packagePath.toFile(), OverwriteMode.OverwriteExisting);
 
     assertThat(result.getPackageSizeBytes()).isEqualTo(packagePath.toFile().length());
     assertThat(result.getFileExtension())
@@ -100,7 +102,8 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
   }
 
   @Test
-  public void creatingSameFileTwiceThrowsException(@TempDir final Path testDir) throws IOException {
+  public void overwritingFaildFailsIfConfiuredToFail(@TempDir final Path testDir)
+      throws IOException {
     final Path packagePath =
         Files.writeString(
             testDir.resolve("package.1.2.3.zip"),
@@ -108,16 +111,16 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
             StandardOpenOption.CREATE_NEW,
             StandardOpenOption.WRITE);
 
-    final PackagesApi packagesApi = PackagesApi.create(client, spaceHome);
+    final PackagesApi packagesApi = PackagesApi.uploadPackage(client, spaceHome);
 
-    packagesApi.create(packagePath.toFile());
-    assertThatThrownBy(() -> packagesApi.create(packagePath.toFile()))
+    packagesApi.uploadPackage(packagePath.toFile(), OverwriteMode.OverwriteExisting);
+    assertThatThrownBy(
+            () -> packagesApi.uploadPackage(packagePath.toFile(), OverwriteMode.FailIfExists))
         .isInstanceOf(HttpException.class);
   }
 
   @Test
-  public void canUpdateAGivenPackageWithANewOneWithSameNameAndGetNewHash(
-      @TempDir final Path testDir) throws IOException {
+  public void canOverwriteAnExistingPackage(@TempDir final Path testDir) throws IOException {
 
     final String filename = "package.1.2.3.zip";
 
@@ -128,9 +131,10 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
             StandardOpenOption.CREATE_NEW,
             StandardOpenOption.WRITE);
 
-    final PackagesApi packagesApi = PackagesApi.create(client, spaceHome);
+    final PackagesApi packagesApi = PackagesApi.uploadPackage(client, spaceHome);
 
-    final PackageFromBuiltInFeedResource initialResult = packagesApi.create(packagePath.toFile());
+    final PackageFromBuiltInFeedResource initialResult =
+        packagesApi.uploadPackage(packagePath.toFile(), OverwriteMode.OverwriteExisting);
 
     final Path newPackagePath =
         Files.writeString(
@@ -139,7 +143,8 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
             StandardOpenOption.CREATE,
             StandardOpenOption.WRITE);
 
-    final PackageFromBuiltInFeedResource updateResult = packagesApi.update(newPackagePath.toFile());
+    final PackageFromBuiltInFeedResource updateResult =
+        packagesApi.uploadPackage(newPackagePath.toFile(), OverwriteMode.OverwriteExisting);
 
     assertThat(updateResult.getHash()).isNotEqualTo(initialResult.getHash());
   }

@@ -43,21 +43,17 @@ public class PackagesApi
     this.creationPath = creationPath;
   }
 
-  public static PackagesApi create(final OctopusClient client, final SpaceHome spaceHome) {
+  public static PackagesApi uploadPackage(final OctopusClient client, final SpaceHome spaceHome) {
     Preconditions.checkNotNull(client, "Supplied a null client");
     Preconditions.checkNotNull(
         spaceHome, "Cannot create a Packages API in a space with a 'null' space");
     return new PackagesApi(client, spaceHome.getPackagesLink(), spaceHome.getPackageUploadLink());
   }
 
-  public PackageFromBuiltInFeedResource create(final File fileToUpload) throws IOException {
-    return client.postStream(
-        RequestEndpoint.fromPath(creationPath), fileToUpload, PackageFromBuiltInFeedResource.class);
-  }
-
-  public PackageFromBuiltInFeedResource update(final File fileToUpload) throws IOException {
+  public PackageFromBuiltInFeedResource uploadPackage(
+      final File fileToUpload, final OverwriteMode overwriteMode) throws IOException {
     final Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put("overwriteMode", Lists.newArrayList("OverwriteExisting"));
+    queryParams.put("overwriteMode", Lists.newArrayList(overwriteMode.toString()));
     final RequestEndpoint endpoint = new RequestEndpoint(creationPath, queryParams);
 
     return client.postStream(endpoint, fileToUpload, PackageFromBuiltInFeedResource.class);

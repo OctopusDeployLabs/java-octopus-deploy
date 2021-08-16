@@ -11,7 +11,7 @@
  * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
  * CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- */
+ */spaceHome
 
 package com.octopus.sdk.api;
 
@@ -49,6 +49,8 @@ public class BaseResourceApi<
       final String rootPath,
       final Class<RESPONSE_TYPE> responseType,
       final Class<PAGINATION_TYPE> collectionType) {
+    Preconditions.checkNotNull(client, "Cannot create a BaseResourceApi with a null client");
+    Preconditions.checkNotNull(rootPath, "Cannot create a BaseResourceApi with a null root path");
     this.client = client;
     this.rootPath = rootPath;
     this.responseType = responseType;

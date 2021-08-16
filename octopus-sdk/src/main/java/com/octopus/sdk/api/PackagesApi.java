@@ -43,7 +43,7 @@ public class PackagesApi
     this.creationPath = creationPath;
   }
 
-  public static PackagesApi uploadPackage(final OctopusClient client, final SpaceHome spaceHome) {
+  public static PackagesApi create(final OctopusClient client, final SpaceHome spaceHome) {
     Preconditions.checkNotNull(client, "Supplied a null client");
     Preconditions.checkNotNull(
         spaceHome, "Cannot create a Packages API in a space with a 'null' space");

@@ -91,7 +91,7 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
             StandardOpenOption.CREATE_NEW,
             StandardOpenOption.WRITE);
 
-    final PackagesApi packagesApi = PackagesApi.uploadPackage(client, spaceHome);
+    final PackagesApi packagesApi = PackagesApi.create(client, spaceHome);
 
     final PackageFromBuiltInFeedResource result =
         packagesApi.uploadPackage(packagePath.toFile(), OverwriteMode.OverwriteExisting);
@@ -111,7 +111,7 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
             StandardOpenOption.CREATE_NEW,
             StandardOpenOption.WRITE);
 
-    final PackagesApi packagesApi = PackagesApi.uploadPackage(client, spaceHome);
+    final PackagesApi packagesApi = PackagesApi.create(client, spaceHome);
 
     packagesApi.uploadPackage(packagePath.toFile(), OverwriteMode.OverwriteExisting);
     assertThatThrownBy(
@@ -131,7 +131,7 @@ public class PackageUploadAcceptanceTest extends BaseAcceptanceTest {
             StandardOpenOption.CREATE_NEW,
             StandardOpenOption.WRITE);
 
-    final PackagesApi packagesApi = PackagesApi.uploadPackage(client, spaceHome);
+    final PackagesApi packagesApi = PackagesApi.create(client, spaceHome);
 
     final PackageFromBuiltInFeedResource initialResult =
         packagesApi.uploadPackage(packagePath.toFile(), OverwriteMode.OverwriteExisting);

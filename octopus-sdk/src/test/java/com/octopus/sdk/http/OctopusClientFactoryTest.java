@@ -52,7 +52,7 @@ class OctopusClientFactoryTest {
 
     final URL serverUrl = createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
 
-    assertThatThrownBy(() -> OctopusClientFactory.createClientAt(new OkHttpClient(), serverUrl, ""))
+    assertThatThrownBy(() -> OctopusClientFactory.createClient(new ConnectData(serverUrl, "")))
         .isInstanceOf(RuntimeException.class);
   }
 
@@ -60,14 +60,15 @@ class OctopusClientFactoryTest {
   public void timeoutWhenFetchingRootDocThrowsHttpException() {
     final ClientAndServer mockOctopusServer = new ClientAndServer(0);
     final URL serverUrl = createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
-    final OkHttpClient httpClient =
-        new OkHttpClient.Builder().callTimeout(Duration.ofMillis(5)).build();
+    final OkHttpClient.Builder builder =
+        new OkHttpClient.Builder().callTimeout(Duration.ofMillis(5));
 
     mockOctopusServer
         .when(request())
         .respond(response().withDelay(Delay.milliseconds(10)).withStatusCode(200));
 
-    assertThatThrownBy(() -> OctopusClientFactory.createClientAt(httpClient, serverUrl, ""))
+    assertThatThrownBy(
+            () -> OctopusClientFactory.createClient(builder, new ConnectData(serverUrl, "")))
         .isInstanceOf(UncheckedIOException.class)
         .hasRootCauseInstanceOf(IOException.class);
   }

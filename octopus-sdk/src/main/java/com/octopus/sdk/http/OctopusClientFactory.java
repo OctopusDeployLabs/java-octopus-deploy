@@ -19,11 +19,15 @@ import com.octopus.sdk.model.RootDocument;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.net.URL;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import okhttp3.Authenticator;
+import okhttp3.Credentials;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -37,10 +41,43 @@ public class OctopusClientFactory {
 
   private static final Logger LOG = LogManager.getLogger();
 
-  public static OctopusClient createClientAt(
-      final OkHttpClient httpClient, final URL serverUrl, final String apiKey) {
-    final RootDocument rootDoc = fetchRootDocument(httpClient, serverUrl);
-    return new OctopusClient(httpClient, serverUrl, rootDoc, apiKey);
+  /* If a client of this library requires specific settings on the httpclient, they can be set on the builder, which
+  is then mutated with proxy data in the connectData - if nothing special is required of the http client, the client
+  can use the function which does not accept the builder*/
+  public static OctopusClient createClient(
+      final OkHttpClient.Builder clientBuilder, final ConnectData connectData) {
+    if (connectData.getProxyData().isPresent()) {
+      addProxy(clientBuilder, connectData.getProxyData().get());
+    }
+
+    final OkHttpClient httpClient = clientBuilder.build();
+    final RootDocument rootDoc = fetchRootDocument(httpClient, connectData.getOctopusServerUrl());
+    return new OctopusClient(
+        httpClient, connectData.getOctopusServerUrl(), rootDoc, connectData.getApiKey());
+  }
+
+  public static OctopusClient createClient(final ConnectData connectData) {
+    Preconditions.checkNotNull(connectData, "Cannot create connection with no connection data");
+    return createClient(new OkHttpClient.Builder(), connectData);
+  }
+
+  private static void addProxy(final OkHttpClient.Builder builder, final ProxyData proxyData) {
+    final URL proxyUrl = proxyData.getProxyUrl();
+    final Proxy proxy =
+        new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyUrl.getHost(), proxyUrl.getPort()));
+    builder.proxy(proxy);
+
+    if (proxyData.getUsername() != null && proxyData.getPassword() != null) {
+      builder.proxyAuthenticator(
+          createAuthenticator(proxyData.getUsername(), proxyData.getPassword()));
+    }
+  }
+
+  private static Authenticator createAuthenticator(final String username, final String password) {
+    return (route, response) -> {
+      String credential = Credentials.basic(username, password);
+      return response.request().newBuilder().header("Proxy-Authorization", credential).build();
+    };
   }
 
   public static RootDocument fetchRootDocument(final OkHttpClient httpClient, final URL serverUrl) {

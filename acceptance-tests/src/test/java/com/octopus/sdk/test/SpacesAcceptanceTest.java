@@ -21,6 +21,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 
 import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.api.UsersApi;
+import com.octopus.sdk.http.ConnectData;
 import com.octopus.sdk.http.HttpException;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.OctopusClientFactory;
@@ -46,7 +47,7 @@ public class SpacesAcceptanceTest extends BaseAcceptanceTest {
   public void throwsHttpExceptionIndicatingNotAuthorisedIfIncorrectApiKey()
       throws MalformedURLException {
     final OctopusClient client =
-        OctopusClientFactory.createClientAt(httpClient, new URL(serverURL), "BadKey");
+        OctopusClientFactory.createClient(new ConnectData(new URL(serverURL), "BadKey"));
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final Throwable thrown = catchThrowable(() -> spacesOverviewApi.getByName("Arbitrary"));
     assertThat(thrown).isInstanceOf(HttpException.class);
@@ -57,7 +58,7 @@ public class SpacesAcceptanceTest extends BaseAcceptanceTest {
   @Test
   public void returnsOptionalEmptyIfNoSpaceWithRequestedNameIsSelected() throws IOException {
     final OctopusClient client =
-        OctopusClientFactory.createClientAt(httpClient, new URL(serverURL), apiKey);
+        OctopusClientFactory.createClient(new ConnectData(new URL(serverURL), apiKey));
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final Optional<SpaceOverviewWithLinks> requestedSpace =
         spacesOverviewApi.getByName("NonExistentSpace");
@@ -69,7 +70,7 @@ public class SpacesAcceptanceTest extends BaseAcceptanceTest {
   public void aSpaceCanBeCreatedAndReturnedByNameAndThenDeleted() throws IOException {
     final String spaceName = "TheTestSpace";
     final OctopusClient client =
-        OctopusClientFactory.createClientAt(httpClient, new URL(serverURL), apiKey);
+        OctopusClientFactory.createClient(new ConnectData(new URL(serverURL), apiKey));
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final UsersApi users = UsersApi.create(client);
 
@@ -99,7 +100,7 @@ public class SpacesAcceptanceTest extends BaseAcceptanceTest {
   @Test
   public void correctlyReturnsAllResultsRegardlessOfPaginationSize() throws IOException {
     final OctopusClient client =
-        OctopusClientFactory.createClientAt(httpClient, new URL(serverURL), apiKey);
+        OctopusClientFactory.createClient(new ConnectData(new URL(serverURL), apiKey));
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final UsersApi users = UsersApi.create(client);
 

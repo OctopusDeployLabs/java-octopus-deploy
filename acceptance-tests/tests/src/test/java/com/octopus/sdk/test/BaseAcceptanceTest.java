@@ -16,13 +16,12 @@
 package com.octopus.sdk.test;
 
 import com.octopus.sdk.api.SpacesOverviewApi;
-import com.octopus.sdk.dsl.OctopusDeployServer;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
+import com.octopus.testsupport.OctopusDeployServer;
 
 import java.io.IOException;
 import java.util.Optional;
 
-import okhttp3.OkHttpClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterAll;
@@ -40,7 +39,6 @@ public class BaseAcceptanceTest {
   protected static String apiKey = "API-D62EQ9I4EVET1E2LJUBKEHLNBYWMO3";
 
   protected static OctopusDeployServer server;
-  protected static final OkHttpClient httpClient = new OkHttpClient();
 
   @BeforeAll
   public static void setup() throws IOException {

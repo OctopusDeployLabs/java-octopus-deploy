@@ -13,7 +13,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.dsl;
+package com.octopus.testsupport;
 
 import com.octopus.sdk.api.LicenseApi;
 import com.octopus.sdk.api.UsersApi;

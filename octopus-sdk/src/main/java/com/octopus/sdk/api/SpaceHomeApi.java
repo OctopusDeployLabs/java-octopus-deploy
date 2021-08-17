@@ -21,11 +21,47 @@ import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 
 import java.io.IOException;
+import java.util.Optional;
+
+import com.google.common.base.Preconditions;
 
 public class SpaceHomeApi {
 
-  public static SpaceHome getSpaceHome(
-      final OctopusClient client, final SpaceOverviewWithLinks spaceOverview) throws IOException {
+  private final OctopusClient client;
+
+  public SpaceHomeApi(final OctopusClient client) {
+    this.client = client;
+  }
+
+  public SpaceHome getSpaceHome(final String spaceName) throws IOException {
+    Preconditions.checkNotNull(
+        spaceName, "Cannot find space with a null name (empty implies default)");
+    if (spaceName.isEmpty()) {
+      if (client.defaultSpaceAvailable()) {
+        return client.getRootDocument();
+      }
+      final String error =
+          String.format(
+              "No space was defined for the build step, but Octopus Server at %s has no "
+                  + "default space available. Either enable a default space on Octopus server, or specify a space "
+                  + "name in the build step configuration",
+              client.getServerUrl());
+      throw new IllegalArgumentException(error);
+    }
+
+    final SpacesOverviewApi spacesApi = SpacesOverviewApi.create(client);
+    final Optional<SpaceOverviewWithLinks> containingSpace = spacesApi.getByName(spaceName);
+    if (!containingSpace.isPresent()) {
+      final String error =
+          String.format(
+              "No space with name '%s' exists on server '%s'", spaceName, client.getServerUrl());
+      throw new IllegalArgumentException(error);
+    }
+
+    return getSpaceHome(containingSpace.get());
+  }
+
+  public SpaceHome getSpaceHome(final SpaceOverviewWithLinks spaceOverview) throws IOException {
     return client.get(RequestEndpoint.fromPath(spaceOverview.getSpaceHomeLink()), SpaceHome.class);
   }
 }

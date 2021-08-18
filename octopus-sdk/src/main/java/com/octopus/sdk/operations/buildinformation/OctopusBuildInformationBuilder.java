@@ -14,15 +14,15 @@
  */
 package com.octopus.sdk.operations.buildinformation;
 
-import com.google.common.base.Preconditions;
-import octopus.teamcity.common.OverwriteMode;
+import static java.util.Collections.emptyList;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
-import static java.util.Collections.emptyList;
+import com.google.common.base.Preconditions;
+import octopus.teamcity.common.OverwriteMode;
 
 public class OctopusBuildInformationBuilder {
 
@@ -106,7 +106,8 @@ public class OctopusBuildInformationBuilder {
     return this;
   }
 
-  public octopus.teamcity.agent.buildinformation.OctopusBuildInformation build() throws MalformedURLException, URISyntaxException {
+  public octopus.teamcity.agent.buildinformation.OctopusBuildInformation build()
+      throws MalformedURLException, URISyntaxException {
     Preconditions.checkNotNull(spaceName, "spaceName must be set (even if empty string).");
     Preconditions.checkNotNull(
         packageVersion, "packageVersion must be set on a build information object");

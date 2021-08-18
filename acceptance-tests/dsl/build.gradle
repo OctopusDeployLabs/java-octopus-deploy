@@ -6,6 +6,16 @@ jar {
   archiveBaseName = 'octopus-sdk'
   archiveClassifier = 'test-support'
 }
+//
+//publishing {
+//  publications {
+//    maven(MavenPublication) {
+//      artifactId 'octopus-sdk'
+//
+//      from components.java
+//    }
+//  }
+//}
 
 dependencies {
   implementation project(':octopus-sdk')

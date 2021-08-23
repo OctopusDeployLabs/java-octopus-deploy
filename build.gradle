@@ -48,7 +48,6 @@ def buildAliases = ['dev': [
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'maven-publish'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'net.ltgt.errorprone'
     apply from: "${rootDir}/gradle/versions.gradle"
@@ -104,6 +103,7 @@ subprojects {
         // Below this line are currently only license header tasks
         format 'groovy', { target '**/src/*/grovy/**/*.groovy' }
     }
+
 
     tasks.withType(JavaCompile) {
         doFirst {

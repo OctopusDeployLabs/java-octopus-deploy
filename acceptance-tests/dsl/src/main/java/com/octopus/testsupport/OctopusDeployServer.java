@@ -21,17 +21,18 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.OctopusClientFactory;
 import com.octopus.sdk.model.RootDocument;
 import com.octopus.sdk.model.users.User;
+
+import java.io.IOException;
+import java.net.URL;
+import java.time.Duration;
+import java.time.Instant;
+
 import okhttp3.OkHttpClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.Network;
 import org.testcontainers.utility.DockerImageName;
-
-import java.io.IOException;
-import java.net.URL;
-import java.time.Duration;
-import java.time.Instant;
 
 public class OctopusDeployServer {
 
@@ -95,8 +96,8 @@ public class OctopusDeployServer {
             .withEnv("MSSQL_TCP_PORT", Integer.toString(MS_SQL_PORT))
             .withEnv("ACCEPT_EULA", "Y")
             .withEnv("MSSQL_PID", "Developer");
-            //.waitingFor(
-            //    Wait.forLogMessage(".*SQL Server is now ready for client connections.*", 1));
+    // .waitingFor(
+    //    Wait.forLogMessage(".*SQL Server is now ready for client connections.*", 1));
     LOG.info("MS Sql container: launching");
     msSqlContainer.start();
     LOG.info("MS Sql container: startup complete");
@@ -124,7 +125,7 @@ public class OctopusDeployServer {
             .withEnv("ADMIN_EMAIL", "octopusJavaSdkTest@octopus.com")
             .withEnv("DB_CONNECTION_STRING", connectionStringBuilder.toString())
             .withStartupTimeout(Duration.ofMinutes(2));
-            //.waitingFor(Wait.forLogMessage(".*Web server is ready to process requests.*", 1));
+    // .waitingFor(Wait.forLogMessage(".*Web server is ready to process requests.*", 1));
 
     try {
       LOG.info("Octopus Server container: launching");
@@ -139,7 +140,7 @@ public class OctopusDeployServer {
       final Instant startTime = Instant.now();
       RootDocument rootDoc = null;
       LOG.info("Waiting for rootDoc to be available");
-      while(Duration.between(Instant.now(), startTime).compareTo(Duration.ofSeconds(30)) <= 0) {
+      while (Duration.between(Instant.now(), startTime).compareTo(Duration.ofSeconds(30)) <= 0) {
         try {
           rootDoc = OctopusClientFactory.fetchRootDocument(httpClient, octopusServerUrl);
           break;
@@ -149,7 +150,7 @@ public class OctopusDeployServer {
         }
       }
 
-      if(rootDoc == null) {
+      if (rootDoc == null) {
         throw new RuntimeException("OctopusServer failed to come up in time");
       }
 

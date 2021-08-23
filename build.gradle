@@ -102,6 +102,7 @@ subprojects {
         format 'groovy', { target '**/src/*/grovy/**/*.groovy' }
     }
 
+
     tasks.withType(JavaCompile) {
         doFirst {
             logger.info("From Parent")

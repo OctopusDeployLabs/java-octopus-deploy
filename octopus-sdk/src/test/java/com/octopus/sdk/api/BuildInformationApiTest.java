@@ -15,14 +15,26 @@
 
 package com.octopus.sdk.api;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import static com.octopus.sdk.support.TestHelpers.defaultRootDoc;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.mockserver.model.HttpRequest.request;
+import static org.mockserver.model.HttpResponse.response;
+
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.buildinformation.BuildInformationResource;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformationMappedResource;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.support.TestHelpers;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.Collections;
+import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -30,17 +42,6 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.RequestDefinition;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.Collections;
-import java.util.Map;
-
-import static com.octopus.sdk.support.TestHelpers.defaultRootDoc;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockserver.model.HttpRequest.request;
-import static org.mockserver.model.HttpResponse.response;
 
 class BuildInformationApiTest {
 
@@ -82,29 +83,38 @@ class BuildInformationApiTest {
 
   @ParameterizedTest
   @EnumSource(OverwriteMode.class)
-  public void creatingNewBuildInformationHitsCorrectEndpoint(final OverwriteMode mode) throws IOException {
-    final SpaceHome spaceHome = new SpaceHome(Map.of("BuildInformation",
-        "/api/Spaces-1/build-information{/id}{?packageId,filter,latest,skip,take,overwriteMode}"));
+  public void creatingNewBuildInformationHitsCorrectEndpoint(final OverwriteMode mode)
+      throws IOException {
+    final SpaceHome spaceHome =
+        new SpaceHome(
+            Map.of(
+                "BuildInformation",
+                "/api/Spaces-1/build-information{/id}{?packageId,filter,latest,skip,take,overwriteMode}"));
     final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);
 
     final BuildInformationResource buildInfo = createValidBuildInformation();
-    final OctopusPackageVersionBuildInformation resourceToSend = new OctopusPackageVersionBuildInformation();
+    final OctopusPackageVersionBuildInformation resourceToSend =
+        new OctopusPackageVersionBuildInformation();
     resourceToSend.withBuildInformation(buildInfo);
     resourceToSend.withPackageId("mypackage.com");
     resourceToSend.withVersion("1.0");
 
-    mockOctopusServer.when(request())
+    mockOctopusServer
+        .when(request())
         .respond(response().withStatusCode(200).withBody(gson.toJson(buildResponse(buildInfo))));
 
-    final OctopusPackageVersionBuildInformationMappedResource response = buildInfoApi.create(resourceToSend, mode);
+    final OctopusPackageVersionBuildInformationMappedResource response =
+        buildInfoApi.create(resourceToSend, mode);
 
-    //check that the mockServer received a request with appropriateQueryParams etc.
-    final RequestDefinition[] requestsReceivedAtServer = mockOctopusServer.retrieveRecordedRequests(request());
+    // check that the mockServer received a request with appropriateQueryParams etc.
+    final RequestDefinition[] requestsReceivedAtServer =
+        mockOctopusServer.retrieveRecordedRequests(request());
     assertThat(requestsReceivedAtServer.length).isEqualTo(1);
     assertThat(requestsReceivedAtServer[0]).isInstanceOf(HttpRequest.class);
     final HttpRequest request = (HttpRequest) requestsReceivedAtServer[0];
     assertThat(request.getPath().toString()).isEqualTo("/api/Spaces-1/build-information");
-    assertThat(request.getQueryStringParameters().getValues("OverwriteMode")).containsExactly(mode.toString());
+    assertThat(request.getQueryStringParameters().getValues("OverwriteMode"))
+        .containsExactly(mode.toString());
 
     final OctopusPackageVersionBuildInformation capturedRequestBody =
         gson.fromJson(request.getBodyAsString(), OctopusPackageVersionBuildInformation.class);
@@ -128,10 +138,12 @@ class BuildInformationApiTest {
     return buildInfo;
   }
 
-  private OctopusPackageVersionBuildInformationMappedResource buildResponse(final BuildInformationResource buildInfo) {
+  private OctopusPackageVersionBuildInformationMappedResource buildResponse(
+      final BuildInformationResource buildInfo) {
     final OctopusPackageVersionBuildInformationMappedResource result =
         new OctopusPackageVersionBuildInformationMappedResource();
-    result.buildEnvironment(buildInfo.getBuildEnvironment())
+    result
+        .buildEnvironment(buildInfo.getBuildEnvironment())
         .buildNumber(buildInfo.getBuildNumber())
         .buildUrl(buildInfo.getBuildUrl())
         .branch(buildInfo.getBranch())
@@ -143,6 +155,5 @@ class BuildInformationApiTest {
         .version("1.0");
 
     return result;
-
   }
 }

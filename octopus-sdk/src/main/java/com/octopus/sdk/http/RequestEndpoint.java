@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
@@ -64,5 +65,21 @@ public class RequestEndpoint {
           String.format("Unable to construct a RequestEnpoint from '%s'", pathAndQuery);
       throw new IllegalArgumentException(errorString, e);
     }
+  }
+
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
+    final RequestEndpoint that = (RequestEndpoint) o;
+    return Objects.equal(path, that.path) && Objects.equal(queryParameters,
+        that.queryParameters);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(path, queryParameters);
   }
 }

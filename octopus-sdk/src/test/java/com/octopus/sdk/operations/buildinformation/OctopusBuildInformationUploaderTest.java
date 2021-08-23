@@ -15,6 +15,17 @@
 
 package com.octopus.sdk.operations.buildinformation;
 
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.singletonList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.octopus.sdk.api.OverwriteMode;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
@@ -22,9 +33,6 @@ import com.octopus.sdk.model.RootDocument;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformationMappedResource;
 import com.octopus.sdk.model.spaces.SpaceOverviewPaginatedCollection;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -34,16 +42,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Collections.emptyMap;
-import static java.util.Collections.singletonList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 class OctopusBuildInformationUploaderTest {
 
@@ -111,10 +112,11 @@ class OctopusBuildInformationUploaderTest {
     when(mockClient.defaultSpaceAvailable()).thenReturn(false);
     when(mockClient.getRootDocument()).thenReturn(rootDoc);
 
-    final OctopusBuildInformationUploader uploader = new OctopusBuildInformationUploader(mockClient);
+    final OctopusBuildInformationUploader uploader =
+        new OctopusBuildInformationUploader(mockClient);
 
-    assertThatThrownBy(() -> uploader.upload(buildInformationBuilder.build())).isInstanceOf(
-        IllegalArgumentException.class);
+    assertThatThrownBy(() -> uploader.upload(buildInformationBuilder.build()))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -140,7 +142,9 @@ class OctopusBuildInformationUploaderTest {
             .withPackageVersion("1.0")
             .withOverwriteMode(OverwriteMode.OverwriteExisting);
 
-    final OctopusBuildInformationUploader uploader = new OctopusBuildInformationUploader(mockClient);
-    assertThatThrownBy(() -> uploader.upload(buildInformationBuilder.build())).isInstanceOf(IllegalArgumentException.class);
+    final OctopusBuildInformationUploader uploader =
+        new OctopusBuildInformationUploader(mockClient);
+    assertThatThrownBy(() -> uploader.upload(buildInformationBuilder.build()))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 }

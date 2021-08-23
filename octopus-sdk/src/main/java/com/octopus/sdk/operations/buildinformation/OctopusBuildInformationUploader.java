@@ -22,23 +22,19 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.buildinformation.BuildInformationResource;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
 import com.octopus.sdk.model.spaces.SpaceHome;
-import com.octopus.sdk.operations.ResourceUploader;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
 
-public class OctopusBuildInformationUploader extends ResourceUploader {
+public class OctopusBuildInformationUploader {
 
-  final OctopusBuildInformation buildInformation;
+  private final OctopusClient client;
 
-  public OctopusBuildInformationUploader(
-      final OctopusClient client, final OctopusBuildInformation buildInformation) {
-    super(client);
-    this.buildInformation = buildInformation;
+  public OctopusBuildInformationUploader(final OctopusClient client) {
+    this.client = client;
   }
 
-  @Override
-  public boolean upload() throws IOException {
+  public boolean upload(final OctopusBuildInformation buildInformation) throws IOException {
     final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
     final SpaceHome spaceHome = spaceHomeApi.getSpaceHome(buildInformation.getSpaceName());
     final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);

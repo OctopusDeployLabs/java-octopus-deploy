@@ -19,25 +19,21 @@ import com.octopus.sdk.api.PackagesApi;
 import com.octopus.sdk.api.SpaceHomeApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.spaces.SpaceHome;
-import com.octopus.sdk.operations.ResourceUploader;
 
 import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class PushPackageUploader extends ResourceUploader {
+public class PushPackageUploader {
   private static final Logger LOG = LogManager.getLogger();
+  private final OctopusClient client;
 
-  private final PushPackageParameters parameters;
-
-  public PushPackageUploader(final OctopusClient client, final PushPackageParameters parameters) {
-    super(client);
-    this.parameters = parameters;
+  public PushPackageUploader(final OctopusClient client) {
+    this.client = client;
   }
 
-  @Override
-  public boolean upload() throws IOException {
+  public boolean upload(final PushPackageParameters parameters) throws IOException {
     LOG.debug("Uploading packages to {}", parameters.getSpaceName());
     final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
     final SpaceHome spaceHome = spaceHomeApi.getSpaceHome(parameters.getSpaceName());

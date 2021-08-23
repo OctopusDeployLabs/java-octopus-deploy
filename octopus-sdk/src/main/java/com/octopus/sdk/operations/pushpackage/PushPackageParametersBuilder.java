@@ -15,11 +15,12 @@
 
 package com.octopus.sdk.operations.pushpackage;
 
+import com.octopus.sdk.api.OverwriteMode;
+
 import java.io.File;
 import java.util.List;
 
 import com.google.common.base.Preconditions;
-import octopus.teamcity.common.OverwriteMode;
 
 public class PushPackageParametersBuilder {
   private String spaceName;
@@ -41,7 +42,7 @@ public class PushPackageParametersBuilder {
     return this;
   }
 
-  public octopus.teamcity.agent.pushpackage.PushPackageParameters build() {
+  public PushPackageParameters build() {
     Preconditions.checkNotNull(
         spaceName, "SpaceName must be specified when pushing packages to Octopus Server");
     Preconditions.checkNotNull(
@@ -51,7 +52,6 @@ public class PushPackageParametersBuilder {
         "overwriteMode must be specified when pushing packages to Octopus " + "Server");
     Preconditions.checkArgument(!filesToUpload.isEmpty(), "Cannot upload an empty file list.");
 
-    return new octopus.teamcity.agent.pushpackage.PushPackageParameters(
-        spaceName, filesToUpload, overwriteMode);
+    return new PushPackageParameters(spaceName, filesToUpload, overwriteMode);
   }
 }

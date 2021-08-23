@@ -21,23 +21,21 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.OctopusClientFactory;
 import com.octopus.sdk.model.RootDocument;
 import com.octopus.sdk.model.users.User;
+import okhttp3.OkHttpClient;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.Network;
+import org.testcontainers.utility.DockerImageName;
 
 import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
 
-import okhttp3.OkHttpClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.Network;
-import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.utility.DockerImageName;
-
 public class OctopusDeployServer {
 
-  private static final Logger LOG = LoggerFactory.getLogger(OctopusDeployServer.class);
+  private static final Logger LOG = LogManager.getLogger();
   private static final String OCTOPUS_SERVER_LICENSE_TEXT_ENV_VAR = "OCTOPUS_LICENSE";
 
   public static final String OCTOPUS_SERVER_IMAGE =
@@ -83,8 +81,10 @@ public class OctopusDeployServer {
     return apiKey;
   }
 
-  public static OctopusDeployServer createOctopusServer() throws IOException {
+  public static OctopusDeployServer createOctopusServer() throws IOException, InterruptedException {
 
+    LOG.info("Starting containers");
+    final Instant containerStartTime = Instant.now();
     final Network network = Network.newNetwork();
     final GenericContainer<?> msSqlContainer =
         new GenericContainer<>(DockerImageName.parse(MS_SQL_IMAGE))
@@ -94,10 +94,12 @@ public class OctopusDeployServer {
             .withEnv("SA_PASSWORD", SA_PASSWORD)
             .withEnv("MSSQL_TCP_PORT", Integer.toString(MS_SQL_PORT))
             .withEnv("ACCEPT_EULA", "Y")
-            .withEnv("MSSQL_PID", "Developer")
-            .waitingFor(
-                Wait.forLogMessage(".*SQL Server is now ready for client connections.*", 1));
+            .withEnv("MSSQL_PID", "Developer");
+            //.waitingFor(
+            //    Wait.forLogMessage(".*SQL Server is now ready for client connections.*", 1));
+    LOG.info("MS Sql container: launching");
     msSqlContainer.start();
+    LOG.info("MS Sql container: startup complete");
 
     final StringBuilder connectionStringBuilder = new StringBuilder();
     connectionStringBuilder
@@ -121,24 +123,48 @@ public class OctopusDeployServer {
             .withEnv("ADMIN_PASSWORD", OCTOPUS_DEPLOY_SERVER_PASSWORD)
             .withEnv("ADMIN_EMAIL", "octopusJavaSdkTest@octopus.com")
             .withEnv("DB_CONNECTION_STRING", connectionStringBuilder.toString())
-            .withStartupTimeout(Duration.ofMinutes(2))
-            .waitingFor(Wait.forLogMessage(".*Web server is ready to process requests.*", 1));
+            .withStartupTimeout(Duration.ofMinutes(2));
+            //.waitingFor(Wait.forLogMessage(".*Web server is ready to process requests.*", 1));
 
     try {
+      LOG.info("Octopus Server container: launching");
       octopusDeployServerContainer.start();
+      LOG.info("Octopus Server container: started");
 
       final String octopusServerUrlString = generateOctopusServerUrl(octopusDeployServerContainer);
       LOG.info("Launching Octopus Server on {}}", octopusServerUrlString);
 
       final OkHttpClient httpClient = new OkHttpClient();
       final URL octopusServerUrl = new URL(octopusServerUrlString);
-      final RootDocument rootDoc =
-          OctopusClientFactory.fetchRootDocument(httpClient, octopusServerUrl);
+      final Instant startTime = Instant.now();
+      RootDocument rootDoc = null;
+      LOG.info("Waiting for rootDoc to be available");
+      while(Duration.between(Instant.now(), startTime).compareTo(Duration.ofSeconds(30)) <= 0) {
+        try {
+          rootDoc = OctopusClientFactory.fetchRootDocument(httpClient, octopusServerUrl);
+          break;
+        } catch (final Throwable t) {
+          LOG.info("Failed to connect - waiting 1 second ({})", t.toString());
+          Thread.sleep(1000);
+        }
+      }
+
+      if(rootDoc == null) {
+        throw new RuntimeException("OctopusServer failed to come up in time");
+      }
+
+      LOG.info("Rootdoc retrieved, adding API Key");
       final OctopusClient client = new OctopusClient(new URL(octopusServerUrlString), rootDoc);
       client.login(OCTOPUS_SERVER_USERNAME, OCTOPUS_DEPLOY_SERVER_PASSWORD);
       final String apiKey = createApiKeyForCurrentUser(client);
+      LOG.info("API Key = {}", apiKey);
+      LOG.info("Installing License");
       installLicense(client);
 
+      final Duration timeToStart = Duration.between(containerStartTime, Instant.now());
+      System.out.println("Time to startup Containers = " + timeToStart.getSeconds());
+
+      LOG.info("Completed container startup");
       return new OctopusDeployServer(msSqlContainer, octopusDeployServerContainer, apiKey);
     } catch (final Exception e) {
       msSqlContainer.stop();

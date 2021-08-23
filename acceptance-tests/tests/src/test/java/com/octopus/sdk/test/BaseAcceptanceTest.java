@@ -34,14 +34,14 @@ public class BaseAcceptanceTest {
   private static final String USE_EXISTING_ENV_VAR_NAME = "OCTOPUS_SDK_AT_USE_EXISTING_SERVER";
 
   // Adjust these values if using a pre-running octopus server.
-  private static final boolean DEFAULT_USE_EXISTING_SERVER = true;
+  protected static boolean DEFAULT_USE_EXISTING_SERVER = false;
   protected static String serverURL = "http://localhost:8065";
   protected static String apiKey = "API-D62EQ9I4EVET1E2LJUBKEHLNBYWMO3";
 
   protected static OctopusDeployServer server;
 
   @BeforeAll
-  public static void setup() throws IOException {
+  public static void setup() throws IOException, InterruptedException {
     final boolean useExistingServer =
         Optional.ofNullable(System.getenv(USE_EXISTING_ENV_VAR_NAME))
             .map(Boolean::parseBoolean)

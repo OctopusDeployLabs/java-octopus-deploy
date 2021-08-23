@@ -78,6 +78,7 @@ class OctopusBuildInformationUploaderTest {
             .withOverwriteMode(OverwriteMode.OverwriteExisting);
 
     when(mockClient.defaultSpaceAvailable()).thenReturn(true);
+    when(mockClient.getRootDocument()).thenReturn(rootDoc);
 
     final OctopusBuildInformationUploader uploader =
         new OctopusBuildInformationUploader(mockClient);

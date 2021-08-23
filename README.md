@@ -1,8 +1,6 @@
 # octopus-java-sdk
 A wrapper to the Octopus Server's HTTP API to allow creation of java clients
 
-It uses a gradle build syste
-
 It uses gradle (via the gradle wrapper) to produce the requisite jar files.
 
 The unit tests are run in github actions and artefacts are produced by the Octopus TeamCity

@@ -44,8 +44,7 @@ import org.mockserver.model.HttpRequest;
 import org.mockserver.model.RequestDefinition;
 
 class BuildInformationApiTest {
-
-  private URL serverURL;
+  
   private OctopusClient client;
   private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -54,7 +53,7 @@ class BuildInformationApiTest {
   @BeforeEach
   public void setup() {
     mockOctopusServer = new ClientAndServer();
-    serverURL = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
+    final URL serverURL = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
     client = new OctopusClient(serverURL, defaultRootDoc());
     mockOctopusServer
         .when(request().withPath("/api"))

@@ -44,7 +44,7 @@ import org.mockserver.model.HttpRequest;
 import org.mockserver.model.RequestDefinition;
 
 class BuildInformationApiTest {
-  
+
   private OctopusClient client;
   private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 

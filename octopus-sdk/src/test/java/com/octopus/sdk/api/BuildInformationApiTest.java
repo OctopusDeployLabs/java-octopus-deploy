@@ -16,6 +16,8 @@
 package com.octopus.sdk.api;
 
 import static com.octopus.sdk.support.TestHelpers.defaultRootDoc;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockserver.model.HttpRequest.request;
@@ -30,8 +32,6 @@ import com.octopus.sdk.support.TestHelpers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collections;
-import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -63,7 +63,8 @@ class BuildInformationApiTest {
 
   @Test
   public void updatingBuildInformationThrowsUnsupportedException() {
-    final SpaceHome spaceHome = new SpaceHome(Map.of("BuildInformation", "api/arbitrary-path"));
+    final SpaceHome spaceHome =
+        new SpaceHome(singletonMap("BuildInformation", "api/arbitrary-path"));
 
     final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);
 
@@ -73,7 +74,8 @@ class BuildInformationApiTest {
 
   @Test
   public void creatingBuildInformationViaStandardCreateApiThrowsUnsupportedException() {
-    final SpaceHome spaceHome = new SpaceHome(Map.of("BuildInformation", "api/arbitrary-path"));
+    final SpaceHome spaceHome =
+        new SpaceHome(singletonMap("BuildInformation", "api/arbitrary-path"));
 
     final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);
 
@@ -87,7 +89,7 @@ class BuildInformationApiTest {
       throws IOException {
     final SpaceHome spaceHome =
         new SpaceHome(
-            Map.of(
+            singletonMap(
                 "BuildInformation",
                 "/api/Spaces-1/build-information{/id}{?packageId,filter,latest,skip,take,overwriteMode}"));
     final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);
@@ -134,7 +136,7 @@ class BuildInformationApiTest {
         .vcsType("git")
         .vcsRoot("https://github.com/OctopusDeploy/Octopus-TeamCity.git")
         .vcsCommitNumber("12345")
-        .commits(Collections.emptyList());
+        .commits(emptyList());
     return buildInfo;
   }
 

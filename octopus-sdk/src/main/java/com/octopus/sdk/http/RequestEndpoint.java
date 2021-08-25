@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
@@ -47,9 +48,14 @@ public class RequestEndpoint {
     return new RequestEndpoint(path, Collections.emptyMap());
   }
 
-  public static RequestEndpoint fromPathAndQueryString(final String pathAndQuery) {
+  public static RequestEndpoint fromPathWithQueryString(final String pathWithQuery) {
+    final String errorString =
+        String.format("Unable to construct a RequestEndpoint from '%s'", pathWithQuery);
+
+    Preconditions.checkArgument(isValidPathAndQuery(pathWithQuery), errorString);
+
     try {
-      final URI uri = new URI(pathAndQuery);
+      final URI uri = new URI(pathWithQuery);
       final Iterable<String> items = Splitter.on('&').split(uri.getQuery());
       final Map<String, List<String>> queryParams = new HashMap<>();
       for (final String item : items) {
@@ -60,9 +66,11 @@ public class RequestEndpoint {
       }
       return new RequestEndpoint(uri.getPath(), queryParams);
     } catch (final URISyntaxException e) {
-      final String errorString =
-          String.format("Unable to construct a RequestEnpoint from '%s'", pathAndQuery);
       throw new IllegalArgumentException(errorString, e);
     }
+  }
+
+  private static boolean isValidPathAndQuery(String pathWithQuery) {
+    return pathWithQuery != null && pathWithQuery.contains("&") && pathWithQuery.contains("=");
   }
 }

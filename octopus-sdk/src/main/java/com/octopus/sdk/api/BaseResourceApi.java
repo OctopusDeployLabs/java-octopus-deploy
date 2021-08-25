@@ -105,7 +105,7 @@ public class BaseResourceApi<
     while (localCollection.getPageNext() != null) {
       localCollection =
           client.get(
-              RequestEndpoint.fromPathAndQueryString(localCollection.getPageNext()),
+              RequestEndpoint.fromPathWithQueryString(localCollection.getPageNext()),
               collectionType);
       result.addAll(localCollection.getItems());
     }

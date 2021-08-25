@@ -17,6 +17,7 @@ package com.octopus.sdk.test;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
 import com.octopus.sdk.api.SpacesOverviewApi;
@@ -147,6 +148,6 @@ public class SpacesOverviewAcceptanceTest extends BaseAcceptanceTest {
     final SpaceOverviewWithLinks createdSpace = spacesOverviewApi.create(toCreate);
 
     createdSpace.setName("");
-    spacesOverviewApi.update(createdSpace);
+    assertThatThrownBy(() -> spacesOverviewApi.update(createdSpace)).isInstanceOf(HttpException.class);
   }
 }

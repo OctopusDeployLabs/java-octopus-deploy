@@ -38,14 +38,4 @@ bin
 .settings
 .travis.yml
 build.sbt
-git_push.sh
-*gradle*
-docs/.openapi*
-src/.openapi*
-src/.npmignore
-src/.gitignore
-src/git_push.sh
-src/README.md
-src/package.json
-src/tsconfig.json
 

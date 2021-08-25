@@ -15,14 +15,26 @@
 
 package com.octopus.sdk.api;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import static com.octopus.sdk.support.TestHelpers.defaultRootDoc;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonMap;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.mockserver.model.HttpRequest.request;
+import static org.mockserver.model.HttpResponse.response;
+
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.buildinformation.BuildInformationResource;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformationMappedResource;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.support.TestHelpers;
+
+import java.io.IOException;
+import java.net.URL;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -31,20 +43,8 @@ import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.RequestDefinition;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Collections;
-import java.util.Map;
-
-import static com.octopus.sdk.support.TestHelpers.defaultRootDoc;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockserver.model.HttpRequest.request;
-import static org.mockserver.model.HttpResponse.response;
-
 class BuildInformationApiTest {
 
-  private URL serverURL;
   private OctopusClient client;
   private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -53,7 +53,7 @@ class BuildInformationApiTest {
   @BeforeEach
   public void setup() {
     mockOctopusServer = new ClientAndServer();
-    serverURL = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
+    final URL serverURL = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
     client = new OctopusClient(serverURL, defaultRootDoc());
     mockOctopusServer
         .when(request().withPath("/api"))
@@ -62,7 +62,8 @@ class BuildInformationApiTest {
 
   @Test
   public void updatingBuildInformationThrowsUnsupportedException() {
-    final SpaceHome spaceHome = new SpaceHome(Map.of("BuildInformation", "api/arbitrary-path"));
+    final SpaceHome spaceHome =
+        new SpaceHome(singletonMap("BuildInformation", "api/arbitrary-path"));
 
     final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);
 
@@ -72,7 +73,8 @@ class BuildInformationApiTest {
 
   @Test
   public void creatingBuildInformationViaStandardCreateApiThrowsUnsupportedException() {
-    final SpaceHome spaceHome = new SpaceHome(Map.of("BuildInformation", "api/arbitrary-path"));
+    final SpaceHome spaceHome =
+        new SpaceHome(singletonMap("BuildInformation", "api/arbitrary-path"));
 
     final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);
 
@@ -82,29 +84,38 @@ class BuildInformationApiTest {
 
   @ParameterizedTest
   @EnumSource(OverwriteMode.class)
-  public void creatingNewBuildInformationHitsCorrectEndpoint(final OverwriteMode mode) throws IOException {
-    final SpaceHome spaceHome = new SpaceHome(Map.of("BuildInformation",
-        "/api/Spaces-1/build-information{/id}{?packageId,filter,latest,skip,take,overwriteMode}"));
+  public void creatingNewBuildInformationHitsCorrectEndpoint(final OverwriteMode mode)
+      throws IOException {
+    final SpaceHome spaceHome =
+        new SpaceHome(
+            singletonMap(
+                "BuildInformation",
+                "/api/Spaces-1/build-information{/id}{?packageId,filter,latest,skip,take,overwriteMode}"));
     final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);
 
     final BuildInformationResource buildInfo = createValidBuildInformation();
-    final OctopusPackageVersionBuildInformation resourceToSend = new OctopusPackageVersionBuildInformation();
+    final OctopusPackageVersionBuildInformation resourceToSend =
+        new OctopusPackageVersionBuildInformation();
     resourceToSend.withBuildInformation(buildInfo);
     resourceToSend.withPackageId("mypackage.com");
     resourceToSend.withVersion("1.0");
 
-    mockOctopusServer.when(request())
+    mockOctopusServer
+        .when(request())
         .respond(response().withStatusCode(200).withBody(gson.toJson(buildResponse(buildInfo))));
 
-    final OctopusPackageVersionBuildInformationMappedResource response = buildInfoApi.create(resourceToSend, mode);
+    final OctopusPackageVersionBuildInformationMappedResource response =
+        buildInfoApi.create(resourceToSend, mode);
 
-    //check that the mockServer received a request with appropriateQueryParams etc.
-    final RequestDefinition[] requestsReceivedAtServer = mockOctopusServer.retrieveRecordedRequests(request());
+    // check that the mockServer received a request with appropriateQueryParams etc.
+    final RequestDefinition[] requestsReceivedAtServer =
+        mockOctopusServer.retrieveRecordedRequests(request());
     assertThat(requestsReceivedAtServer.length).isEqualTo(1);
     assertThat(requestsReceivedAtServer[0]).isInstanceOf(HttpRequest.class);
     final HttpRequest request = (HttpRequest) requestsReceivedAtServer[0];
     assertThat(request.getPath().toString()).isEqualTo("/api/Spaces-1/build-information");
-    assertThat(request.getQueryStringParameters().getValues("OverwriteMode")).containsExactly(mode.toString());
+    assertThat(request.getQueryStringParameters().getValues("OverwriteMode"))
+        .containsExactly(mode.toString());
 
     final OctopusPackageVersionBuildInformation capturedRequestBody =
         gson.fromJson(request.getBodyAsString(), OctopusPackageVersionBuildInformation.class);
@@ -124,14 +135,16 @@ class BuildInformationApiTest {
         .vcsType("git")
         .vcsRoot("https://github.com/OctopusDeploy/Octopus-TeamCity.git")
         .vcsCommitNumber("12345")
-        .commits(Collections.emptyList());
+        .commits(emptyList());
     return buildInfo;
   }
 
-  private OctopusPackageVersionBuildInformationMappedResource buildResponse(final BuildInformationResource buildInfo) {
+  private OctopusPackageVersionBuildInformationMappedResource buildResponse(
+      final BuildInformationResource buildInfo) {
     final OctopusPackageVersionBuildInformationMappedResource result =
         new OctopusPackageVersionBuildInformationMappedResource();
-    result.buildEnvironment(buildInfo.getBuildEnvironment())
+    result
+        .buildEnvironment(buildInfo.getBuildEnvironment())
         .buildNumber(buildInfo.getBuildNumber())
         .buildUrl(buildInfo.getBuildUrl())
         .branch(buildInfo.getBranch())
@@ -143,6 +156,5 @@ class BuildInformationApiTest {
         .version("1.0");
 
     return result;
-
   }
 }

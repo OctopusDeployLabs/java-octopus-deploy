@@ -62,13 +62,12 @@ public class PackagesApi
   @Override
   public PackageResourceWithLinks create(final PackageResourceWithLinks input) {
     throw new UnsupportedOperationException(
-        "Packages cannot be created via this interface, it must be conducted via "
-            + "the PackageUpload capability");
+        "Packages cannot be created via this interface, it must be conducted via 'uploadPackage'.");
   }
 
   @Override
   public PackageResourceWithLinks update(final PackageResourceWithLinks input) {
     throw new UnsupportedOperationException(
-        "Packages cannot be updated via this interface, it must be conducted via");
+        "Packages cannot be created via this interface, it must be conducted via 'uploadPackage'.");
   }
 }

@@ -16,7 +16,6 @@
 package com.octopus.sdk.api;
 
 import static com.octopus.sdk.support.TestHelpers.defaultRootDoc;
-import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -32,6 +31,7 @@ import com.octopus.sdk.support.TestHelpers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -43,20 +43,8 @@ import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.RequestDefinition;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Collections;
-import java.util.Map;
-
-import static com.octopus.sdk.support.TestHelpers.defaultRootDoc;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockserver.model.HttpRequest.request;
-import static org.mockserver.model.HttpResponse.response;
-
 class BuildInformationApiTest {
 
-  private URL serverURL;
   private OctopusClient client;
   private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 

@@ -15,7 +15,6 @@
 
 package com.octopus.sdk.api;
 
-import static com.octopus.sdk.support.TestHelpers.defaultRootDoc;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
@@ -43,7 +42,7 @@ class PackagesApiTest {
   public void setup() {
     mockOctopusServer = new ClientAndServer();
     serverURL = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
-    client = new OctopusClient(serverURL, defaultRootDoc());
+    client = new OctopusClient(serverURL);
     mockOctopusServer
         .when(request().withPath("/api"))
         .respond(response().withStatusCode(200).withBody("NOT YET " + "POPULATED"));

@@ -15,12 +15,11 @@
 
 package com.octopus.sdk.support;
 
-import static java.util.Collections.singletonMap;
-
 import com.octopus.sdk.model.RootDocument;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 
 public class TestHelpers {
@@ -34,13 +33,16 @@ public class TestHelpers {
   }
 
   public static RootDocument defaultRootDoc() {
-    return new RootDocument(
-        "OctopusDeploy",
-        "2021.1",
-        "3.1",
-        "installationId",
-        true,
-        singletonMap("Spaces", "/api/spaces{/id}{?name,skip,ids,take,partialName}"));
+    final Map<String, String> rootDocLinks = new HashMap<>();
+    rootDocLinks.put("Spaces", "/api/spaces{/id}{?name,skip,ids,take,partialName}");
+    rootDocLinks.put(
+        "Accounts", "/api/Spaces-1/accounts{/id}{?skip,take,ids,partialName,accountType}");
+    rootDocLinks.put(
+        "BuildInformation",
+        "/api/Spaces-1/build-information{/id}{?packageId,filter,latest,skip,take,"
+            + "overwriteMode}");
+
+    return rootDocWithLinks(rootDocLinks);
   }
 
   public static RootDocument rootDocWithLinks(final Map<String, String> links) {

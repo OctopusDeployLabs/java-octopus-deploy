@@ -46,8 +46,7 @@ public class SpacesOverviewAcceptanceTest extends BaseAcceptanceTest {
   public void throwsHttpExceptionIndicatingNotAuthorisedIfIncorrectApiKey()
       throws MalformedURLException {
     final OctopusClient client = new OctopusClient(httpClient, new URL(serverURL), "BadyKey");
-    final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
-    final Throwable thrown = catchThrowable(() -> spacesOverviewApi.getByName("Arbitrary"));
+    final Throwable thrown = catchThrowable(() -> SpacesOverviewApi.create(client));
     assertThat(thrown).isInstanceOf(HttpException.class);
     final HttpException httpException = (HttpException) thrown;
     assertThat(httpException.getStatusCode()).isEqualTo(401);

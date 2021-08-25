@@ -17,6 +17,7 @@ package com.octopus.sdk.dsl;
 
 import com.octopus.sdk.api.LicenseApi;
 import com.octopus.sdk.api.UsersApi;
+import com.octopus.sdk.http.InMemoryCookieJar;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.users.User;
 
@@ -25,6 +26,7 @@ import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
 
+import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
@@ -127,7 +129,9 @@ public class OctopusDeployServer {
       final String octopusServerUrlString = generateOctopusServerUrl(octopusDeployServerContainer);
       LOG.info("Launching Octopus Server on {}}", octopusServerUrlString);
 
-      final OctopusClient client = new OctopusClient(new URL(octopusServerUrlString));
+      final OkHttpClient httpClient =
+          new OkHttpClient.Builder().cookieJar(new InMemoryCookieJar()).build();
+      final OctopusClient client = new OctopusClient(httpClient, new URL(octopusServerUrlString));
       client.login(OCTOPUS_SERVER_USERNAME, OCTOPUS_DEPLOY_SERVER_PASSWORD);
       final String apiKey = createApiKeyForCurrentUser(client);
       installLicense(client);

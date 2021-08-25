@@ -32,10 +32,12 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import okhttp3.Call;
+import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -58,10 +60,9 @@ public class OctopusClient {
   private final URL serverUrl;
   private final Map<String, List<String>> requiredHeaders = new HashMap<>();
 
-  public OctopusClient(final OkHttpClient httpClient, final URL serverUrl, final String apiKey) {
+  public OctopusClient(final OkHttpClient httpClient, final URL serverUrl) {
     this.httpClient = httpClient;
     this.serverUrl = serverUrl;
-    requiredHeaders.put("X-Octopus-ApiKey", singletonList(apiKey));
     requiredHeaders.put("Content-Type", singletonList("application/json"));
     requiredHeaders.put("Accept-encoding", singletonList("application/json"));
 
@@ -73,8 +74,9 @@ public class OctopusClient {
             .create();
   }
 
-  public OctopusClient(final URL serverUrl) {
-    this(new OkHttpClient.Builder().cookieJar(new InMemoryCookieJar()).build(), serverUrl, "");
+  public OctopusClient(final OkHttpClient httpClient, final URL serverUrl, final String apiKey) {
+    this(httpClient, serverUrl);
+    requiredHeaders.put("X-Octopus-ApiKey", singletonList(apiKey));
   }
 
   public URL getServerUrl() {
@@ -184,6 +186,9 @@ public class OctopusClient {
   }
 
   public boolean login(final String username, final String password) throws IOException {
+    Preconditions.checkArgument(
+        httpClient.cookieJar() != CookieJar.NO_COOKIES,
+        "Cannot login without a client side cookie jar");
     final LoginBody login = new LoginBody(username, password);
     final String loginPath = getRootDocument().getSignInLink();
 

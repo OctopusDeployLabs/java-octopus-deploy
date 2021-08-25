@@ -28,21 +28,22 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.OkHttpClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockserver.integration.ClientAndServer;
 
 class PackagesApiTest {
 
-  private URL serverURL;
+  private URL serverUrl;
   private OctopusClient client;
   private ClientAndServer mockOctopusServer;
 
   @BeforeEach
   public void setup() {
     mockOctopusServer = new ClientAndServer();
-    serverURL = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
-    client = new OctopusClient(serverURL);
+    serverUrl = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
+    client = new OctopusClient(new OkHttpClient(), serverUrl);
     mockOctopusServer
         .when(request().withPath("/api"))
         .respond(response().withStatusCode(200).withBody("NOT YET " + "POPULATED"));

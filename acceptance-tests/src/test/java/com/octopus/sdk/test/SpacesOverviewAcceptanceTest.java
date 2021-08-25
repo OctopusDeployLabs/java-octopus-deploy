@@ -130,4 +130,23 @@ public class SpacesOverviewAcceptanceTest extends BaseAcceptanceTest {
       }
     }
   }
+
+  @Test
+  public void createSpaceWithEmptyName() throws IOException {
+    final String spaceName = "NotEmpty";
+    final OctopusClient client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
+    final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
+    final UsersApi users = UsersApi.create(client);
+
+    assertThat(spacesOverviewApi.getByName(spaceName)).isEmpty();
+
+    final SpaceOverviewWithLinks toCreate = new SpaceOverviewWithLinks();
+    toCreate.setName(spaceName);
+    toCreate.setSpaceManagersTeamMembers(Sets.newLinkedHashSet(users.getCurrentUser().getId()));
+
+    final SpaceOverviewWithLinks createdSpace = spacesOverviewApi.create(toCreate);
+
+    createdSpace.setName("");
+    spacesOverviewApi.update(createdSpace);
+  }
 }

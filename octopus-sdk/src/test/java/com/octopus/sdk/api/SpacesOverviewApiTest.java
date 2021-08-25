@@ -38,13 +38,14 @@ import java.util.Optional;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import okhttp3.OkHttpClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockserver.integration.ClientAndServer;
 
 class SpacesOverviewApiTest {
 
-  private URL serverURL;
+  private URL serverUrl;
   private OctopusClient client;
   private final Gson gson = new GsonBuilder().create();
 
@@ -53,8 +54,8 @@ class SpacesOverviewApiTest {
   @BeforeEach
   public void setup() {
     mockOctopusServer = new ClientAndServer();
-    serverURL = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
-    client = new OctopusClient(serverURL);
+    serverUrl = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
+    client = new OctopusClient(new OkHttpClient(), serverUrl);
     mockOctopusServer
         .when(request().withPath("/api"))
         .respond(response().withStatusCode(200).withBody(gson.toJson(defaultRootDoc())));
@@ -128,7 +129,7 @@ class SpacesOverviewApiTest {
 
   @Test
   public void requestSpaceWhenOctopusDoesntSupportSpacesThrowsIllegalStateException() {
-    client = new OctopusClient(serverURL);
+    client = new OctopusClient(new OkHttpClient(), serverUrl);
 
     final RootDocument rootDoc = rootDocWithLinks(emptyMap());
     mockOctopusServer.clear(request().withPath("/api")); // remove existing expectation

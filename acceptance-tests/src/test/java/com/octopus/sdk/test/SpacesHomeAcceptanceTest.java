@@ -56,7 +56,7 @@ public class SpacesHomeAcceptanceTest extends BaseAcceptanceTest {
 
     try {
       final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
-      assertThatThrownBy(() -> spaceHomeApi.getByName(""))
+      assertThatThrownBy(() -> spaceHomeApi.getByName(null))
           .isInstanceOf(IllegalArgumentException.class);
     } finally {
       if (alteredSpace.isPresent()) {

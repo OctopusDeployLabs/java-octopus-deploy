@@ -35,6 +35,7 @@ import java.util.Collections;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import okhttp3.OkHttpClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -53,8 +54,8 @@ class BuildInformationApiTest {
   @BeforeEach
   public void setup() {
     mockOctopusServer = new ClientAndServer();
-    final URL serverURL = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
-    client = new OctopusClient(serverURL);
+    final URL serverUrl = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
+    client = new OctopusClient(new OkHttpClient(), serverUrl);
     mockOctopusServer
         .when(request().withPath("/api"))
         .respond(response().withStatusCode(200).withBody(gson.toJson(defaultRootDoc())));

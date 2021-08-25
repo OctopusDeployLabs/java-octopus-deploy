@@ -54,7 +54,7 @@ class OctopusClientTest {
   @Test
   public void serverReportsItsServerUrlCorrectly() throws MalformedURLException {
     final URL serverUrl = new URL("http://localhost:8066");
-    final OctopusClient client = new OctopusClient(serverUrl);
+    final OctopusClient client = new OctopusClient(new OkHttpClient(), serverUrl);
     assertThat(client.getServerUrl()).isEqualTo(serverUrl);
   }
 

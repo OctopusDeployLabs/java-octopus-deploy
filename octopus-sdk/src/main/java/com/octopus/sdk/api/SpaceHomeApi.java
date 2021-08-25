@@ -23,8 +23,6 @@ import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 import java.io.IOException;
 import java.util.Optional;
 
-import com.google.common.base.Preconditions;
-
 public class SpaceHomeApi {
 
   private final OctopusClient client;
@@ -34,9 +32,7 @@ public class SpaceHomeApi {
   }
 
   public SpaceHome getByName(final String spaceName) throws IOException {
-    Preconditions.checkNotNull(
-        spaceName, "Cannot find space with a null name (empty implies default)");
-    if (spaceName.isEmpty()) {
+    if (spaceName == null) {
       if (client.defaultSpaceAvailable()) {
         return client.getRootDocument();
       }
@@ -57,10 +53,11 @@ public class SpaceHomeApi {
       throw new IllegalArgumentException(error);
     }
 
-    return getByName(containingSpace.get());
+    return getBySpaceOverview(containingSpace.get());
   }
 
-  public SpaceHome getByName(final SpaceOverviewWithLinks spaceOverview) throws IOException {
+  public SpaceHome getBySpaceOverview(final SpaceOverviewWithLinks spaceOverview)
+      throws IOException {
     return client.get(RequestEndpoint.fromPath(spaceOverview.getSpaceHomeLink()), SpaceHome.class);
   }
 }

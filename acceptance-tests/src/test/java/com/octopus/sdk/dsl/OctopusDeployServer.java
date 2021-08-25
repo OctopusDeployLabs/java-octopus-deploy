@@ -18,8 +18,6 @@ package com.octopus.sdk.dsl;
 import com.octopus.sdk.api.LicenseApi;
 import com.octopus.sdk.api.UsersApi;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.http.OctopusClientFactory;
-import com.octopus.sdk.model.RootDocument;
 import com.octopus.sdk.model.users.User;
 
 import java.io.IOException;
@@ -27,7 +25,6 @@ import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
 
-import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
@@ -130,11 +127,7 @@ public class OctopusDeployServer {
       final String octopusServerUrlString = generateOctopusServerUrl(octopusDeployServerContainer);
       LOG.info("Launching Octopus Server on {}}", octopusServerUrlString);
 
-      final OkHttpClient httpClient = new OkHttpClient();
-      final URL octopusServerUrl = new URL(octopusServerUrlString);
-      final RootDocument rootDoc =
-          OctopusClientFactory.fetchRootDocument(httpClient, octopusServerUrl);
-      final OctopusClient client = new OctopusClient(new URL(octopusServerUrlString), rootDoc);
+      final OctopusClient client = new OctopusClient(new URL(octopusServerUrlString));
       client.login(OCTOPUS_SERVER_USERNAME, OCTOPUS_DEPLOY_SERVER_PASSWORD);
       final String apiKey = createApiKeyForCurrentUser(client);
       installLicense(client);

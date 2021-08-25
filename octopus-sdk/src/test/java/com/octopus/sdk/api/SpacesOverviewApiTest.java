@@ -16,7 +16,6 @@
 package com.octopus.sdk.api;
 
 import static com.octopus.sdk.support.TestHelpers.defaultRootDoc;
-import static com.octopus.sdk.support.TestHelpers.rootDocWithLinks;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonList;
@@ -53,10 +52,10 @@ class SpacesOverviewApiTest {
   public void setup() {
     mockOctopusServer = new ClientAndServer();
     serverURL = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
-    client = new OctopusClient(serverURL, defaultRootDoc());
+    client = new OctopusClient(serverURL);
     mockOctopusServer
         .when(request().withPath("/api"))
-        .respond(response().withStatusCode(200).withBody("NOT YET " + "POPULATED"));
+        .respond(response().withStatusCode(200).withBody(gson.toJson(defaultRootDoc())));
   }
 
   @Test
@@ -128,7 +127,7 @@ class SpacesOverviewApiTest {
   @Test
   public void requestSpaceWhenOctopusDoesntSupportSpacesThrowsIllegalStateException() {
     // Create OctopusClient _without_ the 'spaces' hypermedia link
-    client = new OctopusClient(serverURL, rootDocWithLinks(emptyMap()));
+    client = new OctopusClient(serverURL);
     assertThatThrownBy(() -> SpacesOverviewApi.create(client))
         .isInstanceOf(IllegalArgumentException.class);
   }

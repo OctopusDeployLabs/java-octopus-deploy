@@ -16,7 +16,6 @@
 package com.octopus.sdk.http;
 
 import static com.octopus.sdk.support.TestHelpers.createLocalhostOctopusServerUrl;
-import static com.octopus.sdk.support.TestHelpers.defaultRootDoc;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockserver.model.HttpRequest.request;
@@ -49,13 +48,13 @@ class OctopusClientTest {
 
   private OctopusClient createClientSendingToMockServer() {
     final URL serverUrl = createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
-    return new OctopusClient(new OkHttpClient(), serverUrl, defaultRootDoc(), apiKey);
+    return new OctopusClient(new OkHttpClient(), serverUrl, apiKey);
   }
 
   @Test
   public void serverReportsItsServerUrlCorrectly() throws MalformedURLException {
     final URL serverUrl = new URL("http://localhost:8066");
-    final OctopusClient client = new OctopusClient(serverUrl, defaultRootDoc());
+    final OctopusClient client = new OctopusClient(serverUrl);
     assertThat(client.getServerUrl()).isEqualTo(serverUrl);
   }
 

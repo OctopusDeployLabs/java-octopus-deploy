@@ -15,18 +15,16 @@
 
 package com.octopus.sdk.api;
 
+import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.packages.PackageResourceWithLinks;
-import com.octopus.sdk.model.spaces.SpaceHome;
+import com.octopus.sdk.model.RootDocument;
 import com.octopus.sdk.support.TestHelpers;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,8 +33,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockserver.integration.ClientAndServer;
 
-class PackagesApiTest {
-
+class SpaceHomeApiTest {
   private URL serverUrl;
   private OctopusClient client;
   private ClientAndServer mockOctopusServer;
@@ -47,34 +44,45 @@ class PackagesApiTest {
     mockOctopusServer = new ClientAndServer();
     serverUrl = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
     client = new OctopusClient(new OkHttpClient(), serverUrl);
+  }
+
+  @Test
+  public void throwExceptionIfSpaceRequestedByServerDoesNotSupportSpaces() {
+    final RootDocument rootDoc = TestHelpers.rootDocWithLinks(emptyMap());
+    mockOctopusServer
+        .when(request().withPath("/api"))
+        .respond(response().withStatusCode(200).withBody(gson.toJson(rootDoc)));
+
+    final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
+
+    assertThatThrownBy(() -> spaceHomeApi.getByName("ArbitrarySpaceName"))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("does not support spaces");
+  }
+
+  @Test
+  public void getDefaultThrowsExceptionIfServerHasNoDefaultSpace() {
+    final RootDocument rootDoc = TestHelpers.rootDocWithLinks(emptyMap());
+    mockOctopusServer
+        .when(request().withPath("/api"))
+        .respond(response().withStatusCode(200).withBody(gson.toJson(rootDoc)));
+
+    final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
+
+    assertThatThrownBy(() -> spaceHomeApi.getDefault())
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("no default space available");
+  }
+
+  @Test
+  public void throwsExceptionIfGetSpaceByNameWithNullName() {
     mockOctopusServer
         .when(request().withPath("/api"))
         .respond(
             response().withStatusCode(200).withBody(gson.toJson(TestHelpers.defaultRootDoc())));
-  }
-
-  private Map<String, String> createSpaceHomeLinks() {
-    final Map<String, String> result = new HashMap<>();
-    result.put("Packages", "api/arbitrary-path");
-    result.put("PackageUpload", "api/upload-path");
-    return result;
-  }
-
-  @Test
-  public void standardCreateFunctionThrowsUnsupportedException() {
-    final SpaceHome spaceHome = new SpaceHome(createSpaceHomeLinks());
-    final PackagesApi api = PackagesApi.create(client, spaceHome);
-
-    assertThatThrownBy(() -> api.create(new PackageResourceWithLinks()))
-        .isInstanceOf(UnsupportedOperationException.class);
-  }
-
-  @Test
-  public void standardUpdateFunctionThrowsUnsupportedException() {
-    final SpaceHome spaceHome = new SpaceHome(createSpaceHomeLinks());
-    final PackagesApi api = PackagesApi.create(client, spaceHome);
-
-    assertThatThrownBy(() -> api.update(new PackageResourceWithLinks()))
-        .isInstanceOf(UnsupportedOperationException.class);
+    final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
+    assertThatThrownBy(() -> spaceHomeApi.getByName(null))
+        .isInstanceOf(NullPointerException.class)
+        .hasMessageContaining("Cannot find space with a null name");
   }
 }

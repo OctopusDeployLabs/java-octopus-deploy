@@ -24,7 +24,6 @@ import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.api.UsersApi;
 import com.octopus.sdk.http.HttpException;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.http.OctopusClientFactory;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.buildinformation.BuildInformationResource;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
@@ -55,7 +54,7 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
 
     SpaceOverviewWithLinks toCreate = null;
     try {
-      client = OctopusClientFactory.createClientAt(httpClient, new URL(serverURL), apiKey);
+      client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
       spacesOverviewApi = SpacesOverviewApi.create(client);
       final UsersApi users = UsersApi.create(client);
 

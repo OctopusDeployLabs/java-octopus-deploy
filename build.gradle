@@ -23,7 +23,7 @@ buildscript {
 import net.ltgt.gradle.errorprone.CheckSeverity
 
 plugins {
-    id 'com.diffplug.spotless' version '5.9.0'
+    id 'com.diffplug.spotless' version '5.14.1'
     id 'com.github.ben-manes.versions' version '0.36.0'
     id 'com.github.hierynomus.license' version '0.15.0'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -87,11 +87,7 @@ subprojects {
     spotless {
         java {
             // This path needs to be relative to each project
-            target fileTree('.') {
-                include '**/src/*/java/**/*.java'
-                exclude '**/.gradle/**'
-                exclude '**/build/generated/**'
-            }
+            target '**/src/*/java/**/*.java'
             removeUnusedImports()
             googleJavaFormat('1.7')
             importOrder 'com.octopus', 'java', ''

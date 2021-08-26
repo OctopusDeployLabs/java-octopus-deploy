@@ -22,6 +22,7 @@ import com.octopus.sdk.model.login.LoginBody;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.time.OffsetDateTime;
@@ -31,10 +32,12 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import okhttp3.Call;
+import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -50,22 +53,16 @@ import org.apache.logging.log4j.Logger;
 // like a server.
 public class OctopusClient {
   private static final Logger LOG = LogManager.getLogger();
+  private static final String ROOT_PATH = "api";
 
   private final OkHttpClient httpClient;
   private final Gson gson;
   private final URL serverUrl;
-  private final RootDocument rootDocument;
   private final Map<String, List<String>> requiredHeaders = new HashMap<>();
 
-  public OctopusClient(
-      final OkHttpClient httpClient,
-      final URL serverUrl,
-      final RootDocument rootDocument,
-      final String apiKey) {
+  public OctopusClient(final OkHttpClient httpClient, final URL serverUrl) {
     this.httpClient = httpClient;
     this.serverUrl = serverUrl;
-    this.rootDocument = rootDocument;
-    requiredHeaders.put("X-Octopus-ApiKey", singletonList(apiKey));
     requiredHeaders.put("Content-Type", singletonList("application/json"));
     requiredHeaders.put("Accept-encoding", singletonList("application/json"));
 
@@ -77,12 +74,9 @@ public class OctopusClient {
             .create();
   }
 
-  public OctopusClient(final URL serverUrl, final RootDocument rootDocument) {
-    this(
-        new OkHttpClient.Builder().cookieJar(new InMemoryCookieJar()).build(),
-        serverUrl,
-        rootDocument,
-        "");
+  public OctopusClient(final OkHttpClient httpClient, final URL serverUrl, final String apiKey) {
+    this(httpClient, serverUrl);
+    requiredHeaders.put("X-Octopus-ApiKey", singletonList(apiKey));
   }
 
   public URL getServerUrl() {
@@ -90,7 +84,11 @@ public class OctopusClient {
   }
 
   public RootDocument getRootDocument() {
-    return rootDocument;
+    try {
+      return get(RequestEndpoint.fromPath(ROOT_PATH), RootDocument.class);
+    } catch (IOException e) {
+      throw new UncheckedIOException("Failed to fetch the root document", e);
+    }
   }
 
   public <T> T get(final RequestEndpoint endpoint, final Class<T> responseType) throws IOException {
@@ -188,6 +186,9 @@ public class OctopusClient {
   }
 
   public boolean login(final String username, final String password) throws IOException {
+    Preconditions.checkArgument(
+        httpClient.cookieJar() != CookieJar.NO_COOKIES,
+        "Cannot login without a client side cookie jar");
     final LoginBody login = new LoginBody(username, password);
     final String loginPath = getRootDocument().getSignInLink();
 
@@ -210,18 +211,18 @@ public class OctopusClient {
   }
 
   public boolean supportsSpaces() {
-    return rootDocument.getSpacesLink() != null;
+    return getRootDocument().getSpacesLink() != null;
   }
 
   public boolean supportsChannels() {
-    return rootDocument.getChannelsLink() != null;
+    return getRootDocument().getChannelsLink() != null;
   }
 
   // The 'accounts' link is only valid within a space, and thus will only be non-null in the rootDoc
   // if a default
   // space is enabled (OR OctpopusServer is a pre-space version).
   public boolean defaultSpaceAvailable() {
-    return rootDocument.getAccountsLink() != null;
+    return getRootDocument().getAccountsLink() != null;
   }
 
   public static String getCsrfTokenFromCookies(final String csrfCookieContent) {

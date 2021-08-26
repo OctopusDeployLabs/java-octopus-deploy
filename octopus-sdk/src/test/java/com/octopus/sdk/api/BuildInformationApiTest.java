@@ -16,7 +16,6 @@
 package com.octopus.sdk.api;
 
 import static com.octopus.sdk.support.TestHelpers.defaultRootDoc;
-import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -32,9 +31,11 @@ import com.octopus.sdk.support.TestHelpers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import okhttp3.OkHttpClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -53,11 +54,11 @@ class BuildInformationApiTest {
   @BeforeEach
   public void setup() {
     mockOctopusServer = new ClientAndServer();
-    final URL serverURL = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
-    client = new OctopusClient(serverURL, defaultRootDoc());
+    final URL serverUrl = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
+    client = new OctopusClient(new OkHttpClient(), serverUrl);
     mockOctopusServer
         .when(request().withPath("/api"))
-        .respond(response().withStatusCode(200).withBody("NOT YET " + "POPULATED"));
+        .respond(response().withStatusCode(200).withBody(gson.toJson(defaultRootDoc())));
   }
 
   @Test
@@ -135,7 +136,7 @@ class BuildInformationApiTest {
         .vcsType("git")
         .vcsRoot("https://github.com/OctopusDeploy/Octopus-TeamCity.git")
         .vcsCommitNumber("12345")
-        .commits(emptyList());
+        .commits(Collections.emptyList());
     return buildInfo;
   }
 

@@ -21,7 +21,6 @@ import com.octopus.sdk.api.ProjectApi;
 import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.api.UsersApi;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.http.OctopusClientFactory;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.project.ProjectResource;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
@@ -38,8 +37,7 @@ public class ProjectsAcceptanceTest extends BaseAcceptanceTest {
 
   @Test
   public void returnsAProjectApiForAKnownSpace() throws IOException {
-    final OctopusClient client =
-        OctopusClientFactory.createClientAt(httpClient, new URL(serverURL), apiKey);
+    final OctopusClient client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final UsersApi users = UsersApi.create(client);
 
@@ -61,8 +59,7 @@ public class ProjectsAcceptanceTest extends BaseAcceptanceTest {
 
   @Test
   public void canCreateProjectWithinASpaceQueryForItAndDeleteIt() throws IOException {
-    final OctopusClient client =
-        OctopusClientFactory.createClientAt(httpClient, new URL(serverURL), apiKey);
+    final OctopusClient client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final UsersApi users = UsersApi.create(client);
 

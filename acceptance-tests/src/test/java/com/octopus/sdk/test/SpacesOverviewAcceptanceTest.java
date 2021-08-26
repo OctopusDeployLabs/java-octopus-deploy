@@ -145,9 +145,13 @@ public class SpacesOverviewAcceptanceTest extends BaseAcceptanceTest {
     toCreate.setSpaceManagersTeamMembers(Sets.newLinkedHashSet(users.getCurrentUser().getId()));
 
     final SpaceOverviewWithLinks createdSpace = spacesOverviewApi.create(toCreate);
-
-    createdSpace.setName("");
-    assertThatThrownBy(() -> spacesOverviewApi.update(createdSpace))
-        .isInstanceOf(HttpException.class);
+    try {
+      createdSpace.setName("");
+      assertThatThrownBy(() -> spacesOverviewApi.update(createdSpace))
+          .isInstanceOf(HttpException.class);
+    } finally {
+      createdSpace.setName(spaceName);
+      deleteSpaceValidly(spacesOverviewApi, createdSpace);
+    }
   }
 }

@@ -20,7 +20,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class OctopusBuildInformation {
+public class BuildInformationUploaderContext {
   private final String buildEnvironment;
   private final String branch;
   private final String buildNumber;
@@ -37,7 +37,7 @@ public class OctopusBuildInformation {
 
   private final OverwriteMode overwriteMode;
 
-  public OctopusBuildInformation(
+  public BuildInformationUploaderContext(
       final String buildEnvironment,
       final String branch,
       final String buildNumber,
@@ -114,7 +114,7 @@ public class OctopusBuildInformation {
 
   @Override
   public String toString() {
-    return new StringJoiner(", ", OctopusBuildInformation.class.getSimpleName() + "[", "]")
+    return new StringJoiner(", ", BuildInformationUploaderContext.class.getSimpleName() + "[", "]")
         .add("buildEnvironment='" + buildEnvironment + "'")
         .add("branch='" + branch + "'")
         .add("buildNumber='" + buildNumber + "'")

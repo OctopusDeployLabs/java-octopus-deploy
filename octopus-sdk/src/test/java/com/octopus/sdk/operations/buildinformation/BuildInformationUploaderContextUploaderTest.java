@@ -46,7 +46,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
-class OctopusBuildInformationUploaderTest {
+class BuildInformationUploaderContextUploaderTest {
 
   private final OctopusClient mockClient = mock(OctopusClient.class);
   private final Map<String, String> rootDocLinks = new HashMap<>();
@@ -68,8 +68,8 @@ class OctopusBuildInformationUploaderTest {
   @Test
   public void buildInformationIsPostedToCorrectEndpointWithQueryParams()
       throws IOException, URISyntaxException {
-    final OctopusBuildInformationBuilder buildInformationBuilder =
-        new OctopusBuildInformationBuilder()
+    final BuildInformationUploaderContextBuilder buildInformationUploaderContextBuilder =
+        new BuildInformationUploaderContextBuilder()
             .withBuildEnvironment("Environment")
             .withTeamCityServerUrl(new URL("http://teamcityServer"))
             .withSpaceName("")
@@ -80,10 +80,9 @@ class OctopusBuildInformationUploaderTest {
     when(mockClient.defaultSpaceAvailable()).thenReturn(true);
     when(mockClient.getRootDocument()).thenReturn(rootDoc);
 
-    final OctopusBuildInformationUploader uploader =
-        new OctopusBuildInformationUploader(mockClient);
+    final BuildInformationUploader uploader = new BuildInformationUploader(mockClient);
 
-    assertThat(uploader.upload(buildInformationBuilder.build())).isTrue();
+    assertThat(uploader.upload(buildInformationUploaderContextBuilder.build())).isTrue();
     final ArgumentCaptor<RequestEndpoint> argCaptor =
         ArgumentCaptor.forClass(RequestEndpoint.class);
     verify(mockClient, times(1))
@@ -100,9 +99,9 @@ class OctopusBuildInformationUploaderTest {
 
   @Test
   public void exceptionIsThrownIfSpaceNotSpecifiedAndDefaultSpaceNotSupported()
-      throws MalformedURLException, URISyntaxException {
-    final OctopusBuildInformationBuilder buildInformationBuilder =
-        new OctopusBuildInformationBuilder()
+      throws MalformedURLException {
+    final BuildInformationUploaderContextBuilder buildInformationUploaderContextBuilder =
+        new BuildInformationUploaderContextBuilder()
             .withBuildEnvironment("Environment")
             .withTeamCityServerUrl(new URL("http://teamcityServer"))
             .withSpaceName("")
@@ -113,10 +112,9 @@ class OctopusBuildInformationUploaderTest {
     when(mockClient.defaultSpaceAvailable()).thenReturn(false);
     when(mockClient.getRootDocument()).thenReturn(rootDoc);
 
-    final OctopusBuildInformationUploader uploader =
-        new OctopusBuildInformationUploader(mockClient);
+    final BuildInformationUploader uploader = new BuildInformationUploader(mockClient);
 
-    assertThatThrownBy(() -> uploader.upload(buildInformationBuilder.build()))
+    assertThatThrownBy(() -> uploader.upload(buildInformationUploaderContextBuilder.build()))
         .isInstanceOf(IllegalArgumentException.class);
   }
 
@@ -134,8 +132,8 @@ class OctopusBuildInformationUploaderTest {
         .thenReturn(
             new SpaceOverviewPaginatedCollection(emptyMap(), 1, 1, 1, 0, singletonList(theSpace)));
 
-    final OctopusBuildInformationBuilder buildInformationBuilder =
-        new OctopusBuildInformationBuilder()
+    final BuildInformationUploaderContextBuilder buildInformationUploaderContextBuilder =
+        new BuildInformationUploaderContextBuilder()
             .withBuildEnvironment("Environment")
             .withTeamCityServerUrl(new URL("http://teamcityServer"))
             .withSpaceName(nonexistentSpace)
@@ -143,9 +141,8 @@ class OctopusBuildInformationUploaderTest {
             .withPackageVersion("1.0")
             .withOverwriteMode(OverwriteMode.OverwriteExisting);
 
-    final OctopusBuildInformationUploader uploader =
-        new OctopusBuildInformationUploader(mockClient);
-    assertThatThrownBy(() -> uploader.upload(buildInformationBuilder.build()))
+    final BuildInformationUploader uploader = new BuildInformationUploader(mockClient);
+    assertThatThrownBy(() -> uploader.upload(buildInformationUploaderContextBuilder.build()))
         .isInstanceOf(IllegalArgumentException.class);
   }
 }

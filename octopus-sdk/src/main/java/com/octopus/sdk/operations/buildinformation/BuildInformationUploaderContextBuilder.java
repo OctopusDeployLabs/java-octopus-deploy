@@ -25,7 +25,7 @@ import java.util.List;
 
 import com.google.common.base.Preconditions;
 
-public class OctopusBuildInformationBuilder {
+public class BuildInformationUploaderContextBuilder {
 
   private String buildEnvironment;
   private String vcsType;
@@ -42,79 +42,81 @@ public class OctopusBuildInformationBuilder {
   private String packageVersion;
   private OverwriteMode overwriteMode;
 
-  public OctopusBuildInformationBuilder withBuildEnvironment(final String buildEnvironment) {
+  public BuildInformationUploaderContextBuilder withBuildEnvironment(
+      final String buildEnvironment) {
     this.buildEnvironment = buildEnvironment;
     return this;
   }
 
-  public OctopusBuildInformationBuilder withVcsType(final String vcsType) {
+  public BuildInformationUploaderContextBuilder withVcsType(final String vcsType) {
     this.vcsType = vcsType;
     return this;
   }
 
-  public OctopusBuildInformationBuilder withVcsRoot(final String vcsRoot) {
+  public BuildInformationUploaderContextBuilder withVcsRoot(final String vcsRoot) {
     this.vcsRoot = vcsRoot;
     return this;
   }
 
-  public OctopusBuildInformationBuilder withVcsCommitNumber(final String vcsCommitNumber) {
+  public BuildInformationUploaderContextBuilder withVcsCommitNumber(final String vcsCommitNumber) {
     this.vcsCommitNumber = vcsCommitNumber;
     return this;
   }
 
-  public OctopusBuildInformationBuilder withBranch(final String branch) {
+  public BuildInformationUploaderContextBuilder withBranch(final String branch) {
     this.branch = branch;
     return this;
   }
 
-  public OctopusBuildInformationBuilder withCommits(final List<Commit> commits) {
+  public BuildInformationUploaderContextBuilder withCommits(final List<Commit> commits) {
     this.commits = commits;
     return this;
   }
 
-  public OctopusBuildInformationBuilder withBuildId(final String buildId) {
+  public BuildInformationUploaderContextBuilder withBuildId(final String buildId) {
     this.buildId = buildId;
     return this;
   }
 
-  public OctopusBuildInformationBuilder withBuildNumber(final String buildNumber) {
+  public BuildInformationUploaderContextBuilder withBuildNumber(final String buildNumber) {
     this.buildNumber = buildNumber;
     return this;
   }
 
-  public OctopusBuildInformationBuilder withTeamCityServerUrl(final URL teamCityServerUrl) {
+  public BuildInformationUploaderContextBuilder withTeamCityServerUrl(final URL teamCityServerUrl) {
     this.teamCityServerUrl = teamCityServerUrl;
     return this;
   }
 
-  public OctopusBuildInformationBuilder withSpaceName(final String spaceName) {
+  public BuildInformationUploaderContextBuilder withSpaceName(final String spaceName) {
     this.spaceName = spaceName;
     return this;
   }
 
-  public OctopusBuildInformationBuilder withPackageIds(final List<String> packageIds) {
+  public BuildInformationUploaderContextBuilder withPackageIds(final List<String> packageIds) {
     this.packageIds = packageIds;
     return this;
   }
 
-  public OctopusBuildInformationBuilder withPackageVersion(final String packageVersion) {
+  public BuildInformationUploaderContextBuilder withPackageVersion(final String packageVersion) {
     this.packageVersion = packageVersion;
     return this;
   }
 
-  public OctopusBuildInformationBuilder withOverwriteMode(final OverwriteMode overwriteMode) {
+  public BuildInformationUploaderContextBuilder withOverwriteMode(
+      final OverwriteMode overwriteMode) {
     this.overwriteMode = overwriteMode;
     return this;
   }
 
-  public OctopusBuildInformation build() throws MalformedURLException, URISyntaxException {
+  public BuildInformationUploaderContext build() throws MalformedURLException, URISyntaxException {
     Preconditions.checkNotNull(spaceName, "spaceName must be set (even if empty string).");
     Preconditions.checkNotNull(
         packageVersion, "packageVersion must be set on a build information object");
     Preconditions.checkNotNull(
         overwriteMode, "overwriteMode must be set on a build information object");
 
-    return new OctopusBuildInformation(
+    return new BuildInformationUploaderContext(
         buildEnvironment,
         branch,
         buildNumber,

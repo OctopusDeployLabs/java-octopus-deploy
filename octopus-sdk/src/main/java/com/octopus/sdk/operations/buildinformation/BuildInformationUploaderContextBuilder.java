@@ -22,6 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 
 import com.google.common.base.Preconditions;
 
@@ -37,7 +38,7 @@ public class BuildInformationUploaderContextBuilder {
   private String buildId;
   private String buildNumber;
 
-  private String spaceName;
+  private Optional<String> spaceName = Optional.empty();
   private List<String> packageIds = emptyList();
   private String packageVersion;
   private OverwriteMode overwriteMode;
@@ -89,7 +90,7 @@ public class BuildInformationUploaderContextBuilder {
   }
 
   public BuildInformationUploaderContextBuilder withSpaceName(final String spaceName) {
-    this.spaceName = spaceName;
+    this.spaceName = Optional.ofNullable(spaceName);
     return this;
   }
 
@@ -110,7 +111,6 @@ public class BuildInformationUploaderContextBuilder {
   }
 
   public BuildInformationUploaderContext build() throws MalformedURLException, URISyntaxException {
-    Preconditions.checkNotNull(spaceName, "spaceName must be set (even if empty string).");
     Preconditions.checkNotNull(
         packageVersion, "packageVersion must be set on a build information object");
     Preconditions.checkNotNull(

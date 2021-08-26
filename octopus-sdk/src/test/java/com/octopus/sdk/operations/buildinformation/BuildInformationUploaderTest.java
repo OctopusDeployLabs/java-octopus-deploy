@@ -46,7 +46,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
-class BuildInformationUploaderContextUploaderTest {
+class BuildInformationUploaderTest {
 
   private final OctopusClient mockClient = mock(OctopusClient.class);
   private final Map<String, String> rootDocLinks = new HashMap<>();
@@ -72,7 +72,7 @@ class BuildInformationUploaderContextUploaderTest {
         new BuildInformationUploaderContextBuilder()
             .withBuildEnvironment("Environment")
             .withTeamCityServerUrl(new URL("http://teamcityServer"))
-            .withSpaceName("")
+            .withSpaceName(null)
             .withPackageIds(singletonList("myPackage.app"))
             .withPackageVersion("1.0")
             .withOverwriteMode(OverwriteMode.OverwriteExisting);

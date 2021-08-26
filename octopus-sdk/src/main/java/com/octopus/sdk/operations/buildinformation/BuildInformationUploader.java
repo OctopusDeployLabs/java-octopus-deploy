@@ -37,12 +37,11 @@ public class BuildInformationUploader {
   public boolean upload(final BuildInformationUploaderContext buildInformationUploaderContext)
       throws IOException {
     final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
-    final String targetSpace = buildInformationUploaderContext.getSpaceName();
     final SpaceHome spaceHome;
-    if (targetSpace == null) {
-      spaceHome = spaceHomeApi.getDefault();
+    if (buildInformationUploaderContext.getSpaceName().isPresent()) {
+      spaceHome = spaceHomeApi.getByName(buildInformationUploaderContext.getSpaceName().get());
     } else {
-      spaceHome = spaceHomeApi.getByName(targetSpace);
+      spaceHome = spaceHomeApi.getDefault();
     }
 
     final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);

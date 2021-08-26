@@ -18,6 +18,7 @@ import com.octopus.sdk.api.OverwriteMode;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.StringJoiner;
 
 public class BuildInformationUploaderContext {
@@ -31,7 +32,7 @@ public class BuildInformationUploaderContext {
 
   private final List<Commit> commits;
 
-  private final String spaceName;
+  private final Optional<String> spaceName;
   private final List<String> packageIds;
   private final String packageVersion;
 
@@ -46,7 +47,7 @@ public class BuildInformationUploaderContext {
       final String vcsRoot,
       final String vcsCommitNumber,
       final List<Commit> commits,
-      final String spaceName,
+      final Optional<String> spaceName,
       final List<String> packageIds,
       final String packageVersion,
       final OverwriteMode overwriteMode) {
@@ -96,7 +97,7 @@ public class BuildInformationUploaderContext {
     return commits;
   }
 
-  public String getSpaceName() {
+  public Optional<String> getSpaceName() {
     return spaceName;
   }
 

@@ -147,6 +147,7 @@ public class SpacesOverviewAcceptanceTest extends BaseAcceptanceTest {
     final SpaceOverviewWithLinks createdSpace = spacesOverviewApi.create(toCreate);
 
     createdSpace.setName("");
-    assertThatThrownBy(() -> spacesOverviewApi.update(createdSpace)).isInstanceOf(HttpException.class);
+    assertThatThrownBy(() -> spacesOverviewApi.update(createdSpace))
+        .isInstanceOf(HttpException.class);
   }
 }

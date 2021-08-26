@@ -54,7 +54,7 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
 
     SpaceOverviewWithLinks toCreate = null;
     try {
-      final OctopusClient client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
+      client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
       spacesOverviewApi = SpacesOverviewApi.create(client);
       final UsersApi users = UsersApi.create(client);
 

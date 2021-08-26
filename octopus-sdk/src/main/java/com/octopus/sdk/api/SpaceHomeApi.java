@@ -23,6 +23,8 @@ import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 import java.io.IOException;
 import java.util.Optional;
 
+import com.google.common.base.Preconditions;
+
 public class SpaceHomeApi {
 
   private final OctopusClient client;
@@ -31,18 +33,20 @@ public class SpaceHomeApi {
     this.client = client;
   }
 
-  public SpaceHome getByName(final String spaceName) throws IOException {
-    if (spaceName == null) {
-      if (client.defaultSpaceAvailable()) {
-        return client.getRootDocument();
-      }
-      final String error =
-          String.format(
-              "No space was defined, but Octopus Server at %s has no default space available. "
-                  + "Either enable a default space on Octopus server, or specify a specific space name",
-              client.getServerUrl());
-      throw new IllegalArgumentException(error);
+  public SpaceHome getDefault() {
+    if (client.defaultSpaceAvailable()) {
+      return client.getRootDocument();
     }
+    final String error =
+        String.format(
+            "No space was defined, but Octopus Server at %s has no default space available. "
+                + "Either enable a default space on Octopus server, or specify a specific space name",
+            client.getServerUrl());
+    throw new IllegalArgumentException(error);
+  }
+
+  public SpaceHome getByName(final String spaceName) throws IOException {
+    Preconditions.checkNotNull(spaceName, "Cannot find space with a null name");
 
     final SpacesOverviewApi spacesApi = SpacesOverviewApi.create(client);
     final Optional<SpaceOverviewWithLinks> containingSpace = spacesApi.getByName(spaceName);

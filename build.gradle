@@ -23,7 +23,7 @@ buildscript {
 import net.ltgt.gradle.errorprone.CheckSeverity
 
 plugins {
-    id 'com.diffplug.spotless' version '5.14.1'
+    id 'com.diffplug.spotless' version '5.14.2'
     id 'com.github.ben-manes.versions' version '0.36.0'
     id 'com.github.hierynomus.license' version '0.15.0'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -48,7 +48,6 @@ def buildAliases = ['dev': [
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'maven-publish'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'net.ltgt.errorprone'
     apply from: "${rootDir}/gradle/versions.gradle"
@@ -178,9 +177,8 @@ jar { enabled = false }
 // Do not allow publishing if all tests haven't passed
 artifactoryPublish.dependsOn(test)
 
-def artifactoryUser = project.hasProperty('artifactoryUser') ? project.property('artifactoryUser') : System.getenv('ARTIFACTORY_USER')
-def artifactoryPassword = project.hasProperty('artifactoryApiKey') ? project.property('artifactoryApiKey') :
-        System.getenv('ARTIFACTORY_PASSWORD')
+def artifactoryUsername = System.getenv('ARTIFACTORY_USERNAME')
+def artifactoryPassword = System.getenv('ARTIFACTORY_PASSWORD')
 
 artifactory {
     contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver

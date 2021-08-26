@@ -23,7 +23,7 @@ buildscript {
 import net.ltgt.gradle.errorprone.CheckSeverity
 
 plugins {
-    id 'com.diffplug.spotless' version '5.14.2'
+    id 'com.diffplug.spotless' version '5.14.1'
     id 'com.github.ben-manes.versions' version '0.36.0'
     id 'com.github.hierynomus.license' version '0.15.0'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -48,6 +48,7 @@ def buildAliases = ['dev': [
 
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'maven-publish'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'net.ltgt.errorprone'
     apply from: "${rootDir}/gradle/versions.gradle"
@@ -186,7 +187,7 @@ artifactory {
     publish {
         repository {
             repoKey = 'maven'
-            username = "${artifactoryUser}"
+            username = "${artifactoryUsername}"
             password = "${artifactoryPassword}"
             maven = true
         }

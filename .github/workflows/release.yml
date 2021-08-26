@@ -30,3 +30,7 @@ jobs:
           OCTOPUS_SDK_AT_USE_EXISTING_SERVER: false
       - name: Publish to Maven
         run: ./gradlew artifactoryPublish
+        env:
+          ARTIFACTORY_USERNAME : ${{ secrets.ARTIFACTORY_USERNAME }}
+          ARTIFACTORY_PASSWORD : ${{ secrets.ARTIFACTORY_PASSWORD }}
+          OCTOPUS_SDK_AT_USE_EXISTING_SERVER: false

@@ -178,9 +178,8 @@ jar { enabled = false }
 // Do not allow publishing if all tests haven't passed
 artifactoryPublish.dependsOn(test)
 
-def artifactoryUser = project.hasProperty('artifactoryUser') ? project.property('artifactoryUser') : System.getenv('ARTIFACTORY_USER')
-def artifactoryPassword = project.hasProperty('artifactoryApiKey') ? project.property('artifactoryApiKey') :
-        System.getenv('ARTIFACTORY_PASSWORD')
+def artifactoryUsername = System.getenv('ARTIFACTORY_USERNAME')
+def artifactoryPassword = System.getenv('ARTIFACTORY_PASSWORD')
 
 artifactory {
     contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
@@ -188,7 +187,7 @@ artifactory {
     publish {
         repository {
             repoKey = 'maven'
-            username = "${artifactoryUser}"
+            username = "${artifactoryUsername}"
             password = "${artifactoryPassword}"
             maven = true
         }

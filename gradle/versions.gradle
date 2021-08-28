@@ -34,6 +34,11 @@ dependencyManagement {
             entry 'mockserver-client-java'
         }
 
+        dependencySet(group: 'org.mockito', version: '3.12.1') {
+            entry 'mockito-core'
+            entry 'mockito-junit-jupiter'
+        }
+
         // Needed for OpenApi Generate
 
         dependency "io.swagger:swagger-annotations:1.5.24"

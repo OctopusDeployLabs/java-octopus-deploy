@@ -34,12 +34,11 @@ public class BuildInformationUploaderContextBuilder {
   private String vcsCommitNumber;
   private String branch;
   private List<Commit> commits = emptyList();
-  private URL teamCityServerUrl;
-  private String buildId;
+  private URL buildUrl;
   private String buildNumber;
 
   private Optional<String> spaceName = Optional.empty();
-  private List<String> packageIds = emptyList();
+  private String packageId;
   private String packageVersion;
   private OverwriteMode overwriteMode;
 
@@ -74,18 +73,13 @@ public class BuildInformationUploaderContextBuilder {
     return this;
   }
 
-  public BuildInformationUploaderContextBuilder withBuildId(final String buildId) {
-    this.buildId = buildId;
-    return this;
-  }
-
   public BuildInformationUploaderContextBuilder withBuildNumber(final String buildNumber) {
     this.buildNumber = buildNumber;
     return this;
   }
 
-  public BuildInformationUploaderContextBuilder withTeamCityServerUrl(final URL teamCityServerUrl) {
-    this.teamCityServerUrl = teamCityServerUrl;
+  public BuildInformationUploaderContextBuilder withBuildUrl(final URL buildUrl) {
+    this.buildUrl = buildUrl;
     return this;
   }
 
@@ -94,8 +88,8 @@ public class BuildInformationUploaderContextBuilder {
     return this;
   }
 
-  public BuildInformationUploaderContextBuilder withPackageIds(final List<String> packageIds) {
-    this.packageIds = packageIds;
+  public BuildInformationUploaderContextBuilder withPackageId(final String packageId) {
+    this.packageId = packageId;
     return this;
   }
 
@@ -115,18 +109,21 @@ public class BuildInformationUploaderContextBuilder {
         packageVersion, "packageVersion must be set on a build information object");
     Preconditions.checkNotNull(
         overwriteMode, "overwriteMode must be set on a build information object");
+    Preconditions.checkNotNull(
+        buildUrl, "teamCityServerUrl must be set on a build information object");
 
+    // The "extra bit on the URL needs to be moved out of here.
     return new BuildInformationUploaderContext(
         buildEnvironment,
         branch,
         buildNumber,
-        new URL(teamCityServerUrl.toURI().resolve("/viewLog.html?buildId=" + buildId).toString()),
+        buildUrl,
         vcsType,
         vcsRoot,
         vcsCommitNumber,
         commits,
         spaceName,
-        packageIds,
+        packageId,
         packageVersion,
         overwriteMode);
   }

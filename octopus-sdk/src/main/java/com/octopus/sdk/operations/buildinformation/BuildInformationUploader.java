@@ -22,64 +22,62 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.buildinformation.BuildInformationResource;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
 import com.octopus.sdk.model.spaces.SpaceHome;
+import com.octopus.sdk.operations.common.BaseUploader;
+import com.octopus.sdk.operations.common.SpaceHomeSelector;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
 
-public class BuildInformationUploader {
+import com.google.common.base.Preconditions;
 
-  private final OctopusClient client;
+public class BuildInformationUploader extends BaseUploader {
 
-  public BuildInformationUploader(final OctopusClient client) {
-    this.client = client;
+  public BuildInformationUploader(
+      final OctopusClient client, final SpaceHomeSelector spaceHomeSelector) {
+    super(client, spaceHomeSelector);
   }
 
-  public boolean upload(final BuildInformationUploaderContext buildInformationUploaderContext)
-      throws IOException {
+  public static BuildInformationUploader create(final OctopusClient client) {
     final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
-    final SpaceHome spaceHome;
-    if (buildInformationUploaderContext.getSpaceName().isPresent()) {
-      spaceHome = spaceHomeApi.getByName(buildInformationUploaderContext.getSpaceName().get());
-    } else {
-      spaceHome = spaceHomeApi.getDefault();
-    }
+    final SpaceHomeSelector spaceHomeSelector = new SpaceHomeSelector(spaceHomeApi);
+    return new BuildInformationUploader(client, spaceHomeSelector);
+  }
 
+  public boolean upload(final BuildInformationUploaderContext context) throws IOException {
+    Preconditions.checkNotNull(context, "Attempted to upload build information with null context.");
+
+    final SpaceHome spaceHome = spaceHomeSelector.getSpaceHome(context.getSpaceName());
     final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);
 
-    uploadToSpace(buildInformationUploaderContext, buildInfoApi);
+    uploadToSpace(context, buildInfoApi);
 
     return true;
   }
 
   private void uploadToSpace(
-      final BuildInformationUploaderContext buildInformationUploaderContext,
-      final BuildInformationApi buildInfoApi)
+      final BuildInformationUploaderContext context, final BuildInformationApi buildInfoApi)
       throws IOException {
-    final BuildInformationResource buildInfo = createFrom(buildInformationUploaderContext);
+    final BuildInformationResource buildInfo = createFrom(context);
     final OctopusPackageVersionBuildInformation resource =
         new OctopusPackageVersionBuildInformation();
-    resource.withVersion(buildInformationUploaderContext.getPackageVersion());
+    resource.withVersion(context.getPackageVersion());
+    resource.withPackageId(context.getPackageId());
     resource.withBuildInformation(buildInfo);
-
-    for (final String packageId : buildInformationUploaderContext.getPackageIds()) {
-      resource.withPackageId(packageId);
-      buildInfoApi.create(resource, buildInformationUploaderContext.getOverwriteMode());
-    }
+    buildInfoApi.create(resource, context.getOverwriteMode());
   }
 
-  private BuildInformationResource createFrom(
-      final BuildInformationUploaderContext buildInformationUploaderContext) {
+  private BuildInformationResource createFrom(final BuildInformationUploaderContext context) {
     final BuildInformationResource resource = new BuildInformationResource();
     resource
-        .buildNumber(buildInformationUploaderContext.getBuildNumber())
-        .buildUrl(buildInformationUploaderContext.getBuildUrl().toString())
-        .buildEnvironment(buildInformationUploaderContext.getBuildEnvironment())
-        .branch(buildInformationUploaderContext.getBranch())
-        .vcsRoot(buildInformationUploaderContext.getVcsRoot())
-        .vcsCommitNumber(buildInformationUploaderContext.getVcsCommitNumber())
-        .vcsType(buildInformationUploaderContext.getVcsType())
+        .buildNumber(context.getBuildNumber())
+        .buildUrl(context.getBuildUrl().toString())
+        .buildEnvironment(context.getBuildEnvironment())
+        .branch(context.getBranch())
+        .vcsRoot(context.getVcsRoot())
+        .vcsCommitNumber(context.getVcsCommitNumber())
+        .vcsType(context.getVcsType())
         .commits(
-            buildInformationUploaderContext.getCommits().stream()
+            context.getCommits().stream()
                 .map(BuildInformationUploader::from)
                 .collect(Collectors.toList()));
 

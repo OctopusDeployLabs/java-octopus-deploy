@@ -15,7 +15,6 @@
 
 package com.octopus.sdk.operations.buildinformation;
 
-import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -29,120 +28,99 @@ import static org.mockito.Mockito.when;
 import com.octopus.sdk.api.OverwriteMode;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
-import com.octopus.sdk.model.RootDocument;
+import com.octopus.sdk.model.buildinformation.BuildInformationResource;
+import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformationMappedResource;
-import com.octopus.sdk.model.spaces.SpaceOverviewPaginatedCollection;
-import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
+import com.octopus.sdk.model.spaces.SpaceHome;
+import com.octopus.sdk.operations.common.SpaceHomeSelector;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 class BuildInformationUploaderTest {
 
   private final OctopusClient mockClient = mock(OctopusClient.class);
-  private final Map<String, String> rootDocLinks = new HashMap<>();
-  final RootDocument rootDoc =
-      new RootDocument(
-          "OctopusDeploy",
-          "2021.1.7608",
-          "3.0.0",
-          "140fb147-7111-41bb-a0d9-b3839f68858e",
-          true,
-          rootDocLinks);
-
-  @BeforeEach
-  public void setup() {
-    rootDocLinks.put("BuildInformation", "/api/arbitrary-path");
-    rootDocLinks.put("Spaces", "/api/spaces");
-  }
+  private final SpaceHome mockSpaceHome = mock(SpaceHome.class);
+  private final SpaceHomeSelector mockSpaceHomeSelector = mock(SpaceHomeSelector.class);
 
   @Test
   public void buildInformationIsPostedToCorrectEndpointWithQueryParams()
       throws IOException, URISyntaxException {
-    final BuildInformationUploaderContextBuilder buildInformationUploaderContextBuilder =
+    final String buildInfoLink = "/api/buildInfoLink";
+    when(mockSpaceHome.getBuildInformationLink()).thenReturn(buildInfoLink);
+    when(mockSpaceHomeSelector.getSpaceHome(Optional.empty())).thenReturn(mockSpaceHome);
+
+    final Commit commit = new Commit("12345", "SomeWorkPerformed");
+    final BuildInformationUploaderContext context =
         new BuildInformationUploaderContextBuilder()
             .withBuildEnvironment("Environment")
-            .withTeamCityServerUrl(new URL("http://teamcityServer"))
+            .withBuildUrl(new URL("http://teamcityServer"))
             .withSpaceName(null)
-            .withPackageIds(singletonList("myPackage.app"))
+            .withPackageId("myPackage.app")
             .withPackageVersion("1.0")
-            .withOverwriteMode(OverwriteMode.OverwriteExisting);
+            .withOverwriteMode(OverwriteMode.OverwriteExisting)
+            .withCommits(singletonList(commit))
+            .withVcsCommitNumber("12345")
+            .withVcsType("git")
+            .withVcsRoot("vcsRoot")
+            .build();
 
-    when(mockClient.defaultSpaceAvailable()).thenReturn(true);
-    when(mockClient.getRootDocument()).thenReturn(rootDoc);
+    final BuildInformationUploader uploader =
+        new BuildInformationUploader(mockClient, mockSpaceHomeSelector);
 
-    final BuildInformationUploader uploader = new BuildInformationUploader(mockClient);
+    assertThat(uploader.upload(context)).isTrue();
+    verify(mockSpaceHomeSelector, times(1)).getSpaceHome(Optional.empty());
 
-    assertThat(uploader.upload(buildInformationUploaderContextBuilder.build())).isTrue();
-    final ArgumentCaptor<RequestEndpoint> argCaptor =
+    final ArgumentCaptor<RequestEndpoint> requestEndpointCaptor =
         ArgumentCaptor.forClass(RequestEndpoint.class);
+    final ArgumentCaptor<OctopusPackageVersionBuildInformation> buildInfoCaptor =
+        ArgumentCaptor.forClass(OctopusPackageVersionBuildInformation.class);
     verify(mockClient, times(1))
         .post(
-            argCaptor.capture(),
-            any(),
+            requestEndpointCaptor.capture(),
+            buildInfoCaptor.capture(),
             eq(OctopusPackageVersionBuildInformationMappedResource.class));
-    assertThat(argCaptor.getAllValues()).hasSize(1);
-    assertThat(argCaptor.getValue().getPath()).isEqualTo("/api/arbitrary-path");
-    assertThat(argCaptor.getValue().getQueryParameters().keySet()).containsExactly("overwriteMode");
-    assertThat(argCaptor.getValue().getQueryParameters().values())
+    assertThat(requestEndpointCaptor.getValue().getPath()).isEqualTo(buildInfoLink);
+    assertThat(requestEndpointCaptor.getValue().getQueryParameters().keySet())
+        .containsExactly("overwriteMode");
+    assertThat(requestEndpointCaptor.getValue().getQueryParameters().values())
         .containsExactly(singletonList(OverwriteMode.OverwriteExisting.toString()));
+
+    final BuildInformationResource transmittedBuildInfo =
+        buildInfoCaptor.getValue().getBuildInformation();
+    assertThat(buildInfoCaptor.getValue().getVersion()).isEqualTo(context.getPackageVersion());
+    assertThat(buildInfoCaptor.getValue().getPackageId()).isEqualTo(context.getPackageId());
+    assertThat(transmittedBuildInfo.getBuildEnvironment()).isEqualTo(context.getBuildEnvironment());
+    assertThat(transmittedBuildInfo.getVcsRoot()).isEqualTo(context.getVcsRoot());
+    assertThat(transmittedBuildInfo.getVcsType()).isEqualTo(context.getVcsType());
+    assertThat(transmittedBuildInfo.getCommits()).hasSize(1);
   }
 
   @Test
-  public void exceptionIsThrownIfSpaceNotSpecifiedAndDefaultSpaceNotSupported()
-      throws MalformedURLException {
+  public void exceptionIsThrownIfUnableToFindAMatchingSpace() throws IOException {
+    final String spaceName = "theSpace";
     final BuildInformationUploaderContextBuilder buildInformationUploaderContextBuilder =
         new BuildInformationUploaderContextBuilder()
             .withBuildEnvironment("Environment")
-            .withTeamCityServerUrl(new URL("http://teamcityServer"))
-            .withSpaceName("")
-            .withPackageIds(singletonList("myPackage.app"))
+            .withBuildUrl(new URL("http://teamcityServer/buildid"))
+            .withSpaceName(spaceName)
+            .withPackageId("myPackage.app")
             .withPackageVersion("1.0")
             .withOverwriteMode(OverwriteMode.OverwriteExisting);
 
-    when(mockClient.defaultSpaceAvailable()).thenReturn(false);
-    when(mockClient.getRootDocument()).thenReturn(rootDoc);
+    final Exception spaceHomeException = new IllegalArgumentException("No space exists");
+    when(mockSpaceHomeSelector.getSpaceHome(any())).thenThrow(spaceHomeException);
 
-    final BuildInformationUploader uploader = new BuildInformationUploader(mockClient);
+    final BuildInformationUploader uploader =
+        new BuildInformationUploader(mockClient, mockSpaceHomeSelector);
 
     assertThatThrownBy(() -> uploader.upload(buildInformationUploaderContextBuilder.build()))
-        .isInstanceOf(IllegalArgumentException.class);
-  }
-
-  @Test
-  public void exceptionIsThrownIfSpaceDoesNotExist() throws IOException {
-    final String nonexistentSpace = "NonExistentSpace";
-    final SpaceOverviewWithLinks theSpace = new SpaceOverviewWithLinks();
-    final Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put("partialName", singletonList(nonexistentSpace));
-    theSpace.setName("Space Name");
-    when(mockClient.getServerUrl()).thenReturn(new URL("http://mockedTestServer.com"));
-    when(mockClient.supportsSpaces()).thenReturn(true);
-    when(mockClient.getRootDocument()).thenReturn(rootDoc);
-    when(mockClient.get(eq(new RequestEndpoint("/api/spaces", queryParams)), any()))
-        .thenReturn(
-            new SpaceOverviewPaginatedCollection(emptyMap(), 1, 1, 1, 0, singletonList(theSpace)));
-
-    final BuildInformationUploaderContextBuilder buildInformationUploaderContextBuilder =
-        new BuildInformationUploaderContextBuilder()
-            .withBuildEnvironment("Environment")
-            .withTeamCityServerUrl(new URL("http://teamcityServer"))
-            .withSpaceName(nonexistentSpace)
-            .withPackageIds(singletonList("myPackage.app"))
-            .withPackageVersion("1.0")
-            .withOverwriteMode(OverwriteMode.OverwriteExisting);
-
-    final BuildInformationUploader uploader = new BuildInformationUploader(mockClient);
-    assertThatThrownBy(() -> uploader.upload(buildInformationUploaderContextBuilder.build()))
-        .isInstanceOf(IllegalArgumentException.class);
+        .isEqualTo(spaceHomeException);
+    verify(mockSpaceHomeSelector, times(1)).getSpaceHome(Optional.of(spaceName));
   }
 }

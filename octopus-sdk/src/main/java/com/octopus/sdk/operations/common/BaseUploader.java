@@ -13,22 +13,17 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.operations.buildinformation;
+package com.octopus.sdk.operations.common;
 
-public class Commit {
-  public String Id;
-  public String Comment;
+import com.octopus.sdk.http.OctopusClient;
 
-  public Commit(final String Id, final String Comment) {
-    this.Id = Id;
-    this.Comment = Comment;
-  }
+public class BaseUploader {
 
-  public String getId() {
-    return Id;
-  }
+  protected final OctopusClient client;
+  protected final SpaceHomeSelector spaceHomeSelector;
 
-  public String getComment() {
-    return Comment;
+  public BaseUploader(final OctopusClient client, final SpaceHomeSelector spaceHomeSelector) {
+    this.client = client;
+    this.spaceHomeSelector = spaceHomeSelector;
   }
 }

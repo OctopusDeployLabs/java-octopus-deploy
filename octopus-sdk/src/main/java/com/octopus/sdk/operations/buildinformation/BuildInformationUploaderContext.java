@@ -33,7 +33,7 @@ public class BuildInformationUploaderContext {
   private final List<Commit> commits;
 
   private final Optional<String> spaceName;
-  private final List<String> packageIds;
+  private final String packageId;
   private final String packageVersion;
 
   private final OverwriteMode overwriteMode;
@@ -48,7 +48,7 @@ public class BuildInformationUploaderContext {
       final String vcsCommitNumber,
       final List<Commit> commits,
       final Optional<String> spaceName,
-      final List<String> packageIds,
+      final String packageId,
       final String packageVersion,
       final OverwriteMode overwriteMode) {
     this.buildEnvironment = buildEnvironment;
@@ -60,7 +60,7 @@ public class BuildInformationUploaderContext {
     this.vcsCommitNumber = vcsCommitNumber;
     this.commits = commits;
     this.spaceName = spaceName;
-    this.packageIds = packageIds;
+    this.packageId = packageId;
     this.packageVersion = packageVersion;
     this.overwriteMode = overwriteMode;
   }
@@ -101,8 +101,8 @@ public class BuildInformationUploaderContext {
     return spaceName;
   }
 
-  public List<String> getPackageIds() {
-    return packageIds;
+  public String getPackageId() {
+    return packageId;
   }
 
   public String getPackageVersion() {
@@ -125,7 +125,7 @@ public class BuildInformationUploaderContext {
         .add("vcsCommitNumber='" + vcsCommitNumber + "'")
         .add("commits=" + commits)
         .add("spaceName='" + spaceName + "'")
-        .add("packageIds=" + packageIds)
+        .add("packageId=" + packageId)
         .add("packageVersion='" + packageVersion + "'")
         .add("overwriteMode=" + overwriteMode)
         .toString();

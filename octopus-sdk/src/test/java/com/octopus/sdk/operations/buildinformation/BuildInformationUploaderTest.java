@@ -59,7 +59,7 @@ class BuildInformationUploaderTest {
     final BuildInformationUploaderContext context =
         new BuildInformationUploaderContextBuilder()
             .withBuildEnvironment("Environment")
-            .withBuildUrl(new URL("http://teamcityServer"))
+            .withBuildUrl(new URL("http://buildServer.com/5"))
             .withSpaceName(null)
             .withPackageId("myPackage.app")
             .withPackageVersion("1.0")

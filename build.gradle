@@ -73,8 +73,6 @@ subprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-        maven { url "https://download.jetbrains.com/teamcity-repository" }
-        maven { url "https://packages.jetbrains.team/maven/p/teamcity-rest-client/teamcity-rest-client" }
     }
 
     dependencies {

@@ -109,8 +109,7 @@ public class BuildInformationUploaderContextBuilder {
         packageVersion, "packageVersion must be set on a build information object");
     Preconditions.checkNotNull(
         overwriteMode, "overwriteMode must be set on a build information object");
-    Preconditions.checkNotNull(
-        buildUrl, "teamCityServerUrl must be set on a build information object");
+    Preconditions.checkNotNull(buildUrl, "buildUrl must be set on a build information object");
 
     // The "extra bit on the URL needs to be moved out of here.
     return new BuildInformationUploaderContext(

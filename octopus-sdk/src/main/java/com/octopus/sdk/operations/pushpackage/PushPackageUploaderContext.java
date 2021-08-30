@@ -46,7 +46,8 @@ public class PushPackageUploaderContext {
     return overwriteMode;
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return new StringJoiner(", ", PushPackageUploaderContext.class.getSimpleName() + "[", "]")
         .add("spaceName=" + spaceName)
         .add("filename=" + filename)

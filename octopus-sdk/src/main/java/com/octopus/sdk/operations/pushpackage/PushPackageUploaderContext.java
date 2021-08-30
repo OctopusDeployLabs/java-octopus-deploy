@@ -19,6 +19,7 @@ import com.octopus.sdk.api.OverwriteMode;
 
 import java.io.File;
 import java.util.Optional;
+import java.util.StringJoiner;
 
 public class PushPackageUploaderContext {
 
@@ -43,5 +44,13 @@ public class PushPackageUploaderContext {
 
   public OverwriteMode getOverwriteMode() {
     return overwriteMode;
+  }
+
+  @Override public String toString() {
+    return new StringJoiner(", ", PushPackageUploaderContext.class.getSimpleName() + "[", "]")
+        .add("spaceName=" + spaceName)
+        .add("filename=" + filename)
+        .add("overwriteMode=" + overwriteMode)
+        .toString();
   }
 }

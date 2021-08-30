@@ -50,10 +50,10 @@ public class PushPackageUploader extends BaseUploader {
     final SpaceHome spaceHome = spaceHomeSelector.getSpaceHome(context.getSpaceName());
     final PackagesApi packagesApi = PackagesApi.create(client, spaceHome);
 
-    LOG.debug("Uploading {}", context.getFilename());
+    LOG.debug("Uploading {}", context.getFile());
     final PackageFromBuiltInFeedResource result =
-        packagesApi.uploadPackage(context.getFilename(), context.getOverwriteMode());
-    LOG.debug("Upload of {} complete.", context.getFilename());
+        packagesApi.uploadPackage(context.getFile(), context.getOverwriteMode());
+    LOG.debug("Upload of {} complete.", context.getFile());
 
     return result;
   }

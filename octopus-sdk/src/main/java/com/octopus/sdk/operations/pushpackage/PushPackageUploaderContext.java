@@ -38,7 +38,7 @@ public class PushPackageUploaderContext {
     return spaceName;
   }
 
-  public File getFilename() {
+  public File getFile() {
     return filename;
   }
 

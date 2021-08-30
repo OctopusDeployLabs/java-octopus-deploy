@@ -32,7 +32,6 @@ plugins {
     id "com.jfrog.artifactory" version '4.18.0'
     id 'com.adarshr.test-logger' version '3.0.0'
     id 'maven-publish'
-    //id 'java'
     id 'java-library'
     id 'distribution'
 }

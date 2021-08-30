@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
@@ -72,5 +73,18 @@ public class RequestEndpoint {
 
   private static boolean isValidPathAndQuery(String pathWithQuery) {
     return pathWithQuery != null && pathWithQuery.contains("&") && pathWithQuery.contains("=");
+  }
+
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    final RequestEndpoint that = (RequestEndpoint) o;
+    return Objects.equal(path, that.path) && Objects.equal(queryParameters, that.queryParameters);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(path, queryParameters);
   }
 }

@@ -32,7 +32,8 @@ plugins {
     id "com.jfrog.artifactory" version '4.18.0'
     id 'com.adarshr.test-logger' version '3.0.0'
     id 'maven-publish'
-    id 'java'
+    //id 'java'
+    id 'java-library'
     id 'distribution'
 }
 
@@ -47,7 +48,7 @@ def buildAliases = ['dev': [
 ]]
 
 subprojects {
-    apply plugin: 'java'
+    apply plugin: 'java-library'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'net.ltgt.errorprone'
     apply from: "${rootDir}/gradle/versions.gradle"
@@ -158,7 +159,8 @@ subprojects {
             publications {
                 mavenJava(MavenPublication) {
                     groupId = "com.octopus"
-                    version "${project.version}"
+                    version = "${project.version}"
+                    from components.java
                     artifact jar
                     artifact sourcesJar
                     artifact javadocJar

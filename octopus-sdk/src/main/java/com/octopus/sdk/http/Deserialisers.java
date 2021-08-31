@@ -23,7 +23,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
-public class Deserialisers {
+class Deserialisers {
 
   public static class OffsetDateTimeDeserialiser implements JsonDeserializer<OffsetDateTime> {
 

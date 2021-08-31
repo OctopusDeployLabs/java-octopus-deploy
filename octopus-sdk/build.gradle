@@ -28,9 +28,9 @@ tasks.named('jar') {
 dependencies {
   api project(':octopus-openapi-wrapper')
   api 'com.squareup.okhttp3:okhttp'
-  //api 'com.google.code.gson:gson'
-  api 'com.google.guava:guava'
-  api 'org.apache.logging.log4j:log4j-api'
+  implementation 'com.google.code.gson:gson'
+  implementation 'com.google.guava:guava'
+  implementation 'org.apache.logging.log4j:log4j-api'
   runtimeOnly 'org.apache.logging.log4j:log4j-core'
   runtimeOnly 'xerces:xercesImpl'
 

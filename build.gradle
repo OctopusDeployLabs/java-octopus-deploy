@@ -160,9 +160,12 @@ subprojects {
                     groupId = "com.octopus"
                     version = "${project.version}"
                     from components.java
-                    artifact jar
                     artifact sourcesJar
                     artifact javadocJar
+                    versionMapping {
+                        usage('java-api') { fromResolutionOf('runtimeClasspath') }
+                        usage('java-runtime') { fromResolutionResult() }
+                    }
                 }
             }
         }

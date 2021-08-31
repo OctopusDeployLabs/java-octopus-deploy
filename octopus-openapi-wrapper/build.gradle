@@ -59,15 +59,15 @@ openApiGenerate {
 }
 
 dependencies {
-  api 'io.swagger:swagger-annotations'
-  api "com.google.code.findbugs:jsr305"
-  api 'com.squareup.okhttp3:okhttp'
-  api 'com.squareup.okhttp3:logging-interceptor'
-  api 'com.google.code.gson:gson'
-  api 'io.gsonfire:gson-fire'
-  api group: 'org.apache.commons', name: 'commons-lang3'
-  api 'io.swagger.parser.v3:swagger-parser-v3'
-  api 'javax.annotation:javax.annotation-api'
+  implementation 'io.swagger:swagger-annotations'
+  implementation "com.google.code.findbugs:jsr305"
+  implementation 'com.squareup.okhttp3:okhttp'
+  implementation 'com.squareup.okhttp3:logging-interceptor'
+  implementation 'com.google.code.gson:gson'
+  implementation 'io.gsonfire:gson-fire'
+  implementation group: 'org.apache.commons', name: 'commons-lang3'
+  implementation 'io.swagger.parser.v3:swagger-parser-v3'
+  implementation 'javax.annotation:javax.annotation-api'
 }
 
 javadoc {

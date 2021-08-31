@@ -17,6 +17,7 @@ package com.octopus.sdk.model;
 
 import java.util.Map;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.annotations.SerializedName;
 
 public class BaseResource {
@@ -29,6 +30,11 @@ public class BaseResource {
 
   public String getId() {
     return id;
+  }
+
+  @VisibleForTesting
+  public void setId(final String id) {
+    this.id = id;
   }
 
   public Map<String, String> getLinks() {

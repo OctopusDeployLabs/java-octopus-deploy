@@ -25,17 +25,17 @@ import java.util.Optional;
 import com.google.common.base.Preconditions;
 
 public class BuildInformationUploaderContextBuilder {
-
   private String buildEnvironment;
-  private String vcsType;
-  private String vcsRoot;
-  private String vcsCommitNumber;
-  private String branch;
-  private List<Commit> commits = emptyList();
-  private URL buildUrl;
   private String buildNumber;
-
   private Optional<String> spaceName = Optional.empty();
+
+  private Optional<URL> buildUrl = Optional.empty();
+  private Optional<String> branch = Optional.empty();
+  private Optional<String> vcsType = Optional.empty();
+  private Optional<String> vcsRoot = Optional.empty();
+  private Optional<String> vcsCommitNumber = Optional.empty();
+
+  private List<Commit> commits;
   private String packageId;
   private String packageVersion;
   private OverwriteMode overwriteMode;
@@ -47,22 +47,22 @@ public class BuildInformationUploaderContextBuilder {
   }
 
   public BuildInformationUploaderContextBuilder withVcsType(final String vcsType) {
-    this.vcsType = vcsType;
+    this.vcsType = Optional.ofNullable(vcsType);
     return this;
   }
 
   public BuildInformationUploaderContextBuilder withVcsRoot(final String vcsRoot) {
-    this.vcsRoot = vcsRoot;
+    this.vcsRoot = Optional.ofNullable(vcsRoot);
     return this;
   }
 
   public BuildInformationUploaderContextBuilder withVcsCommitNumber(final String vcsCommitNumber) {
-    this.vcsCommitNumber = vcsCommitNumber;
+    this.vcsCommitNumber = Optional.ofNullable(vcsCommitNumber);
     return this;
   }
 
   public BuildInformationUploaderContextBuilder withBranch(final String branch) {
-    this.branch = branch;
+    this.branch = Optional.ofNullable(branch);
     return this;
   }
 
@@ -77,7 +77,7 @@ public class BuildInformationUploaderContextBuilder {
   }
 
   public BuildInformationUploaderContextBuilder withBuildUrl(final URL buildUrl) {
-    this.buildUrl = buildUrl;
+    this.buildUrl = Optional.ofNullable(buildUrl);
     return this;
   }
 

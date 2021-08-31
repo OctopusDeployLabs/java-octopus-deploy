@@ -50,7 +50,7 @@ class BuildInformationUploaderTest {
 
   @Test
   public void buildInformationIsPostedToCorrectEndpointWithQueryParams()
-      throws IOException, URISyntaxException {
+      throws IOException {
     final String buildInfoLink = "/api/buildInfoLink";
     when(mockSpaceHome.getBuildInformationLink()).thenReturn(buildInfoLink);
     when(mockSpaceHomeSelector.getSpaceHome(Optional.empty())).thenReturn(mockSpaceHome);
@@ -70,10 +70,15 @@ class BuildInformationUploaderTest {
             .withVcsRoot("vcsRoot")
             .build();
 
+    final OctopusPackageVersionBuildInformationMappedResource response =
+        new OctopusPackageVersionBuildInformationMappedResource();
+    response.setId("ObjectId");
+    when(mockClient.post(any(), any(), any())).thenReturn(response);
+
     final BuildInformationUploader uploader =
         new BuildInformationUploader(mockClient, mockSpaceHomeSelector);
 
-    uploader.upload(context);
+    final String result = uploader.upload(context);
     verify(mockSpaceHomeSelector, times(1)).getSpaceHome(Optional.empty());
 
     final ArgumentCaptor<RequestEndpoint> requestEndpointCaptor =

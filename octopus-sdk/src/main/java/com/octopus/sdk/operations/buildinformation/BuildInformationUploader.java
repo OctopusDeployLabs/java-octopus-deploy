@@ -43,15 +43,13 @@ public class BuildInformationUploader extends BaseUploader {
     return new BuildInformationUploader(client, spaceHomeSelector);
   }
 
-  public boolean upload(final BuildInformationUploaderContext context) throws IOException {
+  public void upload(final BuildInformationUploaderContext context) throws IOException {
     Preconditions.checkNotNull(context, "Attempted to upload build information with null context.");
 
     final SpaceHome spaceHome = spaceHomeSelector.getSpaceHome(context.getSpaceName());
     final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);
 
     uploadToSpace(context, buildInfoApi);
-
-    return true;
   }
 
   private void uploadToSpace(

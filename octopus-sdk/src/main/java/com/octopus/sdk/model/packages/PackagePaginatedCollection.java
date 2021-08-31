@@ -20,9 +20,9 @@ import com.octopus.sdk.model.PaginatedCollection;
 import java.util.List;
 import java.util.Map;
 
-public class PackagePaginationedCollection extends PaginatedCollection<PackageResourceWithLinks> {
+public class PackagePaginatedCollection extends PaginatedCollection<PackageResourceWithLinks> {
 
-  public PackagePaginationedCollection(
+  public PackagePaginatedCollection(
       final Map<String, String> links,
       final int totalResults,
       final int itemsPerPage,

@@ -16,6 +16,7 @@
 package com.octopus.sdk.api;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.mock;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
@@ -37,21 +38,7 @@ import org.mockserver.integration.ClientAndServer;
 
 class PackagesApiTest {
 
-  private URL serverUrl;
-  private OctopusClient client;
-  private ClientAndServer mockOctopusServer;
-  private final Gson gson = new GsonBuilder().create();
-
-  @BeforeEach
-  public void setup() {
-    mockOctopusServer = new ClientAndServer();
-    serverUrl = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
-    client = new OctopusClient(new OkHttpClient(), serverUrl);
-    mockOctopusServer
-        .when(request().withPath("/api"))
-        .respond(
-            response().withStatusCode(200).withBody(gson.toJson(TestHelpers.defaultRootDoc())));
-  }
+  private final OctopusClient client = mock(OctopusClient.class);
 
   private Map<String, String> createSpaceHomeLinks() {
     final Map<String, String> result = new HashMap<>();

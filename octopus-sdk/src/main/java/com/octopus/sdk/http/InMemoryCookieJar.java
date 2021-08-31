@@ -30,12 +30,12 @@ public class InMemoryCookieJar implements CookieJar {
   private final Map<String, List<Cookie>> cookieMap = new HashMap<>();
 
   @Override
-  public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+  public void saveFromResponse(final HttpUrl url, final List<Cookie> cookies) {
     this.cookieMap.computeIfAbsent(url.url().getHost(), k -> Lists.newArrayList()).addAll(cookies);
   }
 
   @Override
-  public List<Cookie> loadForRequest(HttpUrl url) {
+  public List<Cookie> loadForRequest(final HttpUrl url) {
     return cookieMap.getOrDefault(url.url().getHost(), Collections.emptyList());
   }
 }

@@ -25,10 +25,10 @@ public class LoginBody {
 
   @SuppressWarnings("UnusedVariable")
   @SerializedName("Password")
-  private final String passsword;
+  private final String password;
 
-  public LoginBody(final String username, final String passsword) {
+  public LoginBody(final String username, final String password) {
     this.username = username;
-    this.passsword = passsword;
+    this.password = password;
   }
 }

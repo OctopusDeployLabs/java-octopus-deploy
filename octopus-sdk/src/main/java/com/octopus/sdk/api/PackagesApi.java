@@ -18,7 +18,7 @@ package com.octopus.sdk.api;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.packages.PackageFromBuiltInFeedResource;
-import com.octopus.sdk.model.packages.PackagePaginationedCollection;
+import com.octopus.sdk.model.packages.PackagePaginatedCollection;
 import com.octopus.sdk.model.packages.PackageResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
 
@@ -33,13 +33,13 @@ import com.google.common.collect.Lists;
 
 public class PackagesApi
     extends BaseResourceApi<
-        PackageResourceWithLinks, PackageResourceWithLinks, PackagePaginationedCollection> {
+        PackageResourceWithLinks, PackageResourceWithLinks, PackagePaginatedCollection> {
 
   private final String creationPath;
 
   protected PackagesApi(
       final OctopusClient client, final String rootPath, final String creationPath) {
-    super(client, rootPath, PackageResourceWithLinks.class, PackagePaginationedCollection.class);
+    super(client, rootPath, PackageResourceWithLinks.class, PackagePaginatedCollection.class);
     this.creationPath = creationPath;
   }
 

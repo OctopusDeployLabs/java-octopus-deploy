@@ -27,7 +27,7 @@ public class RootDocument extends SpaceHome {
   @SerializedName("Application")
   private final String application;
 
-  @SerializedName("Verison")
+  @SerializedName("Version")
   private final String version;
 
   @SerializedName("ApiVersion")

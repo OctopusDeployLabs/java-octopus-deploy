@@ -168,7 +168,8 @@ public class OctopusClient {
     try (final Response response = call.execute()) {
       final ResponseBody body = response.body();
       if (body == null) {
-        throw new HttpException(response.code(), "Response from " + call.request().url() + " contained no body");
+        throw new HttpException(
+            response.code(), "Response from " + call.request().url() + " contained no body");
       }
       final String responseBody = response.body().string();
       if (response.isSuccessful()) {

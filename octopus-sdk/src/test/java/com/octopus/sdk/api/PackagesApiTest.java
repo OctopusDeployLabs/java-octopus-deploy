@@ -17,24 +17,15 @@ package com.octopus.sdk.api;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
-import static org.mockserver.model.HttpRequest.request;
-import static org.mockserver.model.HttpResponse.response;
 
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.packages.PackageResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
-import com.octopus.sdk.support.TestHelpers;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import okhttp3.OkHttpClient;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockserver.integration.ClientAndServer;
 
 class PackagesApiTest {
 

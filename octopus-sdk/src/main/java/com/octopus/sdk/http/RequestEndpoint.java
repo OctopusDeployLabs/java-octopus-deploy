@@ -89,7 +89,8 @@ public class RequestEndpoint {
     return Objects.hashCode(path, queryParameters);
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return new StringJoiner(", ", RequestEndpoint.class.getSimpleName() + "[", "]")
         .add("path='" + path + "'")
         .add("queryParameters=" + queryParameters)

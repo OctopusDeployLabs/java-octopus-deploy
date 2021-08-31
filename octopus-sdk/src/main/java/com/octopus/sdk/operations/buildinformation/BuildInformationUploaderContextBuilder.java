@@ -14,14 +14,15 @@
  */
 package com.octopus.sdk.operations.buildinformation;
 
-import com.google.common.base.Preconditions;
+import static java.util.Collections.emptyList;
+
 import com.octopus.sdk.api.OverwriteMode;
 
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.Collections.emptyList;
+import com.google.common.base.Preconditions;
 
 public class BuildInformationUploaderContextBuilder {
 

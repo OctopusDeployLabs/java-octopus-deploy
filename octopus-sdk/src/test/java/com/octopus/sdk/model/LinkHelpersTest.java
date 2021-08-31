@@ -15,15 +15,16 @@
 
 package com.octopus.sdk.model;
 
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 
 class LinkHelpersTest {
 
   @Test
   public void strippingTemplatingLeavesJustPath() {
-    final String input = "/api/Spaces-42/runbooks{/id}{?skip,take,ids,partialName,clone,projectIds}";
+    final String input =
+        "/api/Spaces-42/runbooks{/id}{?skip,take,ids,partialName,clone,projectIds}";
 
     final String output = LinkHelpers.getCleansedRawLink(input);
 
@@ -38,5 +39,4 @@ class LinkHelpersTest {
 
     assertThat(input).isEqualTo(output);
   }
-
 }

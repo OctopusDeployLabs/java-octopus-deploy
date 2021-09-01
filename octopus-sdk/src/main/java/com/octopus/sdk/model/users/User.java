@@ -36,7 +36,7 @@ public class User extends BaseResource {
   private String emailAddress;
 
   @SerializedName("Identities")
-  private final List<IdentityResource> identities = null;
+  private List<IdentityResource> identities = null;
 
   @SerializedName("IsActive")
   private Boolean isActive;

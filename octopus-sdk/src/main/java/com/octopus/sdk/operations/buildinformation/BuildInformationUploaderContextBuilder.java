@@ -18,8 +18,6 @@ import static java.util.Collections.emptyList;
 
 import com.octopus.sdk.api.OverwriteMode;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
@@ -104,7 +102,7 @@ public class BuildInformationUploaderContextBuilder {
     return this;
   }
 
-  public BuildInformationUploaderContext build() throws MalformedURLException, URISyntaxException {
+  public BuildInformationUploaderContext build() {
     Preconditions.checkNotNull(
         packageVersion, "packageVersion must be set on a build information object");
     Preconditions.checkNotNull(

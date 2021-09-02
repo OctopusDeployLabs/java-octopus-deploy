@@ -35,12 +35,6 @@ public class SpaceHome {
     return links;
   }
 
-  // Returns true if the linkset is populated with expected links.
-  public boolean isValid() {
-    // accounts is arbitrarily selected
-    return (getAccountsLink() != null);
-  }
-
   public String getAccountsLink() {
     return LinkHelpers.getCleansedRawLink(getLinks().get("Accounts"));
   }

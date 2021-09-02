@@ -45,12 +45,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-// TODO(tmm): Is this really a client, or is it a server?! I.e. according to everyone who uses it -
-// it looks a LOT
-// like a server.
 public class OctopusClient {
   private static final Logger LOG = LogManager.getLogger();
   private static final String ROOT_PATH = "api";
@@ -131,7 +129,11 @@ public class OctopusClient {
   }
 
   private String generateUrl(final RequestEndpoint endpoint) {
-    final HttpUrl.Builder builder = HttpUrl.parse(serverUrl.toString()).newBuilder();
+    final HttpUrl httpUrl = HttpUrl.parse(serverUrl.toString());
+    if (httpUrl == null) {
+      throw new IllegalArgumentException("Unable to generate a HttpUrl from " + endpoint);
+    }
+    final HttpUrl.Builder builder = httpUrl.newBuilder();
     builder.addPathSegments(endpoint.getPath());
     endpoint
         .getQueryParameters()
@@ -164,11 +166,15 @@ public class OctopusClient {
 
   private <T> T executeCall(final Call call, final Class<T> responseType) throws IOException {
     try (final Response response = call.execute()) {
+      final ResponseBody body = response.body();
+      if (body == null) {
+        throw new HttpException(
+            response.code(), "Response from " + call.request().url() + " contained no body");
+      }
       final String responseBody = response.body().string();
       if (response.isSuccessful()) {
         try {
-          final T result = gson.fromJson(responseBody, responseType);
-          return result;
+          return gson.fromJson(responseBody, responseType);
         } catch (final JsonSyntaxException e) {
           LOG.error(
               "Failed to decode the response body '{}' as a {}",
@@ -185,7 +191,7 @@ public class OctopusClient {
     }
   }
 
-  public boolean login(final String username, final String password) throws IOException {
+  public void login(final String username, final String password) throws IOException {
     Preconditions.checkArgument(
         httpClient.cookieJar() != CookieJar.NO_COOKIES,
         "Cannot login without a client side cookie jar");
@@ -207,20 +213,15 @@ public class OctopusClient {
       LOG.error("Failed to connect to Octopus Server at {}", loginCall.request().url());
       throw e;
     }
-    return true;
   }
 
   public boolean supportsSpaces() {
     return getRootDocument().getSpacesLink() != null;
   }
 
-  public boolean supportsChannels() {
-    return getRootDocument().getChannelsLink() != null;
-  }
-
   // The 'accounts' link is only valid within a space, and thus will only be non-null in the rootDoc
   // if a default
-  // space is enabled (OR OctpopusServer is a pre-space version).
+  // space is enabled (OR OctopusServer is a pre-space version).
   public boolean defaultSpaceAvailable() {
     return getRootDocument().getAccountsLink() != null;
   }
@@ -229,7 +230,10 @@ public class OctopusClient {
     try {
       final Pattern splittingRegex = Pattern.compile("^.*?=([^;]*).*");
       final Matcher matcher = splittingRegex.matcher(csrfCookieContent);
-      matcher.matches();
+      if (!matcher.matches()) {
+        throw new IllegalArgumentException(
+            "Response did not contain expected content for CSRF cookie - " + csrfCookieContent);
+      }
       return matcher.group(1);
     } catch (final Exception e) {
       LOG.error("Failed to extract csrf token from '{}'", csrfCookieContent);

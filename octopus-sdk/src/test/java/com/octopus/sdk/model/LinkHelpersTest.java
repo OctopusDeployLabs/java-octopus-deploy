@@ -15,16 +15,28 @@
 
 package com.octopus.sdk.model;
 
-public class LinkHelpers {
+import static org.assertj.core.api.Assertions.assertThat;
 
-  public static String getCleansedRawLink(final String link) {
-    if (link == null) {
-      return null;
-    }
-    return stripTemplating(link);
+import org.junit.jupiter.api.Test;
+
+class LinkHelpersTest {
+
+  @Test
+  public void strippingTemplatingLeavesJustPath() {
+    final String input =
+        "/api/Spaces-42/runbooks{/id}{?skip,take,ids,partialName,clone,projectIds}";
+
+    final String output = LinkHelpers.getCleansedRawLink(input);
+
+    assertThat(output).isEqualTo("/api/Spaces-42/runbooks");
   }
 
-  private static String stripTemplating(final String input) {
-    return input.replaceAll("\\{.*?}", "");
+  @Test
+  public void doesNotStringAnythingFromAPathOnlyInput() {
+    final String input = "/api/Spaces-42/runbooks/Runbooks-1/runbookRunTemplate";
+
+    final String output = LinkHelpers.getCleansedRawLink(input);
+
+    assertThat(input).isEqualTo(output);
   }
 }

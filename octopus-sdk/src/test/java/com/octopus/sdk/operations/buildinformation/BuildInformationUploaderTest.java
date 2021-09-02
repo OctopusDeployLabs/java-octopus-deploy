@@ -73,7 +73,7 @@ class BuildInformationUploaderTest {
     final BuildInformationUploader uploader =
         new BuildInformationUploader(mockClient, mockSpaceHomeSelector);
 
-    assertThat(uploader.upload(context)).isTrue();
+    uploader.upload(context);
     verify(mockSpaceHomeSelector, times(1)).getSpaceHome(Optional.empty());
 
     final ArgumentCaptor<RequestEndpoint> requestEndpointCaptor =

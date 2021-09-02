@@ -54,7 +54,7 @@ public class BuildInformationApi
 
   @Override
   public OctopusPackageVersionBuildInformationMappedResource create(
-      final OctopusPackageVersionBuildInformation resourceToCreate) throws IOException {
+      final OctopusPackageVersionBuildInformation resourceToCreate) {
     throw new UnsupportedOperationException(
         "Build Information cannot be created without specifying an overwriteMode");
   }

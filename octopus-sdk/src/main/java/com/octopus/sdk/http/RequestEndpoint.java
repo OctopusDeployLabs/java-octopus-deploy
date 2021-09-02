@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -86,5 +87,13 @@ public class RequestEndpoint {
   @Override
   public int hashCode() {
     return Objects.hashCode(path, queryParameters);
+  }
+
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", RequestEndpoint.class.getSimpleName() + "[", "]")
+        .add("path='" + path + "'")
+        .add("queryParameters=" + queryParameters)
+        .toString();
   }
 }

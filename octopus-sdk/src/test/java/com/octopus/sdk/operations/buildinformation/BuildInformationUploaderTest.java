@@ -35,8 +35,8 @@ import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.operations.common.SpaceHomeSelector;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -49,8 +49,7 @@ class BuildInformationUploaderTest {
   private final SpaceHomeSelector mockSpaceHomeSelector = mock(SpaceHomeSelector.class);
 
   @Test
-  public void buildInformationIsPostedToCorrectEndpointWithQueryParams()
-      throws IOException {
+  public void buildInformationIsPostedToCorrectEndpointWithQueryParams() throws IOException {
     final String buildInfoLink = "/api/buildInfoLink";
     when(mockSpaceHome.getBuildInformationLink()).thenReturn(buildInfoLink);
     when(mockSpaceHomeSelector.getSpaceHome(Optional.empty())).thenReturn(mockSpaceHome);
@@ -60,6 +59,7 @@ class BuildInformationUploaderTest {
         new BuildInformationUploaderContextBuilder()
             .withBuildEnvironment("Environment")
             .withBuildUrl(new URL("http://buildServer.com/5"))
+            .withBuildNumber("16")
             .withSpaceName(null)
             .withPackageId("myPackage.app")
             .withPackageVersion("1.0")
@@ -79,6 +79,7 @@ class BuildInformationUploaderTest {
         new BuildInformationUploader(mockClient, mockSpaceHomeSelector);
 
     final String result = uploader.upload(context);
+    assertThat(result).isEqualTo(response.getId());
     verify(mockSpaceHomeSelector, times(1)).getSpaceHome(Optional.empty());
 
     final ArgumentCaptor<RequestEndpoint> requestEndpointCaptor =
@@ -101,8 +102,8 @@ class BuildInformationUploaderTest {
     assertThat(buildInfoCaptor.getValue().getVersion()).isEqualTo(context.getPackageVersion());
     assertThat(buildInfoCaptor.getValue().getPackageId()).isEqualTo(context.getPackageId());
     assertThat(transmittedBuildInfo.getBuildEnvironment()).isEqualTo(context.getBuildEnvironment());
-    assertThat(transmittedBuildInfo.getVcsRoot()).isEqualTo(context.getVcsRoot());
-    assertThat(transmittedBuildInfo.getVcsType()).isEqualTo(context.getVcsType());
+    assertThat(transmittedBuildInfo.getVcsRoot()).isEqualTo(context.getVcsRoot().get());
+    assertThat(transmittedBuildInfo.getVcsType()).isEqualTo(context.getVcsType().get());
     assertThat(transmittedBuildInfo.getCommits()).hasSize(1);
   }
 
@@ -113,9 +114,11 @@ class BuildInformationUploaderTest {
         new BuildInformationUploaderContextBuilder()
             .withBuildEnvironment("Environment")
             .withBuildUrl(new URL("http://teamcityServer/buildid"))
+            .withBuildNumber("16")
             .withSpaceName(spaceName)
             .withPackageId("myPackage.app")
             .withPackageVersion("1.0")
+            .withCommits(Collections.emptyList())
             .withOverwriteMode(OverwriteMode.OverwriteExisting);
 
     final Exception spaceHomeException = new IllegalArgumentException("No space exists");

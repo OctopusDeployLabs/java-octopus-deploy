@@ -44,23 +44,18 @@ public class BuildInformationUploader extends BaseUploader {
     return new BuildInformationUploader(client, spaceHomeSelector);
   }
 
-  /**
-   *
-   * @param context The data to be uploaded, including metadata relating to server connect, and encompassing 'space'
-   * @return The unique identifier of the buildinformation item which was created on the server
-   * @throws IOException
-   */
   public String upload(final BuildInformationUploaderContext context) throws IOException {
     Preconditions.checkNotNull(context, "Attempted to upload build information with null context.");
 
     final SpaceHome spaceHome = spaceHomeSelector.getSpaceHome(context.getSpaceName());
     final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);
-    final OctopusPackageVersionBuildInformationMappedResource result = uploadToSpace(context, buildInfoApi);
+    final OctopusPackageVersionBuildInformationMappedResource result =
+        uploadToSpace(context, buildInfoApi);
 
     return result.getId();
   }
 
-    private OctopusPackageVersionBuildInformationMappedResource uploadToSpace(
+  private OctopusPackageVersionBuildInformationMappedResource uploadToSpace(
       final BuildInformationUploaderContext context, final BuildInformationApi buildInfoApi)
       throws IOException {
     final BuildInformationResource buildInfo = createFrom(context);

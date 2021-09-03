@@ -14,8 +14,6 @@
  */
 package com.octopus.sdk.operations.buildinformation;
 
-import static java.util.Collections.emptyList;
-
 import com.octopus.sdk.api.OverwriteMode;
 
 import java.net.URL;
@@ -104,10 +102,15 @@ public class BuildInformationUploaderContextBuilder {
 
   public BuildInformationUploaderContext build() {
     Preconditions.checkNotNull(
-        packageVersion, "packageVersion must be set on a build information object");
+        buildEnvironment, "buildEnvironment must be set on a build information context");
     Preconditions.checkNotNull(
-        overwriteMode, "overwriteMode must be set on a build information object");
-    Preconditions.checkNotNull(buildUrl, "buildUrl must be set on a build information object");
+        buildNumber, "buildNumber must be set on a build information context");
+    Preconditions.checkNotNull(commits, "commits must be set on a build information context");
+    Preconditions.checkNotNull(packageId, "packageId must be set on a build information context");
+    Preconditions.checkNotNull(
+        packageVersion, "packageVersion must be set on a build information context");
+    Preconditions.checkNotNull(
+        overwriteMode, "overwriteMode must be set on a build information context");
 
     // The "extra bit on the URL needs to be moved out of here.
     return new BuildInformationUploaderContext(

@@ -71,8 +71,8 @@ class BuildInformationUploaderTest {
             .build();
 
     final OctopusPackageVersionBuildInformationMappedResource response =
-        new OctopusPackageVersionBuildInformationMappedResource();
-    response.setId("ObjectId");
+        mock(OctopusPackageVersionBuildInformationMappedResource.class);
+    when(response.getId()).thenReturn("ObjectId");
     when(mockClient.post(any(), any(), any())).thenReturn(response);
 
     final BuildInformationUploader uploader =

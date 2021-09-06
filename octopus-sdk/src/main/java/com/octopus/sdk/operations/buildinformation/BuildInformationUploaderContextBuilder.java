@@ -14,8 +14,6 @@
  */
 package com.octopus.sdk.operations.buildinformation;
 
-import static java.util.Collections.emptyList;
-
 import com.octopus.sdk.api.OverwriteMode;
 
 import java.net.URL;
@@ -25,17 +23,17 @@ import java.util.Optional;
 import com.google.common.base.Preconditions;
 
 public class BuildInformationUploaderContextBuilder {
-
   private String buildEnvironment;
-  private String vcsType;
-  private String vcsRoot;
-  private String vcsCommitNumber;
-  private String branch;
-  private List<Commit> commits = emptyList();
-  private URL buildUrl;
   private String buildNumber;
-
   private Optional<String> spaceName = Optional.empty();
+
+  private Optional<URL> buildUrl = Optional.empty();
+  private Optional<String> branch = Optional.empty();
+  private Optional<String> vcsType = Optional.empty();
+  private Optional<String> vcsRoot = Optional.empty();
+  private Optional<String> vcsCommitNumber = Optional.empty();
+
+  private List<Commit> commits;
   private String packageId;
   private String packageVersion;
   private OverwriteMode overwriteMode;
@@ -47,22 +45,22 @@ public class BuildInformationUploaderContextBuilder {
   }
 
   public BuildInformationUploaderContextBuilder withVcsType(final String vcsType) {
-    this.vcsType = vcsType;
+    this.vcsType = Optional.ofNullable(vcsType);
     return this;
   }
 
   public BuildInformationUploaderContextBuilder withVcsRoot(final String vcsRoot) {
-    this.vcsRoot = vcsRoot;
+    this.vcsRoot = Optional.ofNullable(vcsRoot);
     return this;
   }
 
   public BuildInformationUploaderContextBuilder withVcsCommitNumber(final String vcsCommitNumber) {
-    this.vcsCommitNumber = vcsCommitNumber;
+    this.vcsCommitNumber = Optional.ofNullable(vcsCommitNumber);
     return this;
   }
 
   public BuildInformationUploaderContextBuilder withBranch(final String branch) {
-    this.branch = branch;
+    this.branch = Optional.ofNullable(branch);
     return this;
   }
 
@@ -77,7 +75,7 @@ public class BuildInformationUploaderContextBuilder {
   }
 
   public BuildInformationUploaderContextBuilder withBuildUrl(final URL buildUrl) {
-    this.buildUrl = buildUrl;
+    this.buildUrl = Optional.ofNullable(buildUrl);
     return this;
   }
 
@@ -104,10 +102,15 @@ public class BuildInformationUploaderContextBuilder {
 
   public BuildInformationUploaderContext build() {
     Preconditions.checkNotNull(
-        packageVersion, "packageVersion must be set on a build information object");
+        buildEnvironment, "buildEnvironment must be set on a build information context");
     Preconditions.checkNotNull(
-        overwriteMode, "overwriteMode must be set on a build information object");
-    Preconditions.checkNotNull(buildUrl, "buildUrl must be set on a build information object");
+        buildNumber, "buildNumber must be set on a build information context");
+    Preconditions.checkNotNull(commits, "commits must be set on a build information context");
+    Preconditions.checkNotNull(packageId, "packageId must be set on a build information context");
+    Preconditions.checkNotNull(
+        packageVersion, "packageVersion must be set on a build information context");
+    Preconditions.checkNotNull(
+        overwriteMode, "overwriteMode must be set on a build information context");
 
     // The "extra bit on the URL needs to be moved out of here.
     return new BuildInformationUploaderContext(

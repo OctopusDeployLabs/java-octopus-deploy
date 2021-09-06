@@ -21,6 +21,7 @@ import com.octopus.sdk.api.SpaceHomeApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.buildinformation.BuildInformationResource;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
+import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformationMappedResource;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.operations.common.BaseUploader;
 import com.octopus.sdk.operations.common.SpaceHomeSelector;
@@ -43,16 +44,18 @@ public class BuildInformationUploader extends BaseUploader {
     return new BuildInformationUploader(client, spaceHomeSelector);
   }
 
-  public void upload(final BuildInformationUploaderContext context) throws IOException {
+  public String upload(final BuildInformationUploaderContext context) throws IOException {
     Preconditions.checkNotNull(context, "Attempted to upload build information with null context.");
 
     final SpaceHome spaceHome = spaceHomeSelector.getSpaceHome(context.getSpaceName());
     final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);
+    final OctopusPackageVersionBuildInformationMappedResource result =
+        uploadToSpace(context, buildInfoApi);
 
-    uploadToSpace(context, buildInfoApi);
+    return result.getId();
   }
 
-  private void uploadToSpace(
+  private OctopusPackageVersionBuildInformationMappedResource uploadToSpace(
       final BuildInformationUploaderContext context, final BuildInformationApi buildInfoApi)
       throws IOException {
     final BuildInformationResource buildInfo = createFrom(context);
@@ -61,7 +64,7 @@ public class BuildInformationUploader extends BaseUploader {
     resource.withVersion(context.getPackageVersion());
     resource.withPackageId(context.getPackageId());
     resource.withBuildInformation(buildInfo);
-    buildInfoApi.create(resource, context.getOverwriteMode());
+    return buildInfoApi.create(resource, context.getOverwriteMode());
   }
 
   private BuildInformationResource createFrom(final BuildInformationUploaderContext context) {
@@ -70,10 +73,10 @@ public class BuildInformationUploader extends BaseUploader {
         .buildNumber(context.getBuildNumber())
         .buildUrl(context.getBuildUrl().toString())
         .buildEnvironment(context.getBuildEnvironment())
-        .branch(context.getBranch())
-        .vcsRoot(context.getVcsRoot())
-        .vcsCommitNumber(context.getVcsCommitNumber())
-        .vcsType(context.getVcsType())
+        .branch(context.getBranch().orElse(null))
+        .vcsRoot(context.getVcsRoot().orElse(null))
+        .vcsCommitNumber(context.getVcsCommitNumber().orElse(null))
+        .vcsType(context.getVcsType().orElse(null))
         .commits(
             context.getCommits().stream()
                 .map(BuildInformationUploader::from)

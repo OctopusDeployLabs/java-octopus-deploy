@@ -23,29 +23,28 @@ import java.util.StringJoiner;
 
 public class BuildInformationUploaderContext {
   private final String buildEnvironment;
-  private final String branch;
   private final String buildNumber;
-  private final URL buildUrl;
-  private final String vcsType;
-  private final String vcsRoot;
-  private final String vcsCommitNumber;
+  private final Optional<String> spaceName;
+
+  private final Optional<URL> buildUrl;
+  private final Optional<String> branch;
+  private final Optional<String> vcsType;
+  private final Optional<String> vcsRoot;
+  private final Optional<String> vcsCommitNumber;
 
   private final List<Commit> commits;
-
-  private final Optional<String> spaceName;
   private final String packageId;
   private final String packageVersion;
-
   private final OverwriteMode overwriteMode;
 
   public BuildInformationUploaderContext(
       final String buildEnvironment,
-      final String branch,
+      final Optional<String> branch,
       final String buildNumber,
-      final URL buildUrl,
-      final String vcsType,
-      final String vcsRoot,
-      final String vcsCommitNumber,
+      final Optional<URL> buildUrl,
+      final Optional<String> vcsType,
+      final Optional<String> vcsRoot,
+      final Optional<String> vcsCommitNumber,
       final List<Commit> commits,
       final Optional<String> spaceName,
       final String packageId,
@@ -69,7 +68,7 @@ public class BuildInformationUploaderContext {
     return buildEnvironment;
   }
 
-  public String getBranch() {
+  public Optional<String> getBranch() {
     return branch;
   }
 
@@ -77,19 +76,19 @@ public class BuildInformationUploaderContext {
     return buildNumber;
   }
 
-  public URL getBuildUrl() {
+  public Optional<URL> getBuildUrl() {
     return buildUrl;
   }
 
-  public String getVcsType() {
+  public Optional<String> getVcsType() {
     return vcsType;
   }
 
-  public String getVcsRoot() {
+  public Optional<String> getVcsRoot() {
     return vcsRoot;
   }
 
-  public String getVcsCommitNumber() {
+  public Optional<String> getVcsCommitNumber() {
     return vcsCommitNumber;
   }
 

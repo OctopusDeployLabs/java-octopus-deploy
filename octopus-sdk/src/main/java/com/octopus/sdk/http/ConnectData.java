@@ -16,6 +16,7 @@
 package com.octopus.sdk.http;
 
 import java.net.URL;
+import java.time.Duration;
 import java.util.Optional;
 
 public class ConnectData {
@@ -23,15 +24,20 @@ public class ConnectData {
   private final URL octopusServerUrl;
   private final String apiKey;
   private final Optional<ProxyData> proxy;
+  private final Duration timeout;
 
-  public ConnectData(final URL octopusServerUrl, final String apiKey) {
-    this(octopusServerUrl, apiKey, Optional.empty());
+  public ConnectData(final URL octopusServerUrl, final String apiKey, final Duration timeout) {
+    this(octopusServerUrl, apiKey, timeout, Optional.empty());
   }
 
   public ConnectData(
-      final URL octopusServerUrl, final String apiKey, final Optional<ProxyData> proxy) {
+      final URL octopusServerUrl,
+      final String apiKey,
+      final Duration timeout,
+      final Optional<ProxyData> proxy) {
     this.octopusServerUrl = octopusServerUrl;
     this.apiKey = apiKey;
+    this.timeout = timeout;
     this.proxy = proxy;
   }
 
@@ -45,5 +51,9 @@ public class ConnectData {
 
   public Optional<ProxyData> getProxyData() {
     return proxy;
+  }
+
+  public Duration getTimeout() {
+    return timeout;
   }
 }

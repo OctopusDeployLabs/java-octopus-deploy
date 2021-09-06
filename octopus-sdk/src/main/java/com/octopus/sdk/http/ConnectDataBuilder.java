@@ -16,6 +16,7 @@
 package com.octopus.sdk.http;
 
 import java.net.URL;
+import java.time.Duration;
 import java.util.Optional;
 
 import com.google.common.base.Preconditions;
@@ -24,28 +25,33 @@ public class ConnectDataBuilder {
   private URL octopusServerUrl;
   private String apiKey;
   private Optional<ProxyData> proxy = Optional.empty();
-  // TODO - really need to add timeouts and stuff to this :( [OR work out how to make a builder from
-  // a HttpCLient :(
+  private Duration timeout = Duration.ofSeconds(10);
 
-  public ConnectDataBuilder setOctopusServerUrl(final URL octopusServerUrl) {
+  public ConnectDataBuilder withOctopusServerUrl(final URL octopusServerUrl) {
     this.octopusServerUrl = octopusServerUrl;
     return this;
   }
 
-  public ConnectDataBuilder setApiKey(final String apiKey) {
+  public ConnectDataBuilder withApiKey(final String apiKey) {
     this.apiKey = apiKey;
     return this;
   }
 
-  public ConnectDataBuilder setProxy(final ProxyData proxy) {
+  public ConnectDataBuilder withProxy(final ProxyData proxy) {
     this.proxy = Optional.ofNullable(proxy);
+    return this;
+  }
+
+  public ConnectDataBuilder withConnectTimeout(final Duration timeout) {
+    this.timeout = timeout;
     return this;
   }
 
   public ConnectData build() {
     Preconditions.checkNotNull(octopusServerUrl, "Server URL cannot be null");
     Preconditions.checkNotNull(apiKey, "Api Key cannot be null");
+    Preconditions.checkNotNull(timeout, "timeout cannot be null");
 
-    return new ConnectData(octopusServerUrl, apiKey, proxy);
+    return new ConnectData(octopusServerUrl, apiKey, timeout, proxy);
   }
 }

@@ -16,27 +16,34 @@
 package com.octopus.sdk.http;
 
 import java.net.URL;
+import java.util.Optional;
 
 public class ProxyData {
   private final URL proxyUrl;
-  private final String username;
-  private final String password;
+  private final Optional<String> username;
+  private final Optional<String> password;
 
   public ProxyData(final URL proxyUrl, final String username, final String password) {
     this.proxyUrl = proxyUrl;
-    this.username = username;
-    this.password = password;
+    this.username = Optional.of(username);
+    this.password = Optional.of(password);
+  }
+
+  public ProxyData(final URL proxyUrl) {
+    this.proxyUrl = proxyUrl;
+    this.username = Optional.empty();
+    this.password = Optional.empty();
   }
 
   public URL getProxyUrl() {
     return proxyUrl;
   }
 
-  public String getUsername() {
+  public Optional<String> getUsername() {
     return username;
   }
 
-  public String getPassword() {
+  public Optional<String> getPassword() {
     return password;
   }
 }

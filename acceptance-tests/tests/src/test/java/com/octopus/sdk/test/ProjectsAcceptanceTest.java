@@ -37,7 +37,8 @@ public class ProjectsAcceptanceTest extends BaseAcceptanceTest {
 
   @Test
   public void returnsAProjectApiForAKnownSpace() throws IOException {
-    final OctopusClient client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
+    final OctopusClient client =
+        new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final UsersApi users = UsersApi.create(client);
 
@@ -59,7 +60,8 @@ public class ProjectsAcceptanceTest extends BaseAcceptanceTest {
 
   @Test
   public void canCreateProjectWithinASpaceQueryForItAndDeleteIt() throws IOException {
-    final OctopusClient client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
+    final OctopusClient client =
+        new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final UsersApi users = UsersApi.create(client);
 

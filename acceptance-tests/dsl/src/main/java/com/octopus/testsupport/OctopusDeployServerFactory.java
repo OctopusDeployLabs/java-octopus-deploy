@@ -13,25 +13,18 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.test;
-
-import com.octopus.sdk.api.SpacesOverviewApi;
-import com.octopus.sdk.dsl.OctopusDeployServer;
-import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
+package com.octopus.testsupport;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Optional;
 
-import okhttp3.OkHttpClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 
-public class BaseAcceptanceTest {
+public class OctopusDeployServerFactory {
 
   private static final Logger LOG = LogManager.getLogger();
-
   private static final String USE_EXISTING_ENV_VAR_NAME = "OCTOPUS_SDK_AT_USE_EXISTING_SERVER";
 
   // Adjust these values if using a pre-running octopus server.
@@ -39,38 +32,26 @@ public class BaseAcceptanceTest {
   protected static String serverURL = "http://localhost:8065";
   protected static String apiKey = "API-D62EQ9I4EVET1E2LJUBKEHLNBYWMO3";
 
-  protected static OctopusDeployServer server;
-  protected static final OkHttpClient httpClient = new OkHttpClient();
-
-  @BeforeAll
-  public static void setup() throws IOException {
+  public static OctopusDeployServer create() {
     final boolean useExistingServer =
         Optional.ofNullable(System.getenv(USE_EXISTING_ENV_VAR_NAME))
             .map(Boolean::parseBoolean)
             .orElse(DEFAULT_USE_EXISTING_SERVER);
 
     LOG.debug("Using an existing server = {}", useExistingServer);
-    if (!useExistingServer) {
-      server = OctopusDeployServer.createOctopusServer();
+    if (useExistingServer) {
+      return new ExistingOctopusDeployServer();
+    }
+
+    try {
+      final DockerisedOctopusDeployServer server =
+          DockerisedOctopusDeployServer.createOctopusServer();
       serverURL = server.getOctopusUrl();
       apiKey = server.getApiKey();
-    }
-  }
-
-  @AfterAll
-  public static void tearDown() {
-    if (server != null) {
-      server.tearDown();
-    }
-  }
-
-  protected void deleteSpaceValidly(
-      final SpacesOverviewApi spacesOverviewApi, final SpaceOverviewWithLinks space)
-      throws IOException {
-    if ((spacesOverviewApi != null) && (space != null)) {
-      space.setTaskQueueStopped(true);
-      spacesOverviewApi.update(space);
-      spacesOverviewApi.delete(space);
+      return server;
+    } catch (final IOException e) {
+      LOG.error("Failed to create dockerised Octopus Deploy server", e);
+      throw new UncheckedIOException(e);
     }
   }
 }

@@ -2,3 +2,8 @@ rootProject.name='octopus-java-sdk'
 include 'octopus-sdk'
 include 'octopus-openapi-wrapper'
 include 'acceptance-tests'
+<<<<<<< HEAD
+=======
+include 'acceptance-tests:dsl'
+include 'acceptance-tests:tests'
+>>>>>>> 74512c4 (Split out the test-support from test)

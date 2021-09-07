@@ -54,7 +54,7 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
 
     SpaceOverviewWithLinks toCreate = null;
     try {
-      client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
+      client = new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
       spacesOverviewApi = SpacesOverviewApi.create(client);
       final UsersApi users = UsersApi.create(client);
 
@@ -122,7 +122,7 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
 
     final OctopusPackageVersionBuildInformationMappedResource response =
         buildInfoApi.create(resource, OverwriteMode.OverwriteExisting);
-    assertThat(response.getBuildUrl()).isEqualTo("differentURL");
+    assertThat(response.getBuildUrl()).isEqualTo("dif ferentURL");
   }
 
   @Test

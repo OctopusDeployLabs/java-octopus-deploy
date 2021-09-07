@@ -1,0 +1,40 @@
+
+apply plugin: 'com.adarshr.test-logger'
+
+jar {
+  enabled = true
+  archiveBaseName = 'octopus-sdk'
+  archiveClassifier = 'test-support'
+}
+
+dependencies {
+  implementation project(':octopus-sdk')
+  implementation project(':octopus-openapi-wrapper')
+  implementation 'org.testcontainers:testcontainers'
+  implementation 'com.squareup.okhttp3:okhttp'
+  implementation 'com.google.code.gson:gson'
+  implementation 'com.google.guava:guava'
+  implementation 'org.apache.logging.log4j:log4j-api'
+  implementation 'org.apache.logging.log4j:log4j-core'
+  implementation 'org.apache.logging.log4j:log4j-slf4j-impl'
+
+  implementation 'org.testcontainers:testcontainers'
+  implementation 'org.testcontainers:junit-jupiter'
+}
+
+test.enabled = false
+
+task acceptanceTest(type: Test) {
+  java {
+    toolchain {
+      languageVersion = JavaLanguageVersion.of(11)
+    }
+  }
+  mustRunAfter rootProject.subprojects*.test
+  description = 'Runs the Octopus Java SDK acceptance tests.'
+  group = 'verification'
+  useJUnitPlatform()
+  outputs.upToDateWhen { false }
+
+  testLogging.showStandardStreams = false;
+}

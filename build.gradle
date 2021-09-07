@@ -150,7 +150,8 @@ subprojects {
         testLogging.showStandardStreams = false
     }
 
-    if (project.name != "acceptance-tests") {
+    // offer to publish only projects which have a main sourceset containing files
+    if (project.sourceSets.getByName("main").allJava.size() != 0) {
         apply plugin: "com.jfrog.artifactory"
         apply plugin: 'maven-publish'
 

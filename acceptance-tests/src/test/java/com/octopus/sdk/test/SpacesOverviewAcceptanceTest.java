@@ -22,11 +22,8 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 
 import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.api.UsersApi;
-import com.octopus.sdk.http.ConnectData;
-import com.octopus.sdk.http.ConnectDataBuilder;
 import com.octopus.sdk.http.HttpException;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.http.OctopusClientFactory;
 import com.octopus.sdk.model.spaces.SpaceOverviewResource;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 
@@ -48,12 +45,7 @@ public class SpacesOverviewAcceptanceTest extends BaseAcceptanceTest {
   @Test
   public void throwsHttpExceptionIndicatingNotAuthorisedIfIncorrectApiKey()
       throws MalformedURLException {
-    final ConnectData connectData =
-        new ConnectDataBuilder()
-            .withOctopusServerUrl(new URL(serverURL))
-            .withApiKey("BadKey")
-            .build();
-    final OctopusClient client = OctopusClientFactory.createClient(connectData);
+    final OctopusClient client = new OctopusClient(httpClient, new URL(serverURL), "BadyKey");
     final Throwable thrown = catchThrowable(() -> SpacesOverviewApi.create(client));
     assertThat(thrown).isInstanceOf(HttpException.class);
     final HttpException httpException = (HttpException) thrown;
@@ -62,12 +54,7 @@ public class SpacesOverviewAcceptanceTest extends BaseAcceptanceTest {
 
   @Test
   public void returnsOptionalEmptyIfNoSpaceWithRequestedNameIsSelected() throws IOException {
-    final ConnectData connectData =
-        new ConnectDataBuilder()
-            .withOctopusServerUrl(new URL(serverURL))
-            .withApiKey(apiKey)
-            .build();
-    final OctopusClient client = OctopusClientFactory.createClient(connectData);
+    final OctopusClient client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final Optional<SpaceOverviewWithLinks> requestedSpace =
         spacesOverviewApi.getByName("NonExistentSpace");
@@ -78,12 +65,7 @@ public class SpacesOverviewAcceptanceTest extends BaseAcceptanceTest {
   @Test
   public void aSpaceCanBeCreatedAndReturnedByNameAndThenDeleted() throws IOException {
     final String spaceName = "TheTestSpace";
-    final ConnectData connectData =
-        new ConnectDataBuilder()
-            .withOctopusServerUrl(new URL(serverURL))
-            .withApiKey(apiKey)
-            .build();
-    final OctopusClient client = OctopusClientFactory.createClient(connectData);
+    final OctopusClient client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final UsersApi users = UsersApi.create(client);
 
@@ -112,12 +94,7 @@ public class SpacesOverviewAcceptanceTest extends BaseAcceptanceTest {
 
   @Test
   public void correctlyReturnsAllResultsRegardlessOfPaginationSize() throws IOException {
-    final ConnectData connectData =
-        new ConnectDataBuilder()
-            .withOctopusServerUrl(new URL(serverURL))
-            .withApiKey(apiKey)
-            .build();
-    final OctopusClient client = OctopusClientFactory.createClient(connectData);
+    final OctopusClient client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final UsersApi users = UsersApi.create(client);
 
@@ -157,12 +134,7 @@ public class SpacesOverviewAcceptanceTest extends BaseAcceptanceTest {
   @Test
   public void createSpaceWithEmptyName() throws IOException {
     final String spaceName = "NotEmpty";
-    final ConnectData connectData =
-        new ConnectDataBuilder()
-            .withOctopusServerUrl(new URL(serverURL))
-            .withApiKey(apiKey)
-            .build();
-    final OctopusClient client = OctopusClientFactory.createClient(connectData);
+    final OctopusClient client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final UsersApi users = UsersApi.create(client);
 

@@ -19,10 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.octopus.sdk.api.SpaceHomeApi;
 import com.octopus.sdk.api.SpacesOverviewApi;
-import com.octopus.sdk.http.ConnectData;
-import com.octopus.sdk.http.ConnectDataBuilder;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.http.OctopusClientFactory;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 
 import java.io.IOException;
@@ -36,12 +33,7 @@ public class SpacesHomeAcceptanceTest extends BaseAcceptanceTest {
 
   @Test
   public void throwsExceptionIfRequestSpaceDoesNotExist() throws IOException {
-    final ConnectData connectData =
-        new ConnectDataBuilder()
-            .withOctopusServerUrl(new URL(serverURL))
-            .withApiKey(apiKey)
-            .build();
-    final OctopusClient client = OctopusClientFactory.createClient(connectData);
+    final OctopusClient client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
     final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
     assertThatThrownBy(() -> spaceHomeApi.getByName("NonExistentSpace"))
         .isInstanceOf(IllegalArgumentException.class);
@@ -49,12 +41,7 @@ public class SpacesHomeAcceptanceTest extends BaseAcceptanceTest {
 
   @Test
   public void throwsExceptionIfNoDefaultSpaceExistsAndNoNameSpecified() throws IOException {
-    final ConnectData connectData =
-        new ConnectDataBuilder()
-            .withOctopusServerUrl(new URL(serverURL))
-            .withApiKey(apiKey)
-            .build();
-    final OctopusClient client = OctopusClientFactory.createClient(connectData);
+    final OctopusClient client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
 
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final List<SpaceOverviewWithLinks> spaces = spacesOverviewApi.getByPartialName("");

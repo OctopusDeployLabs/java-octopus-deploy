@@ -1,12 +1,4 @@
 
-apply plugin: 'com.adarshr.test-logger'
-
-jar {
-  enabled = true
-  archiveBaseName = 'octopus-sdk'
-  archiveClassifier = 'test-support'
-}
-
 dependencies {
   implementation project(':octopus-sdk')
   implementation project(':octopus-openapi-wrapper')
@@ -23,18 +15,3 @@ dependencies {
 }
 
 test.enabled = false
-
-task acceptanceTest(type: Test) {
-  java {
-    toolchain {
-      languageVersion = JavaLanguageVersion.of(11)
-    }
-  }
-  mustRunAfter rootProject.subprojects*.test
-  description = 'Runs the Octopus Java SDK acceptance tests.'
-  group = 'verification'
-  useJUnitPlatform()
-  outputs.upToDateWhen { false }
-
-  testLogging.showStandardStreams = false;
-}

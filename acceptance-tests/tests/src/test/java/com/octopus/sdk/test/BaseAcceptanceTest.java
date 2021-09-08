@@ -24,11 +24,17 @@ import java.io.IOException;
 
 import okhttp3.OkHttpClient;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 
 public class BaseAcceptanceTest {
 
-  protected static OctopusDeployServer server = OctopusDeployServerFactory.create();
+  protected static OctopusDeployServer server;
   protected static final OkHttpClient httpClient = new OkHttpClient();
+
+  @BeforeAll
+  public static void setup() {
+    server = OctopusDeployServerFactory.create();
+  }
 
   @AfterAll
   public static void tearDown() throws Exception {

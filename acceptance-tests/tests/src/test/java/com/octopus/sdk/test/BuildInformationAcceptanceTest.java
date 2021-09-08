@@ -36,11 +36,14 @@ import java.net.URL;
 import java.util.Collections;
 
 import com.google.common.collect.Sets;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
+  private static final Logger LOG = LogManager.getLogger();
 
   private SpacesOverviewApi spacesOverviewApi;
   private OctopusClient client;
@@ -59,15 +62,17 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
       final UsersApi users = UsersApi.create(client);
 
       toCreate = new SpaceOverviewWithLinks();
-      toCreate.setName("ProjectTestSpace");
+      toCreate.setName("BuildInfoTestSpace");
       toCreate.setSpaceManagersTeamMembers(Sets.newHashSet(users.getCurrentUser().getId()));
 
       createdSpace = spacesOverviewApi.create(toCreate);
       spaceHome =
           client.get(RequestEndpoint.fromPath(createdSpace.getSpaceHomeLink()), SpaceHome.class);
     } catch (final Exception e) {
+      LOG.error(e);
       deleteSpaceValidly(spacesOverviewApi, toCreate);
       spacesOverviewApi = null;
+      throw e;
     }
   }
 
@@ -122,7 +127,7 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
 
     final OctopusPackageVersionBuildInformationMappedResource response =
         buildInfoApi.create(resource, OverwriteMode.OverwriteExisting);
-    assertThat(response.getBuildUrl()).isEqualTo("dif ferentURL");
+    assertThat(response.getBuildUrl()).isEqualTo("differentURL");
   }
 
   @Test

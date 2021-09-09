@@ -15,6 +15,9 @@
 
 package com.octopus.sdk.http;
 
+
+import com.google.common.base.Preconditions;
+
 import java.net.URL;
 import java.util.Optional;
 
@@ -24,6 +27,8 @@ public class ProxyData {
   private final Optional<String> password;
 
   public ProxyData(final URL proxyUrl, final String username, final String password) {
+    Preconditions.checkNotNull(username, "Username must be specified for an authenticating proxy");
+    Preconditions.checkNotNull(password, "Password must be specified for an authenticating proxy");
     this.proxyUrl = proxyUrl;
     this.username = Optional.of(username);
     this.password = Optional.of(password);

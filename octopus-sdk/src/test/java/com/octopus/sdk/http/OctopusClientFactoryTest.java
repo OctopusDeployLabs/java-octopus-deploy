@@ -35,12 +35,10 @@ import org.mockserver.model.RequestDefinition;
 
 class OctopusClientFactoryTest {
 
-  private ClientAndServer mockProxyServer;
-  private final Gson gson = new GsonBuilder().create();
-
   @Test
   public void ensureProxyServerIsUsed() throws MalformedURLException {
-    mockProxyServer = new ClientAndServer();
+    final ClientAndServer mockProxyServer = new ClientAndServer();
+    final Gson gson = new GsonBuilder().create();
 
     final String proxyUrl = String.format("http://localhost:%d", mockProxyServer.getPort());
 

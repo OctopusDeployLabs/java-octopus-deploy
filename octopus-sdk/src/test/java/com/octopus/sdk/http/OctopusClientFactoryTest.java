@@ -19,8 +19,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.octopus.sdk.model.RootDocument;
 import com.octopus.sdk.support.TestHelpers;
+import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Test;
 import org.mockserver.integration.ClientAndServer;
+import org.mockserver.matchers.Times;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.RequestDefinition;
 
@@ -44,7 +46,6 @@ class OctopusClientFactoryTest {
 
     final ProxyData proxyData = new ProxyData(new URL(proxyUrl), "username", "password");
 
-
     final ConnectData connectData = new ConnectDataBuilder()
         .withApiKey("API-KEY")
         .withOctopusServerUrl(new URL("http://localhost:8065"))
@@ -53,7 +54,10 @@ class OctopusClientFactoryTest {
 
     final OctopusClient client = OctopusClientFactory.createClient(connectData);
 
-    mockProxyServer.when(request())
+    // Throw a 407 to require an authentication exchange
+    mockProxyServer.when(request(), Times.once()).respond(response().withStatusCode(407));
+
+    mockProxyServer.when(request(), Times.once())
         .respond(response().withStatusCode(200).withBody(gson.toJson(TestHelpers.defaultRootDoc())));
 
     final RootDocument result = client.getRootDocument();
@@ -61,14 +65,14 @@ class OctopusClientFactoryTest {
     assertThat(result).usingRecursiveComparison().isEqualTo(TestHelpers.defaultRootDoc());
 
     final RequestDefinition[] requests = mockProxyServer.retrieveRecordedRequests(request());
-    assertThat(requests.length).isOne();
-    final RequestDefinition request = requests[0];
-    assertThat(request).isInstanceOf(HttpException.class);
+    assertThat(requests.length).isEqualTo(2); // the unauthorized, then the second one with auth-headers
+    final RequestDefinition request = requests[1];
+    assertThat(request).isInstanceOf(HttpRequest.class);
     final HttpRequest httpRequest = (HttpRequest)request;
 
-    assertThat(httpRequest.getMethod().toString()).isEqualTo("get");
+    assertThat(httpRequest.getMethod().toString()).isEqualTo("GET");
     assertThat(httpRequest.getPath().toString()).isEqualTo("/api");
-    assertThat(httpRequest.getHeader("Host").toString()).isEqualTo(connectData.getOctopusServerUrl().toString());
+    assertThat(httpRequest.getHeader("Host")).containsExactly(connectData.getOctopusServerUrl().getAuthority());
+    assertThat(httpRequest.getHeader("Proxy-Authorization").get(0)).startsWith("Basic");
   }
-
 }

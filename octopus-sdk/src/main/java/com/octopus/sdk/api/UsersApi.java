@@ -20,37 +20,35 @@ import com.octopus.openapi.model.UserResourceCollection;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.RootDocument;
-import com.octopus.sdk.model.users.User;
+import com.octopus.sdk.model.users.UserResource;
+import com.octopus.sdk.model.users.UserResourcePaginatedCollection;
+import com.octopus.sdk.model.users.UserResourceWithLinks;
 
 import java.io.IOException;
 import java.time.Instant;
 
-public class UsersApi {
+public class UsersApi extends BaseResourceApi<UserResourceWithLinks, UserResourceWithLinks, UserResourcePaginatedCollection> {
 
-  private final UserResourceCollection resources;
-  private final OctopusClient client;
+  private final String currentUserPath;
 
-  public UsersApi(final OctopusClient client, final UserResourceCollection resources) {
-    this.resources = resources;
-    this.client = client;
+  public UsersApi(final OctopusClient client, final String rootPath, final String currentUserPath) {
+    super(client, rootPath, UserResourceWithLinks.class, UserResourcePaginatedCollection.class);
+    this.currentUserPath = currentUserPath;
   }
 
   public static UsersApi create(final OctopusClient client) throws IOException {
     final RootDocument rootDoc = client.getRootDocument();
-
-    final String usersPath = rootDoc.getUsersLink();
-    final UserResourceCollection resources =
-        client.get(RequestEndpoint.fromPath(usersPath), UserResourceCollection.class);
-
-    return new UsersApi(client, resources);
+    return new UsersApi(client, rootDoc.getUsersLink(), rootDoc.getCurrentUserLink());
   }
 
-  public User getCurrentUser() throws IOException {
+  public UserResourceWithLinks getCurrentUser() throws IOException {
     final RootDocument rootDoc = client.getRootDocument();
-    return client.get(RequestEndpoint.fromPath(rootDoc.getCurrentUserLink()), User.class);
+    return client.get(RequestEndpoint.fromPath(rootDoc.getCurrentUserLink()), UserResourceWithLinks.class);
   }
 
-  public String createApiKeyForUser(final User user, final String purpose, final Instant expiry)
+  // TECHNICALLY - this needs to be part of ah ApiKeyAPI (which can only be created from a User
+  public String createApiKeyForUser(final UserResourceWithLinks userResource, final String purpose,
+      final Instant expiry)
       throws IOException {
     final ApiKeyCreatedResource keyCreationInputParams = new ApiKeyCreatedResource();
     keyCreationInputParams.setPurpose(purpose);
@@ -59,18 +57,9 @@ public class UsersApi {
     // keyCreationInputParams.setExpires(OffsetDateTime.ofInstant(expiry, ZoneOffset.UTC));
     final ApiKeyCreatedResource keyCreated =
         client.post(
-            RequestEndpoint.fromPath(user.getApiKeysLink()),
+            RequestEndpoint.fromPath(userResource.getApiKeysLink()),
             keyCreationInputParams,
             ApiKeyCreatedResource.class);
     return keyCreated.getApiKey();
-  }
-
-  public User getUserByUserId(final String userId) throws IOException {
-    final String specificUserPath = getPathForUser(userId);
-    return client.get(RequestEndpoint.fromPath(specificUserPath), User.class);
-  }
-
-  private String getPathForUser(final String userId) {
-    return String.format("%s/%s", resources.getLinks().get("Self"), userId);
   }
 }

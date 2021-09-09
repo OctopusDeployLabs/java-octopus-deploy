@@ -24,7 +24,7 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings({"UnusedVariable", "FieldCanBeFinal"})
-public class User extends BaseResource {
+public class UserResource extends BaseResource {
 
   @SerializedName("CanPasswordBeEdited")
   private Boolean canPasswordBeEdited;
@@ -58,28 +58,4 @@ public class User extends BaseResource {
 
   @SerializedName("Username")
   private String username;
-
-  public String getApiKeysLink() {
-    return getCleansedLink("ApiKeys");
-  }
-
-  public String getAvatarLink() {
-    return getCleansedLink("Avatar");
-  }
-
-  public String getPermissionsLink() {
-    return getCleansedLink("Permissions");
-  }
-
-  public String getPermissionsConfigurationLink() {
-    return getCleansedLink("PermissionsConfiguration");
-  }
-
-  public String getSpacesLink() {
-    return getCleansedLink("Spaces");
-  }
-
-  public String getTeamsLink() {
-    return getCleansedLink("Teams");
-  }
 }

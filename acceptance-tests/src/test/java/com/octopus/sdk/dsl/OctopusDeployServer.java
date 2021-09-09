@@ -19,7 +19,7 @@ import com.octopus.sdk.api.LicenseApi;
 import com.octopus.sdk.api.UsersApi;
 import com.octopus.sdk.http.InMemoryCookieJar;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.users.User;
+import com.octopus.sdk.model.users.UserResource;
 
 import java.io.IOException;
 import java.net.URL;
@@ -154,9 +154,9 @@ public class OctopusDeployServer {
 
   public static String createApiKeyForCurrentUser(final OctopusClient client) throws IOException {
     final UsersApi users = UsersApi.create(client);
-    final User currentUser = users.getCurrentUser();
+    final UserResource currentUserResource = users.getCurrentUser();
     return users.createApiKeyForUser(
-        currentUser, "For Testing", Instant.now().plus(Duration.ofDays(1)));
+        currentUserResource, "For Testing", Instant.now().plus(Duration.ofDays(1)));
   }
 
   public static void installLicense(final OctopusClient client) throws IOException {

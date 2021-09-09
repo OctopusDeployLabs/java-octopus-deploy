@@ -15,11 +15,10 @@
 
 package com.octopus.sdk.http;
 
-
-import com.google.common.base.Preconditions;
-
 import java.net.URL;
 import java.util.Optional;
+
+import com.google.common.base.Preconditions;
 
 public class ProxyData {
   private final URL proxyUrl;

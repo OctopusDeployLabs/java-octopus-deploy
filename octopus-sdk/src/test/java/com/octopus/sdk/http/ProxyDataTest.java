@@ -15,26 +15,26 @@
 
 package com.octopus.sdk.http;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.junit.jupiter.api.Test;
 
 class ProxyDataTest {
 
   @Test
   public void creatingProxyDataWithNullUsernameThrows() {
-    assertThatThrownBy(() -> new ProxyData(new URL("http://localhost"), null, "password")).isInstanceOf(
-        NullPointerException.class);
+    assertThatThrownBy(() -> new ProxyData(new URL("http://localhost"), null, "password"))
+        .isInstanceOf(NullPointerException.class);
   }
 
   @Test
   public void creatingProxyDataWithNullPasswordThrows() {
-    assertThatThrownBy(() -> new ProxyData(new URL("http://localhost"), "username", null)).isInstanceOf(
-        NullPointerException.class);
+    assertThatThrownBy(() -> new ProxyData(new URL("http://localhost"), "username", null))
+        .isInstanceOf(NullPointerException.class);
   }
 
   @Test
@@ -62,5 +62,4 @@ class ProxyDataTest {
     assertThat(proxyData.getUsername().get()).isEqualTo(username);
     assertThat(proxyData.getProxyUrl()).isEqualTo(proxyURL);
   }
-
 }

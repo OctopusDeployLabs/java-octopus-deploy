@@ -15,11 +15,11 @@
 
 package com.octopus.sdk.http;
 
-import com.google.common.base.Preconditions;
-
 import java.net.URL;
 import java.time.Duration;
 import java.util.Optional;
+
+import com.google.common.base.Preconditions;
 
 public class ConnectData {
 
@@ -28,7 +28,8 @@ public class ConnectData {
   private final Optional<ProxyData> proxy;
   private final Duration connectTimeout;
 
-  public ConnectData(final URL octopusServerUrl, final String apiKey, final Duration connectTimeout) {
+  public ConnectData(
+      final URL octopusServerUrl, final String apiKey, final Duration connectTimeout) {
     this(octopusServerUrl, apiKey, connectTimeout, Optional.empty());
   }
 
@@ -37,11 +38,13 @@ public class ConnectData {
       final String apiKey,
       final Duration connectTimeout,
       final Optional<ProxyData> proxy) {
-    Preconditions.checkNotNull(octopusServerUrl, "Cannot construct an Octopus connection without a server URL");
+    Preconditions.checkNotNull(
+        octopusServerUrl, "Cannot construct an Octopus connection without a server URL");
     Preconditions.checkNotNull(apiKey, "Cannot construct an Octopus connection without an API key");
-    Preconditions.checkNotNull(connectTimeout, "Cannot construct an Octopus connection without a connectTimeout");
-    Preconditions.checkNotNull(connectTimeout, "ProxyData must be specified - Optional.empty() is valid if not "
-        + "required");
+    Preconditions.checkNotNull(
+        connectTimeout, "Cannot construct an Octopus connection without a connectTimeout");
+    Preconditions.checkNotNull(
+        proxy, "ProxyData must be specified - Optional.empty() is valid if not " + "required");
 
     this.octopusServerUrl = octopusServerUrl;
     this.apiKey = apiKey;

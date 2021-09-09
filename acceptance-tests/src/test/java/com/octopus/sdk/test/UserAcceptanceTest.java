@@ -15,17 +15,17 @@
 
 package com.octopus.sdk.test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.octopus.sdk.api.UsersApi;
 import com.octopus.sdk.http.HttpException;
 import com.octopus.sdk.http.OctopusClient;
-import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.junit.jupiter.api.Test;
 
 public class UserAcceptanceTest extends BaseAcceptanceTest {
 
@@ -35,7 +35,8 @@ public class UserAcceptanceTest extends BaseAcceptanceTest {
   public void throwsExceptionWhenQueryingForCurrentUserWhenNotAuthenticated() throws IOException {
     // No Api key is provided - so unable to get current user
     client = new OctopusClient(httpClient, new URL(serverURL));
-    assertThatThrownBy(() ->  UsersApi.create(client)).isInstanceOf(HttpException.class);
+    final UsersApi usersApi = UsersApi.create(client);
+    assertThatThrownBy(usersApi::getCurrentUser).isInstanceOf(HttpException.class);
   }
 
   @Test

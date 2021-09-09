@@ -13,22 +13,21 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.model.users;
+package com.octopus.sdk.model.apikey;
 
 import com.octopus.sdk.model.PaginatedCollection;
 
 import java.util.List;
 import java.util.Map;
 
-public class UserResourcePaginatedCollection extends PaginatedCollection<UserResourceWithLinks> {
-
-  public UserResourcePaginatedCollection(
-      final Map<String, String> rawLinks,
+public class ApiKeyPaginatedCollection extends PaginatedCollection<ApiKeyResource> {
+  public ApiKeyPaginatedCollection(
+      final Map<String, String> links,
       final int totalResults,
       final int itemsPerPage,
       final int numberOfPages,
       final int pageNumber,
-      final List<UserResourceWithLinks> items) {
-    super(rawLinks, totalResults, itemsPerPage, numberOfPages, pageNumber, items);
+      final List<ApiKeyResource> items) {
+    super(links, totalResults, itemsPerPage, numberOfPages, pageNumber, items);
   }
 }

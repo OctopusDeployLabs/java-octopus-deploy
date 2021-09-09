@@ -15,46 +15,27 @@
 
 package com.octopus.sdk.api;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.support.TestHelpers;
-import okhttp3.OkHttpClient;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockserver.integration.ClientAndServer;
-
-import java.net.URL;
-
-import static com.octopus.sdk.support.TestHelpers.defaultRootDoc;
-import static org.mockserver.model.HttpRequest.request;
-import static org.mockserver.model.HttpResponse.response;
-
 class UsersApiTest {
+  /*
+   private URL serverUrl;
+   private OctopusClient client;
+   private final Gson gson = new GsonBuilder().create();
+   private ClientAndServer mockOctopusServer;
 
-  private URL serverUrl;
-  private OctopusClient client;
-  private final Gson gson = new GsonBuilder().create();
-  private ClientAndServer mockOctopusServer;
+   @BeforeEach
+   public void setup() {
+     mockOctopusServer = new ClientAndServer();
+     serverUrl = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
+     client = new OctopusClient(new OkHttpClient(), serverUrl);
+     mockOctopusServer
+         .when(request().withPath("/api"))
+         .respond(response().withStatusCode(200).withBody(gson.toJson(defaultRootDoc())));
+   }
 
-  @BeforeEach
-  public void setup() {
-    mockOctopusServer = new ClientAndServer();
-    serverUrl = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
-    client = new OctopusClient(new OkHttpClient(), serverUrl);
-    mockOctopusServer
-        .when(request().withPath("/api"))
-        .respond(response().withStatusCode(200).withBody(gson.toJson(defaultRootDoc())));
-  }
+   @Test
+   public void canQueryForUsers() {}
 
-  @Test
-  public void canQueryForUsers() {
-
-  }
-
-  @Test
-  public void canReturnCurrentUser() {
-
-  }
-
+   @Test
+   public void canReturnCurrentUser() {}
+  */
 }

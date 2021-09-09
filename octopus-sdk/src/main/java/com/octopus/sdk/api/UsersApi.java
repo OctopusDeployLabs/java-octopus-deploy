@@ -15,19 +15,17 @@
 
 package com.octopus.sdk.api;
 
-import com.octopus.openapi.model.ApiKeyCreatedResource;
-import com.octopus.openapi.model.UserResourceCollection;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.RootDocument;
-import com.octopus.sdk.model.users.UserResource;
 import com.octopus.sdk.model.users.UserResourcePaginatedCollection;
 import com.octopus.sdk.model.users.UserResourceWithLinks;
 
 import java.io.IOException;
-import java.time.Instant;
 
-public class UsersApi extends BaseResourceApi<UserResourceWithLinks, UserResourceWithLinks, UserResourcePaginatedCollection> {
+public class UsersApi
+    extends BaseResourceApi<
+        UserResourceWithLinks, UserResourceWithLinks, UserResourcePaginatedCollection> {
 
   private final String currentUserPath;
 
@@ -42,24 +40,6 @@ public class UsersApi extends BaseResourceApi<UserResourceWithLinks, UserResourc
   }
 
   public UserResourceWithLinks getCurrentUser() throws IOException {
-    final RootDocument rootDoc = client.getRootDocument();
-    return client.get(RequestEndpoint.fromPath(rootDoc.getCurrentUserLink()), UserResourceWithLinks.class);
-  }
-
-  // TECHNICALLY - this needs to be part of ah ApiKeyAPI (which can only be created from a User
-  public String createApiKeyForUser(final UserResourceWithLinks userResource, final String purpose,
-      final Instant expiry)
-      throws IOException {
-    final ApiKeyCreatedResource keyCreationInputParams = new ApiKeyCreatedResource();
-    keyCreationInputParams.setPurpose(purpose);
-    // NOTE: Cannot set the expiry atm, as Gson inside of openApiGenerator is not configured to
-    // serialise instants.
-    // keyCreationInputParams.setExpires(OffsetDateTime.ofInstant(expiry, ZoneOffset.UTC));
-    final ApiKeyCreatedResource keyCreated =
-        client.post(
-            RequestEndpoint.fromPath(userResource.getApiKeysLink()),
-            keyCreationInputParams,
-            ApiKeyCreatedResource.class);
-    return keyCreated.getApiKey();
+    return client.get(RequestEndpoint.fromPath(currentUserPath), UserResourceWithLinks.class);
   }
 }

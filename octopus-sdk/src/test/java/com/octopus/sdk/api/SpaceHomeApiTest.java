@@ -68,7 +68,7 @@ class SpaceHomeApiTest {
         .respond(response().withStatusCode(200).withBody(gson.toJson(rootDoc)));
 
     final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
-    https://www.mock-server.com/proxy/verification.html
+
     assertThatThrownBy(() -> spaceHomeApi.getDefault())
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("no default space available");

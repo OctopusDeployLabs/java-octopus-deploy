@@ -25,7 +25,7 @@ public class ConnectDataBuilder {
   private URL octopusServerUrl;
   private String apiKey;
   private Optional<ProxyData> proxy = Optional.empty();
-  private Duration timeout = Duration.ofSeconds(10);
+  private Duration connectTimeout = Duration.ofSeconds(10);
 
   public ConnectDataBuilder withOctopusServerUrl(final URL octopusServerUrl) {
     this.octopusServerUrl = octopusServerUrl;
@@ -42,16 +42,16 @@ public class ConnectDataBuilder {
     return this;
   }
 
-  public ConnectDataBuilder withConnectTimeout(final Duration timeout) {
-    this.timeout = timeout;
+  public ConnectDataBuilder withConnectTimeout(final Duration connectTimeout) {
+    this.connectTimeout = connectTimeout;
     return this;
   }
 
   public ConnectData build() {
     Preconditions.checkNotNull(octopusServerUrl, "Server URL cannot be null");
     Preconditions.checkNotNull(apiKey, "Api Key cannot be null");
-    Preconditions.checkNotNull(timeout, "timeout cannot be null");
+    Preconditions.checkNotNull(connectTimeout, "timeout cannot be null");
 
-    return new ConnectData(octopusServerUrl, apiKey, timeout, proxy);
+    return new ConnectData(octopusServerUrl, apiKey, connectTimeout, proxy);
   }
 }

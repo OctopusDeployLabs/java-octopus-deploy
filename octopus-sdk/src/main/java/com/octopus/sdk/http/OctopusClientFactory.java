@@ -28,7 +28,7 @@ public class OctopusClientFactory {
   public static OctopusClient createClient(final ConnectData connectData) {
     final OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
 
-    clientBuilder.connectTimeout(connectData.getTimeout());
+    clientBuilder.connectTimeout(connectData.getConnectTimeout());
 
     if (connectData.getProxyData().isPresent()) {
       addProxy(clientBuilder, connectData.getProxyData().get());

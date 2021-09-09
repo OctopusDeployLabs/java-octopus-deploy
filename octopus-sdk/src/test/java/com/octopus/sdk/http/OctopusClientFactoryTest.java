@@ -19,7 +19,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.octopus.sdk.model.RootDocument;
 import com.octopus.sdk.support.TestHelpers;
-import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Test;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.matchers.Times;

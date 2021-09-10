@@ -2,7 +2,6 @@ apply plugin: 'java'
 apply plugin: "org.openapi.generator"
 
 tasks.named('jar') {
-  archiveBaseName = 'octopus-sdk-api'
   manifest {
     attributes(
       'Specification-Title': archiveBaseName,
@@ -13,7 +12,9 @@ tasks.named('jar') {
   }
 }
 
-sourceSets.main.java.srcDirs += "build/generated/src/main/java"
+sourceSets.main.java.srcDirs = [
+  "build/generated/src/main/java"
+]
 
 compileJava {
   // Ignore warnings raised by OpenApiGenerated code

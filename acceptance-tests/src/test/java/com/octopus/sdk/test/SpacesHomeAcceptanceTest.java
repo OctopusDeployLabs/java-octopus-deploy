@@ -33,7 +33,8 @@ public class SpacesHomeAcceptanceTest extends BaseAcceptanceTest {
 
   @Test
   public void throwsExceptionIfRequestSpaceDoesNotExist() throws IOException {
-    final OctopusClient client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
+    final OctopusClient client =
+        new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
     final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
     assertThatThrownBy(() -> spaceHomeApi.getByName("NonExistentSpace"))
         .isInstanceOf(IllegalArgumentException.class);
@@ -41,7 +42,8 @@ public class SpacesHomeAcceptanceTest extends BaseAcceptanceTest {
 
   @Test
   public void throwsExceptionIfNoDefaultSpaceExistsAndNoNameSpecified() throws IOException {
-    final OctopusClient client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
+    final OctopusClient client =
+        new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
 
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
     final List<SpaceOverviewWithLinks> spaces = spacesOverviewApi.getByPartialName("");

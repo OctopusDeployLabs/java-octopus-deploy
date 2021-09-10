@@ -36,11 +36,14 @@ import java.net.URL;
 import java.util.Collections;
 
 import com.google.common.collect.Sets;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
+  private static final Logger LOG = LogManager.getLogger();
 
   private SpacesOverviewApi spacesOverviewApi;
   private OctopusClient client;
@@ -54,20 +57,22 @@ public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
 
     SpaceOverviewWithLinks toCreate = null;
     try {
-      client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
+      client = new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
       spacesOverviewApi = SpacesOverviewApi.create(client);
       final UsersApi users = UsersApi.create(client);
 
       toCreate = new SpaceOverviewWithLinks();
-      toCreate.setName("ProjectTestSpace");
+      toCreate.setName("BuildInfoTestSpace");
       toCreate.setSpaceManagersTeamMembers(Sets.newHashSet(users.getCurrentUser().getId()));
 
       createdSpace = spacesOverviewApi.create(toCreate);
       spaceHome =
           client.get(RequestEndpoint.fromPath(createdSpace.getSpaceHomeLink()), SpaceHome.class);
     } catch (final Exception e) {
+      LOG.error(e);
       deleteSpaceValidly(spacesOverviewApi, toCreate);
       spacesOverviewApi = null;
+      throw e;
     }
   }
 

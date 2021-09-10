@@ -38,12 +38,15 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
 import com.google.common.collect.Sets;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 public class PushPackageUploaderAcceptanceTest extends BaseAcceptanceTest {
+  private static final Logger LOG = LogManager.getLogger();
 
   private SpacesOverviewApi spacesOverviewApi;
   private OctopusClient client;
@@ -55,7 +58,7 @@ public class PushPackageUploaderAcceptanceTest extends BaseAcceptanceTest {
 
     SpaceOverviewWithLinks toCreate = null;
     try {
-      client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
+      client = new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
       spacesOverviewApi = SpacesOverviewApi.create(client);
       final UsersApi users = UsersApi.create(client);
 
@@ -67,8 +70,10 @@ public class PushPackageUploaderAcceptanceTest extends BaseAcceptanceTest {
       spaceHome =
           client.get(RequestEndpoint.fromPath(createdSpace.getSpaceHomeLink()), SpaceHome.class);
     } catch (final Exception e) {
+      LOG.error(e);
       deleteSpaceValidly(spacesOverviewApi, toCreate);
       spacesOverviewApi = null;
+      throw e;
     }
   }
 

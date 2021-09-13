@@ -17,10 +17,10 @@ package com.octopus.sdk.utils;
 
 public class ApiKeyValidator {
 
-  public static void validate(String apiKeyValue) {
+  public static void validate(final String apiKeyValue) {
     final String API_KEY_PREFIX = "API-";
     if (!apiKeyValue.startsWith(API_KEY_PREFIX)) {
-      throw new IllegalArgumentException("APi Key must start with " + API_KEY_PREFIX);
+      throw new IllegalArgumentException("API Key must start with " + API_KEY_PREFIX);
     }
 
     int keyLength = apiKeyValue.length();
@@ -33,7 +33,7 @@ public class ApiKeyValidator {
     for (char c : keyWithoutPrefix.toCharArray()) {
       if (!Character.isDigit(c) && !Character.isUpperCase(c)) {
         throw new IllegalArgumentException(
-            "Api key (excluding prefix) )must contains only digits and upper-case " + "characters");
+            "Api key (excluding prefix) )must contains only digits and upper-case characters");
       }
     }
   }

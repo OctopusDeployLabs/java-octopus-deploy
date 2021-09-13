@@ -15,12 +15,12 @@
 
 package com.octopus.sdk.utils;
 
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
+import org.junit.jupiter.api.Test;
+
 class ApiKeyValidatorTest {
-  
+
   @Test
   public void keyNotStartingWithAPIDashFails() {
     assertThatThrownBy(() -> ApiKeyValidator.validate("BLAH-1234567890ABCDEFGHIJKLMNOPQRS"))

@@ -77,6 +77,13 @@ public class BaseResourceApi<
     }
   }
 
+  public void delete(final String id) throws IOException {
+    final Optional<RESPONSE_TYPE> resource = getById(id);
+    if (resource.isPresent()) {
+      client.delete(RequestEndpoint.fromPath(resource.get().getSelfLink()));
+    }
+  }
+
   public void delete(final CREATE_TYPE resource) throws IOException {
     client.delete(RequestEndpoint.fromPath(resource.getSelfLink()));
   }

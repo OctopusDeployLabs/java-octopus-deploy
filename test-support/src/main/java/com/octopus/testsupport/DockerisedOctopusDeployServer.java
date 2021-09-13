@@ -13,7 +13,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.dsl;
+package com.octopus.testsupport;
 
 import com.octopus.sdk.api.ApiKeyApi;
 import com.octopus.sdk.api.LicenseApi;
@@ -28,16 +28,16 @@ import java.time.Duration;
 import java.time.Instant;
 
 import okhttp3.OkHttpClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.Network;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
 
-public class OctopusDeployServer {
+public class DockerisedOctopusDeployServer implements OctopusDeployServer {
 
-  private static final Logger LOG = LoggerFactory.getLogger(OctopusDeployServer.class);
+  private static final Logger LOG = LogManager.getLogger();
   private static final String OCTOPUS_SERVER_LICENSE_TEXT_ENV_VAR = "OCTOPUS_LICENSE";
 
   public static final String OCTOPUS_SERVER_IMAGE =
@@ -56,7 +56,7 @@ public class OctopusDeployServer {
   private final GenericContainer<?> octopusDeployServerContainer;
   private final String apiKey;
 
-  public OctopusDeployServer(
+  public DockerisedOctopusDeployServer(
       final GenericContainer<?> msSqlContainer,
       final GenericContainer<?> octopusDeployServerContainer,
       final String apiKey) {
@@ -65,7 +65,8 @@ public class OctopusDeployServer {
     this.apiKey = apiKey;
   }
 
-  public void tearDown() {
+  @Override
+  public void close() {
     if (msSqlContainer.isRunning()) {
       msSqlContainer.stop();
     }
@@ -75,15 +76,17 @@ public class OctopusDeployServer {
     }
   }
 
+  @Override
   public String getOctopusUrl() {
     return generateOctopusServerUrl(octopusDeployServerContainer);
   }
 
+  @Override
   public String getApiKey() {
     return apiKey;
   }
 
-  public static OctopusDeployServer createOctopusServer() throws IOException {
+  public static DockerisedOctopusDeployServer createOctopusServer() throws IOException {
 
     final Network network = Network.newNetwork();
     final GenericContainer<?> msSqlContainer =
@@ -137,7 +140,8 @@ public class OctopusDeployServer {
       final String apiKey = createApiKeyForCurrentUser(client);
       installLicense(client);
 
-      return new OctopusDeployServer(msSqlContainer, octopusDeployServerContainer, apiKey);
+      return new DockerisedOctopusDeployServer(
+          msSqlContainer, octopusDeployServerContainer, apiKey);
     } catch (final Exception e) {
       msSqlContainer.stop();
       octopusDeployServerContainer.stop();

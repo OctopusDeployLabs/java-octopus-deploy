@@ -46,7 +46,8 @@ class ApiKeyValidatorTest {
   public void keyContainingNoAlphaNumericCharactersFails() {
     assertThatThrownBy(() -> ApiKeyValidator.validate("API-1234567890ABCDEFGHIJKLM-0"))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("Api key (excluding prefix) )must contains only digits and upper-case characters");
+        .hasMessage(
+            "Api key (excluding prefix) )must contains only digits and upper-case characters");
   }
 
   @Test

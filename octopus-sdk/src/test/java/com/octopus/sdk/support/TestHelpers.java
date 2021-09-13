@@ -41,7 +41,7 @@ public class TestHelpers {
         "BuildInformation",
         "/api/Spaces-1/build-information{/id}{?packageId,filter,latest,skip,take,"
             + "overwriteMode}");
-
+    rootDocLinks.put("CurrentUser", "/api/users/me");
     return rootDocWithLinks(rootDocLinks);
   }
 

@@ -15,8 +15,25 @@
 
 package com.octopus.sdk.api;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.octopus.sdk.http.OctopusClient;
+import com.octopus.sdk.model.users.UserResource;
+import com.octopus.sdk.support.TestHelpers;
+import okhttp3.OkHttpClient;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockserver.integration.ClientAndServer;
+
+import java.io.IOException;
+import java.net.URL;
+
+import static com.octopus.sdk.support.TestHelpers.defaultRootDoc;
+import static org.mockserver.model.HttpRequest.request;
+import static org.mockserver.model.HttpResponse.response;
+import static org.mockserver.verify.VerificationTimes.once;
+
 class UsersApiTest {
-  /*
    private URL serverUrl;
    private OctopusClient client;
    private final Gson gson = new GsonBuilder().create();
@@ -33,9 +50,14 @@ class UsersApiTest {
    }
 
    @Test
-   public void canQueryForUsers() {}
+   public void usersApiAccessesTheCurrentUserApiPathForRetrievingCurrentUsersResource() throws IOException {
+     mockOctopusServer.when(request().withPath(defaultRootDoc().getCurrentUserLink())).respond(
+         response().withBody(gson.toJson(new UserResource())));
 
-   @Test
-   public void canReturnCurrentUser() {}
-  */
+   final UsersApi users = UsersApi.create(client);
+
+   users.getCurrentUser();
+
+   mockOctopusServer.verify(request().withPath(defaultRootDoc().getCurrentUserLink()), once());
+   }
 }

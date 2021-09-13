@@ -38,7 +38,7 @@ public class BuildInformationUploader extends BaseUploader {
     super(client, spaceHomeSelector);
   }
 
-  public static BuildInformationUploader create(final OctopusClient client) {
+  public static BuildInformationUploader  create(final OctopusClient client) {
     final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
     final SpaceHomeSelector spaceHomeSelector = new SpaceHomeSelector(spaceHomeApi);
     return new BuildInformationUploader(client, spaceHomeSelector);

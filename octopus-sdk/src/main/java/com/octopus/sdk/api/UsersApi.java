@@ -15,6 +15,7 @@
 
 package com.octopus.sdk.api;
 
+import com.google.common.base.Preconditions;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.RootDocument;
@@ -36,6 +37,7 @@ public class UsersApi
 
   public static UsersApi create(final OctopusClient client) throws IOException {
     final RootDocument rootDoc = client.getRootDocument();
+    Preconditions.checkNotNull(client, "Supplied a null client");
     return new UsersApi(client, rootDoc.getUsersLink(), rootDoc.getCurrentUserLink());
   }
 

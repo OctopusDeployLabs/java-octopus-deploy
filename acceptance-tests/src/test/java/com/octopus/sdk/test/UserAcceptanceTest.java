@@ -34,14 +34,14 @@ public class UserAcceptanceTest extends BaseAcceptanceTest {
   @Test
   public void throwsExceptionWhenQueryingForCurrentUserWhenNotAuthenticated() throws IOException {
     // No Api key is provided - so unable to get current user
-    client = new OctopusClient(httpClient, new URL(serverURL));
+    client = new OctopusClient(httpClient, new URL(server.getOctopusUrl()));
     final UsersApi usersApi = UsersApi.create(client);
     assertThatThrownBy(usersApi::getCurrentUser).isInstanceOf(HttpException.class);
   }
 
   @Test
   public void canGetCurrentUserWhenAuthenticated() throws IOException {
-    client = new OctopusClient(httpClient, new URL(serverURL), apiKey);
+    client = new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
     final UsersApi usersApi = UsersApi.create(client);
 
     assertThat(usersApi.getCurrentUser()).isNotNull();

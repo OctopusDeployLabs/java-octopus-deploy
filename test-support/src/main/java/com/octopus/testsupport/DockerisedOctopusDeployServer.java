@@ -15,11 +15,12 @@
 
 package com.octopus.testsupport;
 
+import com.octopus.sdk.api.ApiKeyApi;
 import com.octopus.sdk.api.LicenseApi;
 import com.octopus.sdk.api.UsersApi;
 import com.octopus.sdk.http.InMemoryCookieJar;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.users.User;
+import com.octopus.sdk.model.users.UserResourceWithLinks;
 
 import java.io.IOException;
 import java.net.URL;
@@ -158,9 +159,11 @@ public class DockerisedOctopusDeployServer implements OctopusDeployServer {
 
   public static String createApiKeyForCurrentUser(final OctopusClient client) throws IOException {
     final UsersApi users = UsersApi.create(client);
-    final User currentUser = users.getCurrentUser();
-    return users.createApiKeyForUser(
-        currentUser, "For Testing", Instant.now().plus(Duration.ofDays(1)));
+    final UserResourceWithLinks currentUserResource = users.getCurrentUser();
+    final ApiKeyApi apiKeyApi = ApiKeyApi.create(client, currentUserResource);
+    return apiKeyApi
+        .createApiKeyForUser("For Testing", Instant.now().plus(Duration.ofDays(1)))
+        .getApiKey();
   }
 
   public static void installLicense(final OctopusClient client) throws IOException {

@@ -20,8 +20,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class ApiKeyValidatorTest {
-
-
+  
   @Test
   public void keyNotStartingWithAPIDashFails() {
     assertThatThrownBy(() -> ApiKeyValidator.validate("BLAH-1234567890ABCDEFGHIJKLMNOPQRS"))

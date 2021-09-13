@@ -26,14 +26,14 @@ public class ApiKeyValidator {
     int keyLength = apiKeyValue.length();
     if (keyLength < 29 || keyLength > 36) {
       throw new IllegalArgumentException(
-          "Api Key must have between 29 and 36 characters (including prefix)");
+          "API Key must have between 29 and 36 characters (including prefix)");
     }
 
     final String keyWithoutPrefix = apiKeyValue.substring(API_KEY_PREFIX.length());
     for (char c : keyWithoutPrefix.toCharArray()) {
       if (!Character.isDigit(c) && !Character.isUpperCase(c)) {
         throw new IllegalArgumentException(
-            "Api key (excluding prefix) )must contains only digits and upper-case characters");
+            "API key (excluding prefix) )must contains only digits and upper-case characters");
       }
     }
   }

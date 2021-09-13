@@ -32,14 +32,14 @@ class ApiKeyValidatorTest {
   public void keyWhichIsTooLongFails() {
     assertThatThrownBy(() -> ApiKeyValidator.validate("API-1234567890ABCDEFGHIJKLMNOPQRSTUVW"))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("Api Key must have between 29 and 36 characters (including prefix)");
+        .hasMessage("API Key must have between 29 and 36 characters (including prefix)");
   }
 
   @Test
   public void keyWhichIsTooShortFails() {
     assertThatThrownBy(() -> ApiKeyValidator.validate("API-1234567890ABCDEFGHIJKLMN"))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("Api Key must have between 29 and 36 characters (including prefix)");
+        .hasMessage("API Key must have between 29 and 36 characters (including prefix)");
   }
 
   @Test
@@ -47,7 +47,7 @@ class ApiKeyValidatorTest {
     assertThatThrownBy(() -> ApiKeyValidator.validate("API-1234567890ABCDEFGHIJKLM-0"))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessage(
-            "Api key (excluding prefix) )must contains only digits and upper-case characters");
+            "APIgst key (excluding prefix) )must contains only digits and upper-case characters");
   }
 
   @Test

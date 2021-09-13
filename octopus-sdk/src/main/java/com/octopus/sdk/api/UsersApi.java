@@ -15,7 +15,6 @@
 
 package com.octopus.sdk.api;
 
-import com.google.common.base.Preconditions;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.RootDocument;
@@ -23,6 +22,8 @@ import com.octopus.sdk.model.users.UserResourcePaginatedCollection;
 import com.octopus.sdk.model.users.UserResourceWithLinks;
 
 import java.io.IOException;
+
+import com.google.common.base.Preconditions;
 
 public class UsersApi
     extends BaseResourceApi<

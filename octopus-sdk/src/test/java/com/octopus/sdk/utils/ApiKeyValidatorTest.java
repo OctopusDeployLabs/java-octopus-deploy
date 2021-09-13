@@ -40,6 +40,12 @@ class ApiKeyValidatorTest {
   }
 
   @Test
+  public void keyContainingNoAlphaNumericCharactersfails() {
+    assertThatThrownBy(() -> ApiKeyValidator.validate("API-1234567890ABCDEFGHIJKLM-0"))
+        .isInstanceOf(IllegalArgumentException.class);
+  }
+
+  @Test
   public void validKeyDoesNotThrow() {
     ApiKeyValidator.validate("API-1234567890ABCDEFGHIJKLMNO");
   }

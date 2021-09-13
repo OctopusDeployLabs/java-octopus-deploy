@@ -34,30 +34,31 @@ import static org.mockserver.model.HttpResponse.response;
 import static org.mockserver.verify.VerificationTimes.once;
 
 class UsersApiTest {
-   private URL serverUrl;
-   private OctopusClient client;
-   private final Gson gson = new GsonBuilder().create();
-   private ClientAndServer mockOctopusServer;
 
-   @BeforeEach
-   public void setup() {
-     mockOctopusServer = new ClientAndServer();
-     serverUrl = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
-     client = new OctopusClient(new OkHttpClient(), serverUrl);
-     mockOctopusServer
-         .when(request().withPath("/api"))
-         .respond(response().withStatusCode(200).withBody(gson.toJson(defaultRootDoc())));
-   }
+  private OctopusClient client;
+  private ClientAndServer mockOctopusServer;
 
-   @Test
-   public void usersApiAccessesTheCurrentUserApiPathForRetrievingCurrentUsersResource() throws IOException {
-     mockOctopusServer.when(request().withPath(defaultRootDoc().getCurrentUserLink())).respond(
-         response().withBody(gson.toJson(new UserResource())));
+  private final Gson gson = new GsonBuilder().create();
+  
+  @BeforeEach
+  public void setup() {
+    mockOctopusServer = new ClientAndServer();
+    final URL serverUrl = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
+    client = new OctopusClient(new OkHttpClient(), serverUrl);
+    mockOctopusServer
+        .when(request().withPath("/api"))
+        .respond(response().withStatusCode(200).withBody(gson.toJson(defaultRootDoc())));
+  }
 
-   final UsersApi users = UsersApi.create(client);
+  @Test
+  public void usersApiAccessesTheCurrentUserApiPathForRetrievingCurrentUsersResource() throws IOException {
+    mockOctopusServer.when(request().withPath(defaultRootDoc().getCurrentUserLink())).respond(
+        response().withBody(gson.toJson(new UserResource())));
 
-   users.getCurrentUser();
+    final UsersApi users = UsersApi.create(client);
 
-   mockOctopusServer.verify(request().withPath(defaultRootDoc().getCurrentUserLink()), once());
-   }
+    users.getCurrentUser();
+
+    mockOctopusServer.verify(request().withPath(defaultRootDoc().getCurrentUserLink()), once());
+  }
 }

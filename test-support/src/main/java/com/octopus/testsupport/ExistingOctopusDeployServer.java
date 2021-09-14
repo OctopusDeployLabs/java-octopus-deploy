@@ -31,5 +31,7 @@ public class ExistingOctopusDeployServer implements OctopusDeployServer {
   public void close() {}
 
   @Override
-  public int getPort() { return 8065; }
+  public int getPort() {
+    return 8065;
+  }
 }

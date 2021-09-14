@@ -87,7 +87,9 @@ public class DockerisedOctopusDeployServer implements OctopusDeployServer {
   }
 
   @Override
-  public int getPort() { return OCTOPUS_SERVER_DEPLOY_PORT; }
+  public int getPort() {
+    return OCTOPUS_SERVER_DEPLOY_PORT;
+  }
 
   public static DockerisedOctopusDeployServer createOctopusServer() throws IOException {
 

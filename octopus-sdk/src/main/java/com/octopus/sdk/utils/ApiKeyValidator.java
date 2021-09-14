@@ -18,22 +18,26 @@ package com.octopus.sdk.utils;
 public class ApiKeyValidator {
 
   public static void validate(final String apiKeyValue) {
+    final String VALIDITY_STATEMENT =
+        "An API Key must be between 29 and 36 characters, and other than the 'API-' "
+            + "prefix, must only contain (upper-case) alphanumeric characters: ";
     final String API_KEY_PREFIX = "API-";
     if (!apiKeyValue.startsWith(API_KEY_PREFIX)) {
-      throw new IllegalArgumentException("API Key must start with " + API_KEY_PREFIX);
+      throw new IllegalArgumentException(
+          VALIDITY_STATEMENT + " supplied key has an incorrect prefix");
     }
 
     int keyLength = apiKeyValue.length();
     if (keyLength < 29 || keyLength > 36) {
       throw new IllegalArgumentException(
-          "API Key must have between 29 and 36 characters (including prefix)");
+          VALIDITY_STATEMENT + " supplied key has invalid length (" + keyLength + ")");
     }
 
     final String keyWithoutPrefix = apiKeyValue.substring(API_KEY_PREFIX.length());
     for (char c : keyWithoutPrefix.toCharArray()) {
       if (!Character.isDigit(c) && !Character.isUpperCase(c)) {
         throw new IllegalArgumentException(
-            "API key (excluding prefix) )must contains only digits and upper-case characters");
+            VALIDITY_STATEMENT + " supplied key contains invalid characters");
       }
     }
   }

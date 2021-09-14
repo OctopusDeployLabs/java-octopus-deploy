@@ -25,29 +25,28 @@ class ApiKeyValidatorTest {
   public void keyNotStartingWithAPIDashFails() {
     assertThatThrownBy(() -> ApiKeyValidator.validate("BLAH-1234567890ABCDEFGHIJKLMNOPQRS"))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("API Key must start with API-");
+        .hasMessageContaining("supplied key has an incorrect prefix");
   }
 
   @Test
   public void keyWhichIsTooLongFails() {
     assertThatThrownBy(() -> ApiKeyValidator.validate("API-1234567890ABCDEFGHIJKLMNOPQRSTUVW"))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("API Key must have between 29 and 36 characters (including prefix)");
+        .hasMessageContaining("supplied key has invalid length");
   }
 
   @Test
   public void keyWhichIsTooShortFails() {
     assertThatThrownBy(() -> ApiKeyValidator.validate("API-1234567890ABCDEFGHIJKLMN"))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("API Key must have between 29 and 36 characters (including prefix)");
+        .hasMessageContaining("supplied key has invalid length");
   }
 
   @Test
   public void keyContainingNoAlphaNumericCharactersFails() {
     assertThatThrownBy(() -> ApiKeyValidator.validate("API-1234567890ABCDEFGHIJKLM-0"))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage(
-            "API key (excluding prefix) )must contains only digits and upper-case characters");
+        .hasMessageContaining("supplied key contains invalid characters");
   }
 
   @Test

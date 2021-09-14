@@ -86,6 +86,9 @@ public class DockerisedOctopusDeployServer implements OctopusDeployServer {
     return apiKey;
   }
 
+  @Override
+  public int getPort() { return OCTOPUS_SERVER_DEPLOY_PORT; }
+
   public static DockerisedOctopusDeployServer createOctopusServer() throws IOException {
 
     final Network network = Network.newNetwork();

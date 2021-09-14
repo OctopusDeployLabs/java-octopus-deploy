@@ -19,8 +19,8 @@ public class ApiKeyValidator {
 
   public static void validate(final String apiKeyValue) {
     final String VALIDITY_STATEMENT =
-        "An API Key must be between 29 and 36 characters, and other than the 'API-' "
-            + "prefix, must only contain (upper-case) alphanumeric characters: ";
+        "An API Key must be between 29 and 36 characters, start with 'API-', "
+            + "and must otherwise contain (upper-case) alphanumeric characters: ";
     final String API_KEY_PREFIX = "API-";
     if (!apiKeyValue.startsWith(API_KEY_PREFIX)) {
       throw new IllegalArgumentException(

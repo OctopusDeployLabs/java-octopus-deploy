@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class BaseCommand {
+public class BaseCommandModel {
 
   @SerializedName("projectName")
   private String projectName;
@@ -61,7 +61,7 @@ public class BaseCommand {
   private final Map<String, String> variables;
 
 
-  public BaseCommand(final String projectName, final List<String> environmentName, final Optional<String> tenantName,
+  public BaseCommandModel(final String projectName, final List<String> environmentName, final Optional<String> tenantName,
       final List<String> tenantTags, final boolean forcePackageDownload, final List<String> specificMachineNames,
       final List<String> excludeMachineNames, final List<String> skipStepNames, final boolean useGuidedFailure,
       final Optional<Instant> runAt, final Optional<Instant> noRunAfter, final Map<String, String> variables) {

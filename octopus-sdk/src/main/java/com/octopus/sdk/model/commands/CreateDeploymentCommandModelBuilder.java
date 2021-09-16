@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class CreateDeploymentCommandBuilder {
+public class CreateDeploymentCommandModelBuilder {
   private String projectName;
   private List<String> environmentName;
   private Optional<String> tenantName;
@@ -38,88 +38,88 @@ public class CreateDeploymentCommandBuilder {
   private boolean forcePackageRedeployment;
   private boolean updateVariableSnapshot;
 
-  public CreateDeploymentCommandBuilder withProjectName(final String projectName) {
+  public CreateDeploymentCommandModelBuilder withProjectName(final String projectName) {
     this.projectName = projectName;
     return this;
   }
 
-  public CreateDeploymentCommandBuilder withEnvironmentName(final List<String> environmentName) {
+  public CreateDeploymentCommandModelBuilder withEnvironmentName(final List<String> environmentName) {
     this.environmentName = environmentName;
     return this;
   }
 
-  public CreateDeploymentCommandBuilder withTenantName(final Optional<String> tenantName) {
+  public CreateDeploymentCommandModelBuilder withTenantName(final Optional<String> tenantName) {
     this.tenantName = tenantName;
     return this;
   }
 
-  public CreateDeploymentCommandBuilder withTenantTags(final List<String> tentantTags) {
+  public CreateDeploymentCommandModelBuilder withTenantTags(final List<String> tentantTags) {
     this.tentantTags = tentantTags;
     return this;
   }
 
-  public CreateDeploymentCommandBuilder withForcePackageDownload(final boolean forcePackageDownload) {
+  public CreateDeploymentCommandModelBuilder withForcePackageDownload(final boolean forcePackageDownload) {
     this.forcePackageDownload = forcePackageDownload;
     return this;
   }
 
-  public CreateDeploymentCommandBuilder withSpecificMachineNames(final List<String> specificMachineNames) {
+  public CreateDeploymentCommandModelBuilder withSpecificMachineNames(final List<String> specificMachineNames) {
     this.specificMachineNames = specificMachineNames;
     return this;
   }
 
-  public CreateDeploymentCommandBuilder withExcludeMachineNames(final List<String> excludeMachineNames) {
+  public CreateDeploymentCommandModelBuilder withExcludeMachineNames(final List<String> excludeMachineNames) {
     this.excludeMachineNames = excludeMachineNames;
     return this;
   }
 
-  public CreateDeploymentCommandBuilder withSkipStepNames(final List<String> skipStepNames) {
+  public CreateDeploymentCommandModelBuilder withSkipStepNames(final List<String> skipStepNames) {
     this.skipStepNames = skipStepNames;
     return this;
   }
 
-  public CreateDeploymentCommandBuilder withUseGuidedFailure(final boolean useGuidedFailure) {
+  public CreateDeploymentCommandModelBuilder withUseGuidedFailure(final boolean useGuidedFailure) {
     this.useGuidedFailure = useGuidedFailure;
     return this;
   }
 
-  public CreateDeploymentCommandBuilder withRunAt(final Optional<Instant> runAt) {
+  public CreateDeploymentCommandModelBuilder withRunAt(final Optional<Instant> runAt) {
     this.runAt = runAt;
     return this;
   }
 
-  public CreateDeploymentCommandBuilder withNoRunAfter(final Optional<Instant> noRunAfter) {
+  public CreateDeploymentCommandModelBuilder withNoRunAfter(final Optional<Instant> noRunAfter) {
     this.noRunAfter = noRunAfter;
     return this;
   }
 
-  public CreateDeploymentCommandBuilder withVariables(final Map<String, String> variables) {
+  public CreateDeploymentCommandModelBuilder withVariables(final Map<String, String> variables) {
     this.variables = variables;
     return this;
   }
 
-  public CreateDeploymentCommandBuilder withReleaseVersion(final String releaseVersion) {
+  public CreateDeploymentCommandModelBuilder withReleaseVersion(final String releaseVersion) {
     this.releaseVersion = releaseVersion;
     return this;
   }
 
-  public CreateDeploymentCommandBuilder withChannelName(final Optional<String> channelName) {
+  public CreateDeploymentCommandModelBuilder withChannelName(final Optional<String> channelName) {
     this.channelName = channelName;
     return this;
   }
 
-  public CreateDeploymentCommandBuilder withForcePackageRedeployment(final boolean forcePackageRedeployment) {
+  public CreateDeploymentCommandModelBuilder withForcePackageRedeployment(final boolean forcePackageRedeployment) {
     this.forcePackageRedeployment = forcePackageRedeployment;
     return this;
   }
 
-  public CreateDeploymentCommandBuilder withUpdateVariableSnapshot(final boolean updateVariableSnapshot) {
+  public CreateDeploymentCommandModelBuilder withUpdateVariableSnapshot(final boolean updateVariableSnapshot) {
     this.updateVariableSnapshot = updateVariableSnapshot;
     return this;
   }
 
-  public CreateDeploymentCommand build() {
-    return new CreateDeploymentCommand(projectName, environmentName, tenantName, tentantTags, forcePackageDownload,
+  public CreateDeploymentCommandModel build() {
+    return new CreateDeploymentCommandModel(projectName, environmentName, tenantName, tentantTags, forcePackageDownload,
         specificMachineNames, excludeMachineNames, skipStepNames, useGuidedFailure, runAt, noRunAfter, variables,
         releaseVersion, channelName, forcePackageRedeployment, updateVariableSnapshot);
   }

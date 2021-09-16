@@ -15,37 +15,26 @@
 
 package com.octopus.sdk.operations.createdeployment;
 
+import com.octopus.sdk.model.commands.CreateDeploymentCommandModel;
+
 import java.util.Optional;
 
 public class CreateDeploymentContext {
 
-  private final String releaseVersion;
-  private final Optional<String> channelName;
-  private final boolean forcePackageRedeployment;
-  private final boolean updateVariableSnapshot;
+  private final Optional<String> spaceName;
+  private final CreateDeploymentCommandModel model;
 
-  public CreateDeploymentContext(final String releaseVersion, final Optional<String> channelName,
-      final boolean forcePackageRedeployment,
-      final boolean updateVariableSnapshot) {
-    this.releaseVersion = releaseVersion;
-    this.channelName = channelName;
-    this.forcePackageRedeployment = forcePackageRedeployment;
-    this.updateVariableSnapshot = updateVariableSnapshot;
+  public CreateDeploymentContext(final Optional<String> spaceName,
+      final CreateDeploymentCommandModel model) {
+    this.spaceName = spaceName;
+    this.model = model;
   }
 
-  public String getReleaseVersion() {
-    return releaseVersion;
+  public Optional<String> getSpaceName() {
+    return spaceName;
   }
 
-  public Optional<String> getChannelName() {
-    return channelName;
-  }
-
-  public boolean isForcePackageRedeployment() {
-    return forcePackageRedeployment;
-  }
-
-  public boolean isUpdateVariableSnapshot() {
-    return updateVariableSnapshot;
+  public CreateDeploymentCommandModel getModel() {
+    return model;
   }
 }

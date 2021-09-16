@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class CreateDeploymentCommand extends BaseCommand {
+public class CreateDeploymentCommandModel extends BaseCommandModel {
 
   @SerializedName("releaseVersion")
   private String releaseVersion;
@@ -36,7 +36,7 @@ public class CreateDeploymentCommand extends BaseCommand {
   @SerializedName("updateVariableSnapshot")
   private boolean updateVariableSnapshot;
 
-  public CreateDeploymentCommand(final String projectName, final List<String> environmentName,
+  public CreateDeploymentCommandModel(final String projectName, final List<String> environmentName,
       final Optional<String> tenantName, final List<String> tentantTags, final boolean forcePackageDownload,
       final List<String> specificMachineNames, final List<String> excludeMachineNames,
       final List<String> skipStepNames, final boolean useGuidedFailure,

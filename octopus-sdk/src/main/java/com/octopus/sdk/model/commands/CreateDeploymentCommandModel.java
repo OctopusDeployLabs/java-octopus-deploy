@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@SuppressWarnings("UnusedVariable")
 public class CreateDeploymentCommandModel extends BaseCommandModel {
 
   @SerializedName("releaseVersion")
@@ -50,5 +51,41 @@ public class CreateDeploymentCommandModel extends BaseCommandModel {
     this.channelName = channelName;
     this.forcePackageRedeployment = forcePackageRedeployment;
     this.updateVariableSnapshot = updateVariableSnapshot;
+  }
+
+  public String getReleaseVersion() {
+    return releaseVersion;
+  }
+
+  public Optional<String> getChannelName() {
+    return channelName;
+  }
+
+  public boolean isForcePackageRedeployment() {
+    return forcePackageRedeployment;
+  }
+
+  public boolean isUpdateVariableSnapshot() {
+    return updateVariableSnapshot;
+  }
+
+  public CreateDeploymentCommandModel setReleaseVersion(final String releaseVersion) {
+    this.releaseVersion = releaseVersion;
+    return this;
+  }
+
+  public CreateDeploymentCommandModel setChannelName(final Optional<String> channelName) {
+    this.channelName = channelName;
+    return this;
+  }
+
+  public CreateDeploymentCommandModel setForcePackageRedeployment(final boolean forcePackageRedeployment) {
+    this.forcePackageRedeployment = forcePackageRedeployment;
+    return this;
+  }
+
+  public CreateDeploymentCommandModel setUpdateVariableSnapshot(final boolean updateVariableSnapshot) {
+    this.updateVariableSnapshot = updateVariableSnapshot;
+    return this;
   }
 }

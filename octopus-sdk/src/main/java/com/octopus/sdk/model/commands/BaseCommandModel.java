@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@SuppressWarnings("UnusedVariable")
 public class BaseCommandModel {
 
   @SerializedName("projectName")
@@ -77,5 +78,83 @@ public class BaseCommandModel {
     this.runAt = runAt;
     this.noRunAfter = noRunAfter;
     this.variables = variables;
+  }
+
+  public String getProjectName() {
+    return projectName;
+  }
+
+  public List<String> getEnvironmentName() {
+    return environmentName;
+  }
+
+  public Optional<String> getTenantName() {
+    return tenantName;
+  }
+
+  public List<String> getTenantTags() {
+    return tenantTags;
+  }
+
+  public boolean isForcePackageDownload() {
+    return forcePackageDownload;
+  }
+
+  public List<String> getSpecificMachineNames() {
+    return specificMachineNames;
+  }
+
+  public List<String> getExcludeMachineNames() {
+    return excludeMachineNames;
+  }
+
+  public List<String> getSkipStepNames() {
+    return skipStepNames;
+  }
+
+  public boolean isUseGuidedFailure() {
+    return useGuidedFailure;
+  }
+
+  public Optional<Instant> getRunAt() {
+    return runAt;
+  }
+
+  public Optional<Instant> getNoRunAfter() {
+    return noRunAfter;
+  }
+
+  public Map<String, String> getVariables() {
+    return variables;
+  }
+
+  public BaseCommandModel setProjectName(final String projectName) {
+    this.projectName = projectName;
+    return this;
+  }
+
+  public BaseCommandModel setEnvironmentName(final List<String> environmentName) {
+    this.environmentName = environmentName;
+    return this;
+  }
+
+  public BaseCommandModel setTenantName(final Optional<String> tenantName) {
+    this.tenantName = tenantName;
+    return this;
+  }
+
+  public BaseCommandModel setTenantTags(final List<String> tenantTags) {
+    this.tenantTags = tenantTags;
+    return this;
+  }
+
+  public BaseCommandModel setForcePackageDownload(final boolean forcePackageDownload) {
+    this.forcePackageDownload = forcePackageDownload;
+    return this;
+  }
+
+  public BaseCommandModel setSpecificMachineNames(final List<String> specificMachineNames) {
+    this.specificMachineNames = specificMachineNames;
+    return this;
   }
 }

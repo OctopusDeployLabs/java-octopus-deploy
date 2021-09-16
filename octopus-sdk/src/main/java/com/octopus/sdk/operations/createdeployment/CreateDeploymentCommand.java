@@ -20,7 +20,6 @@ import com.octopus.sdk.api.SpaceHomeApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.deployments.DeploymentResource;
-import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.operations.common.BaseUploader;
 import com.octopus.sdk.operations.common.SpaceHomeSelector;
 
@@ -42,8 +41,7 @@ public class CreateDeploymentCommand extends BaseUploader {
   public DeploymentResource execute(final CreateDeploymentContext context) throws IOException {
     Preconditions.checkNotNull(context, "Attempted to create a deployment with null context.");
 
-    final SpaceHome spaceHome = spaceHomeSelector.getSpaceHome(context.getSpaceName());
-
+    //final SpaceHome spaceHome = spaceHomeSelector.getSpaceHome(context.getSpaceName());
     //final String createDeploymentPath = spaceHome.getCreateDeploymentLink();
     final String createDeploymentPath = "spaceHome.getCreateDeploymentLink()";
 

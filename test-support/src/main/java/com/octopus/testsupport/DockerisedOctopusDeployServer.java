@@ -129,7 +129,7 @@ public class DockerisedOctopusDeployServer implements OctopusDeployServer {
             .withEnv("ADMIN_PASSWORD", OCTOPUS_DEPLOY_SERVER_PASSWORD)
             .withEnv("ADMIN_EMAIL", "octopusJavaSdkTest@octopus.com")
             .withEnv("DB_CONNECTION_STRING", connectionStringBuilder.toString())
-            .withStartupTimeout(Duration.ofMinutes(2))
+            .withStartupTimeout(Duration.ofMinutes(5))
             .waitingFor(Wait.forLogMessage(".*Web server is ready to process requests.*", 1));
 
     try {

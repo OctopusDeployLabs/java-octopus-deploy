@@ -1,22 +1,20 @@
 /*
-* Copyright (c) Octopus Deploy and contributors. All rights reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-* these files except in compliance with the License. You may obtain a copy of the
-* License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software distributed
-* under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-* CONDITIONS OF ANY KIND, either express or implied. See the License for the
-* specific language governing permissions and limitations under the License.
-*/
-
+ * Copyright (c) Octopus Deploy and contributors. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+ * these files except in compliance with the License. You may obtain a copy of the
+ * License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
 
 package com.octopus.sdk.model.deployments;
 
-import com.google.gson.annotations.SerializedName;
 import com.octopus.openapi.model.ReleaseChangesResource;
 import com.octopus.openapi.model.RetentionPeriod;
 import com.octopus.sdk.model.NamedResource;
@@ -30,9 +28,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-/**
- * DeploymentResource
- */
+import com.google.gson.annotations.SerializedName;
+
+/** DeploymentResource */
 @SuppressWarnings("UnusedVariable")
 public class DeploymentResource extends NamedResource {
   @SerializedName("Changes")
@@ -123,7 +121,7 @@ public class DeploymentResource extends NamedResource {
   private Boolean useGuidedFailure;
 
   public DeploymentResource changes(List<ReleaseChangesResource> changes) {
-    
+
     this.changes = changes;
     return this;
   }
@@ -144,9 +142,8 @@ public class DeploymentResource extends NamedResource {
     this.changes = changes;
   }
 
-
   public DeploymentResource changesMarkdown(String changesMarkdown) {
-    
+
     this.changesMarkdown = changesMarkdown;
     return this;
   }
@@ -159,9 +156,8 @@ public class DeploymentResource extends NamedResource {
     this.changesMarkdown = changesMarkdown;
   }
 
-
   public DeploymentResource channelId(String channelId) {
-    
+
     this.channelId = channelId;
     return this;
   }
@@ -174,9 +170,8 @@ public class DeploymentResource extends NamedResource {
     this.channelId = channelId;
   }
 
-
   public DeploymentResource comments(String comments) {
-    
+
     this.comments = comments;
     return this;
   }
@@ -189,9 +184,8 @@ public class DeploymentResource extends NamedResource {
     this.comments = comments;
   }
 
-
   public DeploymentResource created(OffsetDateTime created) {
-    
+
     this.created = created;
     return this;
   }
@@ -204,9 +198,8 @@ public class DeploymentResource extends NamedResource {
     this.created = created;
   }
 
-
   public DeploymentResource deployedBy(String deployedBy) {
-    
+
     this.deployedBy = deployedBy;
     return this;
   }
@@ -219,9 +212,8 @@ public class DeploymentResource extends NamedResource {
     this.deployedBy = deployedBy;
   }
 
-
   public DeploymentResource deployedById(String deployedById) {
-    
+
     this.deployedById = deployedById;
     return this;
   }
@@ -234,9 +226,8 @@ public class DeploymentResource extends NamedResource {
     this.deployedById = deployedById;
   }
 
-
   public DeploymentResource deployedToMachineIds(Set<String> deployedToMachineIds) {
-    
+
     this.deployedToMachineIds = deployedToMachineIds;
     return this;
   }
@@ -257,9 +248,8 @@ public class DeploymentResource extends NamedResource {
     this.deployedToMachineIds = deployedToMachineIds;
   }
 
-
   public DeploymentResource deploymentProcessId(String deploymentProcessId) {
-    
+
     this.deploymentProcessId = deploymentProcessId;
     return this;
   }
@@ -272,9 +262,8 @@ public class DeploymentResource extends NamedResource {
     this.deploymentProcessId = deploymentProcessId;
   }
 
-
   public DeploymentResource environmentId(String environmentId) {
-    
+
     this.environmentId = environmentId;
     return this;
   }
@@ -287,9 +276,8 @@ public class DeploymentResource extends NamedResource {
     this.environmentId = environmentId;
   }
 
-
   public DeploymentResource excludedMachineIds(Set<String> excludedMachineIds) {
-    
+
     this.excludedMachineIds = excludedMachineIds;
     return this;
   }
@@ -310,9 +298,8 @@ public class DeploymentResource extends NamedResource {
     this.excludedMachineIds = excludedMachineIds;
   }
 
-
   public DeploymentResource failureEncountered(Boolean failureEncountered) {
-    
+
     this.failureEncountered = failureEncountered;
     return this;
   }
@@ -325,9 +312,8 @@ public class DeploymentResource extends NamedResource {
     this.failureEncountered = failureEncountered;
   }
 
-
   public DeploymentResource forcePackageDownload(Boolean forcePackageDownload) {
-    
+
     this.forcePackageDownload = forcePackageDownload;
     return this;
   }
@@ -340,9 +326,8 @@ public class DeploymentResource extends NamedResource {
     this.forcePackageDownload = forcePackageDownload;
   }
 
-
   public DeploymentResource forcePackageRedeployment(Boolean forcePackageRedeployment) {
-    
+
     this.forcePackageRedeployment = forcePackageRedeployment;
     return this;
   }
@@ -355,9 +340,8 @@ public class DeploymentResource extends NamedResource {
     this.forcePackageRedeployment = forcePackageRedeployment;
   }
 
-
   public DeploymentResource formValues(Map<String, String> formValues) {
-    
+
     this.formValues = formValues;
     return this;
   }
@@ -379,7 +363,7 @@ public class DeploymentResource extends NamedResource {
   }
 
   public DeploymentResource lastModifiedBy(String lastModifiedBy) {
-    
+
     this.lastModifiedBy = lastModifiedBy;
     return this;
   }
@@ -392,9 +376,8 @@ public class DeploymentResource extends NamedResource {
     this.lastModifiedBy = lastModifiedBy;
   }
 
-
   public DeploymentResource lastModifiedOn(OffsetDateTime lastModifiedOn) {
-    
+
     this.lastModifiedOn = lastModifiedOn;
     return this;
   }
@@ -408,7 +391,7 @@ public class DeploymentResource extends NamedResource {
   }
 
   public DeploymentResource manifestVariableSetId(String manifestVariableSetId) {
-    
+
     this.manifestVariableSetId = manifestVariableSetId;
     return this;
   }
@@ -422,7 +405,7 @@ public class DeploymentResource extends NamedResource {
   }
 
   public DeploymentResource projectId(String projectId) {
-    
+
     this.projectId = projectId;
     return this;
   }
@@ -435,9 +418,8 @@ public class DeploymentResource extends NamedResource {
     this.projectId = projectId;
   }
 
-
   public DeploymentResource queueTime(OffsetDateTime queueTime) {
-    
+
     this.queueTime = queueTime;
     return this;
   }
@@ -450,9 +432,8 @@ public class DeploymentResource extends NamedResource {
     this.queueTime = queueTime;
   }
 
-
   public DeploymentResource queueTimeExpiry(OffsetDateTime queueTimeExpiry) {
-    
+
     this.queueTimeExpiry = queueTimeExpiry;
     return this;
   }
@@ -465,9 +446,8 @@ public class DeploymentResource extends NamedResource {
     this.queueTimeExpiry = queueTimeExpiry;
   }
 
-
   public DeploymentResource releaseId(String releaseId) {
-    
+
     this.releaseId = releaseId;
     return this;
   }
@@ -480,9 +460,8 @@ public class DeploymentResource extends NamedResource {
     this.releaseId = releaseId;
   }
 
-
   public DeploymentResource skipActions(Set<String> skipActions) {
-    
+
     this.skipActions = skipActions;
     return this;
   }
@@ -503,9 +482,8 @@ public class DeploymentResource extends NamedResource {
     this.skipActions = skipActions;
   }
 
-
   public DeploymentResource spaceId(String spaceId) {
-    
+
     this.spaceId = spaceId;
     return this;
   }
@@ -518,9 +496,8 @@ public class DeploymentResource extends NamedResource {
     this.spaceId = spaceId;
   }
 
-
   public DeploymentResource specificMachineIds(Set<String> specificMachineIds) {
-    
+
     this.specificMachineIds = specificMachineIds;
     return this;
   }
@@ -541,9 +518,8 @@ public class DeploymentResource extends NamedResource {
     this.specificMachineIds = specificMachineIds;
   }
 
-
   public DeploymentResource taskId(String taskId) {
-    
+
     this.taskId = taskId;
     return this;
   }
@@ -556,9 +532,8 @@ public class DeploymentResource extends NamedResource {
     this.taskId = taskId;
   }
 
-
   public DeploymentResource tenantId(String tenantId) {
-    
+
     this.tenantId = tenantId;
     return this;
   }
@@ -571,9 +546,8 @@ public class DeploymentResource extends NamedResource {
     this.tenantId = tenantId;
   }
 
-
   public DeploymentResource tentacleRetentionPeriod(RetentionPeriod tentacleRetentionPeriod) {
-    
+
     this.tentacleRetentionPeriod = tentacleRetentionPeriod;
     return this;
   }
@@ -586,9 +560,8 @@ public class DeploymentResource extends NamedResource {
     this.tentacleRetentionPeriod = tentacleRetentionPeriod;
   }
 
-
   public DeploymentResource useGuidedFailure(Boolean useGuidedFailure) {
-    
+
     this.useGuidedFailure = useGuidedFailure;
     return this;
   }
@@ -601,7 +574,6 @@ public class DeploymentResource extends NamedResource {
     this.useGuidedFailure = useGuidedFailure;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -611,40 +583,70 @@ public class DeploymentResource extends NamedResource {
       return false;
     }
     DeploymentResource deploymentResource = (DeploymentResource) o;
-    return Objects.equals(this.changes, deploymentResource.changes) &&
-        Objects.equals(this.changesMarkdown, deploymentResource.changesMarkdown) &&
-        Objects.equals(this.channelId, deploymentResource.channelId) &&
-        Objects.equals(this.comments, deploymentResource.comments) &&
-        Objects.equals(this.created, deploymentResource.created) &&
-        Objects.equals(this.deployedBy, deploymentResource.deployedBy) &&
-        Objects.equals(this.deployedById, deploymentResource.deployedById) &&
-        Objects.equals(this.deployedToMachineIds, deploymentResource.deployedToMachineIds) &&
-        Objects.equals(this.deploymentProcessId, deploymentResource.deploymentProcessId) &&
-        Objects.equals(this.environmentId, deploymentResource.environmentId) &&
-        Objects.equals(this.excludedMachineIds, deploymentResource.excludedMachineIds) &&
-        Objects.equals(this.failureEncountered, deploymentResource.failureEncountered) &&
-        Objects.equals(this.forcePackageDownload, deploymentResource.forcePackageDownload) &&
-        Objects.equals(this.forcePackageRedeployment, deploymentResource.forcePackageRedeployment) &&
-        Objects.equals(this.formValues, deploymentResource.formValues) &&
-        Objects.equals(this.lastModifiedBy, deploymentResource.lastModifiedBy) &&
-        Objects.equals(this.lastModifiedOn, deploymentResource.lastModifiedOn) &&
-        Objects.equals(this.manifestVariableSetId, deploymentResource.manifestVariableSetId) &&
-        Objects.equals(this.projectId, deploymentResource.projectId) &&
-        Objects.equals(this.queueTime, deploymentResource.queueTime) &&
-        Objects.equals(this.queueTimeExpiry, deploymentResource.queueTimeExpiry) &&
-        Objects.equals(this.releaseId, deploymentResource.releaseId) &&
-        Objects.equals(this.skipActions, deploymentResource.skipActions) &&
-        Objects.equals(this.spaceId, deploymentResource.spaceId) &&
-        Objects.equals(this.specificMachineIds, deploymentResource.specificMachineIds) &&
-        Objects.equals(this.taskId, deploymentResource.taskId) &&
-        Objects.equals(this.tenantId, deploymentResource.tenantId) &&
-        Objects.equals(this.tentacleRetentionPeriod, deploymentResource.tentacleRetentionPeriod) &&
-        Objects.equals(this.useGuidedFailure, deploymentResource.useGuidedFailure);
+    return Objects.equals(this.changes, deploymentResource.changes)
+        && Objects.equals(this.changesMarkdown, deploymentResource.changesMarkdown)
+        && Objects.equals(this.channelId, deploymentResource.channelId)
+        && Objects.equals(this.comments, deploymentResource.comments)
+        && Objects.equals(this.created, deploymentResource.created)
+        && Objects.equals(this.deployedBy, deploymentResource.deployedBy)
+        && Objects.equals(this.deployedById, deploymentResource.deployedById)
+        && Objects.equals(this.deployedToMachineIds, deploymentResource.deployedToMachineIds)
+        && Objects.equals(this.deploymentProcessId, deploymentResource.deploymentProcessId)
+        && Objects.equals(this.environmentId, deploymentResource.environmentId)
+        && Objects.equals(this.excludedMachineIds, deploymentResource.excludedMachineIds)
+        && Objects.equals(this.failureEncountered, deploymentResource.failureEncountered)
+        && Objects.equals(this.forcePackageDownload, deploymentResource.forcePackageDownload)
+        && Objects.equals(
+            this.forcePackageRedeployment, deploymentResource.forcePackageRedeployment)
+        && Objects.equals(this.formValues, deploymentResource.formValues)
+        && Objects.equals(this.lastModifiedBy, deploymentResource.lastModifiedBy)
+        && Objects.equals(this.lastModifiedOn, deploymentResource.lastModifiedOn)
+        && Objects.equals(this.manifestVariableSetId, deploymentResource.manifestVariableSetId)
+        && Objects.equals(this.projectId, deploymentResource.projectId)
+        && Objects.equals(this.queueTime, deploymentResource.queueTime)
+        && Objects.equals(this.queueTimeExpiry, deploymentResource.queueTimeExpiry)
+        && Objects.equals(this.releaseId, deploymentResource.releaseId)
+        && Objects.equals(this.skipActions, deploymentResource.skipActions)
+        && Objects.equals(this.spaceId, deploymentResource.spaceId)
+        && Objects.equals(this.specificMachineIds, deploymentResource.specificMachineIds)
+        && Objects.equals(this.taskId, deploymentResource.taskId)
+        && Objects.equals(this.tenantId, deploymentResource.tenantId)
+        && Objects.equals(this.tentacleRetentionPeriod, deploymentResource.tentacleRetentionPeriod)
+        && Objects.equals(this.useGuidedFailure, deploymentResource.useGuidedFailure);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(changes, changesMarkdown, channelId, comments, created, deployedBy, deployedById, deployedToMachineIds, deploymentProcessId, environmentId, excludedMachineIds, failureEncountered, forcePackageDownload, forcePackageRedeployment, formValues, lastModifiedBy, lastModifiedOn, manifestVariableSetId, projectId, queueTime, queueTimeExpiry, releaseId, skipActions, spaceId, specificMachineIds, taskId, tenantId, tentacleRetentionPeriod, useGuidedFailure);
+    return Objects.hash(
+        changes,
+        changesMarkdown,
+        channelId,
+        comments,
+        created,
+        deployedBy,
+        deployedById,
+        deployedToMachineIds,
+        deploymentProcessId,
+        environmentId,
+        excludedMachineIds,
+        failureEncountered,
+        forcePackageDownload,
+        forcePackageRedeployment,
+        formValues,
+        lastModifiedBy,
+        lastModifiedOn,
+        manifestVariableSetId,
+        projectId,
+        queueTime,
+        queueTimeExpiry,
+        releaseId,
+        skipActions,
+        spaceId,
+        specificMachineIds,
+        taskId,
+        tenantId,
+        tentacleRetentionPeriod,
+        useGuidedFailure);
   }
 
   @Override
@@ -658,17 +660,27 @@ public class DeploymentResource extends NamedResource {
     sb.append("    created: ").append(toIndentedString(created)).append("\n");
     sb.append("    deployedBy: ").append(toIndentedString(deployedBy)).append("\n");
     sb.append("    deployedById: ").append(toIndentedString(deployedById)).append("\n");
-    sb.append("    deployedToMachineIds: ").append(toIndentedString(deployedToMachineIds)).append("\n");
-    sb.append("    deploymentProcessId: ").append(toIndentedString(deploymentProcessId)).append("\n");
+    sb.append("    deployedToMachineIds: ")
+        .append(toIndentedString(deployedToMachineIds))
+        .append("\n");
+    sb.append("    deploymentProcessId: ")
+        .append(toIndentedString(deploymentProcessId))
+        .append("\n");
     sb.append("    environmentId: ").append(toIndentedString(environmentId)).append("\n");
     sb.append("    excludedMachineIds: ").append(toIndentedString(excludedMachineIds)).append("\n");
     sb.append("    failureEncountered: ").append(toIndentedString(failureEncountered)).append("\n");
-    sb.append("    forcePackageDownload: ").append(toIndentedString(forcePackageDownload)).append("\n");
-    sb.append("    forcePackageRedeployment: ").append(toIndentedString(forcePackageRedeployment)).append("\n");
+    sb.append("    forcePackageDownload: ")
+        .append(toIndentedString(forcePackageDownload))
+        .append("\n");
+    sb.append("    forcePackageRedeployment: ")
+        .append(toIndentedString(forcePackageRedeployment))
+        .append("\n");
     sb.append("    formValues: ").append(toIndentedString(formValues)).append("\n");
     sb.append("    lastModifiedBy: ").append(toIndentedString(lastModifiedBy)).append("\n");
     sb.append("    lastModifiedOn: ").append(toIndentedString(lastModifiedOn)).append("\n");
-    sb.append("    manifestVariableSetId: ").append(toIndentedString(manifestVariableSetId)).append("\n");
+    sb.append("    manifestVariableSetId: ")
+        .append(toIndentedString(manifestVariableSetId))
+        .append("\n");
     sb.append("    projectId: ").append(toIndentedString(projectId)).append("\n");
     sb.append("    queueTime: ").append(toIndentedString(queueTime)).append("\n");
     sb.append("    queueTimeExpiry: ").append(toIndentedString(queueTimeExpiry)).append("\n");
@@ -678,15 +690,16 @@ public class DeploymentResource extends NamedResource {
     sb.append("    specificMachineIds: ").append(toIndentedString(specificMachineIds)).append("\n");
     sb.append("    taskId: ").append(toIndentedString(taskId)).append("\n");
     sb.append("    tenantId: ").append(toIndentedString(tenantId)).append("\n");
-    sb.append("    tentacleRetentionPeriod: ").append(toIndentedString(tentacleRetentionPeriod)).append("\n");
+    sb.append("    tentacleRetentionPeriod: ")
+        .append(toIndentedString(tentacleRetentionPeriod))
+        .append("\n");
     sb.append("    useGuidedFailure: ").append(toIndentedString(useGuidedFailure)).append("\n");
     sb.append("}");
     return sb.toString();
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -694,6 +707,4 @@ public class DeploymentResource extends NamedResource {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
 }
-

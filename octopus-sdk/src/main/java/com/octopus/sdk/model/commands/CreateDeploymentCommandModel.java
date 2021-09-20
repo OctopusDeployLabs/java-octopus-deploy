@@ -15,12 +15,12 @@
 
 package com.octopus.sdk.model.commands;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("UnusedVariable")
 public class CreateDeploymentCommandModel extends BaseCommandModel {
@@ -37,16 +37,36 @@ public class CreateDeploymentCommandModel extends BaseCommandModel {
   @SerializedName("updateVariableSnapshot")
   private boolean updateVariableSnapshot;
 
-  public CreateDeploymentCommandModel(final String projectName, final List<String> environmentName,
-      final Optional<String> tenantName, final List<String> tentantTags, final boolean forcePackageDownload,
-      final List<String> specificMachineNames, final List<String> excludeMachineNames,
-      final List<String> skipStepNames, final boolean useGuidedFailure,
-      final Optional<Instant> runAt, final Optional<Instant> noRunAfter,
-      final Map<String, String> variables, final String releaseVersion,
-      final Optional<String> channelName, final boolean forcePackageRedeployment,
+  public CreateDeploymentCommandModel(
+      final String projectName,
+      final List<String> environmentName,
+      final Optional<String> tenantName,
+      final List<String> tentantTags,
+      final boolean forcePackageDownload,
+      final List<String> specificMachineNames,
+      final List<String> excludeMachineNames,
+      final List<String> skipStepNames,
+      final boolean useGuidedFailure,
+      final Optional<Instant> runAt,
+      final Optional<Instant> noRunAfter,
+      final Map<String, String> variables,
+      final String releaseVersion,
+      final Optional<String> channelName,
+      final boolean forcePackageRedeployment,
       final boolean updateVariableSnapshot) {
-    super(projectName, environmentName, tenantName, tentantTags, forcePackageDownload, specificMachineNames,
-        excludeMachineNames, skipStepNames, useGuidedFailure, runAt, noRunAfter, variables);
+    super(
+        projectName,
+        environmentName,
+        tenantName,
+        tentantTags,
+        forcePackageDownload,
+        specificMachineNames,
+        excludeMachineNames,
+        skipStepNames,
+        useGuidedFailure,
+        runAt,
+        noRunAfter,
+        variables);
     this.releaseVersion = releaseVersion;
     this.channelName = channelName;
     this.forcePackageRedeployment = forcePackageRedeployment;
@@ -79,12 +99,14 @@ public class CreateDeploymentCommandModel extends BaseCommandModel {
     return this;
   }
 
-  public CreateDeploymentCommandModel setForcePackageRedeployment(final boolean forcePackageRedeployment) {
+  public CreateDeploymentCommandModel setForcePackageRedeployment(
+      final boolean forcePackageRedeployment) {
     this.forcePackageRedeployment = forcePackageRedeployment;
     return this;
   }
 
-  public CreateDeploymentCommandModel setUpdateVariableSnapshot(final boolean updateVariableSnapshot) {
+  public CreateDeploymentCommandModel setUpdateVariableSnapshot(
+      final boolean updateVariableSnapshot) {
     this.updateVariableSnapshot = updateVariableSnapshot;
     return this;
   }

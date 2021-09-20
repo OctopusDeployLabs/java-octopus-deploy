@@ -13,28 +13,22 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.operations.createdeployment;
+package com.octopus.sdk.model.release;
 
-import com.octopus.sdk.model.commands.CreateDeploymentCommandModel;
+import com.octopus.sdk.model.PaginatedCollection;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.Map;
 
-public class CreateDeploymentContext {
+public class ReleasePaginatedCollection extends PaginatedCollection<ReleaseResourceWithLinks> {
 
-  private final Optional<String> spaceName;
-  private final CreateDeploymentCommandModel model;
-
-  public CreateDeploymentContext(
-      final Optional<String> spaceName, final CreateDeploymentCommandModel model) {
-    this.spaceName = spaceName;
-    this.model = model;
-  }
-
-  public Optional<String> getSpaceName() {
-    return spaceName;
-  }
-
-  public CreateDeploymentCommandModel getModel() {
-    return model;
+  public ReleasePaginatedCollection(
+      final Map<String, String> links,
+      final int totalResults,
+      final int itemsPerPage,
+      final int numberOfPages,
+      final int pageNumber,
+      final List<ReleaseResourceWithLinks> items) {
+    super(links, totalResults, itemsPerPage, numberOfPages, pageNumber, items);
   }
 }

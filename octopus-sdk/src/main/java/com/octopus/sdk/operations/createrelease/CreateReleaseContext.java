@@ -13,18 +13,18 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.operations.createdeployment;
+package com.octopus.sdk.operations.createrelease;
 
 import com.octopus.sdk.model.commands.CreateDeploymentCommandModel;
 
 import java.util.Optional;
 
-public class CreateDeploymentContext {
+public class CreateReleaseContext {
 
   private final Optional<String> spaceName;
   private final CreateDeploymentCommandModel model;
 
-  public CreateDeploymentContext(
+  public CreateReleaseContext(
       final Optional<String> spaceName, final CreateDeploymentCommandModel model) {
     this.spaceName = spaceName;
     this.model = model;

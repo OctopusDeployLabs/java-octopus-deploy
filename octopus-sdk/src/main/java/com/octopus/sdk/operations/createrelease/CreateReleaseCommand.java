@@ -13,12 +13,12 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.operations.createdeployment;
+package com.octopus.sdk.operations.createrelease;
 
+import com.octopus.openapi.model.ReleaseResource;
 import com.octopus.sdk.api.SpaceHomeApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
-import com.octopus.sdk.model.deployments.DeploymentResource;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.operations.common.BaseUploader;
 import com.octopus.sdk.operations.common.SpaceHomeSelector;
@@ -27,30 +27,28 @@ import java.io.IOException;
 
 import com.google.common.base.Preconditions;
 
-public class CreateDeploymentCommand extends BaseUploader {
+public class CreateReleaseCommand extends BaseUploader {
 
-  public CreateDeploymentCommand(
+  public CreateReleaseCommand(
       final OctopusClient client, final SpaceHomeSelector spaceHomeSelector) {
     super(client, spaceHomeSelector);
   }
 
-  public static CreateDeploymentCommand create(final OctopusClient client) {
+  public static CreateReleaseCommand create(final OctopusClient client) {
     final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
     final SpaceHomeSelector spaceHomeSelector = new SpaceHomeSelector(spaceHomeApi);
-    return new CreateDeploymentCommand(client, spaceHomeSelector);
+    return new CreateReleaseCommand(client, spaceHomeSelector);
   }
 
-  public DeploymentResource execute(final CreateDeploymentContext context) throws IOException {
-    Preconditions.checkNotNull(context, "Attempted to create a deployment with null context.");
+  public ReleaseResource execute(final CreateReleaseContext context) throws IOException {
+    Preconditions.checkNotNull(context, "Attempted to create a release with null context.");
 
     final SpaceHome spaceHome = spaceHomeSelector.getSpaceHome(context.getSpaceName());
-    final String createDeploymentPath = spaceHome.getExecutionsCreateApiDeploymentCreateLink();
+    final String createReleasePath = spaceHome.getExecutionsCreateApiReleasesCreateLink();
 
-    final DeploymentResource result =
+    final ReleaseResource result =
         client.post(
-            RequestEndpoint.fromPath(createDeploymentPath),
-            context.getModel(),
-            DeploymentResource.class);
+            RequestEndpoint.fromPath(createReleasePath), context.getModel(), ReleaseResource.class);
 
     return result;
   }

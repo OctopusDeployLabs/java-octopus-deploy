@@ -43,7 +43,8 @@ public class CreateDeploymentCommandModelBuilder {
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withEnvironmentName(final List<String> environmentName) {
+  public CreateDeploymentCommandModelBuilder withEnvironmentName(
+      final List<String> environmentName) {
     this.environmentName = environmentName;
     return this;
   }
@@ -58,17 +59,20 @@ public class CreateDeploymentCommandModelBuilder {
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withForcePackageDownload(final boolean forcePackageDownload) {
+  public CreateDeploymentCommandModelBuilder withForcePackageDownload(
+      final boolean forcePackageDownload) {
     this.forcePackageDownload = forcePackageDownload;
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withSpecificMachineNames(final List<String> specificMachineNames) {
+  public CreateDeploymentCommandModelBuilder withSpecificMachineNames(
+      final List<String> specificMachineNames) {
     this.specificMachineNames = specificMachineNames;
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withExcludeMachineNames(final List<String> excludeMachineNames) {
+  public CreateDeploymentCommandModelBuilder withExcludeMachineNames(
+      final List<String> excludeMachineNames) {
     this.excludeMachineNames = excludeMachineNames;
     return this;
   }
@@ -108,19 +112,35 @@ public class CreateDeploymentCommandModelBuilder {
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withForcePackageRedeployment(final boolean forcePackageRedeployment) {
+  public CreateDeploymentCommandModelBuilder withForcePackageRedeployment(
+      final boolean forcePackageRedeployment) {
     this.forcePackageRedeployment = forcePackageRedeployment;
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withUpdateVariableSnapshot(final boolean updateVariableSnapshot) {
+  public CreateDeploymentCommandModelBuilder withUpdateVariableSnapshot(
+      final boolean updateVariableSnapshot) {
     this.updateVariableSnapshot = updateVariableSnapshot;
     return this;
   }
 
   public CreateDeploymentCommandModel build() {
-    return new CreateDeploymentCommandModel(projectName, environmentName, tenantName, tentantTags, forcePackageDownload,
-        specificMachineNames, excludeMachineNames, skipStepNames, useGuidedFailure, runAt, noRunAfter, variables,
-        releaseVersion, channelName, forcePackageRedeployment, updateVariableSnapshot);
+    return new CreateDeploymentCommandModel(
+        projectName,
+        environmentName,
+        tenantName,
+        tentantTags,
+        forcePackageDownload,
+        specificMachineNames,
+        excludeMachineNames,
+        skipStepNames,
+        useGuidedFailure,
+        runAt,
+        noRunAfter,
+        variables,
+        releaseVersion,
+        channelName,
+        forcePackageRedeployment,
+        updateVariableSnapshot);
   }
 }

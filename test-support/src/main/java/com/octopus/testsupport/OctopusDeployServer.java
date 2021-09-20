@@ -20,4 +20,6 @@ public interface OctopusDeployServer extends AutoCloseable {
   String getOctopusUrl();
 
   String getApiKey();
+
+  int getPort();
 }

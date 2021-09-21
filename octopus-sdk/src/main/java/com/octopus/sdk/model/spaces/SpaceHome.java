@@ -352,14 +352,14 @@ public class SpaceHome {
   }
 
   public String getExecutionsCreateApiDeploymentCreateLink() {
-    return LinkHelpers.getCleansedRawLink("ExecutionsCreateApiDeploymentCreate");
+    return LinkHelpers.getCleansedRawLink(getLinks().get("ExecutionsCreateApiDeploymentCreate"));
   }
 
   public String getExecutionsCreateApiRunbookRunCreateLink() {
-    return LinkHelpers.getCleansedRawLink("ExecutionsCreateApiRunbookRunCreate");
+    return LinkHelpers.getCleansedRawLink(getLinks().get("ExecutionsCreateApiRunbookRunCreate"));
   }
 
   public String getExecutionsCreateApiReleasesCreateLink() {
-    return LinkHelpers.getCleansedRawLink("ReleasesCreateApiReleaseCreate");
+    return LinkHelpers.getCleansedRawLink(getLinks().get("ReleasesCreateApiReleaseCreate"));
   }
 }

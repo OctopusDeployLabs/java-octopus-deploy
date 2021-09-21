@@ -15,10 +15,10 @@
 
 package com.octopus.sdk.operations.createrelease;
 
-import com.octopus.openapi.model.ReleaseResource;
 import com.octopus.sdk.api.SpaceHomeApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
+import com.octopus.sdk.model.release.ReleaseResource;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.operations.common.BaseUploader;
 import com.octopus.sdk.operations.common.SpaceHomeSelector;
@@ -40,7 +40,7 @@ public class CreateReleaseCommand extends BaseUploader {
     return new CreateReleaseCommand(client, spaceHomeSelector);
   }
 
-  public ReleaseResource execute(final CreateReleaseContext context) throws IOException {
+  public ReleaseResource execute(final CreateReleaseCommandContext context) throws IOException {
     Preconditions.checkNotNull(context, "Attempted to create a release with null context.");
 
     final SpaceHome spaceHome = spaceHomeSelector.getSpaceHome(context.getSpaceName());

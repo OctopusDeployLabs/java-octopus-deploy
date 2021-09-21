@@ -19,12 +19,12 @@ import com.octopus.sdk.model.commands.CreateDeploymentCommandModel;
 
 import java.util.Optional;
 
-public class CreateReleaseContext {
+public class CreateReleaseCommandContext {
 
   private final Optional<String> spaceName;
   private final CreateDeploymentCommandModel model;
 
-  public CreateReleaseContext(
+  public CreateReleaseCommandContext(
       final Optional<String> spaceName, final CreateDeploymentCommandModel model) {
     this.spaceName = spaceName;
     this.model = model;

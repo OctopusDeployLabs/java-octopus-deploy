@@ -13,7 +13,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.operations.createdeployment;
+package com.octopus.sdk.operations;
 
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
@@ -25,18 +25,13 @@ import java.io.IOException;
 
 import com.google.common.base.Preconditions;
 
-public class CreateDeploymentCommand {
+public class ExecutionsCreateApi {
 
-  private final OctopusClient client;
-
-  public CreateDeploymentCommand(final OctopusClient client) {
+  public static DeploymentResource createDeployment(
+      final OctopusClient client, final CommandBody<CreateDeploymentCommandParameters> payload)
+      throws IOException {
     Preconditions.checkNotNull(
         client, "Attempted to create a deployment with a null octopusClient.");
-    this.client = client;
-  }
-
-  public DeploymentResource execute(final CommandBody<CreateDeploymentCommandParameters> payload)
-      throws IOException {
     Preconditions.checkNotNull(payload, "Attempted to create a deployment with null payload.");
 
     final String createDeploymentPath =

@@ -23,7 +23,7 @@ import java.util.Optional;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("UnusedVariable")
-public class CreateDeploymentCommandModel extends BaseCommandModel {
+public class CreateDeploymentCommandParameters extends BaseCommandParameters {
 
   @SerializedName("releaseVersion")
   private String releaseVersion;
@@ -37,7 +37,7 @@ public class CreateDeploymentCommandModel extends BaseCommandModel {
   @SerializedName("updateVariableSnapshot")
   private boolean updateVariableSnapshot;
 
-  public CreateDeploymentCommandModel(
+  public CreateDeploymentCommandParameters(
       final String projectName,
       final List<String> environmentName,
       final Optional<String> tenantName,
@@ -89,23 +89,23 @@ public class CreateDeploymentCommandModel extends BaseCommandModel {
     return updateVariableSnapshot;
   }
 
-  public CreateDeploymentCommandModel setReleaseVersion(final String releaseVersion) {
+  public CreateDeploymentCommandParameters setReleaseVersion(final String releaseVersion) {
     this.releaseVersion = releaseVersion;
     return this;
   }
 
-  public CreateDeploymentCommandModel setChannelName(final Optional<String> channelName) {
+  public CreateDeploymentCommandParameters setChannelName(final Optional<String> channelName) {
     this.channelName = channelName;
     return this;
   }
 
-  public CreateDeploymentCommandModel setForcePackageRedeployment(
+  public CreateDeploymentCommandParameters setForcePackageRedeployment(
       final boolean forcePackageRedeployment) {
     this.forcePackageRedeployment = forcePackageRedeployment;
     return this;
   }
 
-  public CreateDeploymentCommandModel setUpdateVariableSnapshot(
+  public CreateDeploymentCommandParameters setUpdateVariableSnapshot(
       final boolean updateVariableSnapshot) {
     this.updateVariableSnapshot = updateVariableSnapshot;
     return this;

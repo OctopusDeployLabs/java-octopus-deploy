@@ -13,28 +13,31 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.operations.createdeployment;
+package com.octopus.sdk.model.commands;
 
-import com.octopus.sdk.model.commands.CreateDeploymentCommandModel;
+import com.google.common.base.Preconditions;
+import com.google.gson.annotations.SerializedName;
 
-import java.util.Optional;
+public class CommandBody<T extends BaseCommandParameters> {
 
-public class CreateDeploymentContext {
+  @SerializedName("spaceIdOrName")
+  private final String spaceName;
 
-  private final Optional<String> spaceName;
-  private final CreateDeploymentCommandModel model;
+  @SerializedName("parameters")
+  private final T parameters;
 
-  public CreateDeploymentContext(
-      final Optional<String> spaceName, final CreateDeploymentCommandModel model) {
+  public CommandBody(final String spaceName, final T parameters) {
+    Preconditions.checkNotNull(spaceName, "Spacename must be specified");
+    Preconditions.checkNotNull(parameters, "Parameters must be specified");
     this.spaceName = spaceName;
-    this.model = model;
+    this.parameters = parameters;
   }
 
-  public Optional<String> getSpaceName() {
+  public String getSpaceName() {
     return spaceName;
   }
 
-  public CreateDeploymentCommandModel getModel() {
-    return model;
+  public T getParameters() {
+    return parameters;
   }
 }

@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class CreateDeploymentCommandModelBuilder {
+public class CreateDeploymentCommandParametersBuilder {
   private String projectName;
   private List<String> environmentName;
   private Optional<String> tenantName;
@@ -38,94 +38,100 @@ public class CreateDeploymentCommandModelBuilder {
   private boolean forcePackageRedeployment;
   private boolean updateVariableSnapshot;
 
-  public CreateDeploymentCommandModelBuilder withProjectName(final String projectName) {
+  public CreateDeploymentCommandParametersBuilder withProjectName(final String projectName) {
     this.projectName = projectName;
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withEnvironmentName(
+  public CreateDeploymentCommandParametersBuilder withEnvironmentName(
       final List<String> environmentName) {
     this.environmentName = environmentName;
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withTenantName(final Optional<String> tenantName) {
+  public CreateDeploymentCommandParametersBuilder withTenantName(
+      final Optional<String> tenantName) {
     this.tenantName = tenantName;
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withTenantTags(final List<String> tentantTags) {
+  public CreateDeploymentCommandParametersBuilder withTenantTags(final List<String> tentantTags) {
     this.tentantTags = tentantTags;
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withForcePackageDownload(
+  public CreateDeploymentCommandParametersBuilder withForcePackageDownload(
       final boolean forcePackageDownload) {
     this.forcePackageDownload = forcePackageDownload;
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withSpecificMachineNames(
+  public CreateDeploymentCommandParametersBuilder withSpecificMachineNames(
       final List<String> specificMachineNames) {
     this.specificMachineNames = specificMachineNames;
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withExcludeMachineNames(
+  public CreateDeploymentCommandParametersBuilder withExcludeMachineNames(
       final List<String> excludeMachineNames) {
     this.excludeMachineNames = excludeMachineNames;
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withSkipStepNames(final List<String> skipStepNames) {
+  public CreateDeploymentCommandParametersBuilder withSkipStepNames(
+      final List<String> skipStepNames) {
     this.skipStepNames = skipStepNames;
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withUseGuidedFailure(final boolean useGuidedFailure) {
+  public CreateDeploymentCommandParametersBuilder withUseGuidedFailure(
+      final boolean useGuidedFailure) {
     this.useGuidedFailure = useGuidedFailure;
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withRunAt(final Optional<Instant> runAt) {
+  public CreateDeploymentCommandParametersBuilder withRunAt(final Optional<Instant> runAt) {
     this.runAt = runAt;
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withNoRunAfter(final Optional<Instant> noRunAfter) {
+  public CreateDeploymentCommandParametersBuilder withNoRunAfter(
+      final Optional<Instant> noRunAfter) {
     this.noRunAfter = noRunAfter;
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withVariables(final Map<String, String> variables) {
+  public CreateDeploymentCommandParametersBuilder withVariables(
+      final Map<String, String> variables) {
     this.variables = variables;
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withReleaseVersion(final String releaseVersion) {
+  public CreateDeploymentCommandParametersBuilder withReleaseVersion(final String releaseVersion) {
     this.releaseVersion = releaseVersion;
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withChannelName(final Optional<String> channelName) {
+  public CreateDeploymentCommandParametersBuilder withChannelName(
+      final Optional<String> channelName) {
     this.channelName = channelName;
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withForcePackageRedeployment(
+  public CreateDeploymentCommandParametersBuilder withForcePackageRedeployment(
       final boolean forcePackageRedeployment) {
     this.forcePackageRedeployment = forcePackageRedeployment;
     return this;
   }
 
-  public CreateDeploymentCommandModelBuilder withUpdateVariableSnapshot(
+  public CreateDeploymentCommandParametersBuilder withUpdateVariableSnapshot(
       final boolean updateVariableSnapshot) {
     this.updateVariableSnapshot = updateVariableSnapshot;
     return this;
   }
 
-  public CreateDeploymentCommandModel build() {
-    return new CreateDeploymentCommandModel(
+  public CreateDeploymentCommandParameters build() {
+    return new CreateDeploymentCommandParameters(
         projectName,
         environmentName,
         tenantName,

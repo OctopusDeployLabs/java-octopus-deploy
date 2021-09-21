@@ -23,7 +23,7 @@ import java.util.Optional;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("UnusedVariable")
-public class BaseCommandModel {
+public class BaseCommandParameters {
 
   @SerializedName("projectNameOrId")
   private String projectName;
@@ -61,7 +61,7 @@ public class BaseCommandModel {
   @SerializedName("variables")
   private final Map<String, String> variables;
 
-  public BaseCommandModel(
+  public BaseCommandParameters(
       final String projectName,
       final List<String> environmentName,
       final Optional<String> tenantName,
@@ -136,32 +136,32 @@ public class BaseCommandModel {
     return variables;
   }
 
-  public BaseCommandModel setProjectName(final String projectName) {
+  public BaseCommandParameters setProjectName(final String projectName) {
     this.projectName = projectName;
     return this;
   }
 
-  public BaseCommandModel setEnvironmentName(final List<String> environmentName) {
+  public BaseCommandParameters setEnvironmentName(final List<String> environmentName) {
     this.environmentName = environmentName;
     return this;
   }
 
-  public BaseCommandModel setTenantName(final Optional<String> tenantName) {
+  public BaseCommandParameters setTenantName(final Optional<String> tenantName) {
     this.tenantName = tenantName;
     return this;
   }
 
-  public BaseCommandModel setTenantTags(final List<String> tenantTags) {
+  public BaseCommandParameters setTenantTags(final List<String> tenantTags) {
     this.tenantTags = tenantTags;
     return this;
   }
 
-  public BaseCommandModel setForcePackageDownload(final boolean forcePackageDownload) {
+  public BaseCommandParameters setForcePackageDownload(final boolean forcePackageDownload) {
     this.forcePackageDownload = forcePackageDownload;
     return this;
   }
 
-  public BaseCommandModel setSpecificMachineNames(final List<String> specificMachineNames) {
+  public BaseCommandParameters setSpecificMachineNames(final List<String> specificMachineNames) {
     this.specificMachineNames = specificMachineNames;
     return this;
   }

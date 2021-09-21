@@ -34,6 +34,7 @@ public class ExecuteRunbookCommand extends BaseUploader {
   }
 
   public static ExecuteRunbookCommand create(final OctopusClient client) {
+    Preconditions.checkNotNull(client, "Attempted to execute a runbook with a null octopusClient.");
     final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
     final SpaceHomeSelector spaceHomeSelector = new SpaceHomeSelector(spaceHomeApi);
     return new ExecuteRunbookCommand(client, spaceHomeSelector);

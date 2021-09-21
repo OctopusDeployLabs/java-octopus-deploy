@@ -35,6 +35,8 @@ public class CreateDeploymentCommand extends BaseUploader {
   }
 
   public static CreateDeploymentCommand create(final OctopusClient client) {
+    Preconditions.checkNotNull(
+        client, "Attempted to create a deployment with a null octopusClient.");
     final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
     final SpaceHomeSelector spaceHomeSelector = new SpaceHomeSelector(spaceHomeApi);
     return new CreateDeploymentCommand(client, spaceHomeSelector);

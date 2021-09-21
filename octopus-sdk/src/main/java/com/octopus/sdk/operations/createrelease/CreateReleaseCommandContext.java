@@ -15,17 +15,17 @@
 
 package com.octopus.sdk.operations.createrelease;
 
-import com.octopus.sdk.model.commands.CreateDeploymentCommandModel;
+import com.octopus.sdk.model.commands.CreateReleaseCommandModel;
 
 import java.util.Optional;
 
 public class CreateReleaseCommandContext {
 
   private final Optional<String> spaceName;
-  private final CreateDeploymentCommandModel model;
+  private final CreateReleaseCommandModel model;
 
   public CreateReleaseCommandContext(
-      final Optional<String> spaceName, final CreateDeploymentCommandModel model) {
+      final Optional<String> spaceName, final CreateReleaseCommandModel model) {
     this.spaceName = spaceName;
     this.model = model;
   }
@@ -34,7 +34,7 @@ public class CreateReleaseCommandContext {
     return spaceName;
   }
 
-  public CreateDeploymentCommandModel getModel() {
+  public CreateReleaseCommandModel getModel() {
     return model;
   }
 }

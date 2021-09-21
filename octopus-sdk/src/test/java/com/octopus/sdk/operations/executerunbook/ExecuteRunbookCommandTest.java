@@ -13,7 +13,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.operations.createrelease;
+package com.octopus.sdk.operations.executerunbook;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -25,9 +25,8 @@ import static org.mockito.Mockito.when;
 
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
-import com.octopus.sdk.model.commands.CreateReleaseCommandModel;
-import com.octopus.sdk.model.commands.CreateReleaseCommandModelBuilder;
-import com.octopus.sdk.model.release.ReleaseResource;
+import com.octopus.sdk.model.commands.ExecuteRunbookCommandModel;
+import com.octopus.sdk.model.commands.ExecuteRunbookCommandModelBuilder;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.operations.common.SpaceHomeSelector;
 
@@ -39,46 +38,46 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
-class CreateReleaseCommandTest {
+class ExecuteRunbookCommandTest {
 
   private final OctopusClient mockClient = mock(OctopusClient.class);
   private final SpaceHomeSelector mockSpaceHomeSelector = mock(SpaceHomeSelector.class);
 
   @Test
   public void exceptionIsThrownIfAttemptToCreateWithNullClient() {
-    assertThatThrownBy(() -> CreateReleaseCommand.create(null))
+    assertThatThrownBy(() -> ExecuteRunbookCommand.create(null))
         .isInstanceOf(NullPointerException.class);
   }
 
   @Test
-  public void exceptionIsThrownIfAttemptingToCreateReleaseWithNullContext() {
-    final CreateReleaseCommand command =
-        new CreateReleaseCommand(mockClient, mockSpaceHomeSelector);
+  public void exceptionIsThrownIfAttemptingToCreateRunbookRunWithNullContext() {
+    final ExecuteRunbookCommand command =
+        new ExecuteRunbookCommand(mockClient, mockSpaceHomeSelector);
     assertThatThrownBy(() -> command.execute(null)).isInstanceOf(NullPointerException.class);
   }
 
   @Test
   public void hitsReportedEndpointReceivedFromSpace() throws IOException {
     final Map<String, String> spaceHomeLinks = new HashMap<>();
-    final String commandLink = "/api/createReleaseLink";
-    spaceHomeLinks.put("ReleasesCreateApiReleaseCreate", commandLink);
-    final CreateReleaseCommandModel model = new CreateReleaseCommandModelBuilder().build();
-    final CreateReleaseCommandContext context =
-        new CreateReleaseCommandContext(Optional.empty(), model);
-    final ReleaseResource returnedResource = new ReleaseResource();
+    final String commandLink = "/api/runbookRunCreate";
+    spaceHomeLinks.put("ExecutionsCreateApiRunbookRunCreate", commandLink);
+    final ExecuteRunbookCommandModel model = new ExecuteRunbookCommandModelBuilder().build();
+    final ExecuteRunbookCommandContext context =
+        new ExecuteRunbookCommandContext(Optional.empty(), model);
+    final String runbookId = "TheRunbookId";
 
     final SpaceHome spaceHome = new SpaceHome(spaceHomeLinks);
     when(mockSpaceHomeSelector.getSpaceHome(context.getSpaceName())).thenReturn(spaceHome);
-    when(mockClient.post(any(), eq(model), eq(ReleaseResource.class))).thenReturn(returnedResource);
+    when(mockClient.post(any(), eq(model), eq(String.class))).thenReturn(runbookId);
 
-    final CreateReleaseCommand command =
-        new CreateReleaseCommand(mockClient, mockSpaceHomeSelector);
-    final ReleaseResource resource = command.execute(context);
+    final ExecuteRunbookCommand command =
+        new ExecuteRunbookCommand(mockClient, mockSpaceHomeSelector);
+    final String returnedRunbookId = command.execute(context);
 
-    assertThat(resource).isEqualTo(returnedResource);
+    assertThat(runbookId).isEqualTo(returnedRunbookId);
     final ArgumentCaptor<RequestEndpoint> requestedEndpoint =
         ArgumentCaptor.forClass(RequestEndpoint.class);
-    verify(mockClient).post(requestedEndpoint.capture(), eq(model), eq(ReleaseResource.class));
+    verify(mockClient).post(requestedEndpoint.capture(), eq(model), eq(String.class));
 
     assertThat(requestedEndpoint.getValue().getPath()).isEqualTo(commandLink);
   }

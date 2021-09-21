@@ -15,10 +15,15 @@
 
 package com.octopus.sdk.model.commands;
 
+import java.time.Instant;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("UnusedVariable")
-public class ExecuteRunbookCommandModel {
+public class ExecuteRunbookCommandModel extends BaseCommandModel {
 
   @SerializedName("runbookIdOrName")
   private final String runbookName;
@@ -26,7 +31,34 @@ public class ExecuteRunbookCommandModel {
   @SerializedName("snapshot")
   private final String snapshot;
 
-  public ExecuteRunbookCommandModel(final String runbookName, final String snapshot) {
+  public ExecuteRunbookCommandModel(
+      final String projectName,
+      final List<String> environmentName,
+      final Optional<String> tenantName,
+      final List<String> tenantTags,
+      final boolean forcePackageDownload,
+      final List<String> specificMachineNames,
+      final List<String> excludeMachineNames,
+      final List<String> skipStepNames,
+      final boolean useGuidedFailure,
+      final Optional<Instant> runAt,
+      final Optional<Instant> noRunAfter,
+      final Map<String, String> variables,
+      final String runbookName,
+      final String snapshot) {
+    super(
+        projectName,
+        environmentName,
+        tenantName,
+        tenantTags,
+        forcePackageDownload,
+        specificMachineNames,
+        excludeMachineNames,
+        skipStepNames,
+        useGuidedFailure,
+        runAt,
+        noRunAfter,
+        variables);
     this.runbookName = runbookName;
     this.snapshot = snapshot;
   }

@@ -19,6 +19,7 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
+import com.octopus.sdk.model.commands.CreateReleaseCommandParameters;
 
 import java.io.IOException;
 
@@ -38,4 +39,28 @@ public class ExecutionsCreateApi {
 
     return client.post(RequestEndpoint.fromPath(createDeploymentPath), payload, String.class);
   }
+
+  public static ReleaseResource createRelease(final OctopusClient client,
+      final CommandBody<CreateReleaseCommandParameters> payload) throws IOException {
+    Preconditions.checkNotNull(client, "Attempted to create a release with a null octopusClient.");
+    Preconditions.checkNotNull(payload, "Attempted to create a release with null payload.");
+
+    final String createReleasePath = client.getRootDocument().getExecutionsCreateApiReleasesCreateLink();
+
+    return client.post(
+        RequestEndpoint.fromPath(createReleasePath), payload, ReleaseResource.class);
+  }
+
+  public static String createRelease(
+      final OctopusClient client, final CommandBody<CreateReleaseCommandParameters> payload)
+      throws IOException {
+    Preconditions.checkNotNull(client, "Attempted to create a release with a null octopusClient.");
+    Preconditions.checkNotNull(payload, "Attempted to create a release with null payload.");
+
+    final String createReleasePath =
+        client.getRootDocument().getExecutionsCreateApiReleasesCreateLink();
+
+    return client.post(RequestEndpoint.fromPath(createReleasePath), payload, String.class);
+  }
+
 }

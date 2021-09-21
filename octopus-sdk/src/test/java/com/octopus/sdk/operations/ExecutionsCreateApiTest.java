@@ -65,4 +65,29 @@ class ExecutionsCreateApiTest {
 
     assertThat(requestedEndpoint.getValue().getPath()).isEqualTo(commandLink);
   }
+
+  @Test
+  public void hitsReportedEndpointWhenCreatingRelease() throws IOException {
+    final Map<String, String> rootDocLinks = new HashMap<>();
+    final String commandLink = "/api/createReleaseLink";
+    rootDocLinks.put("ReleasesCreateApiReleaseCreate", commandLink);
+
+    final CreateReleaseCommandParameters parameters =
+        new CreateReleaseCommandParameters("TheProject", "1.0.0");
+    final CommandBody<CreateReleaseCommandParameters> body =
+        new CommandBody<>("theSpace", parameters);
+    final String releaseIdToReturn = "releaseId";
+
+    when(mockClient.post(any(), eq(body), eq(String.class))).thenReturn(releaseIdToReturn);
+    when(mockClient.getRootDocument()).thenReturn(TestHelpers.rootDocWithLinks(rootDocLinks));
+
+    final String releaseId = ExecutionsCreateApi.createRelease(mockClient, body);
+
+    assertThat(releaseId).isEqualTo(releaseIdToReturn);
+    final ArgumentCaptor<RequestEndpoint> requestedEndpoint =
+        ArgumentCaptor.forClass(RequestEndpoint.class);
+    verify(mockClient).post(requestedEndpoint.capture(), eq(body), eq(String.class));
+
+    assertThat(requestedEndpoint.getValue().getPath()).isEqualTo(commandLink);
+  }
 }

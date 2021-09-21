@@ -17,14 +17,39 @@ package com.octopus.sdk.model.deployments;
 
 public class DeploymentResourceWithLinks extends DeploymentResource {
 
-  public String getArtifactsLink() { return getCleansedLink("Artifacts"); }
-  public String getDeploymentProcessLink() { return getCleansedLink("DeploymentProcess"); }
-  public String getEnvironmentLink() { return getCleansedLink("Environment"); }
-  public String getInterruptionsLink() { return getCleansedLink("Interruptions"); }
-  public String getProjectLink() { return getCleansedLink("Project"); }
-  public String getReleaseLink() { return getCleansedLink("Release"); }
-  public String getTaskLink() { return getCleansedLink("Task"); }
-  public String getVariablesLink() { return getCleansedLink("Variables"); }
-  public String getWebLink() { return getCleansedLink("Web"); }
+  public String getArtifactsLink() {
+    return getCleansedLink("Artifacts");
+  }
 
+  public String getDeploymentProcessLink() {
+    return getCleansedLink("DeploymentProcess");
+  }
+
+  public String getEnvironmentLink() {
+    return getCleansedLink("Environment");
+  }
+
+  public String getInterruptionsLink() {
+    return getCleansedLink("Interruptions");
+  }
+
+  public String getProjectLink() {
+    return getCleansedLink("Project");
+  }
+
+  public String getReleaseLink() {
+    return getCleansedLink("Release");
+  }
+
+  public String getTaskLink() {
+    return getCleansedLink("Task");
+  }
+
+  public String getVariablesLink() {
+    return getCleansedLink("Variables");
+  }
+
+  public String getWebLink() {
+    return getCleansedLink("Web");
+  }
 }

@@ -19,7 +19,8 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.deployments.DeploymentPaginatedCollection;
 import com.octopus.sdk.model.deployments.DeploymentResourceWithLinks;
 
-public class DeploymentsApi extends SymmetricApi<DeploymentResourceWithLinks, DeploymentPaginatedCollection> {
+public class DeploymentsApi
+    extends SymmetricApi<DeploymentResourceWithLinks, DeploymentPaginatedCollection> {
 
   public DeploymentsApi(final OctopusClient client, final String rootPath) {
     super(client, rootPath, DeploymentResourceWithLinks.class, DeploymentPaginatedCollection.class);

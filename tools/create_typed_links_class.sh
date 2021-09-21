@@ -42,5 +42,5 @@ wrapStringInFunc() {
 #echo We are fetching $INPUT
 CONTENT=`curl -s --header """X-Octopus-ApiKey: $API_KEY""" --header """Content-Type: application/json""" -X GET $INPUT`
 #echo $CONTENT
-LINKS_CONTENT=`echo $CONTENT | jq '.Links' | jq 'keys | .[]'`
+LINKS_CONTENT=`echo $CONTENT | tr '\r\n' ' '| jq '.Links' | jq 'keys | .[]'`
 createClassFromLinksBlock  "$LINKS_CONTENT"

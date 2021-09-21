@@ -350,4 +350,8 @@ public class SpaceHome {
   public String getWorkersLink() {
     return LinkHelpers.getCleansedRawLink(getLinks().get("Workers"));
   }
+
+  public String getExecutionsCreateApiDeploymentCreateLink() {
+    return LinkHelpers.getCleansedRawLink(getLinks().get("ExecutionsCreateApiDeploymentCreate"));
+  }
 }

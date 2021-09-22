@@ -17,6 +17,7 @@ package com.octopus.sdk.model.commands;
 
 import java.util.List;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("UnusedVariable")
@@ -37,6 +38,7 @@ public class CreateDeploymentCommandParameters extends BaseCommandParameters {
   public CreateDeploymentCommandParameters(
       final String projectName, final List<String> environmentNames, final String releaseVersion) {
     super(projectName, environmentNames);
+    Preconditions.checkNotNull(releaseVersion, "releaseVersion cannot be null");
     this.releaseVersion = releaseVersion;
   }
 

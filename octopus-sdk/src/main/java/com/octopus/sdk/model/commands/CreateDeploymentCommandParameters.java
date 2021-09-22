@@ -15,10 +15,7 @@
 
 package com.octopus.sdk.model.commands;
 
-import java.time.Instant;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -29,7 +26,7 @@ public class CreateDeploymentCommandParameters extends BaseCommandParameters {
   private String releaseVersion;
 
   @SerializedName("channelIdOrName")
-  private Optional<String> channelName;
+  private String channelName;
 
   @SerializedName("forcePackageRedeployment")
   private boolean forcePackageRedeployment;
@@ -38,74 +35,28 @@ public class CreateDeploymentCommandParameters extends BaseCommandParameters {
   private boolean updateVariableSnapshot;
 
   public CreateDeploymentCommandParameters(
-      final String projectName,
-      final List<String> environmentName,
-      final Optional<String> tenantName,
-      final List<String> tentantTags,
-      final boolean forcePackageDownload,
-      final List<String> specificMachineNames,
-      final List<String> excludeMachineNames,
-      final List<String> skipStepNames,
-      final boolean useGuidedFailure,
-      final Optional<Instant> runAt,
-      final Optional<Instant> noRunAfter,
-      final Map<String, String> variables,
-      final String releaseVersion,
-      final Optional<String> channelName,
-      final boolean forcePackageRedeployment,
-      final boolean updateVariableSnapshot) {
-    super(
-        projectName,
-        environmentName,
-        tenantName,
-        tentantTags,
-        forcePackageDownload,
-        specificMachineNames,
-        excludeMachineNames,
-        skipStepNames,
-        useGuidedFailure,
-        runAt,
-        noRunAfter,
-        variables);
+      final String projectName, final List<String> environmentNames, final String releaseVersion) {
+    super(projectName, environmentNames);
     this.releaseVersion = releaseVersion;
-    this.channelName = channelName;
-    this.forcePackageRedeployment = forcePackageRedeployment;
-    this.updateVariableSnapshot = updateVariableSnapshot;
   }
 
-  public String getReleaseVersion() {
-    return releaseVersion;
-  }
-
-  public Optional<String> getChannelName() {
-    return channelName;
-  }
-
-  public boolean isForcePackageRedeployment() {
-    return forcePackageRedeployment;
-  }
-
-  public boolean isUpdateVariableSnapshot() {
-    return updateVariableSnapshot;
-  }
-
-  public CreateDeploymentCommandParameters setReleaseVersion(final String releaseVersion) {
+  public CreateDeploymentCommandParameters withReleaseVersion(final String releaseVersion) {
     this.releaseVersion = releaseVersion;
     return this;
   }
 
-  public CreateDeploymentCommandParameters setChannelName(final Optional<String> channelName) {
+  public CreateDeploymentCommandParameters withChannelName(final String channelName) {
     this.channelName = channelName;
     return this;
   }
 
-  public CreateDeploymentCommandParameters setForcePackageRedeployment(
+  public CreateDeploymentCommandParameters withForcePackageRedeployment(
       final boolean forcePackageRedeployment) {
     this.forcePackageRedeployment = forcePackageRedeployment;
     return this;
   }
 
-  public CreateDeploymentCommandParameters setUpdateVariableSnapshot(
+  public CreateDeploymentCommandParameters withUpdateVariableSnapshot(
       final boolean updateVariableSnapshot) {
     this.updateVariableSnapshot = updateVariableSnapshot;
     return this;

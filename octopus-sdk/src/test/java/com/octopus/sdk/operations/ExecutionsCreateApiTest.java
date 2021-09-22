@@ -15,6 +15,7 @@
 
 package com.octopus.sdk.operations;
 
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -26,7 +27,6 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
-import com.octopus.sdk.model.commands.CreateDeploymentCommandParametersBuilder;
 import com.octopus.sdk.model.deployments.DeploymentResource;
 import com.octopus.sdk.support.TestHelpers;
 
@@ -49,7 +49,7 @@ class ExecutionsCreateApiTest {
     commandLinks.put("ExecutionsCreateApiDeploymentCreate", commandLink);
 
     final CreateDeploymentCommandParameters parameters =
-        new CreateDeploymentCommandParametersBuilder().build();
+        new CreateDeploymentCommandParameters("MyProject", singletonList("dev"), "1.0.0");
     final CommandBody<CreateDeploymentCommandParameters> body =
         new CommandBody<>("TheSpace", parameters);
     final DeploymentResource returnedResource = new DeploymentResource();

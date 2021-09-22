@@ -18,8 +18,8 @@ package com.octopus.sdk.model.commands;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("UnusedVariable")
@@ -29,10 +29,10 @@ public class BaseCommandParameters {
   private String projectName;
 
   @SerializedName("environmentIdsOrNames")
-  private List<String> environmentName;
+  private List<String> environmentNames;
 
   @SerializedName("tenantIdsOrNames")
-  private Optional<String> tenantName;
+  private String tenantName;
 
   @SerializedName("tenantTags")
   private List<String> tenantTags;
@@ -44,125 +44,94 @@ public class BaseCommandParameters {
   private List<String> specificMachineNames;
 
   @SerializedName("excludeMachineNames")
-  private final List<String> excludeMachineNames;
+  private List<String> excludeMachineNames;
 
   @SerializedName("skipStepNames")
-  private final List<String> skipStepNames;
+  private List<String> skipStepNames;
 
   @SerializedName("useGuidedFailure")
-  private final boolean useGuidedFailure;
+  private boolean useGuidedFailure;
 
   @SerializedName("runAt")
-  private final Optional<Instant> runAt;
+  private Instant runAt;
 
   @SerializedName("noRunAfter")
-  private final Optional<Instant> noRunAfter;
+  private Instant noRunAfter;
 
   @SerializedName("variables")
-  private final Map<String, String> variables;
+  private Map<String, String> variables;
 
-  public BaseCommandParameters(
-      final String projectName,
-      final List<String> environmentName,
-      final Optional<String> tenantName,
-      final List<String> tenantTags,
-      final boolean forcePackageDownload,
-      final List<String> specificMachineNames,
-      final List<String> excludeMachineNames,
-      final List<String> skipStepNames,
-      final boolean useGuidedFailure,
-      final Optional<Instant> runAt,
-      final Optional<Instant> noRunAfter,
-      final Map<String, String> variables) {
+  public BaseCommandParameters(final String projectName, final List<String> environmentNames) {
+    Preconditions.checkNotNull(projectName, "projectName cannot be null");
+    Preconditions.checkNotNull(environmentNames, "environmentNames cannot be null");
+    Preconditions.checkArgument(
+        !environmentNames.isEmpty(), "environmentNames list cannot be empty");
+
     this.projectName = projectName;
-    this.environmentName = environmentName;
+    this.environmentNames = environmentNames;
+  }
+
+  public BaseCommandParameters withProjectName(final String projectName) {
+    Preconditions.checkNotNull(projectName, "projectName cannot be null");
+    this.projectName = projectName;
+    return this;
+  }
+
+  public BaseCommandParameters withEnvironmentName(final List<String> environmentName) {
+    Preconditions.checkNotNull(environmentNames, "environmentNames cannot be null");
+    Preconditions.checkArgument(
+        !environmentNames.isEmpty(), "environmentNames list cannot be empty");
+    this.environmentNames = environmentName;
+    return this;
+  }
+
+  public BaseCommandParameters withTenantName(final String tenantName) {
     this.tenantName = tenantName;
+    return this;
+  }
+
+  public BaseCommandParameters withTenantTags(final List<String> tenantTags) {
     this.tenantTags = tenantTags;
+    return this;
+  }
+
+  public BaseCommandParameters withForcePackageDownload(final boolean forcePackageDownload) {
     this.forcePackageDownload = forcePackageDownload;
+    return this;
+  }
+
+  public BaseCommandParameters withSpecificMachineNames(final List<String> specificMachineNames) {
     this.specificMachineNames = specificMachineNames;
+    return this;
+  }
+
+  public BaseCommandParameters withExcludeMachineNames(final List<String> excludeMachineNames) {
     this.excludeMachineNames = excludeMachineNames;
+    return this;
+  }
+
+  public BaseCommandParameters withSkipStepNames(final List<String> skipStepNames) {
     this.skipStepNames = skipStepNames;
+    return this;
+  }
+
+  public BaseCommandParameters withUseGuidedFailure(final boolean useGuidedFailure) {
     this.useGuidedFailure = useGuidedFailure;
+    return this;
+  }
+
+  public BaseCommandParameters withRunAt(final Instant runAt) {
     this.runAt = runAt;
+    return this;
+  }
+
+  public BaseCommandParameters withNoRunAfter(final Instant noRunAfter) {
     this.noRunAfter = noRunAfter;
+    return this;
+  }
+
+  public BaseCommandParameters withVariables(final Map<String, String> variables) {
     this.variables = variables;
-  }
-
-  public String getProjectName() {
-    return projectName;
-  }
-
-  public List<String> getEnvironmentName() {
-    return environmentName;
-  }
-
-  public Optional<String> getTenantName() {
-    return tenantName;
-  }
-
-  public List<String> getTenantTags() {
-    return tenantTags;
-  }
-
-  public boolean isForcePackageDownload() {
-    return forcePackageDownload;
-  }
-
-  public List<String> getSpecificMachineNames() {
-    return specificMachineNames;
-  }
-
-  public List<String> getExcludeMachineNames() {
-    return excludeMachineNames;
-  }
-
-  public List<String> getSkipStepNames() {
-    return skipStepNames;
-  }
-
-  public boolean isUseGuidedFailure() {
-    return useGuidedFailure;
-  }
-
-  public Optional<Instant> getRunAt() {
-    return runAt;
-  }
-
-  public Optional<Instant> getNoRunAfter() {
-    return noRunAfter;
-  }
-
-  public Map<String, String> getVariables() {
-    return variables;
-  }
-
-  public BaseCommandParameters setProjectName(final String projectName) {
-    this.projectName = projectName;
-    return this;
-  }
-
-  public BaseCommandParameters setEnvironmentName(final List<String> environmentName) {
-    this.environmentName = environmentName;
-    return this;
-  }
-
-  public BaseCommandParameters setTenantName(final Optional<String> tenantName) {
-    this.tenantName = tenantName;
-    return this;
-  }
-
-  public BaseCommandParameters setTenantTags(final List<String> tenantTags) {
-    this.tenantTags = tenantTags;
-    return this;
-  }
-
-  public BaseCommandParameters setForcePackageDownload(final boolean forcePackageDownload) {
-    this.forcePackageDownload = forcePackageDownload;
-    return this;
-  }
-
-  public BaseCommandParameters setSpecificMachineNames(final List<String> specificMachineNames) {
-    this.specificMachineNames = specificMachineNames;
     return this;
   }
 }

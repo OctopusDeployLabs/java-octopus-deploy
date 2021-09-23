@@ -23,8 +23,9 @@ import com.octopus.sdk.model.spaces.SpaceHome;
 
 import com.google.common.base.Preconditions;
 
-public class ProjectApi extends BaseNamedResourceApi<ProjectResource, ProjectResourceWithLinks,
-    ProjectPaginatedCollection> {
+public class ProjectApi
+    extends BaseNamedResourceApi<
+        ProjectResource, ProjectResourceWithLinks, ProjectPaginatedCollection> {
 
   public ProjectApi(final OctopusClient client, final String rootPath) {
     super(client, rootPath, ProjectResourceWithLinks.class, ProjectPaginatedCollection.class);

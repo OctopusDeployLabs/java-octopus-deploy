@@ -15,5 +15,4 @@
 
 package com.octopus.sdk.model.releases;
 
-public class ReleaseResourceWithLinks extends ReleaseResource {
-}
+public class ReleaseResourceWithLinks extends ReleaseResource {}

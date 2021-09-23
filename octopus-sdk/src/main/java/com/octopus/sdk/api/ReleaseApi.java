@@ -15,14 +15,16 @@
 
 package com.octopus.sdk.api;
 
-import com.google.common.base.Preconditions;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.releases.ReleasePaginatedCollection;
 import com.octopus.sdk.model.releases.ReleaseResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
 
+import com.google.common.base.Preconditions;
+
 public class ReleaseApi
-    extends BaseResourceApi<ReleaseResourceWithLinks, ReleaseResourceWithLinks, ReleasePaginatedCollection> {
+    extends BaseResourceApi<
+        ReleaseResourceWithLinks, ReleaseResourceWithLinks, ReleasePaginatedCollection> {
 
   public ReleaseApi(final OctopusClient client, final String rootPath) {
     super(client, rootPath, ReleaseResourceWithLinks.class, ReleasePaginatedCollection.class);
@@ -30,7 +32,8 @@ public class ReleaseApi
 
   public static ReleaseApi create(final OctopusClient client, final SpaceHome spaceHome) {
     Preconditions.checkNotNull(client, "Supplied a null client");
-    Preconditions.checkNotNull(spaceHome, "Cannot create a releaseApi in a space with a 'null' space");
+    Preconditions.checkNotNull(
+        spaceHome, "Cannot create a releaseApi in a space with a 'null' space");
     return new ReleaseApi(client, spaceHome.getReleasesLink());
   }
 }

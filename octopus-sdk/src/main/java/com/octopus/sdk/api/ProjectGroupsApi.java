@@ -15,22 +15,28 @@
 
 package com.octopus.sdk.api;
 
-import com.google.common.base.Preconditions;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.projectgroup.ProjectGroupPaginatedCollection;
 import com.octopus.sdk.model.projectgroup.ProjectGroupResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
 
-public class ProjectGroupsApi extends SymmetricApi<ProjectGroupResourceWithLinks,
-    ProjectGroupPaginatedCollection> {
+import com.google.common.base.Preconditions;
+
+public class ProjectGroupsApi
+    extends SymmetricApi<ProjectGroupResourceWithLinks, ProjectGroupPaginatedCollection> {
 
   public ProjectGroupsApi(final OctopusClient client, final String rootPath) {
-    super(client, rootPath, ProjectGroupResourceWithLinks.class, ProjectGroupPaginatedCollection.class);
+    super(
+        client,
+        rootPath,
+        ProjectGroupResourceWithLinks.class,
+        ProjectGroupPaginatedCollection.class);
   }
 
   public static ProjectGroupsApi create(final OctopusClient client, final SpaceHome spaceHome) {
     Preconditions.checkNotNull(client, "Supplied a null client");
-    Preconditions.checkNotNull(spaceHome, "Cannot create a ProjectGroupsApi in a space with a 'null' space");
+    Preconditions.checkNotNull(
+        spaceHome, "Cannot create a ProjectGroupsApi in a space with a 'null' space");
     return new ProjectGroupsApi(client, spaceHome.getProjectGroupsLink());
   }
 }

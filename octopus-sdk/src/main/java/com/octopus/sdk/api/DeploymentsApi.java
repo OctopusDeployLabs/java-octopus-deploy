@@ -15,11 +15,12 @@
 
 package com.octopus.sdk.api;
 
-import com.google.common.base.Preconditions;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.deployments.DeploymentPaginatedCollection;
 import com.octopus.sdk.model.deployments.DeploymentResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
+
+import com.google.common.base.Preconditions;
 
 public class DeploymentsApi
     extends SymmetricApi<DeploymentResourceWithLinks, DeploymentPaginatedCollection> {

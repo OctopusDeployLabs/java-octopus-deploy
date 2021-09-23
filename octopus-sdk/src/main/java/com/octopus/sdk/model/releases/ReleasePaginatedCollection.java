@@ -22,8 +22,12 @@ import java.util.Map;
 
 public class ReleasePaginatedCollection extends PaginatedCollection<ReleaseResourceWithLinks> {
 
-  public ReleasePaginatedCollection(final Map<String, String> links, final int totalResults,
-      final int itemsPerPage, final int numberOfPages, final int pageNumber,
+  public ReleasePaginatedCollection(
+      final Map<String, String> links,
+      final int totalResults,
+      final int itemsPerPage,
+      final int numberOfPages,
+      final int pageNumber,
       final List<ReleaseResourceWithLinks> items) {
     super(links, totalResults, itemsPerPage, numberOfPages, pageNumber, items);
   }

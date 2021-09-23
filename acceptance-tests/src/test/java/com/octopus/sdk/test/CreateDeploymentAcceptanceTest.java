@@ -15,8 +15,9 @@
 
 package com.octopus.sdk.test;
 
-import com.google.common.collect.Sets;
-import com.octopus.openapi.model.Project;
+import static java.util.Collections.singletonList;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.octopus.sdk.api.DeploymentsApi;
 import com.octopus.sdk.api.EnvironmentsApi;
 import com.octopus.sdk.api.ProjectApi;
@@ -37,19 +38,18 @@ import com.octopus.sdk.model.releases.ReleaseResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 import com.octopus.sdk.operations.ExecutionsCreateApi;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.Optional;
+
+import com.google.common.collect.Sets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.Optional;
-
-import static java.util.Collections.singletonList;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class CreateDeploymentAcceptanceTest extends BaseAcceptanceTest {
   private static final Logger LOG = LogManager.getLogger();
@@ -62,7 +62,6 @@ public class CreateDeploymentAcceptanceTest extends BaseAcceptanceTest {
   private final String projectName = "TheProject";
   private final String envName = "TheEnvironment";
   private final String releaseVersion = "1.0.0";
-
 
   @BeforeEach
   public void localSetup() throws IOException {
@@ -83,8 +82,9 @@ public class CreateDeploymentAcceptanceTest extends BaseAcceptanceTest {
 
       final ProjectGroupsApi projectGroupsApi = ProjectGroupsApi.create(client, spaceHome);
       final ProjectGroupResourceWithLinks projectGroup =
-          projectGroupsApi.getAll().stream().findFirst().orElseThrow(() -> new RuntimeException(
-              "No Project Groups exist on server"));
+          projectGroupsApi.getAll().stream()
+              .findFirst()
+              .orElseThrow(() -> new RuntimeException("No Project Groups exist on server"));
 
       final ProjectApi projectApi = ProjectApi.create(client, spaceHome);
       final ProjectResource projectToCreate = new ProjectResource();
@@ -121,16 +121,15 @@ public class CreateDeploymentAcceptanceTest extends BaseAcceptanceTest {
   @Test
   @Disabled
   public void createDeployment() throws IOException {
-    final CreateDeploymentCommandParameters params = new CreateDeploymentCommandParameters(projectName,
-        singletonList(envName),
-        releaseVersion);
+    final CreateDeploymentCommandParameters params =
+        new CreateDeploymentCommandParameters(projectName, singletonList(envName), releaseVersion);
 
-    final String deploymentId = ExecutionsCreateApi.createDeployment(client, new CommandBody<>(spaceName, params));
+    final String deploymentId =
+        ExecutionsCreateApi.createDeployment(client, new CommandBody<>(spaceName, params));
 
     final DeploymentsApi deploymentsApi = DeploymentsApi.create(client, spaceHome);
     final Optional<DeploymentResourceWithLinks> deployment = deploymentsApi.getById(deploymentId);
 
     assertThat(deployment).isNotEmpty();
   }
-
 }

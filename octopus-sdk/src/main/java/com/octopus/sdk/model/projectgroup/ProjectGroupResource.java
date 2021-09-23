@@ -1,34 +1,30 @@
 /*
-* Copyright (c) Octopus Deploy and contributors. All rights reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-* these files except in compliance with the License. You may obtain a copy of the
-* License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software distributed
-* under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-* CONDITIONS OF ANY KIND, either express or implied. See the License for the
-* specific language governing permissions and limitations under the License.
-*/
-
+ * Copyright (c) Octopus Deploy and contributors. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+ * these files except in compliance with the License. You may obtain a copy of the
+ * License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
 
 package com.octopus.sdk.model.projectgroup;
 
-import com.google.gson.annotations.SerializedName;
 import com.octopus.sdk.model.NamedResource;
 
 import java.time.OffsetDateTime;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-/**
- * ProjectGroupResource
- */
+import com.google.gson.annotations.SerializedName;
+
+/** ProjectGroupResource */
 @SuppressWarnings("UnusedVariable")
 public class ProjectGroupResource extends NamedResource {
   @SerializedName("EnvironmentIds")
@@ -47,7 +43,7 @@ public class ProjectGroupResource extends NamedResource {
   private String spaceId;
 
   public ProjectGroupResource environmentIds(Set<String> environmentIds) {
-    
+
     this.environmentIds = environmentIds;
     return this;
   }
@@ -68,9 +64,8 @@ public class ProjectGroupResource extends NamedResource {
     this.environmentIds = environmentIds;
   }
 
-
   public ProjectGroupResource lastModifiedBy(String lastModifiedBy) {
-    
+
     this.lastModifiedBy = lastModifiedBy;
     return this;
   }
@@ -83,9 +78,8 @@ public class ProjectGroupResource extends NamedResource {
     this.lastModifiedBy = lastModifiedBy;
   }
 
-
   public ProjectGroupResource lastModifiedOn(OffsetDateTime lastModifiedOn) {
-    
+
     this.lastModifiedOn = lastModifiedOn;
     return this;
   }
@@ -99,7 +93,7 @@ public class ProjectGroupResource extends NamedResource {
   }
 
   public ProjectGroupResource retentionPolicyId(String retentionPolicyId) {
-    
+
     this.retentionPolicyId = retentionPolicyId;
     return this;
   }
@@ -112,9 +106,8 @@ public class ProjectGroupResource extends NamedResource {
     this.retentionPolicyId = retentionPolicyId;
   }
 
-
   public ProjectGroupResource spaceId(String spaceId) {
-    
+
     this.spaceId = spaceId;
     return this;
   }
@@ -127,7 +120,6 @@ public class ProjectGroupResource extends NamedResource {
     this.spaceId = spaceId;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -137,11 +129,11 @@ public class ProjectGroupResource extends NamedResource {
       return false;
     }
     ProjectGroupResource projectGroupResource = (ProjectGroupResource) o;
-    return Objects.equals(this.environmentIds, projectGroupResource.environmentIds) &&
-        Objects.equals(this.lastModifiedBy, projectGroupResource.lastModifiedBy) &&
-        Objects.equals(this.lastModifiedOn, projectGroupResource.lastModifiedOn) &&
-        Objects.equals(this.retentionPolicyId, projectGroupResource.retentionPolicyId) &&
-        Objects.equals(this.spaceId, projectGroupResource.spaceId);
+    return Objects.equals(this.environmentIds, projectGroupResource.environmentIds)
+        && Objects.equals(this.lastModifiedBy, projectGroupResource.lastModifiedBy)
+        && Objects.equals(this.lastModifiedOn, projectGroupResource.lastModifiedOn)
+        && Objects.equals(this.retentionPolicyId, projectGroupResource.retentionPolicyId)
+        && Objects.equals(this.spaceId, projectGroupResource.spaceId);
   }
 
   @Override
@@ -163,8 +155,7 @@ public class ProjectGroupResource extends NamedResource {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -172,6 +163,4 @@ public class ProjectGroupResource extends NamedResource {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
 }
-

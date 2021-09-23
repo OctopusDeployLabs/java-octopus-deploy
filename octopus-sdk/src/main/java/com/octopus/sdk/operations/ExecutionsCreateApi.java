@@ -15,16 +15,14 @@
 
 package com.octopus.sdk.operations;
 
-import com.google.common.base.Preconditions;
-import com.octopus.sdk.api.SpaceHomeApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
-import com.octopus.sdk.model.deployments.DeploymentResourceWithLinks;
-import com.octopus.sdk.model.spaces.SpaceHome;
 
 import java.io.IOException;
+
+import com.google.common.base.Preconditions;
 
 public class ExecutionsCreateApi {
 

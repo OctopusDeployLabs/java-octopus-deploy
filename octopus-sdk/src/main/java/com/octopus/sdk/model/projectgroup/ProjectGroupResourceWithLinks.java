@@ -20,5 +20,4 @@ public class ProjectGroupResourceWithLinks extends ProjectGroupResource {
   public String getProjectsLink() {
     return getCleansedLink("Projects");
   }
-
 }

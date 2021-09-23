@@ -110,7 +110,6 @@ public class BaseResourceApi<
     return getItemsFromPages(itemCollection);
   }
 
-
   protected List<RESPONSE_TYPE> getItemsFromPages(final PAGINATION_TYPE collection)
       throws IOException {
     final List<RESPONSE_TYPE> result = Lists.newArrayList(collection.getItems());

@@ -25,14 +25,14 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("UnusedVariable")
 public class BaseCommandParameters {
 
-  @SerializedName("projectNameOrId")
-  private String projectName;
+  @SerializedName("projectIdOrName")
+  private String projectIdOrName;
 
   @SerializedName("environmentIdsOrNames")
   private List<String> environmentNames;
 
-  @SerializedName("tenantIdsOrNames")
-  private String tenantName;
+  @SerializedName("tenants")
+  private List<String> tenantIdsOrNames;
 
   @SerializedName("tenantTags")
   private List<String> tenantTags;
@@ -43,7 +43,7 @@ public class BaseCommandParameters {
   @SerializedName("specificMachineNames")
   private List<String> specificMachineNames;
 
-  @SerializedName("excludeMachineNames")
+  @SerializedName("excludedMachineNames")
   private List<String> excludeMachineNames;
 
   @SerializedName("skipStepNames")
@@ -61,77 +61,61 @@ public class BaseCommandParameters {
   @SerializedName("variables")
   private Map<String, String> variables;
 
-  public BaseCommandParameters(final String projectName, final List<String> environmentNames) {
-    Preconditions.checkNotNull(projectName, "projectName cannot be null");
+  public BaseCommandParameters(final String projectIdOrName, final List<String> environmentNames) {
+    Preconditions.checkNotNull(projectIdOrName, "projectName cannot be null");
     Preconditions.checkNotNull(environmentNames, "environmentNames cannot be null");
     Preconditions.checkArgument(
         !environmentNames.isEmpty(), "environmentNames list cannot be empty");
 
-    this.projectName = projectName;
+    this.projectIdOrName = projectIdOrName;
     this.environmentNames = environmentNames;
   }
 
-  public BaseCommandParameters withProjectName(final String projectName) {
-    Preconditions.checkNotNull(projectName, "projectName cannot be null");
-    this.projectName = projectName;
-    return this;
+  public void setProjectIdOrName(final String projectIdOrName) {
+    this.projectIdOrName = projectIdOrName;
   }
 
-  public BaseCommandParameters withEnvironmentName(final List<String> environmentName) {
-    Preconditions.checkNotNull(environmentNames, "environmentNames cannot be null");
-    Preconditions.checkArgument(
-        !environmentNames.isEmpty(), "environmentNames list cannot be empty");
-    this.environmentNames = environmentName;
-    return this;
+  public void setEnvironmentNames(final List<String> environmentNames) {
+    this.environmentNames = environmentNames;
   }
 
-  public BaseCommandParameters withTenantName(final String tenantName) {
-    this.tenantName = tenantName;
-    return this;
+  public void setTenantIdsOrNames(final List<String> tenantIdsOrNames) {
+    this.tenantIdsOrNames = tenantIdsOrNames;
   }
 
-  public BaseCommandParameters withTenantTags(final List<String> tenantTags) {
+  public void setTenantTags(final List<String> tenantTags) {
     this.tenantTags = tenantTags;
-    return this;
   }
 
-  public BaseCommandParameters withForcePackageDownload(final boolean forcePackageDownload) {
+  public void setForcePackageDownload(final boolean forcePackageDownload) {
     this.forcePackageDownload = forcePackageDownload;
-    return this;
   }
 
-  public BaseCommandParameters withSpecificMachineNames(final List<String> specificMachineNames) {
+  public void setSpecificMachineNames(final List<String> specificMachineNames) {
     this.specificMachineNames = specificMachineNames;
-    return this;
   }
 
-  public BaseCommandParameters withExcludeMachineNames(final List<String> excludeMachineNames) {
+  public void setExcludeMachineNames(final List<String> excludeMachineNames) {
     this.excludeMachineNames = excludeMachineNames;
-    return this;
   }
 
-  public BaseCommandParameters withSkipStepNames(final List<String> skipStepNames) {
+  public void setSkipStepNames(final List<String> skipStepNames) {
     this.skipStepNames = skipStepNames;
-    return this;
   }
 
-  public BaseCommandParameters withUseGuidedFailure(final boolean useGuidedFailure) {
+  public void setUseGuidedFailure(final boolean useGuidedFailure) {
     this.useGuidedFailure = useGuidedFailure;
-    return this;
   }
 
-  public BaseCommandParameters withRunAt(final Instant runAt) {
+  public void setRunAt(final Instant runAt) {
     this.runAt = runAt;
-    return this;
   }
 
-  public BaseCommandParameters withNoRunAfter(final Instant noRunAfter) {
+  public void setNoRunAfter(final Instant noRunAfter) {
     this.noRunAfter = noRunAfter;
-    return this;
   }
 
-  public BaseCommandParameters withVariables(final Map<String, String> variables) {
+  public void setVariables(final Map<String, String> variables) {
     this.variables = variables;
-    return this;
   }
 }

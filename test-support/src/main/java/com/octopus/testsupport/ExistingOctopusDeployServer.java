@@ -24,7 +24,7 @@ public class ExistingOctopusDeployServer implements OctopusDeployServer {
 
   @Override
   public String getApiKey() {
-    return "API-D62EQ9I4EVET1E2LJUBKEHLNBYWMO3";
+    return "API-MZFQAKLHCBOVRMHUITQH9QSRK0YUJ";
   }
 
   @Override

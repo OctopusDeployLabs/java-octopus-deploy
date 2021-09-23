@@ -27,7 +27,7 @@ public class CreateDeploymentCommandParameters extends BaseCommandParameters {
   private String releaseVersion;
 
   @SerializedName("channelIdOrName")
-  private String channelName;
+  private String channelIdOrName;
 
   @SerializedName("forcePackageRedeployment")
   private boolean forcePackageRedeployment;
@@ -42,25 +42,19 @@ public class CreateDeploymentCommandParameters extends BaseCommandParameters {
     this.releaseVersion = releaseVersion;
   }
 
-  public CreateDeploymentCommandParameters withReleaseVersion(final String releaseVersion) {
+  public void setReleaseVersion(final String releaseVersion) {
     this.releaseVersion = releaseVersion;
-    return this;
   }
 
-  public CreateDeploymentCommandParameters withChannelName(final String channelName) {
-    this.channelName = channelName;
-    return this;
+  public void setChannelIdOrName(final String channelIdOrName) {
+    this.channelIdOrName = channelIdOrName;
   }
 
-  public CreateDeploymentCommandParameters withForcePackageRedeployment(
-      final boolean forcePackageRedeployment) {
+  public void setForcePackageRedeployment(final boolean forcePackageRedeployment) {
     this.forcePackageRedeployment = forcePackageRedeployment;
-    return this;
   }
 
-  public CreateDeploymentCommandParameters withUpdateVariableSnapshot(
-      final boolean updateVariableSnapshot) {
+  public void setUpdateVariableSnapshot(final boolean updateVariableSnapshot) {
     this.updateVariableSnapshot = updateVariableSnapshot;
-    return this;
   }
 }

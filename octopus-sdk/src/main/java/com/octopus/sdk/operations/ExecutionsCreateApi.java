@@ -15,29 +15,34 @@
 
 package com.octopus.sdk.operations;
 
+import com.google.common.base.Preconditions;
+import com.octopus.sdk.api.SpaceHomeApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
-import com.octopus.sdk.model.deployments.DeploymentResource;
+import com.octopus.sdk.model.deployments.DeploymentResourceWithLinks;
+import com.octopus.sdk.model.spaces.SpaceHome;
 
 import java.io.IOException;
 
-import com.google.common.base.Preconditions;
-
 public class ExecutionsCreateApi {
 
-  public static DeploymentResource createDeployment(
+  public static DeploymentResourceWithLinks createDeployment(
       final OctopusClient client, final CommandBody<CreateDeploymentCommandParameters> payload)
       throws IOException {
     Preconditions.checkNotNull(
         client, "Attempted to create a deployment with a null octopusClient.");
     Preconditions.checkNotNull(payload, "Attempted to create a deployment with null payload.");
 
-    final String createDeploymentPath =
-        client.getRootDocument().getExecutionsCreateApiDeploymentCreateLink();
+    //TO BE CHANGED POST HASTE!
+    final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
+    final SpaceHome home = spaceHomeApi.getByName(payload.getSpaceName());
+    final String createDeploymentPath = home.getExecutionsCreateApiDeploymentCreateLink();
+//    final String createDeploymentPath =
+//        client.getRootDocument().getExecutionsCreateApiDeploymentCreateLink();
 
     return client.post(
-        RequestEndpoint.fromPath(createDeploymentPath), payload, DeploymentResource.class);
+        RequestEndpoint.fromPath(createDeploymentPath), payload, DeploymentResourceWithLinks.class);
   }
 }

@@ -17,20 +17,20 @@ package com.octopus.sdk.api;
 
 import com.google.common.base.Preconditions;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.deployments.DeploymentPaginatedCollection;
-import com.octopus.sdk.model.deployments.DeploymentResourceWithLinks;
+import com.octopus.sdk.model.releases.ReleasePaginatedCollection;
+import com.octopus.sdk.model.releases.ReleaseResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
 
-public class DeploymentsApi
-    extends SymmetricApi<DeploymentResourceWithLinks, DeploymentPaginatedCollection> {
+public class ReleaseApi
+    extends BaseResourceApi<ReleaseResourceWithLinks, ReleaseResourceWithLinks, ReleasePaginatedCollection> {
 
-  public DeploymentsApi(final OctopusClient client, final String rootPath) {
-    super(client, rootPath, DeploymentResourceWithLinks.class, DeploymentPaginatedCollection.class);
+  public ReleaseApi(final OctopusClient client, final String rootPath) {
+    super(client, rootPath, ReleaseResourceWithLinks.class, ReleasePaginatedCollection.class);
   }
 
-  public static DeploymentsApi create(final OctopusClient client, final SpaceHome spaceHome) {
+  public static ReleaseApi create(final OctopusClient client, final SpaceHome spaceHome) {
     Preconditions.checkNotNull(client, "Supplied a null client");
-    Preconditions.checkNotNull(spaceHome, "Cannot create a DeploymentsApi in a 'null' space");
-    return new DeploymentsApi(client, spaceHome.getDeploymentsLink());
+    Preconditions.checkNotNull(spaceHome, "Cannot create a releaseApi in a space with a 'null' space");
+    return new ReleaseApi(client, spaceHome.getReleasesLink());
   }
 }

@@ -13,25 +13,12 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.testsupport;
+package com.octopus.sdk.model.projectgroup;
 
-public class ExistingOctopusDeployServer implements OctopusDeployServer {
+public class ProjectGroupResourceWithLinks extends ProjectGroupResource {
 
-  @Override
-  public String getOctopusUrl() {
-    return "http://localhost:8065";
+  public String getProjectsLink() {
+    return getCleansedLink("Projects");
   }
 
-  @Override
-  public String getApiKey() {
-    return "API-SOUCF90RQDQYWQYQ8VMVA3Y2WA41GUM";
-  }
-
-  @Override
-  public void close() {}
-
-  @Override
-  public int getPort() {
-    return 8065;
-  }
 }

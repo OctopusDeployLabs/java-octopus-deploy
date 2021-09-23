@@ -17,20 +17,20 @@ package com.octopus.sdk.api;
 
 import com.google.common.base.Preconditions;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.deployments.DeploymentPaginatedCollection;
-import com.octopus.sdk.model.deployments.DeploymentResourceWithLinks;
+import com.octopus.sdk.model.projectgroup.ProjectGroupPaginatedCollection;
+import com.octopus.sdk.model.projectgroup.ProjectGroupResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
 
-public class DeploymentsApi
-    extends SymmetricApi<DeploymentResourceWithLinks, DeploymentPaginatedCollection> {
+public class ProjectGroupsApi extends SymmetricApi<ProjectGroupResourceWithLinks,
+    ProjectGroupPaginatedCollection> {
 
-  public DeploymentsApi(final OctopusClient client, final String rootPath) {
-    super(client, rootPath, DeploymentResourceWithLinks.class, DeploymentPaginatedCollection.class);
+  public ProjectGroupsApi(final OctopusClient client, final String rootPath) {
+    super(client, rootPath, ProjectGroupResourceWithLinks.class, ProjectGroupPaginatedCollection.class);
   }
 
-  public static DeploymentsApi create(final OctopusClient client, final SpaceHome spaceHome) {
+  public static ProjectGroupsApi create(final OctopusClient client, final SpaceHome spaceHome) {
     Preconditions.checkNotNull(client, "Supplied a null client");
-    Preconditions.checkNotNull(spaceHome, "Cannot create a DeploymentsApi in a 'null' space");
-    return new DeploymentsApi(client, spaceHome.getDeploymentsLink());
+    Preconditions.checkNotNull(spaceHome, "Cannot create a ProjectGroupsApi in a space with a 'null' space");
+    return new ProjectGroupsApi(client, spaceHome.getProjectGroupsLink());
   }
 }

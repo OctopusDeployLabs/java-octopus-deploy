@@ -17,7 +17,11 @@ package com.octopus.sdk.test;
 
 import com.google.common.collect.Sets;
 import com.octopus.openapi.model.Project;
+import com.octopus.sdk.api.DeploymentsApi;
+import com.octopus.sdk.api.EnvironmentsApi;
 import com.octopus.sdk.api.ProjectApi;
+import com.octopus.sdk.api.ProjectGroupsApi;
+import com.octopus.sdk.api.ReleaseApi;
 import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.api.UsersApi;
 import com.octopus.sdk.http.OctopusClient;
@@ -25,8 +29,11 @@ import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
 import com.octopus.sdk.model.deployments.DeploymentResourceWithLinks;
+import com.octopus.sdk.model.environments.EnvironmentResourceWithLinks;
 import com.octopus.sdk.model.project.ProjectResource;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
+import com.octopus.sdk.model.projectgroup.ProjectGroupResourceWithLinks;
+import com.octopus.sdk.model.releases.ReleaseResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 import com.octopus.sdk.operations.ExecutionsCreateApi;
@@ -34,12 +41,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 
 import static java.util.Collections.singletonList;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CreateDeploymentAcceptanceTest extends BaseAcceptanceTest {
   private static final Logger LOG = LogManager.getLogger();
@@ -48,8 +58,11 @@ public class CreateDeploymentAcceptanceTest extends BaseAcceptanceTest {
   private OctopusClient client;
   private SpaceOverviewWithLinks createdSpace;
   private SpaceHome spaceHome;
-  private final String spaceName = "CreateDeploymentTestSpace";
-  private final String projectName = "The"
+  private final String spaceName = "TestSpace";
+  private final String projectName = "TheProject";
+  private final String envName = "TheEnvironment";
+  private final String releaseVersion = "1.0.0";
+
 
   @BeforeEach
   public void localSetup() throws IOException {
@@ -68,14 +81,28 @@ public class CreateDeploymentAcceptanceTest extends BaseAcceptanceTest {
       spaceHome =
           client.get(RequestEndpoint.fromPath(createdSpace.getSpaceHomeLink()), SpaceHome.class);
 
+      final ProjectGroupsApi projectGroupsApi = ProjectGroupsApi.create(client, spaceHome);
+      final ProjectGroupResourceWithLinks projectGroup =
+          projectGroupsApi.getAll().stream().findFirst().orElseThrow(() -> new RuntimeException(
+              "No Project Groups exist on server"));
 
       final ProjectApi projectApi = ProjectApi.create(client, spaceHome);
       final ProjectResource projectToCreate = new ProjectResource();
       projectToCreate.setName(projectName);
       projectToCreate.setLifecycleId("Lifecycles-1");
-      projectToCreate.setProjectGroupId("ProjectGroups-42");
+      projectToCreate.setProjectGroupId(projectGroup.getId());
       final ProjectResourceWithLinks projectCreated = projectApi.create(projectToCreate);
 
+      final EnvironmentsApi environmentApi = EnvironmentsApi.create(client, spaceHome);
+      final EnvironmentResourceWithLinks envToCreate = new EnvironmentResourceWithLinks();
+      envToCreate.setName(envName);
+
+      final ReleaseApi releaseApi = ReleaseApi.create(client, spaceHome);
+      final ReleaseResourceWithLinks release = new ReleaseResourceWithLinks();
+      release.setVersion(releaseVersion);
+      release.setProjectId(projectCreated.getId());
+
+      releaseApi.create(release);
 
     } catch (final Exception e) {
       LOG.error(e);
@@ -92,14 +119,18 @@ public class CreateDeploymentAcceptanceTest extends BaseAcceptanceTest {
   }
 
   @Test
+  @Disabled
   public void createDeployment() throws IOException {
-
     final CreateDeploymentCommandParameters params = new CreateDeploymentCommandParameters(projectName,
-        singletonList("test"),
-        "1.0.0");
+        singletonList(envName),
+        releaseVersion);
 
-    final DeploymentResourceWithLinks result = ExecutionsCreateApi.createDeployment(client, new CommandBody<>("Default",
-        params));
+    final String deploymentId = ExecutionsCreateApi.createDeployment(client, new CommandBody<>(spaceName, params));
+
+    final DeploymentsApi deploymentsApi = DeploymentsApi.create(client, spaceHome);
+    final Optional<DeploymentResourceWithLinks> deployment = deploymentsApi.getById(deploymentId);
+
+    assertThat(deployment).isNotEmpty();
   }
 
 }

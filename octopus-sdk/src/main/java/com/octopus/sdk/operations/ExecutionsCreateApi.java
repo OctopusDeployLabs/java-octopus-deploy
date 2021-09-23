@@ -28,7 +28,7 @@ import java.io.IOException;
 
 public class ExecutionsCreateApi {
 
-  public static DeploymentResourceWithLinks createDeployment(
+  public static String createDeployment(
       final OctopusClient client, final CommandBody<CreateDeploymentCommandParameters> payload)
       throws IOException {
     Preconditions.checkNotNull(
@@ -42,7 +42,6 @@ public class ExecutionsCreateApi {
 //    final String createDeploymentPath =
 //        client.getRootDocument().getExecutionsCreateApiDeploymentCreateLink();
 
-    return client.post(
-        RequestEndpoint.fromPath(createDeploymentPath), payload, DeploymentResourceWithLinks.class);
+    return client.post(RequestEndpoint.fromPath(createDeploymentPath), payload, String.class);
   }
 }

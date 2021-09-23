@@ -35,12 +35,8 @@ public class ExecutionsCreateApi {
         client, "Attempted to create a deployment with a null octopusClient.");
     Preconditions.checkNotNull(payload, "Attempted to create a deployment with null payload.");
 
-    //TO BE CHANGED POST HASTE!
-    final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
-    final SpaceHome home = spaceHomeApi.getByName(payload.getSpaceName());
-    final String createDeploymentPath = home.getExecutionsCreateApiDeploymentCreateLink();
-//    final String createDeploymentPath =
-//        client.getRootDocument().getExecutionsCreateApiDeploymentCreateLink();
+    final String createDeploymentPath =
+        client.getRootDocument().getExecutionsCreateApiDeploymentCreateLink();
 
     return client.post(RequestEndpoint.fromPath(createDeploymentPath), payload, String.class);
   }

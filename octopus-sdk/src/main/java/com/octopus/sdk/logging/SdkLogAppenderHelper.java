@@ -21,19 +21,29 @@ import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.Configuration;
 
-public class AppenderHandler {
+public class SdkLogAppenderHelper implements AutoCloseable {
 
   private static final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
   private static final Configuration config = ctx.getConfiguration();
 
-  public static void registerLogAppender(Appender appender, Level sdkLogLevel) {
+  private final Appender appender;
+  private final Level sdkLogLevel;
+
+  public SdkLogAppenderHelper(final Appender appender, final Level level) {
+    this.appender = appender;
+    this.sdkLogLevel = level;
+  }
+
+  @SuppressWarnings("unused")
+  public void registerLogAppender() {
     config.getRootLogger().addAppender(appender, sdkLogLevel, null);
     config.getLoggerConfig("com.octopus").setLevel(sdkLogLevel);
     ctx.updateLoggers();
   }
 
-  public static void deregisterLogAppender(String appenderName) {
-    config.getRootLogger().removeAppender(appenderName);
+  @Override
+  public void close() {
+    config.getRootLogger().removeAppender(appender.getName());
     config.getLoggerConfig("com.octopus").setLevel(Level.INFO);
   }
 }

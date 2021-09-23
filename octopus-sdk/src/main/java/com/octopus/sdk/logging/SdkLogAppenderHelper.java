@@ -26,24 +26,24 @@ public class SdkLogAppenderHelper implements AutoCloseable {
   private static final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
   private static final Configuration config = ctx.getConfiguration();
 
-  private final Appender appender;
-  private final Level sdkLogLevel;
+  private final String appenderName;
 
-  public SdkLogAppenderHelper(final Appender appender, final Level level) {
-    this.appender = appender;
-    this.sdkLogLevel = level;
+  private SdkLogAppenderHelper(String appenderName) {
+    this.appenderName = appenderName;
   }
 
   @SuppressWarnings("unused")
-  public void registerLogAppender() {
-    config.getRootLogger().addAppender(appender, sdkLogLevel, null);
-    config.getLoggerConfig("com.octopus").setLevel(sdkLogLevel);
+  public static SdkLogAppenderHelper registerLogAppender(
+      final Appender appender, final Level level) {
+    config.getRootLogger().addAppender(appender, level, null);
+    config.getLoggerConfig("com.octopus").setLevel(level);
     ctx.updateLoggers();
+    return new SdkLogAppenderHelper(appender.getName());
   }
 
   @Override
   public void close() {
-    config.getRootLogger().removeAppender(appender.getName());
+    config.getRootLogger().removeAppender(appenderName);
     config.getLoggerConfig("com.octopus").setLevel(Level.INFO);
   }
 }

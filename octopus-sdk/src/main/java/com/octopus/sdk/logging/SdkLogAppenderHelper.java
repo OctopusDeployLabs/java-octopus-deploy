@@ -23,8 +23,10 @@ import org.apache.logging.log4j.core.config.Configuration;
 
 public class SdkLogAppenderHelper implements AutoCloseable {
 
-  private static final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
-  private static final Configuration config = ctx.getConfiguration();
+  private static final LoggerContext CONTEXT = (LoggerContext) LogManager.getContext(false);
+  private static final Configuration LOG_CONFIG = CONTEXT.getConfiguration();
+  private static final Level INITIAL_SDK_LOG_LEVEL =
+      LOG_CONFIG.getLoggerConfig("com.octopus").getLevel();
 
   private final String appenderName;
 
@@ -35,15 +37,15 @@ public class SdkLogAppenderHelper implements AutoCloseable {
   @SuppressWarnings("unused")
   public static SdkLogAppenderHelper registerLogAppender(
       final Appender appender, final Level level) {
-    config.getRootLogger().addAppender(appender, level, null);
-    config.getLoggerConfig("com.octopus").setLevel(level);
-    ctx.updateLoggers();
+    LOG_CONFIG.getRootLogger().addAppender(appender, level, null);
+    LOG_CONFIG.getLoggerConfig("com.octopus").setLevel(level);
+    CONTEXT.updateLoggers();
     return new SdkLogAppenderHelper(appender.getName());
   }
 
   @Override
   public void close() {
-    config.getRootLogger().removeAppender(appenderName);
-    config.getLoggerConfig("com.octopus").setLevel(Level.INFO);
+    LOG_CONFIG.getRootLogger().removeAppender(appenderName);
+    LOG_CONFIG.getLoggerConfig("com.octopus").setLevel(INITIAL_SDK_LOG_LEVEL);
   }
 }

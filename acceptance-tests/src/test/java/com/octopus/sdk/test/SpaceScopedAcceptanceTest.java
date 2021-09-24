@@ -39,6 +39,7 @@ public class SpaceScopedAcceptanceTest extends BaseAcceptanceTest {
   protected OctopusClient client;
   protected SpaceOverviewWithLinks createdSpace;
   protected SpaceHome spaceHome;
+  protected final String spaceName = "JavaSdkTestingSpace";
 
   @BeforeEach
   public void localSetup() throws IOException {
@@ -50,7 +51,7 @@ public class SpaceScopedAcceptanceTest extends BaseAcceptanceTest {
       final UsersApi users = UsersApi.create(client);
 
       toCreate = new SpaceOverviewWithLinks();
-      toCreate.setName("JavaSdkTestingSpace");
+      toCreate.setName(spaceName);
       toCreate.setSpaceManagersTeamMembers(Sets.newHashSet(users.getCurrentUser().getId()));
 
       createdSpace = spacesOverviewApi.create(toCreate);

@@ -24,9 +24,6 @@ import com.octopus.sdk.api.ProjectApi;
 import com.octopus.sdk.api.ProjectGroupsApi;
 import com.octopus.sdk.api.ReleaseApi;
 import com.octopus.sdk.api.SpacesOverviewApi;
-import com.octopus.sdk.api.UsersApi;
-import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
 import com.octopus.sdk.model.deployments.DeploymentResourceWithLinks;
@@ -35,15 +32,12 @@ import com.octopus.sdk.model.project.ProjectResource;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.model.projectgroup.ProjectGroupResourceWithLinks;
 import com.octopus.sdk.model.releases.ReleaseResourceWithLinks;
-import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 import com.octopus.sdk.operations.ExecutionsCreateApi;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Optional;
 
-import com.google.common.collect.Sets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
@@ -51,35 +45,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-public class CreateDeploymentAcceptanceTest extends BaseAcceptanceTest {
+public class CreateDeploymentAcceptanceTest extends SpaceScopedAcceptanceTest {
   private static final Logger LOG = LogManager.getLogger();
 
-  private SpacesOverviewApi spacesOverviewApi;
-  private OctopusClient client;
-  private SpaceOverviewWithLinks createdSpace;
-  private SpaceHome spaceHome;
-  private final String spaceName = "TestSpace";
   private final String projectName = "TheProject";
   private final String envName = "TheEnvironment";
   private final String releaseVersion = "1.0.0";
 
   @BeforeEach
-  public void localSetup() throws IOException {
+  public void createDeploymentAcceptanceTestSetup() throws IOException {
 
     SpaceOverviewWithLinks toCreate = null;
     try {
-      client = new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
-      spacesOverviewApi = SpacesOverviewApi.create(client);
-      final UsersApi users = UsersApi.create(client);
-
-      toCreate = new SpaceOverviewWithLinks();
-      toCreate.setName(spaceName);
-      toCreate.setSpaceManagersTeamMembers(Sets.newHashSet(users.getCurrentUser().getId()));
-
-      createdSpace = spacesOverviewApi.create(toCreate);
-      spaceHome =
-          client.get(RequestEndpoint.fromPath(createdSpace.getSpaceHomeLink()), SpaceHome.class);
-
       final ProjectGroupsApi projectGroupsApi = ProjectGroupsApi.create(client, spaceHome);
       final ProjectGroupResourceWithLinks projectGroup =
           projectGroupsApi.getAll().stream()
@@ -111,12 +88,6 @@ public class CreateDeploymentAcceptanceTest extends BaseAcceptanceTest {
       spacesOverviewApi = null;
       throw e;
     }
-  }
-
-  @AfterEach
-  public void cleanup() throws IOException {
-    deleteSpaceValidly(spacesOverviewApi, createdSpace);
-    spacesOverviewApi = null;
   }
 
   @Test

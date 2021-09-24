@@ -96,6 +96,7 @@ public class CreateDeploymentAcceptanceTest extends BaseAcceptanceTest {
       final EnvironmentsApi environmentApi = EnvironmentsApi.create(client, spaceHome);
       final EnvironmentResourceWithLinks envToCreate = new EnvironmentResourceWithLinks();
       envToCreate.setName(envName);
+      environmentApi.create(envToCreate);
 
       final ReleaseApi releaseApi = ReleaseApi.create(client, spaceHome);
       final ReleaseResourceWithLinks release = new ReleaseResourceWithLinks();

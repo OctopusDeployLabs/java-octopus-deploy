@@ -23,7 +23,6 @@ import com.octopus.sdk.api.EnvironmentsApi;
 import com.octopus.sdk.api.ProjectApi;
 import com.octopus.sdk.api.ProjectGroupsApi;
 import com.octopus.sdk.api.ReleaseApi;
-import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
 import com.octopus.sdk.model.deployments.DeploymentResourceWithLinks;
@@ -40,7 +39,6 @@ import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

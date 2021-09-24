@@ -50,7 +50,4 @@ public class EnvironmentsAcceptanceTest extends SpaceScopedAcceptanceTest {
         .extracting(EnvironmentResource::getName, EnvironmentResource::getId)
         .containsExactly(createdEnvironment.getName(), createdEnvironment.getId());
   }
-
-  @Test
-  public void canQueryForAllEnvironments() throws IOException {}
 }

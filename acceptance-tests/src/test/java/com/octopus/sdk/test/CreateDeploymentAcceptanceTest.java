@@ -95,7 +95,8 @@ public class CreateDeploymentAcceptanceTest extends SpaceScopedAcceptanceTest {
         new CreateDeploymentCommandParameters(projectName, singletonList(envName), releaseVersion);
 
     final String deploymentId =
-        ExecutionsCreateApi.createDeployment(client, new CommandBody<>(spaceName, params));
+        ExecutionsCreateApi.createDeployment(
+            client, new CommandBody<>(createdSpace.getName(), params));
 
     final DeploymentsApi deploymentsApi = DeploymentsApi.create(client, spaceHome);
     final Optional<DeploymentResourceWithLinks> deployment = deploymentsApi.getById(deploymentId);

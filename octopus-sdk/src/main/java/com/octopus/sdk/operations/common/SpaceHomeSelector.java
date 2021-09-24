@@ -36,7 +36,7 @@ public class SpaceHomeSelector {
 
   public SpaceHome getSpaceHome(final Optional<String> spaceName) throws IOException {
     if (spaceName.isPresent()) {
-      LOG.debug("Accessing space '{}'", spaceName);
+      LOG.debug("Accessing space '{}'", spaceName.get());
       return spaceHomeApi.getByName(spaceName.get());
     } else {
       LOG.debug("Accessing default space");

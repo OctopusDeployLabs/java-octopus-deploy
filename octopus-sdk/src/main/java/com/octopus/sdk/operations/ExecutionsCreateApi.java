@@ -20,6 +20,7 @@ import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
 import com.octopus.sdk.model.commands.CreateReleaseCommandParameters;
+import com.octopus.sdk.model.commands.ExecuteRunbookCommandParameters;
 
 import java.io.IOException;
 
@@ -50,5 +51,17 @@ public class ExecutionsCreateApi {
         client.getRootDocument().getExecutionsCreateApiReleasesCreateLink();
 
     return client.post(RequestEndpoint.fromPath(createReleasePath), payload, String.class);
+  }
+
+  public static String executeRunbook(
+      final OctopusClient client, final CommandBody<ExecuteRunbookCommandParameters> payload)
+      throws IOException {
+    Preconditions.checkNotNull(client, "Attempted to execute a runbook with a null octopusClient.");
+    Preconditions.checkNotNull(payload, "Attempted to execute a runbook with null payload.");
+
+    final String executeRunbookPath =
+        client.getRootDocument().getExecutionsCreateApiRunbookRunCreateLink();
+
+    return client.post(RequestEndpoint.fromPath(executeRunbookPath), payload, String.class);
   }
 }

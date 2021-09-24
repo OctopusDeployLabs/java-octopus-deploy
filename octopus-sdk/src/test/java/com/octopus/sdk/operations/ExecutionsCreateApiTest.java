@@ -52,18 +52,17 @@ class ExecutionsCreateApiTest {
         new CreateDeploymentCommandParameters("MyProject", singletonList("dev"), "1.0.0");
     final CommandBody<CreateDeploymentCommandParameters> body =
         new CommandBody<>("TheSpace", parameters);
-    final DeploymentResource returnedResource = new DeploymentResource();
+    final String returnedDeploymentId = "DeploymentId";
 
-    when(mockClient.post(any(), eq(body), eq(DeploymentResource.class)))
-        .thenReturn(returnedResource);
+    when(mockClient.post(any(), eq(body), eq(String.class))).thenReturn(returnedDeploymentId);
     when(mockClient.getRootDocument()).thenReturn(TestHelpers.rootDocWithLinks(commandLinks));
 
-    final DeploymentResource resource = ExecutionsCreateApi.createDeployment(mockClient, body);
+    final String deploymentId = ExecutionsCreateApi.createDeployment(mockClient, body);
 
-    assertThat(resource).isEqualTo(returnedResource);
+    assertThat(deploymentId).isEqualTo(returnedDeploymentId);
     final ArgumentCaptor<RequestEndpoint> requestedEndpoint =
         ArgumentCaptor.forClass(RequestEndpoint.class);
-    verify(mockClient).post(requestedEndpoint.capture(), eq(body), eq(DeploymentResource.class));
+    verify(mockClient).post(requestedEndpoint.capture(), eq(body), eq(String.class));
 
     assertThat(requestedEndpoint.getValue().getPath()).isEqualTo(commandLink);
   }

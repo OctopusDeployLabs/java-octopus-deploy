@@ -23,7 +23,7 @@ import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("UnusedVariable")
-public class BaseCommandParameters {
+public class BaseCommandParameters implements TParameters {
 
   @SerializedName("projectIdOrName")
   private String projectIdOrName;

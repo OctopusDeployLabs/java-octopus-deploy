@@ -27,6 +27,7 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
+import com.octopus.sdk.model.commands.CreateReleaseCommandParameters;
 import com.octopus.sdk.support.TestHelpers;
 
 import java.io.IOException;

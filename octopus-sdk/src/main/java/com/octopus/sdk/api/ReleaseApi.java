@@ -16,8 +16,8 @@
 package com.octopus.sdk.api;
 
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.releases.ReleasePaginatedCollection;
-import com.octopus.sdk.model.releases.ReleaseResourceWithLinks;
+import com.octopus.sdk.model.release.ReleasePaginatedCollection;
+import com.octopus.sdk.model.release.ReleaseResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
 
 import com.google.common.base.Preconditions;

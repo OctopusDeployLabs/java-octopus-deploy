@@ -30,21 +30,17 @@ import com.octopus.sdk.model.environments.EnvironmentResourceWithLinks;
 import com.octopus.sdk.model.project.ProjectResource;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.model.projectgroup.ProjectGroupResourceWithLinks;
-import com.octopus.sdk.model.releases.ReleaseResourceWithLinks;
-import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
+import com.octopus.sdk.model.release.ReleaseResourceWithLinks;
 import com.octopus.sdk.operations.ExecutionsCreateApi;
 
 import java.io.IOException;
 import java.util.Optional;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class CreateDeploymentAcceptanceTest extends SpaceScopedAcceptanceTest {
-  private static final Logger LOG = LogManager.getLogger();
 
   private final String projectName = "TheProject";
   private final String envName = "TheEnvironment";
@@ -52,40 +48,30 @@ public class CreateDeploymentAcceptanceTest extends SpaceScopedAcceptanceTest {
 
   @BeforeEach
   public void createDeploymentAcceptanceTestSetup() throws IOException {
+    final ProjectGroupsApi projectGroupsApi = ProjectGroupsApi.create(client, spaceHome);
+    final ProjectGroupResourceWithLinks projectGroup =
+        projectGroupsApi.getAll().stream()
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("No Project Groups exist on server"));
 
-    SpaceOverviewWithLinks toCreate = null;
-    try {
-      final ProjectGroupsApi projectGroupsApi = ProjectGroupsApi.create(client, spaceHome);
-      final ProjectGroupResourceWithLinks projectGroup =
-          projectGroupsApi.getAll().stream()
-              .findFirst()
-              .orElseThrow(() -> new RuntimeException("No Project Groups exist on server"));
+    final ProjectApi projectApi = ProjectApi.create(client, spaceHome);
+    final ProjectResource projectToCreate = new ProjectResource();
+    projectToCreate.setName(projectName);
+    projectToCreate.setLifecycleId("Lifecycles-1");
+    projectToCreate.setProjectGroupId(projectGroup.getId());
+    final ProjectResourceWithLinks projectCreated = projectApi.create(projectToCreate);
 
-      final ProjectApi projectApi = ProjectApi.create(client, spaceHome);
-      final ProjectResource projectToCreate = new ProjectResource();
-      projectToCreate.setName(projectName);
-      projectToCreate.setLifecycleId("Lifecycles-1");
-      projectToCreate.setProjectGroupId(projectGroup.getId());
-      final ProjectResourceWithLinks projectCreated = projectApi.create(projectToCreate);
+    final EnvironmentsApi environmentApi = EnvironmentsApi.create(client, spaceHome);
+    final EnvironmentResourceWithLinks envToCreate = new EnvironmentResourceWithLinks();
+    envToCreate.setName(envName);
+    environmentApi.create(envToCreate);
 
-      final EnvironmentsApi environmentApi = EnvironmentsApi.create(client, spaceHome);
-      final EnvironmentResourceWithLinks envToCreate = new EnvironmentResourceWithLinks();
-      envToCreate.setName(envName);
-      environmentApi.create(envToCreate);
+    final ReleaseApi releaseApi = ReleaseApi.create(client, spaceHome);
+    final ReleaseResourceWithLinks release = new ReleaseResourceWithLinks();
+    release.setVersion(releaseVersion);
+    release.setProjectId(projectCreated.getId());
 
-      final ReleaseApi releaseApi = ReleaseApi.create(client, spaceHome);
-      final ReleaseResourceWithLinks release = new ReleaseResourceWithLinks();
-      release.setVersion(releaseVersion);
-      release.setProjectId(projectCreated.getId());
-
-      releaseApi.create(release);
-
-    } catch (final Exception e) {
-      LOG.error(e);
-      deleteSpaceValidly(spacesOverviewApi, toCreate);
-      spacesOverviewApi = null;
-      throw e;
-    }
+    releaseApi.create(release);
   }
 
   @Test
@@ -96,7 +82,8 @@ public class CreateDeploymentAcceptanceTest extends SpaceScopedAcceptanceTest {
 
     final String deploymentId =
         ExecutionsCreateApi.createDeployment(
-            client, new CommandBody<>(createdSpace.getName(), params));
+            client,
+            new CommandBody<CreateDeploymentCommandParameters>(createdSpace.getName(), params));
 
     final DeploymentsApi deploymentsApi = DeploymentsApi.create(client, spaceHome);
     final Optional<DeploymentResourceWithLinks> deployment = deploymentsApi.getById(deploymentId);

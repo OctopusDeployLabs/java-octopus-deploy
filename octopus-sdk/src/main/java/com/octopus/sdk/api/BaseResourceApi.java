@@ -104,6 +104,12 @@ public class BaseResourceApi<
     return getItemsFromPages(itemCollection);
   }
 
+  public List<RESPONSE_TYPE> getAll() throws IOException {
+    final RequestEndpoint endpoint = RequestEndpoint.fromPath(rootPath);
+    final PAGINATION_TYPE itemCollection = client.get(endpoint, collectionType);
+    return getItemsFromPages(itemCollection);
+  }
+
   protected List<RESPONSE_TYPE> getItemsFromPages(final PAGINATION_TYPE collection)
       throws IOException {
     final List<RESPONSE_TYPE> result = Lists.newArrayList(collection.getItems());

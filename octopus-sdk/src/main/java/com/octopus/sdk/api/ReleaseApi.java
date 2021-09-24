@@ -16,24 +16,24 @@
 package com.octopus.sdk.api;
 
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.project.ProjectPaginatedCollection;
-import com.octopus.sdk.model.project.ProjectResource;
-import com.octopus.sdk.model.project.ProjectResourceWithLinks;
+import com.octopus.sdk.model.releases.ReleasePaginatedCollection;
+import com.octopus.sdk.model.releases.ReleaseResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
 
 import com.google.common.base.Preconditions;
 
-public class ProjectApi
-    extends BaseNamedResourceApi<
-        ProjectResource, ProjectResourceWithLinks, ProjectPaginatedCollection> {
+public class ReleaseApi
+    extends BaseResourceApi<
+        ReleaseResourceWithLinks, ReleaseResourceWithLinks, ReleasePaginatedCollection> {
 
-  public ProjectApi(final OctopusClient client, final String rootPath) {
-    super(client, rootPath, ProjectResourceWithLinks.class, ProjectPaginatedCollection.class);
+  public ReleaseApi(final OctopusClient client, final String rootPath) {
+    super(client, rootPath, ReleaseResourceWithLinks.class, ReleasePaginatedCollection.class);
   }
 
-  public static ProjectApi create(final OctopusClient client, final SpaceHome spaceHome) {
+  public static ReleaseApi create(final OctopusClient client, final SpaceHome spaceHome) {
     Preconditions.checkNotNull(client, "Supplied a null client");
-    Preconditions.checkNotNull(spaceHome, "Cannot create a project in a space with a 'null' space");
-    return new ProjectApi(client, spaceHome.getProjectsLink());
+    Preconditions.checkNotNull(
+        spaceHome, "Cannot create a releaseApi in a space with a 'null' space");
+    return new ReleaseApi(client, spaceHome.getReleasesLink());
   }
 }

@@ -16,24 +16,27 @@
 package com.octopus.sdk.api;
 
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.project.ProjectPaginatedCollection;
-import com.octopus.sdk.model.project.ProjectResource;
-import com.octopus.sdk.model.project.ProjectResourceWithLinks;
+import com.octopus.sdk.model.projectgroup.ProjectGroupPaginatedCollection;
+import com.octopus.sdk.model.projectgroup.ProjectGroupResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
 
 import com.google.common.base.Preconditions;
 
-public class ProjectApi
-    extends BaseNamedResourceApi<
-        ProjectResource, ProjectResourceWithLinks, ProjectPaginatedCollection> {
+public class ProjectGroupsApi
+    extends SymmetricApi<ProjectGroupResourceWithLinks, ProjectGroupPaginatedCollection> {
 
-  public ProjectApi(final OctopusClient client, final String rootPath) {
-    super(client, rootPath, ProjectResourceWithLinks.class, ProjectPaginatedCollection.class);
+  public ProjectGroupsApi(final OctopusClient client, final String rootPath) {
+    super(
+        client,
+        rootPath,
+        ProjectGroupResourceWithLinks.class,
+        ProjectGroupPaginatedCollection.class);
   }
 
-  public static ProjectApi create(final OctopusClient client, final SpaceHome spaceHome) {
+  public static ProjectGroupsApi create(final OctopusClient client, final SpaceHome spaceHome) {
     Preconditions.checkNotNull(client, "Supplied a null client");
-    Preconditions.checkNotNull(spaceHome, "Cannot create a project in a space with a 'null' space");
-    return new ProjectApi(client, spaceHome.getProjectsLink());
+    Preconditions.checkNotNull(
+        spaceHome, "Cannot create a ProjectGroupsApi in a space with a 'null' space");
+    return new ProjectGroupsApi(client, spaceHome.getProjectGroupsLink());
   }
 }

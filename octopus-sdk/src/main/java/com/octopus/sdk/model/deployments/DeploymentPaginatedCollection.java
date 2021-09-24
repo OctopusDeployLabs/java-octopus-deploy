@@ -13,25 +13,23 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.testsupport;
+package com.octopus.sdk.model.deployments;
 
-public class ExistingOctopusDeployServer implements OctopusDeployServer {
+import com.octopus.sdk.model.PaginatedCollection;
 
-  @Override
-  public String getOctopusUrl() {
-    return "http://localhost:8065";
-  }
+import java.util.List;
+import java.util.Map;
 
-  @Override
-  public String getApiKey() {
-    return "API-SOUCF90RQDQYWQYQ8VMVA3Y2WA41GUM";
-  }
+public class DeploymentPaginatedCollection
+    extends PaginatedCollection<DeploymentResourceWithLinks> {
 
-  @Override
-  public void close() {}
-
-  @Override
-  public int getPort() {
-    return 8065;
+  public DeploymentPaginatedCollection(
+      final Map<String, String> links,
+      final int totalResults,
+      final int itemsPerPage,
+      final int numberOfPages,
+      final int pageNumber,
+      final List<DeploymentResourceWithLinks> items) {
+    super(links, totalResults, itemsPerPage, numberOfPages, pageNumber, items);
   }
 }

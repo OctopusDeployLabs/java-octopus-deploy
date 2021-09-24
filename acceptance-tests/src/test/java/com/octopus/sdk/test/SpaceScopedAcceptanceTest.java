@@ -43,16 +43,14 @@ public class SpaceScopedAcceptanceTest extends BaseAcceptanceTest {
   @BeforeEach
   public void localSetup() throws IOException {
 
-    SpaceOverviewWithLinks toCreate = null;
+    client = new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
+    spacesOverviewApi = SpacesOverviewApi.create(client);
+    final UsersApi users = UsersApi.create(client);
+
+    final SpaceOverviewWithLinks toCreate = new SpaceOverviewWithLinks();
+    toCreate.setName("JavaSdkTestingSpace");
+    toCreate.setSpaceManagersTeamMembers(Sets.newHashSet(users.getCurrentUser().getId()));
     try {
-      client = new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
-      spacesOverviewApi = SpacesOverviewApi.create(client);
-      final UsersApi users = UsersApi.create(client);
-
-      toCreate = new SpaceOverviewWithLinks();
-      toCreate.setName("JavaSdkTestingSpace");
-      toCreate.setSpaceManagersTeamMembers(Sets.newHashSet(users.getCurrentUser().getId()));
-
       createdSpace = spacesOverviewApi.create(toCreate);
       spaceHome =
           client.get(RequestEndpoint.fromPath(createdSpace.getSpaceHomeLink()), SpaceHome.class);

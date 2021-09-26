@@ -17,6 +17,7 @@ package com.octopus.sdk.model.commands;
 
 import java.util.List;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("UnusedVariable")
@@ -68,15 +69,19 @@ public class CreateReleaseCommandParameters implements TParameters {
   private List<String> deployToEnvironmentIdsOrNames;
 
   public CreateReleaseCommandParameters(final String projectIdOrName, final String packageVersion) {
+    Preconditions.checkNotNull(projectIdOrName, "projectIdOrName cannot be null");
+    Preconditions.checkNotNull(packageVersion, "packageVersion cannot be null");
     this.projectIdOrName = projectIdOrName;
     this.packageVersion = packageVersion;
   }
 
   public void setProjectIdOrName(final String projectIdOrName) {
+    Preconditions.checkNotNull(projectIdOrName, "projectIdOrName cannot be null");
     this.projectIdOrName = projectIdOrName;
   }
 
   public void setPackageVersion(final String packageVersion) {
+    Preconditions.checkNotNull(packageVersion, "packageVersion cannot be null");
     this.packageVersion = packageVersion;
   }
 

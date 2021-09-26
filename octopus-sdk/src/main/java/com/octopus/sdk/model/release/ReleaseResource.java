@@ -27,7 +27,6 @@ import java.util.Objects;
 
 import com.google.gson.annotations.SerializedName;
 
-/** ReleaseResource */
 @SuppressWarnings("UnusedVariable")
 public class ReleaseResource extends BaseResource {
   @SerializedName("Assembled")

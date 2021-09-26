@@ -28,6 +28,7 @@ import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
 import com.octopus.sdk.model.commands.CreateReleaseCommandParameters;
+import com.octopus.sdk.model.commands.ExecuteRunbookCommandParameters;
 import com.octopus.sdk.support.TestHelpers;
 
 import java.io.IOException;
@@ -85,6 +86,31 @@ class ExecutionsCreateApiTest {
     final String releaseId = ExecutionsCreateApi.createRelease(mockClient, body);
 
     assertThat(releaseId).isEqualTo(releaseIdToReturn);
+    final ArgumentCaptor<RequestEndpoint> requestedEndpoint =
+        ArgumentCaptor.forClass(RequestEndpoint.class);
+    verify(mockClient).post(requestedEndpoint.capture(), eq(body), eq(String.class));
+
+    assertThat(requestedEndpoint.getValue().getPath()).isEqualTo(commandLink);
+  }
+
+  @Test
+  public void hitsCorrectEndpointWithDataWhenExecutingRunbook() throws IOException {
+    final Map<String, String> rootDocLinks = new HashMap<>();
+    final String commandLink = "/api/runbookRunCreate";
+    rootDocLinks.put("ExecutionsCreateApiRunbookRunCreate", commandLink);
+    final ExecuteRunbookCommandParameters parameters =
+        new ExecuteRunbookCommandParameters(
+            "projectName", singletonList("TheEnvironment"), "runbookName");
+    final CommandBody<ExecuteRunbookCommandParameters> body =
+        new CommandBody<>("theSpace", parameters);
+    final String runbookId = "TheRunbookId";
+
+    when(mockClient.post(any(), eq(body), eq(String.class))).thenReturn(runbookId);
+    when(mockClient.getRootDocument()).thenReturn(TestHelpers.rootDocWithLinks(rootDocLinks));
+
+    final String returnedRunbookId = ExecutionsCreateApi.executeRunbook(mockClient, body);
+
+    assertThat(returnedRunbookId).isEqualTo(runbookId);
     final ArgumentCaptor<RequestEndpoint> requestedEndpoint =
         ArgumentCaptor.forClass(RequestEndpoint.class);
     verify(mockClient).post(requestedEndpoint.capture(), eq(body), eq(String.class));

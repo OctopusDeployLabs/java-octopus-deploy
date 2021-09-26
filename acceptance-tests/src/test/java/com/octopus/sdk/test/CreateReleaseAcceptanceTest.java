@@ -15,20 +15,14 @@
 
 package com.octopus.sdk.test;
 
-import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.octopus.sdk.api.DeploymentsApi;
-import com.octopus.sdk.api.EnvironmentsApi;
 import com.octopus.sdk.api.ProjectApi;
 import com.octopus.sdk.api.ProjectGroupsApi;
 import com.octopus.sdk.api.ReleaseApi;
 import com.octopus.sdk.model.commands.CommandBody;
-import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
-import com.octopus.sdk.model.deployments.DeploymentResourceWithLinks;
-import com.octopus.sdk.model.environments.EnvironmentResourceWithLinks;
+import com.octopus.sdk.model.commands.CreateReleaseCommandParameters;
 import com.octopus.sdk.model.project.ProjectResource;
-import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.model.projectgroup.ProjectGroupResourceWithLinks;
 import com.octopus.sdk.model.release.ReleaseResourceWithLinks;
 import com.octopus.sdk.operations.ExecutionsCreateApi;
@@ -40,11 +34,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-public class CreateDeploymentAcceptanceTest extends SpaceScopedAcceptanceTest {
-
+public class CreateReleaseAcceptanceTest extends SpaceScopedAcceptanceTest {
   private final String projectName = "TheProject";
-  private final String envName = "TheEnvironment";
-  private final String releaseVersion = "1.0.0";
 
   @BeforeEach
   public void createDeploymentAcceptanceTestSetup() throws IOException {
@@ -59,34 +50,23 @@ public class CreateDeploymentAcceptanceTest extends SpaceScopedAcceptanceTest {
     projectToCreate.setName(projectName);
     projectToCreate.setLifecycleId("Lifecycles-1");
     projectToCreate.setProjectGroupId(projectGroup.getId());
-    final ProjectResourceWithLinks projectCreated = projectApi.create(projectToCreate);
-
-    final EnvironmentsApi environmentApi = EnvironmentsApi.create(client, spaceHome);
-    final EnvironmentResourceWithLinks envToCreate = new EnvironmentResourceWithLinks();
-    envToCreate.setName(envName);
-    environmentApi.create(envToCreate);
-
-    final ReleaseApi releaseApi = ReleaseApi.create(client, spaceHome);
-    final ReleaseResourceWithLinks release = new ReleaseResourceWithLinks();
-    release.setVersion(releaseVersion);
-    release.setProjectId(projectCreated.getId());
-
-    releaseApi.create(release);
+    projectApi.create(projectToCreate);
   }
 
   @Test
   @Disabled
-  public void createDeployment() throws IOException {
-    final CreateDeploymentCommandParameters params =
-        new CreateDeploymentCommandParameters(projectName, singletonList(envName), releaseVersion);
+  public void createdReleaseCanBeQueried() throws IOException {
+    final String releaseVersion = "1.0.0";
+    final CreateReleaseCommandParameters parameters =
+        new CreateReleaseCommandParameters(projectName, releaseVersion);
+    final CommandBody<CreateReleaseCommandParameters> body =
+        new CommandBody<>(createdSpace.getName(), parameters);
 
-    final String deploymentId =
-        ExecutionsCreateApi.createDeployment(
-            client, new CommandBody<>(createdSpace.getName(), params));
+    final String createdReleaseId = ExecutionsCreateApi.createRelease(client, body);
 
-    final DeploymentsApi deploymentsApi = DeploymentsApi.create(client, spaceHome);
-    final Optional<DeploymentResourceWithLinks> deployment = deploymentsApi.getById(deploymentId);
+    final ReleaseApi releaseApi = ReleaseApi.create(client, spaceHome);
+    final Optional<ReleaseResourceWithLinks> release = releaseApi.getById(createdReleaseId);
 
-    assertThat(deployment).isNotEmpty();
+    assertThat(release).isNotEmpty();
   }
 }

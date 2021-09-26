@@ -18,7 +18,7 @@ package com.octopus.sdk.model.commands;
 import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
 
-public class CommandBody<T extends BaseCommandParameters> {
+public class CommandBody<T extends TParameters> {
 
   @SerializedName("spaceIdOrName")
   private final String spaceName;

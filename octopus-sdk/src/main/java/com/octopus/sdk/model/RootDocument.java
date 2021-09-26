@@ -321,4 +321,8 @@ public class RootDocument extends SpaceHome {
   public String getExecutionsCreateApiDeploymentCreateLink() {
     return LinkHelpers.getCleansedRawLink(getLinks().get("ExecutionsCreateApiDeploymentCreate"));
   }
+
+  public String getExecutionsCreateApiReleasesCreateLink() {
+    return LinkHelpers.getCleansedRawLink(getLinks().get("ReleasesCreateApiReleaseCreate"));
+  }
 }

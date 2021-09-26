@@ -27,6 +27,7 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
+import com.octopus.sdk.model.commands.CreateReleaseCommandParameters;
 import com.octopus.sdk.support.TestHelpers;
 
 import java.io.IOException;
@@ -59,6 +60,31 @@ class ExecutionsCreateApiTest {
     final String deploymentId = ExecutionsCreateApi.createDeployment(mockClient, body);
 
     assertThat(deploymentId).isEqualTo(returnedDeploymentId);
+    final ArgumentCaptor<RequestEndpoint> requestedEndpoint =
+        ArgumentCaptor.forClass(RequestEndpoint.class);
+    verify(mockClient).post(requestedEndpoint.capture(), eq(body), eq(String.class));
+
+    assertThat(requestedEndpoint.getValue().getPath()).isEqualTo(commandLink);
+  }
+
+  @Test
+  public void hitsReportedEndpointWhenCreatingRelease() throws IOException {
+    final Map<String, String> rootDocLinks = new HashMap<>();
+    final String commandLink = "/api/createReleaseLink";
+    rootDocLinks.put("ReleasesCreateApiReleaseCreate", commandLink);
+
+    final CreateReleaseCommandParameters parameters =
+        new CreateReleaseCommandParameters("TheProject", "1.0.0");
+    final CommandBody<CreateReleaseCommandParameters> body =
+        new CommandBody<>("theSpace", parameters);
+    final String releaseIdToReturn = "releaseId";
+
+    when(mockClient.post(any(), eq(body), eq(String.class))).thenReturn(releaseIdToReturn);
+    when(mockClient.getRootDocument()).thenReturn(TestHelpers.rootDocWithLinks(rootDocLinks));
+
+    final String releaseId = ExecutionsCreateApi.createRelease(mockClient, body);
+
+    assertThat(releaseId).isEqualTo(releaseIdToReturn);
     final ArgumentCaptor<RequestEndpoint> requestedEndpoint =
         ArgumentCaptor.forClass(RequestEndpoint.class);
     verify(mockClient).post(requestedEndpoint.capture(), eq(body), eq(String.class));

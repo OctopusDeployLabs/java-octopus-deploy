@@ -19,12 +19,12 @@ public class ExistingOctopusDeployServer implements OctopusDeployServer {
 
   @Override
   public String getOctopusUrl() {
-    return "http://localhost:8065";
+    return return System.getenv("OCTOPUS_SERVER_URL");
   }
 
   @Override
   public String getApiKey() {
-    return "API-SOUCF90RQDQYWQYQ8VMVA3Y2WA41GUM";
+    return System.getenv("OCTOPUS_SERVER_API_KEY");
   }
 
   @Override

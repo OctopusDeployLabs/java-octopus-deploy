@@ -17,6 +17,7 @@ package com.octopus.sdk.model.commands;
 
 import java.util.List;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("UnusedVariable")
@@ -31,10 +32,12 @@ public class ExecuteRunbookCommandParameters extends BaseCommandParameters {
   public ExecuteRunbookCommandParameters(
       final String projectIdOrName, final List<String> environmentNames, final String runbookName) {
     super(projectIdOrName, environmentNames);
+    Preconditions.checkNotNull(runbookName, "runbookName cannot be null");
     this.runbookName = runbookName;
   }
 
   public void setRunbookName(final String runbookName) {
+    Preconditions.checkNotNull(runbookName, "runbookName cannot be null");
     this.runbookName = runbookName;
   }
 

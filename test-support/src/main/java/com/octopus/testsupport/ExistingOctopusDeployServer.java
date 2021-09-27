@@ -19,7 +19,7 @@ public class ExistingOctopusDeployServer implements OctopusDeployServer {
 
   @Override
   public String getOctopusUrl() {
-    return return System.getenv("OCTOPUS_SERVER_URL");
+    return System.getenv("OCTOPUS_SERVER_URL");
   }
 
   @Override

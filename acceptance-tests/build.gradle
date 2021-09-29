@@ -41,5 +41,5 @@ task acceptanceTest(type: Test) {
   useJUnitPlatform()
   outputs.upToDateWhen { false }
 
-  testLogging.showStandardStreams = true;
+  testLogging.showStandardStreams = false;
 }

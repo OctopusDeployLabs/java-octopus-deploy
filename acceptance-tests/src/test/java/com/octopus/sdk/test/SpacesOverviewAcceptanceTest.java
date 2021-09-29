@@ -108,6 +108,7 @@ public class SpacesOverviewAcceptanceTest extends BaseAcceptanceTest {
         final SpaceOverviewWithLinks toCreate = new SpaceOverviewWithLinks();
         toCreate.setName(String.format("Space%d", i));
         toCreate.setSpaceManagersTeamMembers(Sets.newLinkedHashSet(users.getCurrentUser().getId()));
+
         spacesCreated.add(spacesOverviewApi.create(toCreate));
       }
 

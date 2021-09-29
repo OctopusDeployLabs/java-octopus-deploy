@@ -150,6 +150,11 @@ subprojects {
         testLogging.showStandardStreams = false
     }
 
+    tasks.withType(Test) {
+        // If GRADLE_MAX_TEST_FORKS is not set, use half the available processors
+        maxParallelForks = (System.getenv('GRADLE_MAX_TEST_FORKS') ?: (Runtime.runtime.availableProcessors().intdiv(2) ?: 1)).toInteger()
+    }
+
     if (project.name != "acceptance-tests") {
         apply plugin: "com.jfrog.artifactory"
         apply plugin: 'maven-publish'

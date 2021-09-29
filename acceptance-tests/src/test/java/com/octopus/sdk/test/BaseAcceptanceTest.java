@@ -43,7 +43,7 @@ public class BaseAcceptanceTest {
     }
   }
 
-  protected void deleteSpaceValidly(
+  protected static void deleteSpaceValidly(
       final SpacesOverviewApi spacesOverviewApi, final SpaceOverviewWithLinks space)
       throws IOException {
     if ((spacesOverviewApi != null) && (space != null)) {

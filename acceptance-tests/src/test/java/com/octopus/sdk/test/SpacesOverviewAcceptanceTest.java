@@ -108,7 +108,6 @@ public class SpacesOverviewAcceptanceTest extends BaseAcceptanceTest {
         final SpaceOverviewWithLinks toCreate = new SpaceOverviewWithLinks();
         toCreate.setName(String.format("Space%d", i));
         toCreate.setSpaceManagersTeamMembers(Sets.newLinkedHashSet(users.getCurrentUser().getId()));
-
         spacesCreated.add(spacesOverviewApi.create(toCreate));
       }
 
@@ -119,6 +118,7 @@ public class SpacesOverviewAcceptanceTest extends BaseAcceptanceTest {
       for (int pageSize = 1; pageSize < 4; pageSize++) {
         final Map<String, List<String>> queryParams = new HashMap<>();
         queryParams.put("take", singletonList(Integer.toString(pageSize)));
+        queryParams.put("partialName", singletonList("Space"));
         final List<SpaceOverviewWithLinks> spaces = spacesOverviewApi.getByQuery(queryParams);
         final List<String> spaceNamesFound =
             spaces.stream().map(SpaceOverviewResource::getName).collect(Collectors.toList());

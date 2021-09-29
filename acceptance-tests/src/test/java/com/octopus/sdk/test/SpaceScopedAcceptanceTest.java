@@ -30,6 +30,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 
 public class SpaceScopedAcceptanceTest extends BaseAcceptanceTest {
 
@@ -41,14 +42,20 @@ public class SpaceScopedAcceptanceTest extends BaseAcceptanceTest {
   protected SpaceHome spaceHome;
 
   @BeforeEach
-  public void localSetup() throws IOException {
+  public void localSetup(final TestInfo testInfo) throws IOException {
 
     client = new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
     spacesOverviewApi = SpacesOverviewApi.create(client);
     final UsersApi users = UsersApi.create(client);
 
     final SpaceOverviewWithLinks toCreate = new SpaceOverviewWithLinks();
-    toCreate.setName("JavaSdkTestingSpace");
+    final String spaceName =
+        testInfo
+            .getDisplayName()
+            .substring(
+                testInfo.getDisplayName().length() - 22, testInfo.getDisplayName().length() - 2);
+    toCreate.setName(spaceName);
+    LOG.info("Test operating in space {}", spaceName);
     toCreate.setSpaceManagersTeamMembers(Sets.newHashSet(users.getCurrentUser().getId()));
     try {
       createdSpace = spacesOverviewApi.create(toCreate);

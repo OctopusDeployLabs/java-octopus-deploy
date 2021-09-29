@@ -30,6 +30,7 @@ import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformat
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformationMappedResource;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
+import com.octopus.testsupport.BaseOctopusServerIntegrationTest;
 
 import java.io.IOException;
 import java.net.URL;
@@ -42,7 +43,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class BuildInformationAcceptanceTest extends BaseAcceptanceTest {
+public class BuildInformationAcceptanceTestOctopus extends BaseOctopusServerIntegrationTest {
   private static final Logger LOG = LogManager.getLogger();
 
   private SpacesOverviewApi spacesOverviewApi;

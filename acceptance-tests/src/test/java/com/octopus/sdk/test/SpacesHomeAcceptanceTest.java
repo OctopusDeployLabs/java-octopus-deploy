@@ -47,7 +47,7 @@ public class SpacesHomeAcceptanceTest extends BaseOctopusServerEnabledTest {
         new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
 
     final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
-    final List<SpaceOverviewWithLinks> spaces = spacesOverviewApi.getByPartialName("");
+    final List<SpaceOverviewWithLinks> spaces = spacesOverviewApi.getAll();
     // Ensure no defaultSpaces exist
     final Optional<SpaceOverviewWithLinks> alteredSpace =
         spaces.stream().filter(SpaceOverviewWithLinks::getDefault).findFirst();

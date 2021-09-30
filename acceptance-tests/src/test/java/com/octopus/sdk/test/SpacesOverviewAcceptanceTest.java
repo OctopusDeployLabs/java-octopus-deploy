@@ -120,6 +120,7 @@ public class SpacesOverviewAcceptanceTest extends BaseOctopusServerEnabledTest {
       for (int pageSize = 1; pageSize < 4; pageSize++) {
         final Map<String, List<String>> queryParams = new HashMap<>();
         queryParams.put("take", singletonList(Integer.toString(pageSize)));
+        queryParams.put("partialName", singletonList("Space"));
         final List<SpaceOverviewWithLinks> spaces = spacesOverviewApi.getByQuery(queryParams);
         final List<String> spaceNamesFound =
             spaces.stream().map(SpaceOverviewResource::getName).collect(Collectors.toList());

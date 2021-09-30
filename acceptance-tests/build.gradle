@@ -30,11 +30,22 @@ dependencies {
 test.enabled = false
 
 task acceptanceTest(type: Test) {
+
+  // Running e2e tests in parallel starts a new OctopusDeploy docker container for each
+  // runner - which is slow enough, that running all in series (against a single OctopusDeploy)
+  // is significantly faster
+  // As tests get longer (or more involved) - it may be worh increasing this.
+  maxParallelForks = 1;
+
   java {
     toolchain {
       languageVersion = JavaLanguageVersion.of(11)
     }
   }
+  testLogging {
+    exceptionFormat = 'full'
+  }
+
   mustRunAfter rootProject.subprojects*.test
   description = 'Runs the Octopus Java SDK acceptance tests.'
   group = 'verification'

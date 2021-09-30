@@ -20,68 +20,19 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.octopus.sdk.api.BuildInformationApi;
 import com.octopus.sdk.api.OverwriteMode;
-import com.octopus.sdk.api.SpacesOverviewApi;
-import com.octopus.sdk.api.UsersApi;
 import com.octopus.sdk.http.HttpException;
-import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.buildinformation.BuildInformationResource;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformationMappedResource;
-import com.octopus.sdk.model.spaces.SpaceHome;
-import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
-import com.octopus.testsupport.BaseOctopusServerEnabledTest;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Collections;
 
-import com.google.common.collect.Sets;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class BuildInformationAcceptanceTestOctopus extends BaseOctopusServerEnabledTest {
-  private static final Logger LOG = LogManager.getLogger();
-
-  private SpacesOverviewApi spacesOverviewApi;
-  private OctopusClient client;
-  private SpaceOverviewWithLinks createdSpace;
-  private SpaceHome spaceHome;
+public class BuildInformationAcceptanceTest extends SpaceScopedAcceptanceTest {
 
   private static final String initialBuildUrl = "http://localhost/myBuildUrl";
-
-  @BeforeEach
-  public void localSetup() throws IOException {
-
-    SpaceOverviewWithLinks toCreate = null;
-    try {
-      client = new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
-      spacesOverviewApi = SpacesOverviewApi.create(client);
-      final UsersApi users = UsersApi.create(client);
-
-      toCreate = new SpaceOverviewWithLinks();
-      toCreate.setName("BuildInfoTestSpace");
-      toCreate.setSpaceManagersTeamMembers(Sets.newHashSet(users.getCurrentUser().getId()));
-
-      createdSpace = spacesOverviewApi.create(toCreate);
-      spaceHome =
-          client.get(RequestEndpoint.fromPath(createdSpace.getSpaceHomeLink()), SpaceHome.class);
-    } catch (final Exception e) {
-      LOG.error(e);
-      deleteSpaceValidly(spacesOverviewApi, toCreate);
-      spacesOverviewApi = null;
-      throw e;
-    }
-  }
-
-  @AfterEach
-  public void cleanup() throws IOException {
-    deleteSpaceValidly(spacesOverviewApi, createdSpace);
-    spacesOverviewApi = null;
-  }
 
   @Test
   public void canCreatBuildInformationOnServer() throws IOException {

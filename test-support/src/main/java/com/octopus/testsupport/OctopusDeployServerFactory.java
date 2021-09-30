@@ -29,8 +29,6 @@ public class OctopusDeployServerFactory {
 
   // Adjust these values if using a pre-running octopus server.
   private static final boolean DEFAULT_USE_EXISTING_SERVER = true;
-  protected static String serverURL = "http://localhost:8065";
-  protected static String apiKey = "API-D62EQ9I4EVET1E2LJUBKEHLNBYWMO3";
 
   public static OctopusDeployServer create() {
     final boolean useExistingServer =
@@ -44,11 +42,7 @@ public class OctopusDeployServerFactory {
     }
 
     try {
-      final DockerisedOctopusDeployServer server =
-          DockerisedOctopusDeployServer.createOctopusServer();
-      serverURL = server.getOctopusUrl();
-      apiKey = server.getApiKey();
-      return server;
+      return DockerisedOctopusDeployServer.createOctopusServer();
     } catch (final IOException e) {
       LOG.error("Failed to create dockerised Octopus Deploy server", e);
       throw new UncheckedIOException(e);

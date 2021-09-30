@@ -10,15 +10,16 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 
 public class OctopusServerResourceExtension implements BeforeAllCallback, ParameterResolver {
 
-  private static final AtomicBoolean created = new AtomicBoolean(false);
+  private static final AtomicBoolean SERVER_RESOURCE_CREATED = new AtomicBoolean(false);
+  private static final String SERVER_RESOURCE_NAME = "octopus-server";
 
   @Override
   public synchronized void beforeAll(final ExtensionContext context) {
-    if (created.compareAndSet(false, true)) {
+    if (SERVER_RESOURCE_CREATED.compareAndSet(false, true)) {
       ExtensionContext.Store rootStore =
           context.getRoot().getStore(ExtensionContext.Namespace.GLOBAL);
       final OctopusDeployServer server = OctopusDeployServerFactory.create();
-      rootStore.put("octopus-server", new ServerResource(server));
+      rootStore.put(SERVER_RESOURCE_NAME, new ServerResource(server));
     }
   }
 
@@ -35,7 +36,7 @@ public class OctopusServerResourceExtension implements BeforeAllCallback, Parame
       throws ParameterResolutionException {
     ExtensionContext.Store rootStore =
         context.getRoot().getStore(ExtensionContext.Namespace.GLOBAL);
-    return rootStore.get("octopus-server");
+    return rootStore.get(SERVER_RESOURCE_NAME);
   }
 
   protected static class ServerResource implements ExtensionContext.Store.CloseableResource {

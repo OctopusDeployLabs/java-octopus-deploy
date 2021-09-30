@@ -31,7 +31,10 @@ test.enabled = false
 
 task acceptanceTest(type: Test) {
 
-  // TODO(tmm): Remove this once OctopusServer supports concurrency when making/deleting spaces
+  // Running e2e tests in parallel starts a new OctopusDeploy docker container for each
+  // runner - which is slow enough, that running all in series (against a single OctopusDeploy)
+  // is significantly faster
+  // As tests get longer (or more involved) - it may be worh increasing this.
   maxParallelForks = 1;
 
   java {

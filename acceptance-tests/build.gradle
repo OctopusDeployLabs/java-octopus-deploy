@@ -30,11 +30,19 @@ dependencies {
 test.enabled = false
 
 task acceptanceTest(type: Test) {
+
+  // TODO(tmm): Remove this once OctopusServer supports concurrency when making/deleting spaces
+  maxParallelForks = 1;
+
   java {
     toolchain {
       languageVersion = JavaLanguageVersion.of(11)
     }
   }
+  testLogging {
+    exceptionFormat = 'full'
+  }
+
   mustRunAfter rootProject.subprojects*.test
   description = 'Runs the Octopus Java SDK acceptance tests.'
   group = 'verification'

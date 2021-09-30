@@ -21,6 +21,7 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
+import com.octopus.testsupport.BaseOctopusServerEnabledTest;
 
 import java.io.IOException;
 import java.net.URL;
@@ -32,7 +33,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 
-public class SpaceScopedAcceptanceTest extends BaseAcceptanceTest {
+public class SpaceScopedAcceptanceTest extends BaseOctopusServerEnabledTest {
 
   private static final Logger LOG = LogManager.getLogger();
 

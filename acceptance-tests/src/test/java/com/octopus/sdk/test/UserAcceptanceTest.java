@@ -21,13 +21,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.octopus.sdk.api.UsersApi;
 import com.octopus.sdk.http.HttpException;
 import com.octopus.sdk.http.OctopusClient;
+import com.octopus.testsupport.BaseOctopusServerEnabledTest;
 
 import java.io.IOException;
 import java.net.URL;
 
 import org.junit.jupiter.api.Test;
 
-public class UserAcceptanceTest extends BaseAcceptanceTest {
+public class UserAcceptanceTest extends BaseOctopusServerEnabledTest {
 
   private OctopusClient client;
 

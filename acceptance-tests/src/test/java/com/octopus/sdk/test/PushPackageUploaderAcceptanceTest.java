@@ -18,11 +18,11 @@ package com.octopus.sdk.test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.octopus.sdk.api.OverwriteMode;
-import com.octopus.sdk.api.PackagesApi;
+import com.octopus.sdk.api.PackageApi;
 import com.octopus.sdk.model.packages.PackageFromBuiltInFeedResource;
-import com.octopus.sdk.operations.pushpackage.PushPackageUploader;
-import com.octopus.sdk.operations.pushpackage.PushPackageUploaderContext;
-import com.octopus.sdk.operations.pushpackage.PushPackageUploaderContextBuilder;
+import com.octopus.sdk.operation.pushpackage.PushPackageUploader;
+import com.octopus.sdk.operation.pushpackage.PushPackageUploaderContext;
+import com.octopus.sdk.operation.pushpackage.PushPackageUploaderContextBuilder;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -56,8 +56,8 @@ public class PushPackageUploaderAcceptanceTest extends SpaceScopedAcceptanceTest
     try {
       assertThat(result).isNotNull();
     } finally {
-      final PackagesApi packagesApi = PackagesApi.create(client, spaceHome);
-      packagesApi.delete(result.getId());
+      final PackageApi packageApi = PackageApi.create(client, spaceHome);
+      packageApi.delete(result.getId());
     }
   }
 }

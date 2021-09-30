@@ -16,24 +16,27 @@
 package com.octopus.sdk.api;
 
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.release.ReleasePaginatedCollection;
-import com.octopus.sdk.model.release.ReleaseResourceWithLinks;
+import com.octopus.sdk.model.projectgroup.ProjectGroupPaginatedCollection;
+import com.octopus.sdk.model.projectgroup.ProjectGroupResourceWithLinks;
 import com.octopus.sdk.model.space.SpaceHome;
 
 import com.google.common.base.Preconditions;
 
-public class ReleaseApi
-    extends BaseResourceApi<
-        ReleaseResourceWithLinks, ReleaseResourceWithLinks, ReleasePaginatedCollection> {
+public class ProjectGroupApi
+    extends SymmetricApi<ProjectGroupResourceWithLinks, ProjectGroupPaginatedCollection> {
 
-  public ReleaseApi(final OctopusClient client, final String rootPath) {
-    super(client, rootPath, ReleaseResourceWithLinks.class, ReleasePaginatedCollection.class);
+  public ProjectGroupApi(final OctopusClient client, final String rootPath) {
+    super(
+        client,
+        rootPath,
+        ProjectGroupResourceWithLinks.class,
+        ProjectGroupPaginatedCollection.class);
   }
 
-  public static ReleaseApi create(final OctopusClient client, final SpaceHome spaceHome) {
+  public static ProjectGroupApi create(final OctopusClient client, final SpaceHome spaceHome) {
     Preconditions.checkNotNull(client, "Supplied a null client");
     Preconditions.checkNotNull(
-        spaceHome, "Cannot create a releaseApi in a space with a 'null' space");
-    return new ReleaseApi(client, spaceHome.getReleasesLink());
+        spaceHome, "Cannot create a ProjectGroupsApi in a space with a 'null' space");
+    return new ProjectGroupApi(client, spaceHome.getProjectGroupsLink());
   }
 }

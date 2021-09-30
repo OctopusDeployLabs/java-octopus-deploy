@@ -20,7 +20,7 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.apikey.ApiKeyPaginatedCollection;
 import com.octopus.sdk.model.apikey.ApiKeyResource;
-import com.octopus.sdk.model.users.UserResourceWithLinks;
+import com.octopus.sdk.model.user.UserResourceWithLinks;
 
 import java.io.IOException;
 import java.time.Instant;

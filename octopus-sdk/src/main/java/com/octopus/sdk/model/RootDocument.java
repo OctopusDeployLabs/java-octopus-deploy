@@ -15,7 +15,7 @@
 
 package com.octopus.sdk.model;
 
-import com.octopus.sdk.model.spaces.SpaceHome;
+import com.octopus.sdk.model.space.SpaceHome;
 
 import java.util.Map;
 import java.util.Optional;

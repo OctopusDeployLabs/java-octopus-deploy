@@ -17,8 +17,8 @@ package com.octopus.sdk.api;
 
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
-import com.octopus.sdk.model.spaces.SpaceHome;
-import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
+import com.octopus.sdk.model.space.SpaceHome;
+import com.octopus.sdk.model.space.SpaceOverviewWithLinks;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -48,7 +48,7 @@ public class SpaceHomeApi {
   public SpaceHome getByName(final String spaceName) throws IOException {
     Preconditions.checkNotNull(spaceName, "Cannot find space with a null name");
 
-    final SpacesOverviewApi spacesApi = SpacesOverviewApi.create(client);
+    final SpaceOverviewApi spacesApi = SpaceOverviewApi.create(client);
     final Optional<SpaceOverviewWithLinks> containingSpace = spacesApi.getByName(spaceName);
     if (!containingSpace.isPresent()) {
       final String error =

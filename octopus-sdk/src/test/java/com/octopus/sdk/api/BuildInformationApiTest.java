@@ -26,7 +26,7 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.buildinformation.BuildInformationResource;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformationMappedResource;
-import com.octopus.sdk.model.spaces.SpaceHome;
+import com.octopus.sdk.model.space.SpaceHome;
 import com.octopus.sdk.support.TestHelpers;
 
 import java.io.IOException;

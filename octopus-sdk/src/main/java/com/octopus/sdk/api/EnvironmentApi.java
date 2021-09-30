@@ -16,24 +16,22 @@
 package com.octopus.sdk.api;
 
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.release.ReleasePaginatedCollection;
-import com.octopus.sdk.model.release.ReleaseResourceWithLinks;
+import com.octopus.sdk.model.environment.EnvironmentPaginatedCollection;
+import com.octopus.sdk.model.environment.EnvironmentResourceWithLinks;
 import com.octopus.sdk.model.space.SpaceHome;
 
 import com.google.common.base.Preconditions;
 
-public class ReleaseApi
-    extends BaseResourceApi<
-        ReleaseResourceWithLinks, ReleaseResourceWithLinks, ReleasePaginatedCollection> {
-
-  public ReleaseApi(final OctopusClient client, final String rootPath) {
-    super(client, rootPath, ReleaseResourceWithLinks.class, ReleasePaginatedCollection.class);
+public class EnvironmentApi
+    extends SymmetricApi<EnvironmentResourceWithLinks, EnvironmentPaginatedCollection> {
+  public EnvironmentApi(final OctopusClient client, final String rootPath) {
+    super(
+        client, rootPath, EnvironmentResourceWithLinks.class, EnvironmentPaginatedCollection.class);
   }
 
-  public static ReleaseApi create(final OctopusClient client, final SpaceHome spaceHome) {
+  public static EnvironmentApi create(final OctopusClient client, final SpaceHome spaceHome) {
     Preconditions.checkNotNull(client, "Supplied a null client");
-    Preconditions.checkNotNull(
-        spaceHome, "Cannot create a releaseApi in a space with a 'null' space");
-    return new ReleaseApi(client, spaceHome.getReleasesLink());
+    Preconditions.checkNotNull(spaceHome, "Cannot create a EnvironmentApi in a 'null' space");
+    return new EnvironmentApi(client, spaceHome.getEnvironmentsLink());
   }
 }

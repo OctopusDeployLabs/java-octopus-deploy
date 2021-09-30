@@ -18,14 +18,14 @@ package com.octopus.sdk.test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.octopus.sdk.api.ProjectApi;
-import com.octopus.sdk.api.ProjectGroupsApi;
+import com.octopus.sdk.api.ProjectGroupApi;
 import com.octopus.sdk.api.ReleaseApi;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateReleaseCommandParameters;
 import com.octopus.sdk.model.project.ProjectResource;
 import com.octopus.sdk.model.projectgroup.ProjectGroupResourceWithLinks;
 import com.octopus.sdk.model.release.ReleaseResourceWithLinks;
-import com.octopus.sdk.operations.ExecutionsCreateApi;
+import com.octopus.sdk.operation.ExecutionsCreateApi;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -39,9 +39,9 @@ public class CreateReleaseAcceptanceTest extends SpaceScopedAcceptanceTest {
 
   @BeforeEach
   public void createDeploymentAcceptanceTestSetup() throws IOException {
-    final ProjectGroupsApi projectGroupsApi = ProjectGroupsApi.create(client, spaceHome);
+    final ProjectGroupApi projectGroupApi = ProjectGroupApi.create(client, spaceHome);
     final ProjectGroupResourceWithLinks projectGroup =
-        projectGroupsApi.getAll().stream()
+        projectGroupApi.getAll().stream()
             .findFirst()
             .orElseThrow(() -> new RuntimeException("No Project Groups exist on server"));
 

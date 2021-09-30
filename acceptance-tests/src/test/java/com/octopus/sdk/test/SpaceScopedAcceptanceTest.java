@@ -15,12 +15,12 @@
 
 package com.octopus.sdk.test;
 
-import com.octopus.sdk.api.SpacesOverviewApi;
-import com.octopus.sdk.api.UsersApi;
+import com.octopus.sdk.api.SpaceOverviewApi;
+import com.octopus.sdk.api.UserApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
-import com.octopus.sdk.model.spaces.SpaceHome;
-import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
+import com.octopus.sdk.model.space.SpaceHome;
+import com.octopus.sdk.model.space.SpaceOverviewWithLinks;
 import com.octopus.testsupport.BaseOctopusServerEnabledTest;
 
 import java.io.IOException;
@@ -37,7 +37,7 @@ public class SpaceScopedAcceptanceTest extends BaseOctopusServerEnabledTest {
 
   private static final Logger LOG = LogManager.getLogger();
 
-  protected SpacesOverviewApi spacesOverviewApi;
+  protected SpaceOverviewApi spaceOverviewApi;
   protected OctopusClient client;
   protected SpaceOverviewWithLinks createdSpace;
   protected SpaceHome spaceHome;
@@ -46,8 +46,8 @@ public class SpaceScopedAcceptanceTest extends BaseOctopusServerEnabledTest {
   public void localSetup(final TestInfo testInfo) throws IOException {
 
     client = new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
-    spacesOverviewApi = SpacesOverviewApi.create(client);
-    final UsersApi users = UsersApi.create(client);
+    spaceOverviewApi = SpaceOverviewApi.create(client);
+    final UserApi users = UserApi.create(client);
 
     final SpaceOverviewWithLinks toCreate = new SpaceOverviewWithLinks();
     final String spaceName =
@@ -59,20 +59,20 @@ public class SpaceScopedAcceptanceTest extends BaseOctopusServerEnabledTest {
     LOG.info("Test operating in space {}", spaceName);
     toCreate.setSpaceManagersTeamMembers(Sets.newHashSet(users.getCurrentUser().getId()));
     try {
-      createdSpace = spacesOverviewApi.create(toCreate);
+      createdSpace = spaceOverviewApi.create(toCreate);
       spaceHome =
           client.get(RequestEndpoint.fromPath(createdSpace.getSpaceHomeLink()), SpaceHome.class);
     } catch (final Exception e) {
       LOG.error(e);
-      deleteSpaceValidly(spacesOverviewApi, toCreate);
-      spacesOverviewApi = null;
+      deleteSpaceValidly(spaceOverviewApi, toCreate);
+      spaceOverviewApi = null;
       throw e;
     }
   }
 
   @AfterEach
   public void cleanup() throws IOException {
-    deleteSpaceValidly(spacesOverviewApi, createdSpace);
-    spacesOverviewApi = null;
+    deleteSpaceValidly(spaceOverviewApi, createdSpace);
+    spaceOverviewApi = null;
   }
 }

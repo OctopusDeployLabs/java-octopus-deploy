@@ -17,9 +17,9 @@ package com.octopus.sdk.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.octopus.sdk.api.EnvironmentsApi;
-import com.octopus.sdk.model.environments.EnvironmentResource;
-import com.octopus.sdk.model.environments.EnvironmentResourceWithLinks;
+import com.octopus.sdk.api.EnvironmentApi;
+import com.octopus.sdk.model.environment.EnvironmentResource;
+import com.octopus.sdk.model.environment.EnvironmentResourceWithLinks;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -30,17 +30,17 @@ public class EnvironmentsAcceptanceTest extends SpaceScopedAcceptanceTest {
 
   @Test
   public void canCreateANewEnvironment() throws IOException {
-    final EnvironmentsApi environmentsApi = EnvironmentsApi.create(client, spaceHome);
+    final EnvironmentApi environmentApi = EnvironmentApi.create(client, spaceHome);
 
     final EnvironmentResourceWithLinks environmentToCreate = new EnvironmentResourceWithLinks();
     environmentToCreate.setName("NewEnv");
     final EnvironmentResourceWithLinks createdEnvironment =
-        environmentsApi.create(environmentToCreate);
+        environmentApi.create(environmentToCreate);
 
     assertThat(createdEnvironment).isNotNull();
 
     final Optional<EnvironmentResourceWithLinks> foundEnvironment =
-        environmentsApi.getById(createdEnvironment.getId());
+        environmentApi.getById(createdEnvironment.getId());
 
     assertThat(foundEnvironment).isNotEmpty();
 

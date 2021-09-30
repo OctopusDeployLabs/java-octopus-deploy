@@ -26,7 +26,7 @@ import com.octopus.sdk.http.HttpException;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.spaces.SpaceOverviewResource;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
-import com.octopus.testsupport.BaseOctopusServerIntegrationTest;
+import com.octopus.testsupport.BaseOctopusServerEnabledTest;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -41,7 +41,7 @@ import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.Test;
 
-public class SpacesOverviewAcceptanceTest extends BaseOctopusServerIntegrationTest {
+public class SpacesOverviewAcceptanceTest extends BaseOctopusServerEnabledTest {
 
   @Test
   public void throwsHttpExceptionIndicatingNotAuthorisedIfIncorrectApiKey()

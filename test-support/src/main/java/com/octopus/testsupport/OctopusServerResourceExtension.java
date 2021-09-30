@@ -1,7 +1,6 @@
 package com.octopus.testsupport;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -11,17 +10,15 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 
 public class OctopusServerResourceExtension implements BeforeAllCallback, ParameterResolver {
 
-  private static final Lock reentrantLock = new ReentrantLock();
+  private static final AtomicBoolean created = new AtomicBoolean(false);
 
   @Override
-  public void beforeAll(final ExtensionContext context) {
-    reentrantLock.lock();
-    try {
+  public synchronized void beforeAll(final ExtensionContext context) {
+    if (created.compareAndSet(false, true)) {
       ExtensionContext.Store rootStore =
           context.getRoot().getStore(ExtensionContext.Namespace.GLOBAL);
-      rootStore.put("octopus-server", new ServerResource());
-    } finally {
-      reentrantLock.unlock();
+      final OctopusDeployServer server = OctopusDeployServerFactory.create();
+      rootStore.put("octopus-server", new ServerResource(server));
     }
   }
 
@@ -38,11 +35,15 @@ public class OctopusServerResourceExtension implements BeforeAllCallback, Parame
       throws ParameterResolutionException {
     ExtensionContext.Store rootStore =
         context.getRoot().getStore(ExtensionContext.Namespace.GLOBAL);
-    return rootStore.getOrComputeIfAbsent(ServerResource.class);
+    return rootStore.get("octopus-server");
   }
 
   protected static class ServerResource implements ExtensionContext.Store.CloseableResource {
-    private static final OctopusDeployServer server = OctopusDeployServerFactory.create();
+    private final OctopusDeployServer server;
+
+    public ServerResource(OctopusDeployServer server) {
+      this.server = server;
+    }
 
     public OctopusDeployServer getServer() {
       return server;

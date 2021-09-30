@@ -21,7 +21,7 @@ import com.octopus.sdk.api.SpaceHomeApi;
 import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
-import com.octopus.testsupport.BaseOctopusServerIntegrationTest;
+import com.octopus.testsupport.BaseOctopusServerEnabledTest;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,7 +30,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-public class SpacesHomeAcceptanceTest extends BaseOctopusServerIntegrationTest {
+public class SpacesHomeAcceptanceTest extends BaseOctopusServerEnabledTest {
 
   @Test
   public void throwsExceptionIfRequestSpaceDoesNotExist() throws IOException {

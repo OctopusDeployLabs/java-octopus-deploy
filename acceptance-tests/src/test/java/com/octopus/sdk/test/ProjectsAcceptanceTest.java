@@ -26,7 +26,7 @@ import com.octopus.sdk.model.project.ProjectResource;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
-import com.octopus.testsupport.BaseOctopusServerIntegrationTest;
+import com.octopus.testsupport.BaseOctopusServerEnabledTest;
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,7 +34,7 @@ import java.net.URL;
 import com.google.common.collect.Sets;
 import org.junit.jupiter.api.Test;
 
-public class ProjectsAcceptanceTest extends BaseOctopusServerIntegrationTest {
+public class ProjectsAcceptanceTest extends BaseOctopusServerEnabledTest {
 
   @Test
   public void returnsAProjectApiForAKnownSpace() throws IOException {

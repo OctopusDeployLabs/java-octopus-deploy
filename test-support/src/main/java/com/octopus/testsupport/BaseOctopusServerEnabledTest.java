@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(OctopusServerResourceExtension.class)
-public class BaseOctopusServerIntegrationTest {
+public class BaseOctopusServerEnabledTest {
 
   protected static OctopusDeployServer server;
   protected static final OkHttpClient httpClient = new OkHttpClient();

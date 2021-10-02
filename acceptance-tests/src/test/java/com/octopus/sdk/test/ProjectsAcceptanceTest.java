@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.octopus.sdk.api.ProjectApi;
 import com.octopus.sdk.model.project.ProjectResource;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
+import com.octopus.sdk.repository.project.ProjectRepository;
 
 import java.io.IOException;
 
@@ -29,8 +30,8 @@ public class ProjectsAcceptanceTest extends SpaceScopedAcceptanceTest {
 
   @Test
   public void returnsAProjectApiForAKnownSpace() {
-    final ProjectApi projectApi = ProjectApi.create(client, spaceHome);
-    assertThat(projectApi).isNotNull();
+    final ProjectRepository projectRepository = createdSpace.projects();
+    assertThat(projectRepository).isNotNull();
   }
 
   @Test

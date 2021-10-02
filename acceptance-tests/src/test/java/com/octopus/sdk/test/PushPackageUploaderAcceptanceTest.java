@@ -18,7 +18,6 @@ package com.octopus.sdk.test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.octopus.sdk.api.OverwriteMode;
-import com.octopus.sdk.api.PackagesApi;
 import com.octopus.sdk.model.packages.PackageFromBuiltInFeedResource;
 import com.octopus.sdk.operations.pushpackage.PushPackageUploader;
 import com.octopus.sdk.operations.pushpackage.PushPackageUploaderContext;
@@ -47,7 +46,7 @@ public class PushPackageUploaderAcceptanceTest extends SpaceScopedAcceptanceTest
 
     final PushPackageUploaderContext parameters =
         new PushPackageUploaderContextBuilder()
-            .withSpaceName(createdSpace.getName())
+            .withSpaceName(createdSpace.getProperties().getName())
             .withOverwriteMode(OverwriteMode.OverwriteExisting)
             .withFileToUpload(packageFile.toFile())
             .build();
@@ -56,8 +55,7 @@ public class PushPackageUploaderAcceptanceTest extends SpaceScopedAcceptanceTest
     try {
       assertThat(result).isNotNull();
     } finally {
-      final PackagesApi packagesApi = PackagesApi.create(client, spaceHome);
-      packagesApi.delete(result.getId());
+      createdSpace.packages().delete(result.getId());
     }
   }
 }

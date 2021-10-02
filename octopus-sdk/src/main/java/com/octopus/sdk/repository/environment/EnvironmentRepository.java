@@ -13,53 +13,51 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.repository.projectgroup;
+package com.octopus.sdk.repository.environment;
 
-import com.octopus.sdk.api.ProjectGroupsApi;
+import com.octopus.sdk.api.EnvironmentsApi;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.projectgroup.ProjectGroupResourceWithLinks;
+import com.octopus.sdk.model.environments.EnvironmentResourceWithLinks;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProjectGroupRepository {
+public class EnvironmentRepository {
 
   private final OctopusClient client;
-  private final ProjectGroupsApi api;
+  private final EnvironmentsApi api;
 
-  public ProjectGroupRepository(final OctopusClient client, final ProjectGroupsApi api) {
+  public EnvironmentRepository(final OctopusClient client, final EnvironmentsApi api) {
     this.client = client;
     this.api = api;
   }
 
-  public ProjectGroup create(final ProjectGroupResourceWithLinks resource) throws IOException {
-    final ProjectGroupResourceWithLinks response = api.create(resource);
-    return new ProjectGroup(client, response);
+  public Environment create(final EnvironmentResourceWithLinks resource) throws IOException {
+    final EnvironmentResourceWithLinks response = api.create(resource);
+    return new Environment(client, response);
   }
 
-  public ProjectGroup getById(final String id) throws IOException {
-    final ProjectGroupResourceWithLinks resource =
+  public Environment getById(final String id) throws IOException {
+    final EnvironmentResourceWithLinks resource =
         api.getById(id)
             .orElseThrow(
                 () ->
-                    new IllegalArgumentException("Cannot find a projectGroup with an ID of " + id));
-    return new ProjectGroup(client, resource);
+                    new IllegalArgumentException("Cannot find a environment with an ID of " + id));
+    return new Environment(client, resource);
   }
 
-  public ProjectGroup getByName(final String name) throws IOException {
-    final ProjectGroupResourceWithLinks resource =
+  public Environment getByName(final String name) throws IOException {
+    final EnvironmentResourceWithLinks resource =
         api.getByName(name)
             .orElseThrow(
-                () ->
-                    new IllegalArgumentException(
-                        "Cannot find a projectGroup with a name of " + name));
-    return new ProjectGroup(client, resource);
+                () -> new IllegalArgumentException("Cannot find a project with a name of " + name));
+    return new Environment(client, resource);
   }
 
-  public List<ProjectGroup> getAll() throws IOException {
+  public List<Environment> getAll() throws IOException {
     return api.getAll().stream()
-        .map(resource -> new ProjectGroup(client, resource))
+        .map(resource -> new Environment(client, resource))
         .collect(Collectors.toList());
   }
 
@@ -68,7 +66,7 @@ public class ProjectGroupRepository {
   }
 
   public void removeByName(final String name) throws IOException {
-    final ProjectGroupResourceWithLinks resource =
+    final EnvironmentResourceWithLinks resource =
         api.getByName(name)
             .orElseThrow(
                 () -> new IllegalArgumentException("Cannot find a project with a name of " + name));

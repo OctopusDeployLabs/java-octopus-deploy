@@ -23,10 +23,9 @@ import com.octopus.sdk.api.ProjectGroupsApi;
 import com.octopus.sdk.api.ReleaseApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.spaces.SpaceHome;
-import com.octopus.sdk.model.spaces.SpaceOverviewResource;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
+import com.octopus.sdk.repository.environment.EnvironmentRepository;
 import com.octopus.sdk.repository.project.ProjectRepository;
-import com.octopus.sdk.repository.projectgroup.ProjectGroup;
 import com.octopus.sdk.repository.projectgroup.ProjectGroupRepository;
 import com.octopus.sdk.repository.release.ReleaseRepository;
 
@@ -35,7 +34,9 @@ public class Space {
   private final SpaceHome spaceHome;
   private final SpaceOverviewWithLinks spaceOverviewResource;
 
-  public Space(final OctopusClient client, final SpaceHome spaceHome,
+  public Space(
+      final OctopusClient client,
+      final SpaceHome spaceHome,
       final SpaceOverviewWithLinks spaceOverviewResource) {
     this.client = client;
     this.spaceHome = spaceHome;
@@ -50,8 +51,8 @@ public class Space {
     return new ReleaseRepository(client, ReleaseApi.create(client, spaceHome));
   }
 
-  public EnvironmentsApi environments() {
-    return EnvironmentsApi.create(client, spaceHome);
+  public EnvironmentRepository environments() {
+    return new EnvironmentRepository(client, EnvironmentsApi.create(client, spaceHome));
   }
 
   public PackagesApi packages() {
@@ -66,6 +67,7 @@ public class Space {
     return BuildInformationApi.create(client, spaceHome);
   }
 
-  public SpaceOverviewWithLinks getProperties() { return spaceOverviewResource; }
-
+  public SpaceOverviewWithLinks getProperties() {
+    return spaceOverviewResource;
+  }
 }

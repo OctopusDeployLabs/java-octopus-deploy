@@ -25,8 +25,7 @@ public class Project {
   private final OctopusClient client;
   private final ProjectResourceWithLinks resourceWithLinks;
 
-  public Project(
-      final OctopusClient client, final ProjectResourceWithLinks resourceWithLinks) {
+  public Project(final OctopusClient client, final ProjectResourceWithLinks resourceWithLinks) {
     this.client = client;
     this.resourceWithLinks = resourceWithLinks;
   }

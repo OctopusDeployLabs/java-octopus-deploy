@@ -13,35 +13,23 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.repository.release;
+package com.octopus.sdk.repository.environment;
 
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.http.RequestEndpoint;
-import com.octopus.sdk.model.project.ProjectResourceWithLinks;
-import com.octopus.sdk.model.release.ReleaseResourceWithLinks;
-import com.octopus.sdk.repository.project.Project;
+import com.octopus.sdk.model.environments.EnvironmentResourceWithLinks;
 
-import java.io.IOException;
-
-public class Release {
+public class Environment {
 
   private final OctopusClient client;
-  private final ReleaseResourceWithLinks resourceWithLinks;
+  private final EnvironmentResourceWithLinks resourceWithLinks;
 
-  public Release(final OctopusClient client, final ReleaseResourceWithLinks resourceWithLinks) {
+  public Environment(
+      final OctopusClient client, final EnvironmentResourceWithLinks resourceWithLinks) {
     this.client = client;
     this.resourceWithLinks = resourceWithLinks;
   }
 
-  public ReleaseResourceWithLinks getProperties() {
+  public EnvironmentResourceWithLinks getProperties() {
     return resourceWithLinks;
-  }
-
-  public Project getProject() throws IOException {
-    final ProjectResourceWithLinks resource =
-        client.get(
-            RequestEndpoint.fromPath(resourceWithLinks.getProjectLink()),
-            ProjectResourceWithLinks.class);
-    return new Project(client, resource);
   }
 }

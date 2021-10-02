@@ -15,9 +15,7 @@
 
 package com.octopus.sdk.test;
 
-import com.google.common.collect.Sets;
 import com.octopus.sdk.api.SpaceHomeApi;
-import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.api.UsersApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.spaces.SpaceHome;
@@ -25,15 +23,17 @@ import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 import com.octopus.sdk.repository.Repository;
 import com.octopus.sdk.repository.space.Space;
 import com.octopus.testsupport.BaseOctopusServerEnabledTest;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.Set;
+
+import com.google.common.collect.Sets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.Set;
 
 public class SpaceScopedAcceptanceTest extends BaseOctopusServerEnabledTest {
 
@@ -63,7 +63,7 @@ public class SpaceScopedAcceptanceTest extends BaseOctopusServerEnabledTest {
 
   @AfterEach
   public void cleanup() throws IOException {
-    if(repo != null && createdSpace != null) {
+    if (repo != null && createdSpace != null) {
       final String spaceId = createdSpace.getProperties().getId();
       repo.spaces().removeById(spaceId);
     }

@@ -38,7 +38,7 @@ public class SpaceRepository {
   }
 
   public Space create(final SpaceOverviewWithLinks resource) throws IOException {
-    final SpaceOverviewWithLinks result =  api.create(resource);
+    final SpaceOverviewWithLinks result = api.create(resource);
     final SpaceHome spaceHome = homeApi.getBySpaceOverview(result);
     return new Space(client, spaceHome, result);
   }
@@ -76,8 +76,12 @@ public class SpaceRepository {
   }
 
   public void removeById(final String id) throws IOException {
-    final SpaceOverviewWithLinks space = api.getById(id).orElseThrow(() -> new IllegalArgumentException("No space "
-        + "with an id of '" + id + "' exists"));
+    final SpaceOverviewWithLinks space =
+        api.getById(id)
+            .orElseThrow(
+                () ->
+                    new IllegalArgumentException(
+                        "No space " + "with an id of '" + id + "' exists"));
     space.setTaskQueueStopped(true);
     api.update(space);
     api.delete(id);

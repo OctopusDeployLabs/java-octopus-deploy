@@ -79,7 +79,6 @@ public class ReleaseResource extends BaseResource {
     this.projectId = projectId;
   }
 
-
   public ReleaseResource assembled(OffsetDateTime assembled) {
 
     this.assembled = assembled;

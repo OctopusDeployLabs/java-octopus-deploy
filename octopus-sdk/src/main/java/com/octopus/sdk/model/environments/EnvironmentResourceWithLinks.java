@@ -17,6 +17,10 @@ package com.octopus.sdk.model.environments;
 
 public class EnvironmentResourceWithLinks extends EnvironmentResource {
 
+  public EnvironmentResourceWithLinks(final String name) {
+    super(name);
+  }
+
   public String getMachinesLink() {
     return getCleansedLink("Machines");
   }

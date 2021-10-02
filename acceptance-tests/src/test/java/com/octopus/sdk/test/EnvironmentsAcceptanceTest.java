@@ -32,8 +32,8 @@ public class EnvironmentsAcceptanceTest extends SpaceScopedAcceptanceTest {
   public void canCreateANewEnvironment() throws IOException {
     final EnvironmentsApi environmentsApi = EnvironmentsApi.create(client, spaceHome);
 
-    final EnvironmentResourceWithLinks environmentToCreate = new EnvironmentResourceWithLinks();
-    environmentToCreate.setName("NewEnv");
+    final EnvironmentResourceWithLinks environmentToCreate =
+        new EnvironmentResourceWithLinks("NewEnv");
     final EnvironmentResourceWithLinks createdEnvironment =
         environmentsApi.create(environmentToCreate);
 

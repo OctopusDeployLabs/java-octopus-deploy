@@ -46,10 +46,8 @@ public class CreateReleaseAcceptanceTest extends SpaceScopedAcceptanceTest {
             .orElseThrow(() -> new RuntimeException("No Project Groups exist on server"));
 
     final ProjectApi projectApi = ProjectApi.create(client, spaceHome);
-    final ProjectResource projectToCreate = new ProjectResource();
-    projectToCreate.setName(projectName);
-    projectToCreate.setLifecycleId("Lifecycles-1");
-    projectToCreate.setProjectGroupId(projectGroup.getId());
+    final ProjectResource projectToCreate =
+        new ProjectResource(projectName, "Lifecycles-1", projectGroup.getId());
     projectApi.create(projectToCreate);
   }
 

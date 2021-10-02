@@ -39,17 +39,24 @@ public class ProjectExecutorRepository {
   }
 
   public ProjectExecutor getById(final String id) throws IOException {
-    final ProjectResourceWithLinks resource = api.getById(id);
+    final ProjectResourceWithLinks resource =
+        api.getById(id)
+            .orElseThrow(
+                () -> new IllegalArgumentException("Cannot find a project with an ID of " + id));
     return new ProjectExecutor(client, resource);
   }
 
   public ProjectExecutor getByName(final String name) throws IOException {
-    final ProjectResourceWithLinks resource = api.getByName(name);
+    final ProjectResourceWithLinks resource =
+        api.getByName(name)
+            .orElseThrow(
+                () -> new IllegalArgumentException("Cannot find a project with a name of " + name));
     return new ProjectExecutor(client, resource);
   }
 
   public List<ProjectExecutor> getAll() throws IOException {
-    return api.getAll().stream().map(resource -> new ProjectExecutor(client, resource))
+    return api.getAll().stream()
+        .map(resource -> new ProjectExecutor(client, resource))
         .collect(Collectors.toList());
   }
 
@@ -58,7 +65,10 @@ public class ProjectExecutorRepository {
   }
 
   public void removeByName(final String name) throws IOException {
-    final ProjectResourceWithLinks resource = api.getByName(name);
+    final ProjectResourceWithLinks resource =
+        api.getByName(name)
+            .orElseThrow(
+                () -> new IllegalArgumentException("Cannot find a project with a name of " + name));
     api.delete(resource.getId());
   }
 }

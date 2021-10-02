@@ -49,15 +49,14 @@ public class SpaceScopedAcceptanceTest extends BaseOctopusServerEnabledTest {
     spacesOverviewApi = SpacesOverviewApi.create(client);
     final UsersApi users = UsersApi.create(client);
 
-    final SpaceOverviewWithLinks toCreate = new SpaceOverviewWithLinks();
     final String spaceName =
         testInfo
             .getDisplayName()
             .substring(
                 testInfo.getDisplayName().length() - 22, testInfo.getDisplayName().length() - 2);
-    toCreate.setName(spaceName);
+    final SpaceOverviewWithLinks toCreate =
+        new SpaceOverviewWithLinks(spaceName, Sets.newHashSet(users.getCurrentUser().getId()));
     LOG.info("Test operating in space {}", spaceName);
-    toCreate.setSpaceManagersTeamMembers(Sets.newHashSet(users.getCurrentUser().getId()));
     try {
       createdSpace = spacesOverviewApi.create(toCreate);
       spaceHome =

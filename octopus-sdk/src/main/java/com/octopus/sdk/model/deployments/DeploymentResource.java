@@ -33,6 +33,7 @@ import com.google.gson.annotations.SerializedName;
 /** DeploymentResource */
 @SuppressWarnings("UnusedVariable")
 public class DeploymentResource extends NamedResource {
+
   @SerializedName("Changes")
   private List<ReleaseChangesResource> changes = null;
 
@@ -119,6 +120,10 @@ public class DeploymentResource extends NamedResource {
 
   @SerializedName("UseGuidedFailure")
   private Boolean useGuidedFailure;
+
+  public DeploymentResource(final String name) {
+    super(name);
+  }
 
   public DeploymentResource changes(List<ReleaseChangesResource> changes) {
 

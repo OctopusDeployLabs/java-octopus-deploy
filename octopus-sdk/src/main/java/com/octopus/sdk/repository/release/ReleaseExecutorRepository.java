@@ -17,14 +17,13 @@ package com.octopus.sdk.repository.release;
 
 import com.octopus.sdk.api.ReleaseApi;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.model.release.ReleaseResourceWithLinks;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ReleaseExecutorRepository  {
+public class ReleaseExecutorRepository {
 
   private final OctopusClient client;
   private final ReleaseApi api;
@@ -40,12 +39,16 @@ public class ReleaseExecutorRepository  {
   }
 
   public ReleaseExecutor getById(final String id) throws IOException {
-    final ReleaseResourceWithLinks resource = api.getById(id);
+    final ReleaseResourceWithLinks resource =
+        api.getById(id)
+            .orElseThrow(
+                () -> new IllegalArgumentException("Cannot find a release with an id of " + id));
     return new ReleaseExecutor(client, resource);
   }
 
   public List<ReleaseExecutor> getAll() throws IOException {
-    return api.getAll().stream().map(resource -> new ReleaseExecutor(client, resource))
+    return api.getAll().stream()
+        .map(resource -> new ReleaseExecutor(client, resource))
         .collect(Collectors.toList());
   }
 

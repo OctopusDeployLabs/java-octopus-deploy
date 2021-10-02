@@ -34,11 +34,14 @@ public class SpaceExecutorRepository {
   public SpaceExecutorRepository(final OctopusClient client) {
     this.client = client;
     this.api = SpacesOverviewApi.create(client);
-    this.homeApi =  new SpaceHomeApi(client);
+    this.homeApi = new SpaceHomeApi(client);
   }
 
   public SpaceHomeExecutor getById(final String id) throws IOException {
-    final SpaceOverviewWithLinks resource = api.getById(id);
+    final SpaceOverviewWithLinks resource =
+        api.getById(id)
+            .orElseThrow(
+                () -> new IllegalArgumentException("Cannot find a space with an ID of " + id));
     final SpaceHome spaceHome = homeApi.getBySpaceOverview(resource);
     return new SpaceHomeExecutor(client, spaceHome);
   }
@@ -49,14 +52,17 @@ public class SpaceExecutorRepository {
   }
 
   public List<SpaceHomeExecutor> getAll() throws IOException {
-    return api.getAll().stream().map(spaceOverview -> {
-      try {
-        final SpaceHome spaceHome = homeApi.getBySpaceOverview(spaceOverview);
-        return new SpaceHomeExecutor(client, spaceHome);
-      } catch (IOException e) {
-        throw new RuntimeException("Failed to get spacehome");
-      }
-    }).collect(Collectors.toList());
+    return api.getAll().stream()
+        .map(
+            spaceOverview -> {
+              try {
+                final SpaceHome spaceHome = homeApi.getBySpaceOverview(spaceOverview);
+                return new SpaceHomeExecutor(client, spaceHome);
+              } catch (IOException e) {
+                throw new RuntimeException("Failed to get spacehome");
+              }
+            })
+        .collect(Collectors.toList());
   }
 
   public void removeById(final String id) throws IOException {
@@ -64,7 +70,10 @@ public class SpaceExecutorRepository {
   }
 
   public void removeByName(final String name) throws IOException {
-    final SpaceOverviewWithLinks resource = api.getByName(name);
+    final SpaceOverviewWithLinks resource =
+        api.getByName(name)
+            .orElseThrow(
+                () -> new IllegalArgumentException("Cannot find a space with a name of " + name));
     api.delete(resource.getId());
   }
 }

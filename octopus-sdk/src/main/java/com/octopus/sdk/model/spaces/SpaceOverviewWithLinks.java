@@ -15,7 +15,13 @@
 
 package com.octopus.sdk.model.spaces;
 
+import java.util.Set;
+
 public class SpaceOverviewWithLinks extends SpaceOverviewResource {
+
+  public SpaceOverviewWithLinks(final String name, final Set<String> spaceManagersTeamMembers) {
+    super(name, spaceManagersTeamMembers);
+  }
 
   public String getLogoLink() {
     return getCleansedLink("Logo");

@@ -37,6 +37,7 @@ public class BaseResourceApi<
     RESPONSE_TYPE extends BaseResource,
     PAGINATION_TYPE extends PaginatedCollection<RESPONSE_TYPE>> {
 
+  private static final Logger LOG = LogManager.getLogger();
 
   protected final OctopusClient client;
   protected final String rootPath;
@@ -54,30 +55,33 @@ public class BaseResourceApi<
     this.collectionType = collectionType;
   }
 
-  public RESPONSE_TYPE getById(final String id) throws IOException {
+  public Optional<RESPONSE_TYPE> getById(final String id) throws IOException {
     Preconditions.checkNotNull(id, "Cannot provide a resource with a null id");
     final String spacePath = String.format("%s/%s", rootPath, id);
     try {
-      return client.get(RequestEndpoint.fromPath(spacePath), responseType);
+      final RESPONSE_TYPE overview = client.get(RequestEndpoint.fromPath(spacePath), responseType);
+      return Optional.of(overview);
     } catch (final HttpException e) {
-      final String error = String.format(
-          "Failed to retrieve a space with an Id of %s (http %s:%s)",
+      LOG.error(
+          "Failed to retrieve a resource with an Id of {} (http {}:{})",
           id,
           e.getStatusCode(),
           e.getMessage());
-      throw new RuntimeException(error);
+      return Optional.empty();
     } catch (final JsonSyntaxException e) {
       final String error =
           String.format(
-              "Failed to deserialize returned resource for space %s on Octopus Server %s",
+              "Failed to deserialize returned resource of id %s from Octopus Server %s",
               id, client.getServerUrl());
       throw new RuntimeException(error, e);
     }
   }
 
   public void delete(final String id) throws IOException {
-    final RESPONSE_TYPE resource = getById(id);
-    client.delete(RequestEndpoint.fromPath(resource.getSelfLink()));
+    final Optional<RESPONSE_TYPE> resource = getById(id);
+    if (resource.isPresent()) {
+      client.delete(RequestEndpoint.fromPath(resource.get().getSelfLink()));
+    }
   }
 
   public void delete(final CREATE_TYPE resource) throws IOException {

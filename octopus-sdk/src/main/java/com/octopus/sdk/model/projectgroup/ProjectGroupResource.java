@@ -42,6 +42,10 @@ public class ProjectGroupResource extends NamedResource {
   @SerializedName("SpaceId")
   private String spaceId;
 
+  public ProjectGroupResource(final String name) {
+    super(name);
+  }
+
   public ProjectGroupResource environmentIds(Set<String> environmentIds) {
 
     this.environmentIds = environmentIds;

@@ -29,5 +29,4 @@ public class Repository {
   public SpaceExecutorRepository spaces() {
     return new SpaceExecutorRepository(client);
   }
-
 }

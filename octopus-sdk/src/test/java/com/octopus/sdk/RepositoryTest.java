@@ -15,14 +15,15 @@
 
 package com.octopus.sdk;
 
+import static org.mockito.Mockito.mock;
+
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.repository.Repository;
-import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static org.mockito.Mockito.mock;
+import org.junit.jupiter.api.Test;
 
 public class RepositoryTest {
   @Test

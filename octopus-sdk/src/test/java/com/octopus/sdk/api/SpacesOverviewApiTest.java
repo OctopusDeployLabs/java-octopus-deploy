@@ -19,6 +19,7 @@ import static com.octopus.sdk.support.TestHelpers.defaultRootDoc;
 import static com.octopus.sdk.support.TestHelpers.rootDocWithLinks;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
+import static java.util.Collections.emptySet;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -80,8 +81,7 @@ class SpacesOverviewApiTest {
   @Test
   public void exactMatchNameReturnsASingleItem() throws IOException {
     final String SPACE_NAME = "ArbitraryName";
-    final SpaceOverviewWithLinks toReturn = new SpaceOverviewWithLinks();
-    toReturn.setName(SPACE_NAME);
+    final SpaceOverviewWithLinks toReturn = new SpaceOverviewWithLinks(SPACE_NAME, emptySet());
 
     final SpaceOverviewPaginatedCollection returnedCollection =
         new SpaceOverviewPaginatedCollection(emptyMap(), 1, 30, 1, 0, singletonList(toReturn));
@@ -112,8 +112,7 @@ class SpacesOverviewApiTest {
   @Test
   public void canFindSpaceContainingWhoseNameContainsASpace() throws IOException {
     final String SPACE_NAME = "Arbitrary Name With Spaces";
-    final SpaceOverviewWithLinks toReturn = new SpaceOverviewWithLinks();
-    toReturn.setName(SPACE_NAME);
+    final SpaceOverviewWithLinks toReturn = new SpaceOverviewWithLinks(SPACE_NAME, emptySet());
 
     final SpaceOverviewPaginatedCollection returnedCollection =
         new SpaceOverviewPaginatedCollection(emptyMap(), 1, 30, 1, 0, singletonList(toReturn));

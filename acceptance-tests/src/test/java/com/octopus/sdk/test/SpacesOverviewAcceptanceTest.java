@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.assertj.core.util.Lists;
@@ -75,9 +76,9 @@ public class SpacesOverviewAcceptanceTest extends BaseOctopusServerEnabledTest {
 
     assertThat(spacesOverviewApi.getByName(spaceName)).isEmpty();
 
-    final SpaceOverviewWithLinks toCreate = new SpaceOverviewWithLinks();
-    toCreate.setName(spaceName);
-    toCreate.setSpaceManagersTeamMembers(Sets.newLinkedHashSet(users.getCurrentUser().getId()));
+    final SpaceOverviewWithLinks toCreate =
+        new SpaceOverviewWithLinks(
+            spaceName, Sets.newLinkedHashSet(users.getCurrentUser().getId()));
 
     final SpaceOverviewWithLinks createdSpace = spacesOverviewApi.create(toCreate);
 
@@ -105,11 +106,10 @@ public class SpacesOverviewAcceptanceTest extends BaseOctopusServerEnabledTest {
 
     final List<SpaceOverviewWithLinks> spacesCreated = Lists.newArrayList();
     try {
+      final Set<String> spaceManagerTeam = Sets.newLinkedHashSet(users.getCurrentUser().getId());
       for (int i = 0; i < 10; i++) {
-        final SpaceOverviewWithLinks toCreate = new SpaceOverviewWithLinks();
-        toCreate.setName(String.format("Space%d", i));
-        toCreate.setSpaceManagersTeamMembers(Sets.newLinkedHashSet(users.getCurrentUser().getId()));
-
+        final SpaceOverviewWithLinks toCreate =
+            new SpaceOverviewWithLinks(String.format("Space%d", i), spaceManagerTeam);
         spacesCreated.add(spacesOverviewApi.create(toCreate));
       }
 
@@ -147,9 +147,9 @@ public class SpacesOverviewAcceptanceTest extends BaseOctopusServerEnabledTest {
 
     assertThat(spacesOverviewApi.getByName(spaceName)).isEmpty();
 
-    final SpaceOverviewWithLinks toCreate = new SpaceOverviewWithLinks();
-    toCreate.setName(spaceName);
-    toCreate.setSpaceManagersTeamMembers(Sets.newLinkedHashSet(users.getCurrentUser().getId()));
+    final SpaceOverviewWithLinks toCreate =
+        new SpaceOverviewWithLinks(
+            spaceName, Sets.newLinkedHashSet(users.getCurrentUser().getId()));
 
     final SpaceOverviewWithLinks createdSpace = spacesOverviewApi.create(toCreate);
     try {

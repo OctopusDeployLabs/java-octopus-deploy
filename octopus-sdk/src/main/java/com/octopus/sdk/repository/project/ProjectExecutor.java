@@ -25,8 +25,8 @@ public class ProjectExecutor {
   private final OctopusClient client;
   private final ProjectResourceWithLinks resourceWithLinks;
 
-  public ProjectExecutor(final OctopusClient client,
-      final ProjectResourceWithLinks resourceWithLinks) {
+  public ProjectExecutor(
+      final OctopusClient client, final ProjectResourceWithLinks resourceWithLinks) {
     this.client = client;
     this.resourceWithLinks = resourceWithLinks;
   }

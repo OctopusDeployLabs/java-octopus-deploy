@@ -15,6 +15,7 @@
 
 package com.octopus.sdk;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 import com.octopus.sdk.http.OctopusClient;
@@ -34,5 +35,7 @@ public class RepositoryTest {
 
     final ProjectResourceWithLinks resource =
         repo.spaces().getByName("MySpace").projects().getByName("myProject").getProperties();
+
+    assertThat(resource).isNotNull();
   }
 }

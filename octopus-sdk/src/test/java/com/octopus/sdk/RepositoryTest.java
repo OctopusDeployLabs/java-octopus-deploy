@@ -16,6 +16,7 @@
 package com.octopus.sdk;
 
 import com.octopus.sdk.http.OctopusClient;
+import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.repository.Repository;
 import org.junit.jupiter.api.Test;
 
@@ -30,8 +31,7 @@ public class RepositoryTest {
     final OctopusClient mockClient = mock(OctopusClient.class);
     final Repository repo = new Repository(mockClient);
 
-    repo.spaces().getByName("MySpace").get().getByName("myProject")
-
-
+    final ProjectResourceWithLinks resource =
+        repo.spaces().getByName("MySpace").projects().getByName("myProject").getProperties();
   }
 }

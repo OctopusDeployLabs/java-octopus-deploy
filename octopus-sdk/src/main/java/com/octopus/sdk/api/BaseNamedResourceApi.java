@@ -48,7 +48,7 @@ public abstract class BaseNamedResourceApi<
     return getByQuery(singletonMap("partialName", singletonList(partialName)));
   }
 
-  public Optional<RESPONSE_TYPE> getByName(final String completeName) throws IOException {
+  public RESPONSE_TYPE getByName(final String completeName) throws IOException {
     Preconditions.checkNotNull(completeName, "Cannot search for a space with a null name");
 
     final List<RESPONSE_TYPE> partialNameMatch = getByPartialName(completeName);
@@ -59,9 +59,9 @@ public abstract class BaseNamedResourceApi<
             .collect(Collectors.toList());
 
     if (exactNameMatch.size() == 0) {
-      return Optional.empty();
+      throw new RuntimeException("Requested Resource " + completeName + " does not exist");
     } else if (exactNameMatch.size() == 1) {
-      return Optional.of(exactNameMatch.get(0));
+      return exactNameMatch.get(0);
     } else {
       throw new IllegalStateException(
           "Octopus Server reports more than 1 space with an identical name");

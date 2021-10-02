@@ -49,15 +49,9 @@ public class SpaceHomeApi {
     Preconditions.checkNotNull(spaceName, "Cannot find space with a null name");
 
     final SpacesOverviewApi spacesApi = SpacesOverviewApi.create(client);
-    final Optional<SpaceOverviewWithLinks> containingSpace = spacesApi.getByName(spaceName);
-    if (!containingSpace.isPresent()) {
-      final String error =
-          String.format(
-              "No space with name '%s' exists on server '%s'", spaceName, client.getServerUrl());
-      throw new IllegalArgumentException(error);
-    }
+    final SpaceOverviewWithLinks containingSpace = spacesApi.getByName(spaceName);
 
-    return getBySpaceOverview(containingSpace.get());
+    return getBySpaceOverview(containingSpace);
   }
 
   public SpaceHome getBySpaceOverview(final SpaceOverviewWithLinks spaceOverview)

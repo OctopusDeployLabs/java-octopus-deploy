@@ -17,6 +17,10 @@ package com.octopus.sdk.model.project;
 
 public class ProjectResourceWithLinks extends ProjectResource {
 
+  public ProjectResourceWithLinks(final String name, final String lifecycleId, final String projectgroupId) {
+    super(name, lifecycleId, projectgroupId);
+  }
+
   public String getChannelsLink() {
     return getCleansedLink("Channels");
   }

@@ -36,10 +36,8 @@ public class ProjectsAcceptanceTest extends SpaceScopedAcceptanceTest {
   @Test
   public void canCreateProjectWithinASpaceQueryForItAndDeleteIt() throws IOException {
     final ProjectApi projectApi = ProjectApi.create(client, spaceHome);
-    final ProjectResourceWithLinks projectToCreate = new ProjectResourceWithLinks();
-    projectToCreate.setName("Test Project");
-    projectToCreate.setLifecycleId("Lifecycles-1");
-    projectToCreate.setProjectGroupId("ProjectGroups-42");
+    final ProjectResourceWithLinks projectToCreate = new ProjectResourceWithLinks("Test Project", "Lifecycles-1",
+        "ProjectGroups-42");
     final ProjectResource createdProject = projectApi.create(projectToCreate);
     assertThat(createdProject).isNotNull();
   }

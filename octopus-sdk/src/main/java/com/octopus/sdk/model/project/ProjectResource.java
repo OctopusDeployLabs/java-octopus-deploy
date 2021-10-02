@@ -35,6 +35,12 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("UnusedVariable")
 public class ProjectResource extends NamedResource {
 
+  ProjectResource(final String name, final String lifecycleId, final String projectgroupId) {
+    super(name);
+    this.lifecycleId = lifecycleId;
+    this.projectGroupId = projectgroupId;
+  }
+
   @SerializedName("AutoCreateRelease")
   private Boolean autoCreateRelease;
 

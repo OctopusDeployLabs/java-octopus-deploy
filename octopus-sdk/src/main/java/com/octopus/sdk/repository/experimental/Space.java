@@ -13,17 +13,16 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.repository;
+package com.octopus.sdk.repository.experimental;
 
 import com.octopus.sdk.api.SpaceHomeApi;
-import com.octopus.sdk.api.SpaceOverviewApi;
+import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.space.SpaceHome;
-import com.octopus.sdk.model.space.SpaceOverviewWithLinks;
+import com.octopus.sdk.model.spaces.SpaceHome;
+import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 
 import java.io.IOException;
 import java.time.OffsetDateTime;
-import java.util.Optional;
 import java.util.Set;
 
 public class Space {
@@ -37,18 +36,14 @@ public class Space {
   }
 
   public static Space create(final OctopusClient client, final String spaceName) throws IOException {
-    final SpaceOverviewApi spaceOverviewApi = SpaceOverviewApi.create(client);
+    final SpacesOverviewApi spaceOverviewApi = SpacesOverviewApi.create(client);
 
-    final Optional<SpaceOverviewWithLinks> spaceOverviewWithLinks = spaceOverviewApi.getByName(spaceName);
-
-    if(!spaceOverviewWithLinks.isPresent()){
-      throw new RuntimeException("No space called " + spaceName + " exists on server");
-    }
+    final SpaceOverviewWithLinks spaceOverviewWithLinks = spaceOverviewApi.getByName(spaceName);
 
     final SpaceHomeApi homeApi = new SpaceHomeApi(client);
     final SpaceHome spaceHome = homeApi.getByName(spaceName);
 
-    return new Space(spaceOverviewWithLinks.get(), spaceHome);
+    return new Space(spaceOverviewWithLinks, spaceHome);
   }
 
   public Boolean getDefault() {

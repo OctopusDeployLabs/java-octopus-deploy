@@ -15,8 +15,8 @@
 
 package com.octopus.sdk.repository;
 
-import com.octopus.sdk.api.SpaceOverviewApi;
 import com.octopus.sdk.http.OctopusClient;
+import com.octopus.sdk.repository.space.SpaceExecutorRepository;
 
 public class Repository {
 
@@ -26,8 +26,8 @@ public class Repository {
     this.client = client;
   }
 
-  public SpaceOverviewApi spaces() {
-    return SpaceOverviewApi.create(client);
+  public SpaceExecutorRepository spaces() {
+    return new SpaceExecutorRepository(client);
   }
 
 }

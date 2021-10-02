@@ -16,7 +16,7 @@
 package com.octopus.sdk.repository;
 
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.repository.space.SpaceExecutorRepository;
+import com.octopus.sdk.repository.space.SpaceRepository;
 
 public class Repository {
 
@@ -26,7 +26,7 @@ public class Repository {
     this.client = client;
   }
 
-  public SpaceExecutorRepository spaces() {
-    return new SpaceExecutorRepository(client);
+  public SpaceRepository spaces() {
+    return new SpaceRepository(client);
   }
 }

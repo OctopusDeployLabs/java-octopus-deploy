@@ -23,24 +23,31 @@ import com.octopus.sdk.api.ProjectGroupsApi;
 import com.octopus.sdk.api.ReleaseApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.spaces.SpaceHome;
-import com.octopus.sdk.repository.project.ProjectExecutorRepository;
+import com.octopus.sdk.model.spaces.SpaceOverviewResource;
+import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
+import com.octopus.sdk.repository.project.ProjectRepository;
+import com.octopus.sdk.repository.projectgroup.ProjectGroup;
+import com.octopus.sdk.repository.projectgroup.ProjectGroupRepository;
+import com.octopus.sdk.repository.release.ReleaseRepository;
 
-public class SpaceHomeExecutor {
+public class Space {
   private final OctopusClient client;
   private final SpaceHome spaceHome;
+  private final SpaceOverviewWithLinks spaceOverviewResource;
 
-  public SpaceHomeExecutor(final OctopusClient client, final SpaceHome spaceHome) {
+  public Space(final OctopusClient client, final SpaceHome spaceHome,
+      final SpaceOverviewWithLinks spaceOverviewResource) {
     this.client = client;
     this.spaceHome = spaceHome;
+    this.spaceOverviewResource = spaceOverviewResource;
   }
 
-  public ProjectExecutorRepository projects() {
-    final ProjectApi api = ProjectApi.create(client, spaceHome);
-    return new ProjectExecutorRepository(client, api);
+  public ProjectRepository projects() {
+    return new ProjectRepository(client, ProjectApi.create(client, spaceHome));
   }
 
-  public ReleaseApi releases() {
-    return ReleaseApi.create(client, spaceHome);
+  public ReleaseRepository releases() {
+    return new ReleaseRepository(client, ReleaseApi.create(client, spaceHome));
   }
 
   public EnvironmentsApi environments() {
@@ -51,11 +58,14 @@ public class SpaceHomeExecutor {
     return PackagesApi.create(client, spaceHome);
   }
 
-  public ProjectGroupsApi projectGroups() {
-    return ProjectGroupsApi.create(client, spaceHome);
+  public ProjectGroupRepository projectGroups() {
+    return new ProjectGroupRepository(client, ProjectGroupsApi.create(client, spaceHome));
   }
 
   public BuildInformationApi buildInformation() {
     return BuildInformationApi.create(client, spaceHome);
   }
+
+  public SpaceOverviewWithLinks getProperties() { return spaceOverviewResource; }
+
 }

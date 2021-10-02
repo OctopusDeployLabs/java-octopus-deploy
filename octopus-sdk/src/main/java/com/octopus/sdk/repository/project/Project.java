@@ -18,14 +18,14 @@ package com.octopus.sdk.repository.project;
 import com.octopus.sdk.api.ReleaseApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
-import com.octopus.sdk.repository.release.ReleaseExecutorRepository;
+import com.octopus.sdk.repository.release.ReleaseRepository;
 
-public class ProjectExecutor {
+public class Project {
 
   private final OctopusClient client;
   private final ProjectResourceWithLinks resourceWithLinks;
 
-  public ProjectExecutor(
+  public Project(
       final OctopusClient client, final ProjectResourceWithLinks resourceWithLinks) {
     this.client = client;
     this.resourceWithLinks = resourceWithLinks;
@@ -63,9 +63,9 @@ public class ProjectExecutor {
     throw new UnsupportedOperationException();
   }
 
-  public ReleaseExecutorRepository getReleases() {
+  public ReleaseRepository getReleases() {
     final ReleaseApi api = new ReleaseApi(client, resourceWithLinks.getReleasesLink());
-    return new ReleaseExecutorRepository(client, api);
+    return new ReleaseRepository(client, api);
   }
 
   public String getRunbookSnapshots() {

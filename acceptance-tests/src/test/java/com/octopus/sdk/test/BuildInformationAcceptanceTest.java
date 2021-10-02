@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.octopus.sdk.api.BuildInformationApi;
 import com.octopus.sdk.api.OverwriteMode;
+import com.octopus.sdk.api.SpaceHomeApi;
 import com.octopus.sdk.http.HttpException;
 import com.octopus.sdk.model.buildinformation.BuildInformationResource;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
@@ -28,6 +29,7 @@ import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformat
 import java.io.IOException;
 import java.util.Collections;
 
+import com.octopus.sdk.model.spaces.SpaceHome;
 import org.junit.jupiter.api.Test;
 
 public class BuildInformationAcceptanceTest extends SpaceScopedAcceptanceTest {

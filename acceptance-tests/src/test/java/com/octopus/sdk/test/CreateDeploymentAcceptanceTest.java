@@ -36,6 +36,8 @@ import com.octopus.sdk.operations.ExecutionsCreateApi;
 import java.io.IOException;
 import java.util.Optional;
 
+import com.octopus.sdk.repository.project.Project;
+import com.octopus.sdk.repository.projectgroup.ProjectGroup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -48,27 +50,20 @@ public class CreateDeploymentAcceptanceTest extends SpaceScopedAcceptanceTest {
 
   @BeforeEach
   public void createDeploymentAcceptanceTestSetup() throws IOException {
-    final ProjectGroupsApi projectGroupsApi = ProjectGroupsApi.create(client, spaceHome);
-    final ProjectGroupResourceWithLinks projectGroup =
-        projectGroupsApi.getAll().stream()
-            .findFirst()
-            .orElseThrow(() -> new RuntimeException("No Project Groups exist on server"));
+    final ProjectGroup projectGroup = createdSpace.projectGroups().getAll().stream()
+        .findFirst()
+        .orElseThrow(() -> new RuntimeException("No Project Groups exist on server"));
 
-    final ProjectApi projectApi = ProjectApi.create(client, spaceHome);
-    final ProjectResource projectToCreate =
-        new ProjectResource(projectName, "Lifecycles-1", projectGroup.getId());
-    final ProjectResourceWithLinks projectCreated = projectApi.create(projectToCreate);
+    final ProjectResourceWithLinks projectToCreate =
+        new ProjectResourceWithLinks(projectName, "Lifecycles-1", projectGroup.getProperties().getId());
+    final Project projectCreated = projectGroup.getProjects().create(projectToCreate);
 
     final EnvironmentsApi environmentApi = EnvironmentsApi.create(client, spaceHome);
     final EnvironmentResourceWithLinks envToCreate = new EnvironmentResourceWithLinks(envName);
     environmentApi.create(envToCreate);
 
-    final ReleaseApi releaseApi = ReleaseApi.create(client, spaceHome);
-    final ReleaseResourceWithLinks release = new ReleaseResourceWithLinks();
-    release.setVersion(releaseVersion);
-    release.setProjectId(projectCreated.getId());
-
-    releaseApi.create(release);
+    createdSpace.releases().create(new ReleaseResourceWithLinks(releaseVersion,
+        projectCreated.getProperties().getId()));
   }
 
   @Test
@@ -79,7 +74,7 @@ public class CreateDeploymentAcceptanceTest extends SpaceScopedAcceptanceTest {
 
     final String deploymentId =
         ExecutionsCreateApi.createDeployment(
-            client, new CommandBody<>(createdSpace.getName(), params));
+            client, new CommandBody<>(createdSpace.getProperties().getName(), params));
 
     final DeploymentsApi deploymentsApi = DeploymentsApi.create(client, spaceHome);
     final Optional<DeploymentResourceWithLinks> deployment = deploymentsApi.getById(deploymentId);

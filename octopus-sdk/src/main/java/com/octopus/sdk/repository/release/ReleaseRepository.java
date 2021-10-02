@@ -23,32 +23,32 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ReleaseExecutorRepository {
+public class ReleaseRepository {
 
   private final OctopusClient client;
   private final ReleaseApi api;
 
-  public ReleaseExecutorRepository(final OctopusClient client, final ReleaseApi api) {
+  public ReleaseRepository(final OctopusClient client, final ReleaseApi api) {
     this.client = client;
     this.api = api;
   }
 
-  public ReleaseExecutor create(final ReleaseResourceWithLinks resource) throws IOException {
+  public Release create(final ReleaseResourceWithLinks resource) throws IOException {
     final ReleaseResourceWithLinks response = api.create(resource);
-    return new ReleaseExecutor(client, response);
+    return new Release(client, response);
   }
 
-  public ReleaseExecutor getById(final String id) throws IOException {
+  public Release getById(final String id) throws IOException {
     final ReleaseResourceWithLinks resource =
         api.getById(id)
             .orElseThrow(
                 () -> new IllegalArgumentException("Cannot find a release with an id of " + id));
-    return new ReleaseExecutor(client, resource);
+    return new Release(client, resource);
   }
 
-  public List<ReleaseExecutor> getAll() throws IOException {
+  public List<Release> getAll() throws IOException {
     return api.getAll().stream()
-        .map(resource -> new ReleaseExecutor(client, resource))
+        .map(resource -> new Release(client, resource))
         .collect(Collectors.toList());
   }
 

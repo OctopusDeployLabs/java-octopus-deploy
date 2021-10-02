@@ -23,40 +23,40 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProjectExecutorRepository {
+public class ProjectRepository {
 
   private final OctopusClient client;
   private final ProjectApi api;
 
-  public ProjectExecutorRepository(final OctopusClient client, final ProjectApi api) {
+  public ProjectRepository(final OctopusClient client, final ProjectApi api) {
     this.client = client;
     this.api = api;
   }
 
-  public ProjectExecutor create(final ProjectResourceWithLinks resource) throws IOException {
+  public Project create(final ProjectResourceWithLinks resource) throws IOException {
     final ProjectResourceWithLinks response = api.create(resource);
-    return new ProjectExecutor(client, response);
+    return new Project(client, response);
   }
 
-  public ProjectExecutor getById(final String id) throws IOException {
+  public Project getById(final String id) throws IOException {
     final ProjectResourceWithLinks resource =
         api.getById(id)
             .orElseThrow(
                 () -> new IllegalArgumentException("Cannot find a project with an ID of " + id));
-    return new ProjectExecutor(client, resource);
+    return new Project(client, resource);
   }
 
-  public ProjectExecutor getByName(final String name) throws IOException {
+  public Project getByName(final String name) throws IOException {
     final ProjectResourceWithLinks resource =
         api.getByName(name)
             .orElseThrow(
                 () -> new IllegalArgumentException("Cannot find a project with a name of " + name));
-    return new ProjectExecutor(client, resource);
+    return new Project(client, resource);
   }
 
-  public List<ProjectExecutor> getAll() throws IOException {
+  public List<Project> getAll() throws IOException {
     return api.getAll().stream()
-        .map(resource -> new ProjectExecutor(client, resource))
+        .map(resource -> new Project(client, resource))
         .collect(Collectors.toList());
   }
 

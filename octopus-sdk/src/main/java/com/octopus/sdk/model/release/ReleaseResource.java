@@ -74,6 +74,12 @@ public class ReleaseResource extends BaseResource {
   @SerializedName("VersionControlReference")
   private VersionControlReferenceResource versionControlReference;
 
+  public ReleaseResource(final String version, final String projectId) {
+    this.version = version;
+    this.projectId = projectId;
+  }
+
+
   public ReleaseResource assembled(OffsetDateTime assembled) {
 
     this.assembled = assembled;

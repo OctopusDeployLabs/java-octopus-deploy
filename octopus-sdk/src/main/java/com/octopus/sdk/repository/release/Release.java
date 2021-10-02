@@ -19,16 +19,16 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.model.release.ReleaseResourceWithLinks;
-import com.octopus.sdk.repository.project.ProjectExecutor;
+import com.octopus.sdk.repository.project.Project;
 
 import java.io.IOException;
 
-public class ReleaseExecutor {
+public class Release {
 
   private final OctopusClient client;
   private final ReleaseResourceWithLinks resourceWithLinks;
 
-  public ReleaseExecutor(
+  public Release(
       final OctopusClient client, final ReleaseResourceWithLinks resourceWithLinks) {
     this.client = client;
     this.resourceWithLinks = resourceWithLinks;
@@ -38,11 +38,11 @@ public class ReleaseExecutor {
     return resourceWithLinks;
   }
 
-  public ProjectExecutor getProject() throws IOException {
+  public Project getProject() throws IOException {
     final ProjectResourceWithLinks resource =
         client.get(
             RequestEndpoint.fromPath(resourceWithLinks.getProjectLink()),
             ProjectResourceWithLinks.class);
-    return new ProjectExecutor(client, resource);
+    return new Project(client, resource);
   }
 }

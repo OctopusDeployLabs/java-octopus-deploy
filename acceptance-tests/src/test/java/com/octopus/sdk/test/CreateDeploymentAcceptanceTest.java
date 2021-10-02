@@ -19,7 +19,6 @@ import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.octopus.sdk.api.DeploymentsApi;
-import com.octopus.sdk.api.EnvironmentsApi;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
 import com.octopus.sdk.model.deployments.DeploymentResourceWithLinks;
@@ -55,9 +54,7 @@ public class CreateDeploymentAcceptanceTest extends SpaceScopedAcceptanceTest {
             projectName, "Lifecycles-1", projectGroup.getProperties().getId());
     final Project projectCreated = projectGroup.getProjects().create(projectToCreate);
 
-    final EnvironmentsApi environmentApi = EnvironmentsApi.create(client, spaceHome);
-    final EnvironmentResourceWithLinks envToCreate = new EnvironmentResourceWithLinks(envName);
-    environmentApi.create(envToCreate);
+    createdSpace.environments().create(new EnvironmentResourceWithLinks(envName));
 
     createdSpace
         .releases()

@@ -17,15 +17,13 @@ package com.octopus.sdk.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.octopus.sdk.api.ProjectApi;
-import com.octopus.sdk.api.ProjectGroupsApi;
 import com.octopus.sdk.api.ReleaseApi;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateReleaseCommandParameters;
-import com.octopus.sdk.model.project.ProjectResource;
-import com.octopus.sdk.model.projectgroup.ProjectGroupResourceWithLinks;
+import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.model.release.ReleaseResourceWithLinks;
 import com.octopus.sdk.operations.ExecutionsCreateApi;
+import com.octopus.sdk.repository.projectgroup.ProjectGroup;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -39,16 +37,16 @@ public class CreateReleaseAcceptanceTest extends SpaceScopedAcceptanceTest {
 
   @BeforeEach
   public void createDeploymentAcceptanceTestSetup() throws IOException {
-    final ProjectGroupsApi projectGroupsApi = ProjectGroupsApi.create(client, spaceHome);
-    final ProjectGroupResourceWithLinks projectGroup =
-        projectGroupsApi.getAll().stream()
+    final ProjectGroup projectGroup =
+        createdSpace.projectGroups().getAll().stream()
             .findFirst()
             .orElseThrow(() -> new RuntimeException("No Project Groups exist on server"));
 
-    final ProjectApi projectApi = ProjectApi.create(client, spaceHome);
-    final ProjectResource projectToCreate =
-        new ProjectResource(projectName, "Lifecycles-1", projectGroup.getId());
-    projectApi.create(projectToCreate);
+    projectGroup
+        .getProjects()
+        .create(
+            new ProjectResourceWithLinks(
+                projectName, "Lifecycles-1", projectGroup.getProperties().getId()));
   }
 
   @Test
@@ -58,7 +56,7 @@ public class CreateReleaseAcceptanceTest extends SpaceScopedAcceptanceTest {
     final CreateReleaseCommandParameters parameters =
         new CreateReleaseCommandParameters(projectName, releaseVersion);
     final CommandBody<CreateReleaseCommandParameters> body =
-        new CommandBody<>(createdSpace.getName(), parameters);
+        new CommandBody<>(createdSpace.getProperties().getName(), parameters);
 
     final String createdReleaseId = ExecutionsCreateApi.createRelease(client, body);
 

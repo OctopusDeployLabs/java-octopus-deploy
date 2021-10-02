@@ -20,7 +20,9 @@ import com.octopus.sdk.model.environments.EnvironmentResourceWithLinks;
 
 public class Environment {
 
+  @SuppressWarnings("UnusedVariable")
   private final OctopusClient client;
+
   private final EnvironmentResourceWithLinks resourceWithLinks;
 
   public Environment(

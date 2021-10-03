@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -110,28 +111,33 @@ public abstract class BaseResourceApi<
       throws IOException {
     final RequestEndpoint endpoint = new RequestEndpoint(rootPath, queryParams);
     final PAGINATION_TYPE itemCollection = client.get(endpoint, collectionType);
+    return getItemsFromPages(itemCollection).stream().map(this::createServerObject).collect(Collectors.toList());
+  }
+
+  protected List<RESPONSE_TYPE> getRawByQuery(final Map<String, List<String>> queryParams)
+      throws IOException {
+    final RequestEndpoint endpoint = new RequestEndpoint(rootPath, queryParams);
+    final PAGINATION_TYPE itemCollection = client.get(endpoint, collectionType);
     return getItemsFromPages(itemCollection);
   }
 
   public List<WRAPPED_TYPE> getAll() throws IOException {
     final RequestEndpoint endpoint = RequestEndpoint.fromPath(rootPath);
     final PAGINATION_TYPE itemCollection = client.get(endpoint, collectionType);
-    return getItemsFromPages(itemCollection);
+    return getItemsFromPages(itemCollection).stream().map(this::createServerObject).collect(Collectors.toList());
   }
 
-  protected List<WRAPPED_TYPE> getItemsFromPages(final PAGINATION_TYPE collection)
+  protected List<RESPONSE_TYPE> getItemsFromPages(final PAGINATION_TYPE collection)
       throws IOException {
+    final List<RESPONSE_TYPE> result = Lists.newArrayList(collection.getItems());
     PAGINATION_TYPE localCollection = collection;
-
-    final List<WRAPPED_TYPE> result = Lists.newArrayList();
-    localCollection.getItems().forEach(i -> result.add(createServerObject(i)));
 
     while (localCollection.getPageNext() != null) {
       localCollection =
           client.get(
               RequestEndpoint.fromPathWithQueryString(localCollection.getPageNext()),
               collectionType);
-      localCollection.getItems().forEach(i -> result.add(createServerObject(i)));
+      result.addAll(localCollection.getItems());
     }
 
     return result;

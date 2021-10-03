@@ -17,13 +17,16 @@ package com.octopus.sdk.api;
 
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.projectgroup.ProjectGroupPaginatedCollection;
+import com.octopus.sdk.model.projectgroup.ProjectGroupResource;
 import com.octopus.sdk.model.projectgroup.ProjectGroupResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
 
 import com.google.common.base.Preconditions;
+import com.octopus.sdk.repository.projectgroup.ProjectGroup;
 
 public class ProjectGroupsApi
-    extends SymmetricApi<ProjectGroupResourceWithLinks, ProjectGroupPaginatedCollection> {
+    extends BaseNamedResourceApi<ProjectGroupResource, ProjectGroupResourceWithLinks, ProjectGroupPaginatedCollection
+    , ProjectGroup> {
 
   public ProjectGroupsApi(final OctopusClient client, final String rootPath) {
     super(
@@ -38,5 +41,9 @@ public class ProjectGroupsApi
     Preconditions.checkNotNull(
         spaceHome, "Cannot create a ProjectGroupsApi in a space with a 'null' space");
     return new ProjectGroupsApi(client, spaceHome.getProjectGroupsLink());
+  }
+
+  @Override public ProjectGroup createServerObject(final ProjectGroupResourceWithLinks resource) {
+    return new ProjectGroup(client, resource);
   }
 }

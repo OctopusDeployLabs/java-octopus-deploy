@@ -19,8 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.octopus.sdk.api.ProjectApi;
 import com.octopus.sdk.model.project.ProjectResource;
-import com.octopus.sdk.model.project.ProjectResourceWithLinks;
-import com.octopus.sdk.repository.project.ProjectRepository;
 
 import java.io.IOException;
 

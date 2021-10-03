@@ -23,7 +23,6 @@ import com.octopus.sdk.model.spaces.SpaceHome;
 
 import com.google.common.base.Preconditions;
 import com.octopus.sdk.repository.project.Project;
-import com.octopus.sdk.repository.project.ProjectRepository;
 
 public class ProjectApi
     extends BaseNamedResourceApi<

@@ -13,29 +13,24 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.repository.projectgroup;
+package com.octopus.sdk.repository.deployment;
 
-import com.octopus.sdk.api.ProjectApi;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.projectgroup.ProjectGroupResourceWithLinks;
+import com.octopus.sdk.model.deployments.DeploymentResourceWithLinks;
 
-public class ProjectGroup {
+public class Deployment {
 
+  @SuppressWarnings("UnusedVariable")
   private final OctopusClient client;
-  private final ProjectGroupResourceWithLinks resourceWithLinks;
+  private final DeploymentResourceWithLinks properties;
 
-  public ProjectGroup(
-      final OctopusClient client, final ProjectGroupResourceWithLinks resourceWithLinks) {
+  public Deployment(final OctopusClient client, final DeploymentResourceWithLinks properties) {
     this.client = client;
-    this.resourceWithLinks = resourceWithLinks;
+    this.properties = properties;
   }
 
-  public ProjectApi getProjects() {
-    final String link = resourceWithLinks.getProjectsLink();
-    return new ProjectApi(client, link);
-  }
-
-  public ProjectGroupResourceWithLinks getProperties() {
-    return resourceWithLinks;
+  public DeploymentResourceWithLinks getProperties() {
+    return properties;
   }
 }
+

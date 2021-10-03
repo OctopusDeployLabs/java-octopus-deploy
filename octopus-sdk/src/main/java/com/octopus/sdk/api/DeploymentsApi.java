@@ -17,13 +17,17 @@ package com.octopus.sdk.api;
 
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.deployments.DeploymentPaginatedCollection;
+import com.octopus.sdk.model.deployments.DeploymentResource;
 import com.octopus.sdk.model.deployments.DeploymentResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
 
 import com.google.common.base.Preconditions;
+import com.octopus.sdk.repository.deployment.Deployment;
 
 public class DeploymentsApi
-    extends SymmetricApi<DeploymentResourceWithLinks, DeploymentPaginatedCollection> {
+    extends BaseNamedResourceApi<DeploymentResource, DeploymentResourceWithLinks,
+    DeploymentPaginatedCollection,
+    Deployment> {
 
   public DeploymentsApi(final OctopusClient client, final String rootPath) {
     super(client, rootPath, DeploymentResourceWithLinks.class, DeploymentPaginatedCollection.class);
@@ -33,5 +37,10 @@ public class DeploymentsApi
     Preconditions.checkNotNull(client, "Supplied a null client");
     Preconditions.checkNotNull(spaceHome, "Cannot create a DeploymentsApi in a 'null' space");
     return new DeploymentsApi(client, spaceHome.getDeploymentsLink());
+  }
+
+  @Override
+  public Deployment createServerObject(final DeploymentResourceWithLinks resource) {
+    return new Deployment(client, resource);
   }
 }

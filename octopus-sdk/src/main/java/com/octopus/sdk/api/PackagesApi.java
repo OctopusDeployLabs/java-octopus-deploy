@@ -19,6 +19,7 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.packages.PackageFromBuiltInFeedResource;
 import com.octopus.sdk.model.packages.PackagePaginatedCollection;
+import com.octopus.sdk.model.packages.PackageResource;
 import com.octopus.sdk.model.packages.PackageResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
 
@@ -33,7 +34,7 @@ import com.google.common.collect.Lists;
 
 public class PackagesApi
     extends BaseResourceApi<
-        PackageResourceWithLinks, PackageResourceWithLinks, PackagePaginatedCollection> {
+    PackageResource, PackageResourceWithLinks, PackagePaginatedCollection, PackageResource> {
 
   private final String creationPath;
 
@@ -60,13 +61,18 @@ public class PackagesApi
   }
 
   @Override
-  public PackageResourceWithLinks create(final PackageResourceWithLinks input) {
+  public PackageResourceWithLinks create(final PackageResource input) {
     throw new UnsupportedOperationException(
         "Packages cannot be created via this interface, it must be conducted via 'uploadPackage'.");
   }
 
+  //TODO(tmm): This isn't ideal, but not sure what it needs to be!
+  @Override public PackageResource createServerObject(final PackageResourceWithLinks resource) {
+    return resource;
+  }
+
   @Override
-  public PackageResourceWithLinks update(final PackageResourceWithLinks input) {
+  public PackageResourceWithLinks update(final PackageResource input) {
     throw new UnsupportedOperationException(
         "Packages cannot be created via this interface, it must be conducted via 'uploadPackage'.");
   }

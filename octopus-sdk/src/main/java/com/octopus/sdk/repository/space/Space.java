@@ -24,10 +24,6 @@ import com.octopus.sdk.api.ReleaseApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
-import com.octopus.sdk.repository.environment.EnvironmentRepository;
-import com.octopus.sdk.repository.project.ProjectRepository;
-import com.octopus.sdk.repository.projectgroup.ProjectGroupRepository;
-import com.octopus.sdk.repository.release.ReleaseRepository;
 
 public class Space {
   private final OctopusClient client;
@@ -43,24 +39,24 @@ public class Space {
     this.spaceOverviewResource = spaceOverviewResource;
   }
 
-  public ProjectRepository projects() {
-    return new ProjectRepository(client, ProjectApi.create(client, spaceHome));
+  public ProjectApi projects() {
+    return ProjectApi.create(client, spaceHome);
   }
 
-  public ReleaseRepository releases() {
-    return new ReleaseRepository(client, ReleaseApi.create(client, spaceHome));
+  public ReleaseApi releases() {
+    return ReleaseApi.create(client, spaceHome);
   }
 
-  public EnvironmentRepository environments() {
-    return new EnvironmentRepository(client, EnvironmentsApi.create(client, spaceHome));
+  public EnvironmentsApi environments() {
+    return EnvironmentsApi.create(client, spaceHome);
   }
 
   public PackagesApi packages() {
     return PackagesApi.create(client, spaceHome);
   }
 
-  public ProjectGroupRepository projectGroups() {
-    return new ProjectGroupRepository(client, ProjectGroupsApi.create(client, spaceHome));
+  public ProjectGroupsApi projectGroups() {
+    return ProjectGroupsApi.create(client, spaceHome);
   }
 
   public BuildInformationApi buildInformation() {

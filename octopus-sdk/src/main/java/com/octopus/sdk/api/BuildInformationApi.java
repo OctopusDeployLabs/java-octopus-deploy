@@ -30,12 +30,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Preconditions;
+import com.octopus.sdk.repository.buildinformation.BuildInformation;
 
 public class BuildInformationApi
     extends BaseResourceApi<
-        OctopusPackageVersionBuildInformation,
-        OctopusPackageVersionBuildInformationMappedResource,
-        PackageVersionBuildInformationMappedResourcePaginatedCollection> {
+    OctopusPackageVersionBuildInformation,
+    OctopusPackageVersionBuildInformationMappedResource,
+    PackageVersionBuildInformationMappedResourcePaginatedCollection,
+    BuildInformation> {
 
   public BuildInformationApi(final OctopusClient client, final String rootPath) {
     super(
@@ -53,10 +55,15 @@ public class BuildInformationApi
   }
 
   @Override
-  public OctopusPackageVersionBuildInformationMappedResource create(
+  public BuildInformation create(
       final OctopusPackageVersionBuildInformation resourceToCreate) {
     throw new UnsupportedOperationException(
         "Build Information cannot be created without specifying an overwriteMode");
+  }
+
+  @Override
+  public BuildInformation createServerObject(final OctopusPackageVersionBuildInformationMappedResource resource) {
+    return new BuildInformation(client, resource);
   }
 
   public OctopusPackageVersionBuildInformationMappedResource create(
@@ -71,7 +78,7 @@ public class BuildInformationApi
   }
 
   @Override
-  public OctopusPackageVersionBuildInformationMappedResource update(
+  public BuildInformation update(
       final OctopusPackageVersionBuildInformation resource) {
     throw new UnsupportedOperationException(
         "Build Information cannot be updated - it must be re-created with "

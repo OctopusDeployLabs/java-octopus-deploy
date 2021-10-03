@@ -17,6 +17,7 @@ package com.octopus.sdk.repository.project;
 
 import com.octopus.sdk.api.ReleaseApi;
 import com.octopus.sdk.http.OctopusClient;
+import com.octopus.sdk.model.NamedResource;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.repository.release.ReleaseRepository;
 

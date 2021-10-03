@@ -30,10 +30,11 @@ import java.util.stream.Collectors;
 import com.google.common.base.Preconditions;
 
 public abstract class BaseNamedResourceApi<
-        CREATE_TYPE extends NamedResource,
-        RESPONSE_TYPE extends NamedResource,
-        PAGINATION_TYPE extends PaginatedCollection<RESPONSE_TYPE>>
-    extends BaseResourceApi<CREATE_TYPE, RESPONSE_TYPE, PAGINATION_TYPE> {
+    CREATE_TYPE extends NamedResource,
+    RESPONSE_TYPE extends NamedResource,
+    PAGINATION_TYPE extends PaginatedCollection<RESPONSE_TYPE>,
+    WRAPPED_TYPE>
+    extends BaseResourceApi<CREATE_TYPE, RESPONSE_TYPE, PAGINATION_TYPE, WRAPPED_TYPE> {
 
   public BaseNamedResourceApi(
       final OctopusClient client,

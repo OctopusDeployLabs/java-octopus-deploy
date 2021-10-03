@@ -29,13 +29,17 @@ import java.util.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonSyntaxException;
+import com.octopus.sdk.model.project.ProjectResourceWithLinks;
+import com.octopus.sdk.repository.BaseRespository;
+import com.octopus.sdk.repository.project.Project;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class BaseResourceApi<
+public abstract class BaseResourceApi<
     CREATE_TYPE extends BaseResource,
     RESPONSE_TYPE extends BaseResource,
-    PAGINATION_TYPE extends PaginatedCollection<RESPONSE_TYPE>> {
+    PAGINATION_TYPE extends PaginatedCollection<RESPONSE_TYPE>,
+    WRAPPED_TYPE> {
 
   private static final Logger LOG = LogManager.getLogger();
 
@@ -55,7 +59,12 @@ public class BaseResourceApi<
     this.collectionType = collectionType;
   }
 
-  public Optional<RESPONSE_TYPE> getById(final String id) throws IOException {
+  public Optional<WRAPPED_TYPE> getById(final String id) throws IOException {
+    Optional<RESPONSE_TYPE> response = getRawTypeById(id);
+    return response.map(this::createServerObject);
+  }
+
+  protected Optional<RESPONSE_TYPE> getRawTypeById(final String id) throws IOException {
     Preconditions.checkNotNull(id, "Cannot provide a resource with a null id");
     final String spacePath = String.format("%s/%s", rootPath, id);
     try {
@@ -78,7 +87,7 @@ public class BaseResourceApi<
   }
 
   public void delete(final String id) throws IOException {
-    final Optional<RESPONSE_TYPE> resource = getById(id);
+    final Optional<RESPONSE_TYPE> resource = getRawTypeById(id);
     if (resource.isPresent()) {
       client.delete(RequestEndpoint.fromPath(resource.get().getSelfLink()));
     }
@@ -88,41 +97,45 @@ public class BaseResourceApi<
     client.delete(RequestEndpoint.fromPath(resource.getSelfLink()));
   }
 
-  public RESPONSE_TYPE update(final CREATE_TYPE resourceToUpdate) throws IOException {
-    return client.put(
-        RequestEndpoint.fromPath(resourceToUpdate.getSelfLink()), resourceToUpdate, responseType);
+  public WRAPPED_TYPE update(final CREATE_TYPE resourceToUpdate) throws IOException {
+    return createServerObject(client.put(
+        RequestEndpoint.fromPath(resourceToUpdate.getSelfLink()), resourceToUpdate, responseType));
   }
 
-  public RESPONSE_TYPE create(final CREATE_TYPE resourceToCreate) throws IOException {
-    return client.post(RequestEndpoint.fromPath(rootPath), resourceToCreate, responseType);
+  public WRAPPED_TYPE create(final CREATE_TYPE resourceToCreate) throws IOException {
+    return createServerObject(client.post(RequestEndpoint.fromPath(rootPath), resourceToCreate, responseType));
   }
 
-  public List<RESPONSE_TYPE> getByQuery(final Map<String, List<String>> queryParams)
+  public List<WRAPPED_TYPE> getByQuery(final Map<String, List<String>> queryParams)
       throws IOException {
     final RequestEndpoint endpoint = new RequestEndpoint(rootPath, queryParams);
     final PAGINATION_TYPE itemCollection = client.get(endpoint, collectionType);
     return getItemsFromPages(itemCollection);
   }
 
-  public List<RESPONSE_TYPE> getAll() throws IOException {
+  public List<WRAPPED_TYPE> getAll() throws IOException {
     final RequestEndpoint endpoint = RequestEndpoint.fromPath(rootPath);
     final PAGINATION_TYPE itemCollection = client.get(endpoint, collectionType);
     return getItemsFromPages(itemCollection);
   }
 
-  protected List<RESPONSE_TYPE> getItemsFromPages(final PAGINATION_TYPE collection)
+  protected List<WRAPPED_TYPE> getItemsFromPages(final PAGINATION_TYPE collection)
       throws IOException {
-    final List<RESPONSE_TYPE> result = Lists.newArrayList(collection.getItems());
     PAGINATION_TYPE localCollection = collection;
+
+    final List<WRAPPED_TYPE> result = Lists.newArrayList();
+    localCollection.getItems().forEach(i -> result.add(createServerObject(i)));
 
     while (localCollection.getPageNext() != null) {
       localCollection =
           client.get(
               RequestEndpoint.fromPathWithQueryString(localCollection.getPageNext()),
               collectionType);
-      result.addAll(localCollection.getItems());
+      localCollection.getItems().forEach(i -> result.add(createServerObject(i)));
     }
 
     return result;
   }
+
+  public abstract WRAPPED_TYPE createServerObject(final RESPONSE_TYPE resource);
 }

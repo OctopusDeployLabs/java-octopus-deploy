@@ -17,23 +17,21 @@ package com.octopus.sdk.repository.project;
 
 import com.octopus.sdk.api.ProjectApi;
 import com.octopus.sdk.http.OctopusClient;
+import com.octopus.sdk.model.project.ProjectResource;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
+import com.octopus.sdk.repository.BaseRespository;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProjectRepository {
-
-  private final OctopusClient client;
-  private final ProjectApi api;
+public class ProjectRepository extends BaseRespository<ProjectApi> {
 
   public ProjectRepository(final OctopusClient client, final ProjectApi api) {
-    this.client = client;
-    this.api = api;
+    super(client, api);
   }
 
-  public Project create(final ProjectResourceWithLinks resource) throws IOException {
+  public Project create(final ProjectResource resource) throws IOException {
     final ProjectResourceWithLinks response = api.create(resource);
     return new Project(client, response);
   }

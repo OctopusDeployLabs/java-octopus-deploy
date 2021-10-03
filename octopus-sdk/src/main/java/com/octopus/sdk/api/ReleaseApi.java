@@ -20,13 +20,13 @@ import com.octopus.sdk.model.release.ReleasePaginatedCollection;
 import com.octopus.sdk.model.release.ReleaseResource;
 import com.octopus.sdk.model.release.ReleaseResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
+import com.octopus.sdk.repository.release.Release;
 
 import com.google.common.base.Preconditions;
-import com.octopus.sdk.repository.release.Release;
 
 public class ReleaseApi
     extends BaseResourceApi<
-    ReleaseResource, ReleaseResourceWithLinks, ReleasePaginatedCollection, Release> {
+        ReleaseResource, ReleaseResourceWithLinks, ReleasePaginatedCollection, Release> {
 
   public ReleaseApi(final OctopusClient client, final String rootPath) {
     super(client, rootPath, ReleaseResourceWithLinks.class, ReleasePaginatedCollection.class);
@@ -39,7 +39,8 @@ public class ReleaseApi
     return new ReleaseApi(client, spaceHome.getReleasesLink());
   }
 
-  @Override public Release createServerObject(final ReleaseResourceWithLinks resource) {
+  @Override
+  public Release createServerObject(final ReleaseResourceWithLinks resource) {
     return new Release(client, resource);
   }
 }

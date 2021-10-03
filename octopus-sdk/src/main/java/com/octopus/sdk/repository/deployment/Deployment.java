@@ -22,6 +22,7 @@ public class Deployment {
 
   @SuppressWarnings("UnusedVariable")
   private final OctopusClient client;
+
   private final DeploymentResourceWithLinks properties;
 
   public Deployment(final OctopusClient client, final DeploymentResourceWithLinks properties) {
@@ -33,4 +34,3 @@ public class Deployment {
     return properties;
   }
 }
-

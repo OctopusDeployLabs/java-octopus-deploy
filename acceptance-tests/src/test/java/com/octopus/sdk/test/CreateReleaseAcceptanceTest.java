@@ -21,9 +21,9 @@ import com.octopus.sdk.api.ReleaseApi;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateReleaseCommandParameters;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
-import com.octopus.sdk.model.release.ReleaseResourceWithLinks;
 import com.octopus.sdk.operations.ExecutionsCreateApi;
 import com.octopus.sdk.repository.projectgroup.ProjectGroup;
+import com.octopus.sdk.repository.release.Release;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -61,7 +61,7 @@ public class CreateReleaseAcceptanceTest extends SpaceScopedAcceptanceTest {
     final String createdReleaseId = ExecutionsCreateApi.createRelease(client, body);
 
     final ReleaseApi releaseApi = ReleaseApi.create(client, spaceHome);
-    final Optional<ReleaseResourceWithLinks> release = releaseApi.getById(createdReleaseId);
+    final Optional<Release> release = releaseApi.getById(createdReleaseId);
 
     assertThat(release).isNotEmpty();
   }

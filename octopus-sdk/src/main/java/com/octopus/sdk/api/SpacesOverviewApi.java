@@ -21,8 +21,11 @@ import com.octopus.sdk.model.spaces.SpaceOverviewResource;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 
 public class SpacesOverviewApi
-    extends BaseNamedResourceApi<SpaceOverviewResource, SpaceOverviewWithLinks, SpaceOverviewPaginatedCollection,
-    SpaceOverviewWithLinks> {
+    extends BaseNamedResourceApi<
+        SpaceOverviewResource,
+        SpaceOverviewWithLinks,
+        SpaceOverviewPaginatedCollection,
+        SpaceOverviewWithLinks> {
 
   protected SpacesOverviewApi(final OctopusClient client, final String rootPath) {
     super(client, rootPath, SpaceOverviewWithLinks.class, SpaceOverviewPaginatedCollection.class);
@@ -40,7 +43,8 @@ public class SpacesOverviewApi
     return new SpacesOverviewApi(client, client.getRootDocument().getSpacesLink());
   }
 
-  @Override public SpaceOverviewWithLinks createServerObject(final SpaceOverviewWithLinks resource) {
+  @Override
+  public SpaceOverviewWithLinks createServerObject(final SpaceOverviewWithLinks resource) {
     return resource;
   }
 }

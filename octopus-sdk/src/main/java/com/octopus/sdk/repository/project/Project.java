@@ -18,7 +18,6 @@ package com.octopus.sdk.repository.project;
 import com.octopus.sdk.api.ReleaseApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
-import com.octopus.sdk.repository.release.ReleaseRepository;
 
 public class Project {
 
@@ -62,9 +61,8 @@ public class Project {
     throw new UnsupportedOperationException();
   }
 
-  public ReleaseRepository getReleases() {
-    final ReleaseApi api = new ReleaseApi(client, resourceWithLinks.getReleasesLink());
-    return new ReleaseRepository(client, api);
+  public ReleaseApi getReleases() {
+    return new ReleaseApi(client, resourceWithLinks.getReleasesLink());
   }
 
   public String getRunbookSnapshots() {

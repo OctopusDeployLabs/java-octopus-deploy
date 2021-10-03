@@ -30,10 +30,10 @@ import java.util.stream.Collectors;
 import com.google.common.base.Preconditions;
 
 public abstract class BaseNamedResourceApi<
-    CREATE_TYPE extends NamedResource,
-    RESPONSE_TYPE extends NamedResource,
-    PAGINATION_TYPE extends PaginatedCollection<RESPONSE_TYPE>,
-    WRAPPED_TYPE>
+        CREATE_TYPE extends NamedResource,
+        RESPONSE_TYPE extends NamedResource,
+        PAGINATION_TYPE extends PaginatedCollection<RESPONSE_TYPE>,
+        WRAPPED_TYPE>
     extends BaseResourceApi<CREATE_TYPE, RESPONSE_TYPE, PAGINATION_TYPE, WRAPPED_TYPE> {
 
   public BaseNamedResourceApi(
@@ -52,7 +52,8 @@ public abstract class BaseNamedResourceApi<
   public Optional<WRAPPED_TYPE> getByName(final String completeName) throws IOException {
     Preconditions.checkNotNull(completeName, "Cannot search for a space with a null name");
 
-    final List<RESPONSE_TYPE> partialNameMatch = getRawByQuery(singletonMap("partialName", singletonList(completeName)));
+    final List<RESPONSE_TYPE> partialNameMatch =
+        getRawByQuery(singletonMap("partialName", singletonList(completeName)));
 
     final List<RESPONSE_TYPE> exactNameMatch =
         partialNameMatch.stream()

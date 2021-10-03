@@ -20,13 +20,16 @@ import com.octopus.sdk.model.environments.EnvironmentPaginatedCollection;
 import com.octopus.sdk.model.environments.EnvironmentResource;
 import com.octopus.sdk.model.environments.EnvironmentResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
-
-import com.google.common.base.Preconditions;
 import com.octopus.sdk.repository.environment.Environment;
 
+import com.google.common.base.Preconditions;
+
 public class EnvironmentsApi
-    extends BaseNamedResourceApi<EnvironmentResource, EnvironmentResourceWithLinks, EnvironmentPaginatedCollection,
-    Environment> {
+    extends BaseNamedResourceApi<
+        EnvironmentResource,
+        EnvironmentResourceWithLinks,
+        EnvironmentPaginatedCollection,
+        Environment> {
   public EnvironmentsApi(final OctopusClient client, final String rootPath) {
     super(
         client, rootPath, EnvironmentResourceWithLinks.class, EnvironmentPaginatedCollection.class);
@@ -38,7 +41,8 @@ public class EnvironmentsApi
     return new EnvironmentsApi(client, spaceHome.getEnvironmentsLink());
   }
 
-  @Override public Environment createServerObject(final EnvironmentResourceWithLinks resource) {
+  @Override
+  public Environment createServerObject(final EnvironmentResourceWithLinks resource) {
     return new Environment(client, resource);
   }
 }

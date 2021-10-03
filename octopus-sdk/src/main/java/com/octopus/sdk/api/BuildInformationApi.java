@@ -23,6 +23,7 @@ import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformat
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformationMappedResource;
 import com.octopus.sdk.model.buildinformation.PackageVersionBuildInformationMappedResourcePaginatedCollection;
 import com.octopus.sdk.model.spaces.SpaceHome;
+import com.octopus.sdk.repository.buildinformation.BuildInformation;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -30,14 +31,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Preconditions;
-import com.octopus.sdk.repository.buildinformation.BuildInformation;
 
 public class BuildInformationApi
     extends BaseResourceApi<
-    OctopusPackageVersionBuildInformation,
-    OctopusPackageVersionBuildInformationMappedResource,
-    PackageVersionBuildInformationMappedResourcePaginatedCollection,
-    BuildInformation> {
+        OctopusPackageVersionBuildInformation,
+        OctopusPackageVersionBuildInformationMappedResource,
+        PackageVersionBuildInformationMappedResourcePaginatedCollection,
+        BuildInformation> {
 
   public BuildInformationApi(final OctopusClient client, final String rootPath) {
     super(
@@ -55,14 +55,14 @@ public class BuildInformationApi
   }
 
   @Override
-  public BuildInformation create(
-      final OctopusPackageVersionBuildInformation resourceToCreate) {
+  public BuildInformation create(final OctopusPackageVersionBuildInformation resourceToCreate) {
     throw new UnsupportedOperationException(
         "Build Information cannot be created without specifying an overwriteMode");
   }
 
   @Override
-  public BuildInformation createServerObject(final OctopusPackageVersionBuildInformationMappedResource resource) {
+  public BuildInformation createServerObject(
+      final OctopusPackageVersionBuildInformationMappedResource resource) {
     return new BuildInformation(client, resource);
   }
 
@@ -78,8 +78,7 @@ public class BuildInformationApi
   }
 
   @Override
-  public BuildInformation update(
-      final OctopusPackageVersionBuildInformation resource) {
+  public BuildInformation update(final OctopusPackageVersionBuildInformation resource) {
     throw new UnsupportedOperationException(
         "Build Information cannot be updated - it must be re-created with "
             + "overwriteMode=overwrite");

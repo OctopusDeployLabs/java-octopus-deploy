@@ -30,9 +30,6 @@ import java.util.stream.Collectors;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonSyntaxException;
-import com.octopus.sdk.model.project.ProjectResourceWithLinks;
-import com.octopus.sdk.repository.BaseRespository;
-import com.octopus.sdk.repository.project.Project;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -99,19 +96,25 @@ public abstract class BaseResourceApi<
   }
 
   public WRAPPED_TYPE update(final CREATE_TYPE resourceToUpdate) throws IOException {
-    return createServerObject(client.put(
-        RequestEndpoint.fromPath(resourceToUpdate.getSelfLink()), resourceToUpdate, responseType));
+    return createServerObject(
+        client.put(
+            RequestEndpoint.fromPath(resourceToUpdate.getSelfLink()),
+            resourceToUpdate,
+            responseType));
   }
 
   public WRAPPED_TYPE create(final CREATE_TYPE resourceToCreate) throws IOException {
-    return createServerObject(client.post(RequestEndpoint.fromPath(rootPath), resourceToCreate, responseType));
+    return createServerObject(
+        client.post(RequestEndpoint.fromPath(rootPath), resourceToCreate, responseType));
   }
 
   public List<WRAPPED_TYPE> getByQuery(final Map<String, List<String>> queryParams)
       throws IOException {
     final RequestEndpoint endpoint = new RequestEndpoint(rootPath, queryParams);
     final PAGINATION_TYPE itemCollection = client.get(endpoint, collectionType);
-    return getItemsFromPages(itemCollection).stream().map(this::createServerObject).collect(Collectors.toList());
+    return getItemsFromPages(itemCollection).stream()
+        .map(this::createServerObject)
+        .collect(Collectors.toList());
   }
 
   protected List<RESPONSE_TYPE> getRawByQuery(final Map<String, List<String>> queryParams)
@@ -124,7 +127,9 @@ public abstract class BaseResourceApi<
   public List<WRAPPED_TYPE> getAll() throws IOException {
     final RequestEndpoint endpoint = RequestEndpoint.fromPath(rootPath);
     final PAGINATION_TYPE itemCollection = client.get(endpoint, collectionType);
-    return getItemsFromPages(itemCollection).stream().map(this::createServerObject).collect(Collectors.toList());
+    return getItemsFromPages(itemCollection).stream()
+        .map(this::createServerObject)
+        .collect(Collectors.toList());
   }
 
   protected List<RESPONSE_TYPE> getItemsFromPages(final PAGINATION_TYPE collection)

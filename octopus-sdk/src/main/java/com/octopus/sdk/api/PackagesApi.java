@@ -34,7 +34,7 @@ import com.google.common.collect.Lists;
 
 public class PackagesApi
     extends BaseResourceApi<
-    PackageResource, PackageResourceWithLinks, PackagePaginatedCollection, PackageResource> {
+        PackageResource, PackageResourceWithLinks, PackagePaginatedCollection, PackageResource> {
 
   private final String creationPath;
 
@@ -66,8 +66,9 @@ public class PackagesApi
         "Packages cannot be created via this interface, it must be conducted via 'uploadPackage'.");
   }
 
-  //TODO(tmm): This isn't ideal, but not sure what it needs to be!
-  @Override public PackageResource createServerObject(final PackageResourceWithLinks resource) {
+  // TODO(tmm): This isn't ideal, but not sure what it needs to be!
+  @Override
+  public PackageResource createServerObject(final PackageResourceWithLinks resource) {
     return resource;
   }
 

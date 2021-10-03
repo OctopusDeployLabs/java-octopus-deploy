@@ -22,9 +22,11 @@ public class BuildInformation {
 
   @SuppressWarnings("UnusedVariable")
   private final OctopusClient client;
+
   private final OctopusPackageVersionBuildInformationMappedResource resourceWithLinks;
 
-  public BuildInformation(final OctopusClient client,
+  public BuildInformation(
+      final OctopusClient client,
       final OctopusPackageVersionBuildInformationMappedResource resourceWithLinks) {
     this.client = client;
     this.resourceWithLinks = resourceWithLinks;

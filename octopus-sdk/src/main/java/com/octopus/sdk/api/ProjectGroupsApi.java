@@ -20,13 +20,16 @@ import com.octopus.sdk.model.projectgroup.ProjectGroupPaginatedCollection;
 import com.octopus.sdk.model.projectgroup.ProjectGroupResource;
 import com.octopus.sdk.model.projectgroup.ProjectGroupResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
-
-import com.google.common.base.Preconditions;
 import com.octopus.sdk.repository.projectgroup.ProjectGroup;
 
+import com.google.common.base.Preconditions;
+
 public class ProjectGroupsApi
-    extends BaseNamedResourceApi<ProjectGroupResource, ProjectGroupResourceWithLinks, ProjectGroupPaginatedCollection
-    , ProjectGroup> {
+    extends BaseNamedResourceApi<
+        ProjectGroupResource,
+        ProjectGroupResourceWithLinks,
+        ProjectGroupPaginatedCollection,
+        ProjectGroup> {
 
   public ProjectGroupsApi(final OctopusClient client, final String rootPath) {
     super(
@@ -43,7 +46,8 @@ public class ProjectGroupsApi
     return new ProjectGroupsApi(client, spaceHome.getProjectGroupsLink());
   }
 
-  @Override public ProjectGroup createServerObject(final ProjectGroupResourceWithLinks resource) {
+  @Override
+  public ProjectGroup createServerObject(final ProjectGroupResourceWithLinks resource) {
     return new ProjectGroup(client, resource);
   }
 }

@@ -20,9 +20,9 @@ import com.octopus.sdk.model.project.ProjectPaginatedCollection;
 import com.octopus.sdk.model.project.ProjectResource;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
+import com.octopus.sdk.repository.project.Project;
 
 import com.google.common.base.Preconditions;
-import com.octopus.sdk.repository.project.Project;
 
 public class ProjectApi
     extends BaseNamedResourceApi<
@@ -38,6 +38,7 @@ public class ProjectApi
     return new ProjectApi(client, spaceHome.getProjectsLink());
   }
 
+  @Override
   public Project createServerObject(final ProjectResourceWithLinks resource) {
     return new Project(client, resource);
   }

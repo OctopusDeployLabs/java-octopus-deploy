@@ -21,6 +21,7 @@ import com.octopus.sdk.model.environments.EnvironmentResourceWithLinks;
 import com.octopus.sdk.repository.environment.Environment;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
@@ -34,16 +35,16 @@ public class EnvironmentsAcceptanceTest extends SpaceScopedAcceptanceTest {
 
     assertThat(createdEnvironment).isNotNull();
 
-    final Environment foundEnvironment =
+    final Optional<Environment> foundEnvironment =
         createdSpace.environments().getById(createdEnvironment.getProperties().getId());
 
-    assertThat(foundEnvironment).isNotNull();
+    assertThat(foundEnvironment).isNotEmpty();
 
     // This cannot work due to the behaviour of OctopusServer
     // assertThat(foundEnvironment.get()).usingRecursiveComparison().isEqualTo(createdEnvironment);
-    assertThat(foundEnvironment.getProperties().getName())
+    assertThat(foundEnvironment.get().getProperties().getName())
         .isEqualTo(createdEnvironment.getProperties().getName());
-    assertThat(foundEnvironment.getProperties().getId())
+    assertThat(foundEnvironment.get().getProperties().getId())
         .isEqualTo(createdEnvironment.getProperties().getId());
   }
 }

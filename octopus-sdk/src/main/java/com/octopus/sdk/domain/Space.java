@@ -16,7 +16,9 @@
 package com.octopus.sdk.domain;
 
 import com.octopus.sdk.api.BuildInformationApi;
+import com.octopus.sdk.api.ChannelApi;
 import com.octopus.sdk.api.EnvironmentApi;
+import com.octopus.sdk.api.LifecycleApi;
 import com.octopus.sdk.api.PackageApi;
 import com.octopus.sdk.api.ProjectApi;
 import com.octopus.sdk.api.ProjectGroupApi;
@@ -61,6 +63,14 @@ public class Space {
 
   public BuildInformationApi buildInformation() {
     return BuildInformationApi.create(client, spaceHome);
+  }
+
+  public LifecycleApi lifecycles() {
+    return LifecycleApi.create(client, spaceHome);
+  }
+
+  public ChannelApi channels() {
+    return ChannelApi.create(client, spaceHome);
   }
 
   public SpaceOverviewWithLinks getProperties() {

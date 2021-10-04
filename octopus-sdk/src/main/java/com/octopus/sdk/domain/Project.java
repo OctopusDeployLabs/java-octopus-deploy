@@ -15,6 +15,7 @@
 
 package com.octopus.sdk.domain;
 
+import com.octopus.sdk.api.ChannelApi;
 import com.octopus.sdk.api.ReleaseApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
@@ -22,15 +23,15 @@ import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 public class Project {
 
   private final OctopusClient client;
-  private final ProjectResourceWithLinks resourceWithLinks;
+  private final ProjectResourceWithLinks properties;
 
-  public Project(final OctopusClient client, final ProjectResourceWithLinks resourceWithLinks) {
+  public Project(final OctopusClient client, final ProjectResourceWithLinks properties) {
     this.client = client;
-    this.resourceWithLinks = resourceWithLinks;
+    this.properties = properties;
   }
 
-  public String getChannels() {
-    throw new UnsupportedOperationException();
+  public ChannelApi getChannels() {
+    return new ChannelApi(client, properties.getChannelsLink());
   }
 
   public String getConvertToVcs() {
@@ -62,7 +63,7 @@ public class Project {
   }
 
   public ReleaseApi getReleases() {
-    return new ReleaseApi(client, resourceWithLinks.getReleasesLink());
+    return new ReleaseApi(client, properties.getReleasesLink());
   }
 
   public String getRunbookSnapshots() {
@@ -106,6 +107,6 @@ public class Project {
   }
 
   public ProjectResourceWithLinks getProperties() {
-    return resourceWithLinks;
+    return properties;
   }
 }

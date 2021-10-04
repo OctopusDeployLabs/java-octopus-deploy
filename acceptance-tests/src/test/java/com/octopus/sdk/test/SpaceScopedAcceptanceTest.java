@@ -45,17 +45,23 @@ public class SpaceScopedAcceptanceTest extends BaseOctopusServerEnabledTest {
   protected Space createdSpace;
   protected SpaceHome spaceHome;
 
+  private static final int MAX_SPACE_NAME_LENGTH = 20;
+
+  private String generateSpaceName(final String testName) {
+    final String withoutBraces = testName.substring(0, testName.length() - 2);
+    final int startIndex = Math.min(withoutBraces.length(), MAX_SPACE_NAME_LENGTH);
+
+    return withoutBraces.substring(withoutBraces.length() - startIndex);
+  }
+
   @BeforeEach
   public void localSetup(final TestInfo testInfo) throws IOException {
     client = new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
     repo = new Repository(client);
     final UserApi users = UserApi.create(client);
 
-    final String spaceName =
-        testInfo
-            .getDisplayName()
-            .substring(
-                testInfo.getDisplayName().length() - 22, testInfo.getDisplayName().length() - 2);
+    final String spaceName = generateSpaceName(testInfo.getDisplayName());
+
     LOG.info("Test operating in space {}", spaceName);
     final Set<String> spaceManagers = Sets.newHashSet(users.getCurrentUser().getId());
     createdSpace = repo.spaces().create(new SpaceOverviewWithLinks(spaceName, spaceManagers));

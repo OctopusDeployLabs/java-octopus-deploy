@@ -1,7 +1,7 @@
 package com.octopus.testsupport;
 
 import com.octopus.sdk.api.SpaceOverviewApi;
-import com.octopus.sdk.model.space.SpaceOverviewWithLinks;
+import com.octopus.sdk.model.space.SpaceOverviewResource;
 
 import java.io.IOException;
 
@@ -21,7 +21,7 @@ public class BaseOctopusServerEnabledTest {
   }
 
   protected void deleteSpaceValidly(
-      final SpaceOverviewApi spaceOverviewApi, final SpaceOverviewWithLinks space)
+      final SpaceOverviewApi spaceOverviewApi, final SpaceOverviewResource space)
       throws IOException {
     if ((spaceOverviewApi != null) && (space != null)) {
       space.setTaskQueueStopped(true);

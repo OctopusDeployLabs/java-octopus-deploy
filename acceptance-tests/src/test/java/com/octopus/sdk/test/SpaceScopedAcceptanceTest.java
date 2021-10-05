@@ -15,16 +15,19 @@
 
 package com.octopus.sdk.test;
 
-import com.octopus.sdk.api.SpaceOverviewApi;
-import com.octopus.sdk.api.UserApi;
+import com.octopus.sdk.Repository;
+import com.octopus.sdk.api.SpaceHomeApi;
+import com.octopus.sdk.api.UsersApi;
+import com.octopus.sdk.domain.Space;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.space.SpaceHome;
+import com.octopus.sdk.model.space.SpaceOverviewResource;
 import com.octopus.sdk.model.space.SpaceOverviewWithLinks;
 import com.octopus.testsupport.BaseOctopusServerEnabledTest;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Set;
 
 import com.google.common.collect.Sets;
 import org.apache.logging.log4j.LogManager;
@@ -37,42 +40,36 @@ public class SpaceScopedAcceptanceTest extends BaseOctopusServerEnabledTest {
 
   private static final Logger LOG = LogManager.getLogger();
 
-  protected SpaceOverviewApi spaceOverviewApi;
   protected OctopusClient client;
-  protected SpaceOverviewWithLinks createdSpace;
+  protected Repository repo;
+  protected Space createdSpace;
   protected SpaceHome spaceHome;
 
   @BeforeEach
   public void localSetup(final TestInfo testInfo) throws IOException {
-
     client = new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
-    spaceOverviewApi = SpaceOverviewApi.create(client);
-    final UserApi users = UserApi.create(client);
+    repo = new Repository(client);
+    final UsersApi users = UsersApi.create(client);
 
-    final SpaceOverviewWithLinks toCreate = new SpaceOverviewWithLinks();
     final String spaceName =
         testInfo
             .getDisplayName()
             .substring(
                 testInfo.getDisplayName().length() - 22, testInfo.getDisplayName().length() - 2);
-    toCreate.setName(spaceName);
     LOG.info("Test operating in space {}", spaceName);
-    toCreate.setSpaceManagersTeamMembers(Sets.newHashSet(users.getCurrentUser().getId()));
-    try {
-      createdSpace = spaceOverviewApi.create(toCreate);
-      spaceHome =
-          client.get(RequestEndpoint.fromPath(createdSpace.getSpaceHomeLink()), SpaceHome.class);
-    } catch (final Exception e) {
-      LOG.error(e);
-      deleteSpaceValidly(spaceOverviewApi, toCreate);
-      spaceOverviewApi = null;
-      throw e;
-    }
+    final Set<String> spaceManagers = Sets.newHashSet(users.getCurrentUser().getId());
+    createdSpace = repo.spaces().create(new SpaceOverviewWithLinks(spaceName, spaceManagers));
+    spaceHome = new SpaceHomeApi(client).getBySpaceOverview(createdSpace.getProperties());
   }
 
   @AfterEach
   public void cleanup() throws IOException {
-    deleteSpaceValidly(spaceOverviewApi, createdSpace);
-    spaceOverviewApi = null;
+    if (repo != null && createdSpace != null) {
+      final SpaceOverviewResource resource = createdSpace.getProperties();
+      resource.setTaskQueueStopped(true);
+      repo.spaces().update(resource);
+      repo.spaces().delete(resource);
+    }
+    createdSpace = null;
   }
 }

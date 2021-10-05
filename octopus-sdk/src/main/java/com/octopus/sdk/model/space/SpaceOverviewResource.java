@@ -42,6 +42,11 @@ public class SpaceOverviewResource extends NamedResource {
   @SerializedName("TaskQueueStopped")
   private Boolean taskQueueStopped;
 
+  public SpaceOverviewResource(final String name, final Set<String> spaceManagersTeamMembers) {
+    super(name);
+    this.spaceManagersTeamMembers = spaceManagersTeamMembers;
+  }
+
   public Boolean getDefault() {
     return isDefault;
   }

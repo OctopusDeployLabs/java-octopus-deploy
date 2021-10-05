@@ -48,6 +48,10 @@ public class EnvironmentResource extends NamedResource {
   @SerializedName("UseGuidedFailure")
   private Boolean useGuidedFailure;
 
+  public EnvironmentResource(final String name) {
+    super(name);
+  }
+
   public EnvironmentResource allowDynamicInfrastructure(Boolean allowDynamicInfrastructure) {
 
     this.allowDynamicInfrastructure = allowDynamicInfrastructure;

@@ -13,29 +13,24 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.model.space;
+package com.octopus.sdk.domain;
 
-import java.util.Set;
+import com.octopus.sdk.http.OctopusClient;
+import com.octopus.sdk.model.deployments.DeploymentResourceWithLinks;
 
-public class SpaceOverviewWithLinks extends SpaceOverviewResource {
+public class Deployment {
 
-  public SpaceOverviewWithLinks(final String name, final Set<String> spaceManagersTeamMembers) {
-    super(name, spaceManagersTeamMembers);
+  @SuppressWarnings("UnusedVariable")
+  private final OctopusClient client;
+
+  private final DeploymentResourceWithLinks properties;
+
+  public Deployment(final OctopusClient client, final DeploymentResourceWithLinks properties) {
+    this.client = client;
+    this.properties = properties;
   }
 
-  public String getLogoLink() {
-    return getCleansedLink("Logo");
-  }
-
-  public String getSearchLink() {
-    return getCleansedLink("Search");
-  }
-
-  public String getSpaceHomeLink() {
-    return getCleansedLink("SpaceHome");
-  }
-
-  public String getWebLink() {
-    return getCleansedLink("Web");
+  public DeploymentResourceWithLinks getProperties() {
+    return properties;
   }
 }

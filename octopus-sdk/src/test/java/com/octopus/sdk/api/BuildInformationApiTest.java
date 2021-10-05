@@ -15,51 +15,27 @@
 
 package com.octopus.sdk.api;
 
-import static com.octopus.sdk.support.TestHelpers.defaultRootDoc;
 import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
-import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.buildinformation.BuildInformationResource;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformationMappedResource;
 import com.octopus.sdk.model.space.SpaceHome;
-import com.octopus.sdk.support.TestHelpers;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Collections;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import okhttp3.OkHttpClient;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.RequestDefinition;
 
-class BuildInformationApiTest {
-
-  private OctopusClient client;
-  private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-  private ClientAndServer mockOctopusServer;
-
-  @BeforeEach
-  public void setup() {
-    mockOctopusServer = new ClientAndServer();
-    final URL serverUrl = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
-    client = new OctopusClient(new OkHttpClient(), serverUrl);
-    mockOctopusServer
-        .when(request().withPath("/api"))
-        .respond(response().withStatusCode(200).withBody(gson.toJson(defaultRootDoc())));
-  }
+class BuildInformationApiTest extends BaseApiTest {
 
   @Test
   public void updatingBuildInformationThrowsUnsupportedException() {

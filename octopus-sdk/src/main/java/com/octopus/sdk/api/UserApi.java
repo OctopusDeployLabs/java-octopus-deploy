@@ -18,6 +18,7 @@ package com.octopus.sdk.api;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.RootDocument;
+import com.octopus.sdk.model.user.UserResource;
 import com.octopus.sdk.model.user.UserResourcePaginatedCollection;
 import com.octopus.sdk.model.user.UserResourceWithLinks;
 
@@ -27,7 +28,10 @@ import com.google.common.base.Preconditions;
 
 public class UserApi
     extends BaseResourceApi<
-        UserResourceWithLinks, UserResourceWithLinks, UserResourcePaginatedCollection> {
+        UserResource,
+        UserResourceWithLinks,
+        UserResourcePaginatedCollection,
+        UserResourceWithLinks> {
 
   private final String currentUserPath;
 
@@ -44,5 +48,10 @@ public class UserApi
 
   public UserResourceWithLinks getCurrentUser() throws IOException {
     return client.get(RequestEndpoint.fromPath(currentUserPath), UserResourceWithLinks.class);
+  }
+
+  @Override
+  public UserResourceWithLinks createServerObject(final UserResourceWithLinks resource) {
+    return resource;
   }
 }

@@ -13,29 +13,20 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.model.space;
+package com.octopus.sdk;
 
-import java.util.Set;
+import com.octopus.sdk.api.SpaceApi;
+import com.octopus.sdk.http.OctopusClient;
 
-public class SpaceOverviewWithLinks extends SpaceOverviewResource {
+public class Repository {
 
-  public SpaceOverviewWithLinks(final String name, final Set<String> spaceManagersTeamMembers) {
-    super(name, spaceManagersTeamMembers);
+  private final OctopusClient client;
+
+  public Repository(final OctopusClient client) {
+    this.client = client;
   }
 
-  public String getLogoLink() {
-    return getCleansedLink("Logo");
-  }
-
-  public String getSearchLink() {
-    return getCleansedLink("Search");
-  }
-
-  public String getSpaceHomeLink() {
-    return getCleansedLink("SpaceHome");
-  }
-
-  public String getWebLink() {
-    return getCleansedLink("Web");
+  public SpaceApi spaces() {
+    return new SpaceApi(client, client.getRootDocument().getSpacesLink());
   }
 }

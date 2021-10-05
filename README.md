@@ -12,6 +12,25 @@ actual version (ignoring gradle.properties).
 
 Versioning follows a standard SemVer convention.
 
+# Usage of the Java SDK
+The built version of the Java SDK can be found in a maven repository at:
+
+https://packages.octopushq.com/artifactory/maven
+
+Both release and snapshot versions are released - with a new SNAPSHOT version
+being created for every commit to the main branch.
+
+To use the SDK in a gradle project, add the following to your build.gradle:
+
+```
+dependencies {
+  implementation 'org.octopus:octopus-sdk:0.0.1
+}
+```
+
+
+
+
 # Lifecycle
 At initial commit, this SDK only supported a small subset of the Octopus Server SDK,
 and the goal is to grow this over time.

@@ -15,23 +15,34 @@
 
 package com.octopus.sdk.api;
 
+import com.octopus.sdk.domain.Deployment;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.deployment.DeploymentPaginatedCollection;
+import com.octopus.sdk.model.deployment.DeploymentResource;
 import com.octopus.sdk.model.deployment.DeploymentResourceWithLinks;
 import com.octopus.sdk.model.space.SpaceHome;
 
 import com.google.common.base.Preconditions;
 
-public class DeploymentApi
-    extends SymmetricApi<DeploymentResourceWithLinks, DeploymentPaginatedCollection> {
+public class DeploymentsApi
+    extends BaseNamedResourceApi<
+        DeploymentResource,
+        DeploymentResourceWithLinks,
+        DeploymentPaginatedCollection,
+        Deployment> {
 
-  public DeploymentApi(final OctopusClient client, final String rootPath) {
+  public DeploymentsApi(final OctopusClient client, final String rootPath) {
     super(client, rootPath, DeploymentResourceWithLinks.class, DeploymentPaginatedCollection.class);
   }
 
-  public static DeploymentApi create(final OctopusClient client, final SpaceHome spaceHome) {
+  public static DeploymentsApi create(final OctopusClient client, final SpaceHome spaceHome) {
     Preconditions.checkNotNull(client, "Supplied a null client");
     Preconditions.checkNotNull(spaceHome, "Cannot create a DeploymentsApi in a 'null' space");
-    return new DeploymentApi(client, spaceHome.getDeploymentsLink());
+    return new DeploymentsApi(client, spaceHome.getDeploymentsLink());
+  }
+
+  @Override
+  public Deployment createServerObject(final DeploymentResourceWithLinks resource) {
+    return new Deployment(client, resource);
   }
 }

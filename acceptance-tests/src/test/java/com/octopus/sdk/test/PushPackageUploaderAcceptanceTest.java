@@ -47,7 +47,7 @@ public class PushPackageUploaderAcceptanceTest extends SpaceScopedAcceptanceTest
 
     final PushPackageUploaderContext parameters =
         new PushPackageUploaderContextBuilder()
-            .withSpaceName(createdSpace.getName())
+            .withSpaceName(createdSpace.getProperties().getName())
             .withOverwriteMode(OverwriteMode.OverwriteExisting)
             .withFileToUpload(packageFile.toFile())
             .build();
@@ -56,8 +56,7 @@ public class PushPackageUploaderAcceptanceTest extends SpaceScopedAcceptanceTest
     try {
       assertThat(result).isNotNull();
     } finally {
-      final PackageApi packageApi = PackageApi.create(client, spaceHome);
-      packageApi.delete(result.getId());
+      createdSpace.packages().delete(result.getId());
     }
   }
 }

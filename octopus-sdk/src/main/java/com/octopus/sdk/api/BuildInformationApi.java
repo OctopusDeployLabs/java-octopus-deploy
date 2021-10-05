@@ -17,6 +17,7 @@ package com.octopus.sdk.api;
 
 import static java.util.Collections.singletonList;
 
+import com.octopus.sdk.domain.BuildInformation;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
@@ -35,7 +36,8 @@ public class BuildInformationApi
     extends BaseResourceApi<
         OctopusPackageVersionBuildInformation,
         OctopusPackageVersionBuildInformationMappedResource,
-        PackageVersionBuildInformationMappedResourcePaginatedCollection> {
+        PackageVersionBuildInformationMappedResourcePaginatedCollection,
+        BuildInformation> {
 
   public BuildInformationApi(final OctopusClient client, final String rootPath) {
     super(
@@ -53,10 +55,15 @@ public class BuildInformationApi
   }
 
   @Override
-  public OctopusPackageVersionBuildInformationMappedResource create(
-      final OctopusPackageVersionBuildInformation resourceToCreate) {
+  public BuildInformation create(final OctopusPackageVersionBuildInformation resourceToCreate) {
     throw new UnsupportedOperationException(
         "Build Information cannot be created without specifying an overwriteMode");
+  }
+
+  @Override
+  public BuildInformation createServerObject(
+      final OctopusPackageVersionBuildInformationMappedResource resource) {
+    return new BuildInformation(client, resource);
   }
 
   public OctopusPackageVersionBuildInformationMappedResource create(
@@ -71,8 +78,7 @@ public class BuildInformationApi
   }
 
   @Override
-  public OctopusPackageVersionBuildInformationMappedResource update(
-      final OctopusPackageVersionBuildInformation resource) {
+  public BuildInformation update(final OctopusPackageVersionBuildInformation resource) {
     throw new UnsupportedOperationException(
         "Build Information cannot be updated - it must be re-created with "
             + "overwriteMode=overwrite");

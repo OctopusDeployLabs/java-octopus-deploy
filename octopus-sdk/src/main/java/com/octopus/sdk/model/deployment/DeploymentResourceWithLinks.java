@@ -17,6 +17,10 @@ package com.octopus.sdk.model.deployment;
 
 public class DeploymentResourceWithLinks extends DeploymentResource {
 
+  public DeploymentResourceWithLinks(final String name) {
+    super(name);
+  }
+
   public String getArtifactsLink() {
     return getCleansedLink("Artifacts");
   }

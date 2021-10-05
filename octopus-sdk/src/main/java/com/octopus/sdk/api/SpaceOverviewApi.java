@@ -17,16 +17,21 @@ package com.octopus.sdk.api;
 
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.space.SpaceOverviewPaginatedCollection;
+import com.octopus.sdk.model.space.SpaceOverviewResource;
 import com.octopus.sdk.model.space.SpaceOverviewWithLinks;
 
 public class SpaceOverviewApi
-    extends SymmetricApi<SpaceOverviewWithLinks, SpaceOverviewPaginatedCollection> {
+    extends BaseNamedResourceApi<
+        SpaceOverviewResource,
+        SpaceOverviewWithLinks,
+        SpaceOverviewPaginatedCollection,
+        SpaceOverviewWithLinks> {
 
-  protected SpaceOverviewApi(final OctopusClient client, final String rootPath) {
+  protected SpacesOverviewApi(final OctopusClient client, final String rootPath) {
     super(client, rootPath, SpaceOverviewWithLinks.class, SpaceOverviewPaginatedCollection.class);
   }
 
-  public static SpaceOverviewApi create(final OctopusClient client) {
+  public static SpacesOverviewApi create(final OctopusClient client) {
     if (!client.supportsSpaces()) {
       final String error =
           String.format(
@@ -35,6 +40,11 @@ public class SpaceOverviewApi
               client.getServerUrl());
       throw new IllegalArgumentException(error);
     }
-    return new SpaceOverviewApi(client, client.getRootDocument().getSpacesLink());
+    return new SpacesOverviewApi(client, client.getRootDocument().getSpacesLink());
+  }
+
+  @Override
+  public SpaceOverviewWithLinks createServerObject(final SpaceOverviewWithLinks resource) {
+    return resource;
   }
 }

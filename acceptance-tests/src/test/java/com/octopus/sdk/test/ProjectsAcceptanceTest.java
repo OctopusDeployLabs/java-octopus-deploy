@@ -18,10 +18,11 @@ package com.octopus.sdk.test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.octopus.sdk.api.ProjectApi;
+import com.octopus.sdk.domain.Project;
 import com.octopus.sdk.model.project.ProjectResource;
-import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
@@ -29,18 +30,23 @@ public class ProjectsAcceptanceTest extends SpaceScopedAcceptanceTest {
 
   @Test
   public void returnsAProjectApiForAKnownSpace() {
-    final ProjectApi projectApi = ProjectApi.create(client, spaceHome);
-    assertThat(projectApi).isNotNull();
+    final ProjectApi projectRepository = createdSpace.projects();
+    assertThat(projectRepository).isNotNull();
   }
 
   @Test
   public void canCreateProjectWithinASpaceQueryForItAndDeleteIt() throws IOException {
     final ProjectApi projectApi = ProjectApi.create(client, spaceHome);
-    final ProjectResourceWithLinks projectToCreate = new ProjectResourceWithLinks();
-    projectToCreate.setName("Test Project");
-    projectToCreate.setLifecycleId("Lifecycles-1");
-    projectToCreate.setProjectGroupId("ProjectGroups-42");
-    final ProjectResource createdProject = projectApi.create(projectToCreate);
+    final ProjectResource projectToCreate =
+        new ProjectResource("Test Project", "Lifecycles-1", "ProjectGroups-42");
+    final Project createdProject = projectApi.create(projectToCreate);
     assertThat(createdProject).isNotNull();
+
+    final Optional<Project> retrievedProject =
+        projectApi.getById(createdProject.getProperties().getId());
+    assertThat(retrievedProject).isNotEmpty();
+
+    projectApi.delete(createdProject.getProperties().getId());
+    assertThat(projectApi.getById(createdProject.getProperties().getId())).isEmpty();
   }
 }

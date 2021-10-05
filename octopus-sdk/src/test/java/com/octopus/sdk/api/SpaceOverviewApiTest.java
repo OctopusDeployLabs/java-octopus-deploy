@@ -15,10 +15,10 @@
 
 package com.octopus.sdk.api;
 
-import static com.octopus.sdk.support.TestHelpers.defaultRootDoc;
 import static com.octopus.sdk.support.TestHelpers.rootDocWithLinks;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
+import static java.util.Collections.emptySet;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -29,37 +29,15 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.RootDocument;
 import com.octopus.sdk.model.space.SpaceOverviewPaginatedCollection;
 import com.octopus.sdk.model.space.SpaceOverviewWithLinks;
-import com.octopus.sdk.support.TestHelpers;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import okhttp3.OkHttpClient;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockserver.integration.ClientAndServer;
 
-class SpaceOverviewApiTest {
-
-  private URL serverUrl;
-  private OctopusClient client;
-  private final Gson gson = new GsonBuilder().create();
-
-  private ClientAndServer mockOctopusServer;
-
-  @BeforeEach
-  public void setup() {
-    mockOctopusServer = new ClientAndServer();
-    serverUrl = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
-    client = new OctopusClient(new OkHttpClient(), serverUrl);
-    mockOctopusServer
-        .when(request().withPath("/api"))
-        .respond(response().withStatusCode(200).withBody(gson.toJson(defaultRootDoc())));
-  }
+class SpaceOverviewApiTest extends BaseApiTest {
 
   @Test
   public void canDecodeAnEmptyResponseWhenSearchingByPartialNameMatch() throws IOException {
@@ -80,8 +58,7 @@ class SpaceOverviewApiTest {
   @Test
   public void exactMatchNameReturnsASingleItem() throws IOException {
     final String SPACE_NAME = "ArbitraryName";
-    final SpaceOverviewWithLinks toReturn = new SpaceOverviewWithLinks();
-    toReturn.setName(SPACE_NAME);
+    final SpaceOverviewWithLinks toReturn = new SpaceOverviewWithLinks(SPACE_NAME, emptySet());
 
     final SpaceOverviewPaginatedCollection returnedCollection =
         new SpaceOverviewPaginatedCollection(emptyMap(), 1, 30, 1, 0, singletonList(toReturn));
@@ -112,8 +89,7 @@ class SpaceOverviewApiTest {
   @Test
   public void canFindSpaceContainingWhoseNameContainsASpace() throws IOException {
     final String SPACE_NAME = "Arbitrary Name With Spaces";
-    final SpaceOverviewWithLinks toReturn = new SpaceOverviewWithLinks();
-    toReturn.setName(SPACE_NAME);
+    final SpaceOverviewWithLinks toReturn = new SpaceOverviewWithLinks(SPACE_NAME, emptySet());
 
     final SpaceOverviewPaginatedCollection returnedCollection =
         new SpaceOverviewPaginatedCollection(emptyMap(), 1, 30, 1, 0, singletonList(toReturn));
@@ -129,7 +105,7 @@ class SpaceOverviewApiTest {
 
   @Test
   public void requestSpaceWhenOctopusDoesntSupportSpacesThrowsIllegalStateException() {
-    client = new OctopusClient(new OkHttpClient(), serverUrl);
+    client = new OctopusClient(new OkHttpClient(), client.getServerUrl());
 
     final RootDocument rootDoc = rootDocWithLinks(emptyMap());
     mockOctopusServer.clear(request().withPath("/api")); // remove existing expectation

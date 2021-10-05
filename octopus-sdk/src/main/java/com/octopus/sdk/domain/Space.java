@@ -66,4 +66,8 @@ public class Space {
   public SpaceOverviewWithLinks getProperties() {
     return spaceOverviewResource;
   }
+
+  public SpaceHome getHome() {
+    return spaceHome;
+  }
 }

@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -32,10 +33,11 @@ import com.google.gson.JsonSyntaxException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class BaseResourceApi<
+public abstract class BaseResourceApi<
     CREATE_TYPE extends BaseResource,
     RESPONSE_TYPE extends BaseResource,
-    PAGINATION_TYPE extends PaginatedCollection<RESPONSE_TYPE>> {
+    PAGINATION_TYPE extends PaginatedCollection<RESPONSE_TYPE>,
+    WRAPPED_TYPE> {
 
   private static final Logger LOG = LogManager.getLogger();
 
@@ -55,7 +57,12 @@ public class BaseResourceApi<
     this.collectionType = collectionType;
   }
 
-  public Optional<RESPONSE_TYPE> getById(final String id) throws IOException {
+  public Optional<WRAPPED_TYPE> getById(final String id) throws IOException {
+    Optional<RESPONSE_TYPE> response = getRawTypeById(id);
+    return response.map(this::createServerObject);
+  }
+
+  protected Optional<RESPONSE_TYPE> getRawTypeById(final String id) throws IOException {
     Preconditions.checkNotNull(id, "Cannot provide a resource with a null id");
     final String spacePath = String.format("%s/%s", rootPath, id);
     try {
@@ -63,7 +70,7 @@ public class BaseResourceApi<
       return Optional.of(overview);
     } catch (final HttpException e) {
       LOG.error(
-          "Failed to retrieve a space with an Id of {} (http {}:{})",
+          "Failed to retrieve a resource with an Id of {} (http {}:{})",
           id,
           e.getStatusCode(),
           e.getMessage());
@@ -71,14 +78,14 @@ public class BaseResourceApi<
     } catch (final JsonSyntaxException e) {
       final String error =
           String.format(
-              "Failed to deserialize returned resource for space %s on Octopus Server %s",
+              "Failed to deserialize returned resource of id %s from Octopus Server %s",
               id, client.getServerUrl());
       throw new RuntimeException(error, e);
     }
   }
 
   public void delete(final String id) throws IOException {
-    final Optional<RESPONSE_TYPE> resource = getById(id);
+    final Optional<RESPONSE_TYPE> resource = getRawTypeById(id);
     if (resource.isPresent()) {
       client.delete(RequestEndpoint.fromPath(resource.get().getSelfLink()));
     }
@@ -88,26 +95,41 @@ public class BaseResourceApi<
     client.delete(RequestEndpoint.fromPath(resource.getSelfLink()));
   }
 
-  public RESPONSE_TYPE update(final CREATE_TYPE resourceToUpdate) throws IOException {
-    return client.put(
-        RequestEndpoint.fromPath(resourceToUpdate.getSelfLink()), resourceToUpdate, responseType);
+  public WRAPPED_TYPE update(final CREATE_TYPE resourceToUpdate) throws IOException {
+    return createServerObject(
+        client.put(
+            RequestEndpoint.fromPath(resourceToUpdate.getSelfLink()),
+            resourceToUpdate,
+            responseType));
   }
 
-  public RESPONSE_TYPE create(final CREATE_TYPE resourceToCreate) throws IOException {
-    return client.post(RequestEndpoint.fromPath(rootPath), resourceToCreate, responseType);
+  public WRAPPED_TYPE create(final CREATE_TYPE resourceToCreate) throws IOException {
+    return createServerObject(
+        client.post(RequestEndpoint.fromPath(rootPath), resourceToCreate, responseType));
   }
 
-  public List<RESPONSE_TYPE> getByQuery(final Map<String, List<String>> queryParams)
+  public List<WRAPPED_TYPE> getByQuery(final Map<String, List<String>> queryParams)
+      throws IOException {
+    final RequestEndpoint endpoint = new RequestEndpoint(rootPath, queryParams);
+    final PAGINATION_TYPE itemCollection = client.get(endpoint, collectionType);
+    return getItemsFromPages(itemCollection).stream()
+        .map(this::createServerObject)
+        .collect(Collectors.toList());
+  }
+
+  protected List<RESPONSE_TYPE> getRawByQuery(final Map<String, List<String>> queryParams)
       throws IOException {
     final RequestEndpoint endpoint = new RequestEndpoint(rootPath, queryParams);
     final PAGINATION_TYPE itemCollection = client.get(endpoint, collectionType);
     return getItemsFromPages(itemCollection);
   }
 
-  public List<RESPONSE_TYPE> getAll() throws IOException {
+  public List<WRAPPED_TYPE> getAll() throws IOException {
     final RequestEndpoint endpoint = RequestEndpoint.fromPath(rootPath);
     final PAGINATION_TYPE itemCollection = client.get(endpoint, collectionType);
-    return getItemsFromPages(itemCollection);
+    return getItemsFromPages(itemCollection).stream()
+        .map(this::createServerObject)
+        .collect(Collectors.toList());
   }
 
   protected List<RESPONSE_TYPE> getItemsFromPages(final PAGINATION_TYPE collection)
@@ -125,4 +147,6 @@ public class BaseResourceApi<
 
     return result;
   }
+
+  public abstract WRAPPED_TYPE createServerObject(final RESPONSE_TYPE resource);
 }

@@ -28,7 +28,8 @@ import java.time.Instant;
 import com.google.common.base.Preconditions;
 
 public class ApiKeyApi
-    extends BaseResourceApi<ApiKeyResource, ApiKeyResource, ApiKeyPaginatedCollection> {
+    extends BaseResourceApi<
+        ApiKeyResource, ApiKeyResource, ApiKeyPaginatedCollection, ApiKeyResource> {
 
   public ApiKeyApi(final OctopusClient client, final String rootPath) {
     super(client, rootPath, ApiKeyResource.class, ApiKeyPaginatedCollection.class);
@@ -44,6 +45,11 @@ public class ApiKeyApi
   public ApiKeyResource create(final ApiKeyResource resourceToCreate) throws IOException {
     throw new UnsupportedOperationException(
         "ApiKeys cannot be created via this interface, it must be conducted via 'addKey' function.");
+  }
+
+  @Override
+  public ApiKeyResource createServerObject(final ApiKeyResource resource) {
+    return resource;
   }
 
   public ApiKeyCreatedResource createApiKeyForUser(final String purpose, final Instant expiry)

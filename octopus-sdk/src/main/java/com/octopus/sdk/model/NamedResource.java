@@ -25,6 +25,10 @@ public class NamedResource extends BaseResource {
   @SerializedName("Name")
   private String name;
 
+  public NamedResource(final String name) {
+    this.name = name;
+  }
+
   public String getDescription() {
     return description;
   }

@@ -17,6 +17,10 @@ package com.octopus.sdk.model.projectgroup;
 
 public class ProjectGroupResourceWithLinks extends ProjectGroupResource {
 
+  public ProjectGroupResourceWithLinks(final String name) {
+    super(name);
+  }
+
   public String getProjectsLink() {
     return getCleansedLink("Projects");
   }

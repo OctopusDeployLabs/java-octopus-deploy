@@ -17,14 +17,12 @@ package com.octopus.sdk.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.octopus.sdk.api.ProjectApi;
-import com.octopus.sdk.api.ProjectGroupsApi;
 import com.octopus.sdk.api.ReleaseApi;
+import com.octopus.sdk.domain.ProjectGroup;
+import com.octopus.sdk.domain.Release;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateReleaseCommandParameters;
-import com.octopus.sdk.model.project.ProjectResource;
-import com.octopus.sdk.model.projectgroup.ProjectGroupResourceWithLinks;
-import com.octopus.sdk.model.release.ReleaseResourceWithLinks;
+import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.operations.ExecutionsCreateApi;
 
 import java.io.IOException;
@@ -38,19 +36,17 @@ public class CreateReleaseAcceptanceTest extends SpaceScopedAcceptanceTest {
   private final String projectName = "TheProject";
 
   @BeforeEach
-  public void createDeploymentAcceptanceTestSetup() throws IOException {
-    final ProjectGroupsApi projectGroupsApi = ProjectGroupsApi.create(client, spaceHome);
-    final ProjectGroupResourceWithLinks projectGroup =
-        projectGroupsApi.getAll().stream()
+  public void createReleaseTestSetup() throws IOException {
+    final ProjectGroup projectGroup =
+        createdSpace.projectGroups().getAll().stream()
             .findFirst()
             .orElseThrow(() -> new RuntimeException("No Project Groups exist on server"));
 
-    final ProjectApi projectApi = ProjectApi.create(client, spaceHome);
-    final ProjectResource projectToCreate = new ProjectResource();
-    projectToCreate.setName(projectName);
-    projectToCreate.setLifecycleId("Lifecycles-1");
-    projectToCreate.setProjectGroupId(projectGroup.getId());
-    projectApi.create(projectToCreate);
+    projectGroup
+        .getProjects()
+        .create(
+            new ProjectResourceWithLinks(
+                projectName, "Lifecycles-1", projectGroup.getProperties().getId()));
   }
 
   @Test
@@ -60,12 +56,12 @@ public class CreateReleaseAcceptanceTest extends SpaceScopedAcceptanceTest {
     final CreateReleaseCommandParameters parameters =
         new CreateReleaseCommandParameters(projectName, releaseVersion);
     final CommandBody<CreateReleaseCommandParameters> body =
-        new CommandBody<>(createdSpace.getName(), parameters);
+        new CommandBody<>(createdSpace.getProperties().getName(), parameters);
 
     final String createdReleaseId = ExecutionsCreateApi.createRelease(client, body);
 
     final ReleaseApi releaseApi = ReleaseApi.create(client, spaceHome);
-    final Optional<ReleaseResourceWithLinks> release = releaseApi.getById(createdReleaseId);
+    final Optional<Release> release = releaseApi.getById(createdReleaseId);
 
     assertThat(release).isNotEmpty();
   }

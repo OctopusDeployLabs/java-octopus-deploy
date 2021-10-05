@@ -13,22 +13,20 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.model.releases;
+package com.octopus.sdk;
 
-import com.octopus.sdk.model.PaginatedCollection;
+import com.octopus.sdk.api.SpaceApi;
+import com.octopus.sdk.http.OctopusClient;
 
-import java.util.List;
-import java.util.Map;
+public class Repository {
 
-public class ReleasePaginatedCollection extends PaginatedCollection<ReleaseResourceWithLinks> {
+  private final OctopusClient client;
 
-  public ReleasePaginatedCollection(
-      final Map<String, String> links,
-      final int totalResults,
-      final int itemsPerPage,
-      final int numberOfPages,
-      final int pageNumber,
-      final List<ReleaseResourceWithLinks> items) {
-    super(links, totalResults, itemsPerPage, numberOfPages, pageNumber, items);
+  public Repository(final OctopusClient client) {
+    this.client = client;
+  }
+
+  public SpaceApi spaces() {
+    return new SpaceApi(client, client.getRootDocument().getSpacesLink());
   }
 }

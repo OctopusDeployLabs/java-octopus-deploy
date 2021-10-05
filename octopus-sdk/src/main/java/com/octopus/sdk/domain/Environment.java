@@ -13,22 +13,25 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.api;
+package com.octopus.sdk.domain;
 
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.NamedResource;
-import com.octopus.sdk.model.PaginatedCollection;
+import com.octopus.sdk.model.environments.EnvironmentResourceWithLinks;
 
-public class SymmetricApi<
-        RESOURCE_TYPE extends NamedResource,
-        PAGINATION_TYPE extends PaginatedCollection<RESOURCE_TYPE>>
-    extends BaseNamedResourceApi<RESOURCE_TYPE, RESOURCE_TYPE, PAGINATION_TYPE> {
+public class Environment {
 
-  public SymmetricApi(
-      final OctopusClient client,
-      final String rootPath,
-      final Class<RESOURCE_TYPE> responseType,
-      final Class<PAGINATION_TYPE> collectionType) {
-    super(client, rootPath, responseType, collectionType);
+  @SuppressWarnings("UnusedVariable")
+  private final OctopusClient client;
+
+  private final EnvironmentResourceWithLinks resourceWithLinks;
+
+  public Environment(
+      final OctopusClient client, final EnvironmentResourceWithLinks resourceWithLinks) {
+    this.client = client;
+    this.resourceWithLinks = resourceWithLinks;
+  }
+
+  public EnvironmentResourceWithLinks getProperties() {
+    return resourceWithLinks;
   }
 }

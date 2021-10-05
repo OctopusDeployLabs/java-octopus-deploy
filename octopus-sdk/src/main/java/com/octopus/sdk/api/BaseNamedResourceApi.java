@@ -32,8 +32,9 @@ import com.google.common.base.Preconditions;
 public abstract class BaseNamedResourceApi<
         CREATE_TYPE extends NamedResource,
         RESPONSE_TYPE extends NamedResource,
-        PAGINATION_TYPE extends PaginatedCollection<RESPONSE_TYPE>>
-    extends BaseResourceApi<CREATE_TYPE, RESPONSE_TYPE, PAGINATION_TYPE> {
+        PAGINATION_TYPE extends PaginatedCollection<RESPONSE_TYPE>,
+        WRAPPED_TYPE>
+    extends BaseResourceApi<CREATE_TYPE, RESPONSE_TYPE, PAGINATION_TYPE, WRAPPED_TYPE> {
 
   public BaseNamedResourceApi(
       final OctopusClient client,
@@ -43,15 +44,17 @@ public abstract class BaseNamedResourceApi<
     super(client, rootPath, resourceType, collectionType);
   }
 
-  public List<RESPONSE_TYPE> getByPartialName(final String partialName) throws IOException {
-    Preconditions.checkNotNull(partialName, "Cannot search for a project with a null partial name");
+  public List<WRAPPED_TYPE> getByPartialName(final String partialName) throws IOException {
+    Preconditions.checkNotNull(
+        partialName, "Cannot search for a resource with a null partial name");
     return getByQuery(singletonMap("partialName", singletonList(partialName)));
   }
 
-  public Optional<RESPONSE_TYPE> getByName(final String completeName) throws IOException {
-    Preconditions.checkNotNull(completeName, "Cannot search for a space with a null name");
+  public Optional<WRAPPED_TYPE> getByName(final String completeName) throws IOException {
+    Preconditions.checkNotNull(completeName, "Cannot search for a resource with a null name");
 
-    final List<RESPONSE_TYPE> partialNameMatch = getByPartialName(completeName);
+    final List<RESPONSE_TYPE> partialNameMatch =
+        getRawByQuery(singletonMap("partialName", singletonList(completeName)));
 
     final List<RESPONSE_TYPE> exactNameMatch =
         partialNameMatch.stream()
@@ -61,10 +64,10 @@ public abstract class BaseNamedResourceApi<
     if (exactNameMatch.size() == 0) {
       return Optional.empty();
     } else if (exactNameMatch.size() == 1) {
-      return Optional.of(exactNameMatch.get(0));
+      return Optional.of(createServerObject(exactNameMatch.get(0)));
     } else {
       throw new IllegalStateException(
-          "Octopus Server reports more than 1 space with an identical name");
+          "Octopus Server reports more than 1 resource with an identical name");
     }
   }
 }

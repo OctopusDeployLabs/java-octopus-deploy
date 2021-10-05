@@ -16,6 +16,11 @@
 package com.octopus.sdk.model.release;
 
 public class ReleaseResourceWithLinks extends ReleaseResource {
+
+  public ReleaseResourceWithLinks(final String version, final String projectId) {
+    super(version, projectId);
+  }
+
   public String getArtifactsLink() {
     return getCleansedLink("Artifacts");
   }

@@ -13,6 +13,24 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.model.releases;
+package com.octopus.sdk.domain;
 
-public class ReleaseResourceWithLinks extends ReleaseResource {}
+import com.octopus.sdk.http.OctopusClient;
+import com.octopus.sdk.model.deployments.DeploymentResourceWithLinks;
+
+public class Deployment {
+
+  @SuppressWarnings("UnusedVariable")
+  private final OctopusClient client;
+
+  private final DeploymentResourceWithLinks properties;
+
+  public Deployment(final OctopusClient client, final DeploymentResourceWithLinks properties) {
+    this.client = client;
+    this.properties = properties;
+  }
+
+  public DeploymentResourceWithLinks getProperties() {
+    return properties;
+  }
+}

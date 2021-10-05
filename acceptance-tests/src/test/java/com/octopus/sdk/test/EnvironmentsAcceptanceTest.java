@@ -17,8 +17,7 @@ package com.octopus.sdk.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.octopus.sdk.api.EnvironmentsApi;
-import com.octopus.sdk.model.environments.EnvironmentResource;
+import com.octopus.sdk.domain.Environment;
 import com.octopus.sdk.model.environments.EnvironmentResourceWithLinks;
 
 import java.io.IOException;
@@ -30,24 +29,22 @@ public class EnvironmentsAcceptanceTest extends SpaceScopedAcceptanceTest {
 
   @Test
   public void canCreateANewEnvironment() throws IOException {
-    final EnvironmentsApi environmentsApi = EnvironmentsApi.create(client, spaceHome);
 
-    final EnvironmentResourceWithLinks environmentToCreate = new EnvironmentResourceWithLinks();
-    environmentToCreate.setName("NewEnv");
-    final EnvironmentResourceWithLinks createdEnvironment =
-        environmentsApi.create(environmentToCreate);
+    final Environment createdEnvironment =
+        createdSpace.environments().create(new EnvironmentResourceWithLinks("NewEnv"));
 
     assertThat(createdEnvironment).isNotNull();
 
-    final Optional<EnvironmentResourceWithLinks> foundEnvironment =
-        environmentsApi.getById(createdEnvironment.getId());
+    final Optional<Environment> foundEnvironment =
+        createdSpace.environments().getById(createdEnvironment.getProperties().getId());
 
     assertThat(foundEnvironment).isNotEmpty();
 
     // This cannot work due to the behaviour of OctopusServer
     // assertThat(foundEnvironment.get()).usingRecursiveComparison().isEqualTo(createdEnvironment);
-    assertThat(foundEnvironment.get())
-        .extracting(EnvironmentResource::getName, EnvironmentResource::getId)
-        .containsExactly(createdEnvironment.getName(), createdEnvironment.getId());
+    assertThat(foundEnvironment.get().getProperties().getName())
+        .isEqualTo(createdEnvironment.getProperties().getName());
+    assertThat(foundEnvironment.get().getProperties().getId())
+        .isEqualTo(createdEnvironment.getProperties().getId());
   }
 }

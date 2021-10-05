@@ -15,15 +15,21 @@
 
 package com.octopus.sdk.api;
 
+import com.octopus.sdk.domain.Environment;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.environments.EnvironmentPaginatedCollection;
+import com.octopus.sdk.model.environments.EnvironmentResource;
 import com.octopus.sdk.model.environments.EnvironmentResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
 
 import com.google.common.base.Preconditions;
 
 public class EnvironmentsApi
-    extends SymmetricApi<EnvironmentResourceWithLinks, EnvironmentPaginatedCollection> {
+    extends BaseNamedResourceApi<
+        EnvironmentResource,
+        EnvironmentResourceWithLinks,
+        EnvironmentPaginatedCollection,
+        Environment> {
   public EnvironmentsApi(final OctopusClient client, final String rootPath) {
     super(
         client, rootPath, EnvironmentResourceWithLinks.class, EnvironmentPaginatedCollection.class);
@@ -33,5 +39,10 @@ public class EnvironmentsApi
     Preconditions.checkNotNull(client, "Supplied a null client");
     Preconditions.checkNotNull(spaceHome, "Cannot create a EnvironmentApi in a 'null' space");
     return new EnvironmentsApi(client, spaceHome.getEnvironmentsLink());
+  }
+
+  @Override
+  public Environment createServerObject(final EnvironmentResourceWithLinks resource) {
+    return new Environment(client, resource);
   }
 }

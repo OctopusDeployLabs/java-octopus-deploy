@@ -2,7 +2,6 @@ package com.octopus.testsupport;
 
 import com.octopus.sdk.api.SpacesOverviewApi;
 import com.octopus.sdk.model.spaces.SpaceOverviewResource;
-import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
 
 import java.io.IOException;
 

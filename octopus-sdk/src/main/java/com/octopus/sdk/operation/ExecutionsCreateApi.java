@@ -15,7 +15,6 @@
 
 package com.octopus.sdk.operation;
 
-import com.google.common.base.Preconditions;
 import com.octopus.sdk.api.SpaceHomeApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
@@ -27,6 +26,8 @@ import com.octopus.sdk.model.space.SpaceHome;
 
 import java.io.IOException;
 import java.util.function.Function;
+
+import com.google.common.base.Preconditions;
 
 public class ExecutionsCreateApi {
 
@@ -49,15 +50,18 @@ public class ExecutionsCreateApi {
     return generalCase(client, payload, SpaceHome::getExecutionsCreateApiRunbookRunCreateLink);
   }
 
-  private static <T> String generalCase(final OctopusClient client, CommandBody<?> payload,
-      final Function<SpaceHome, String> spaceHomePathSupplier) throws IOException {
-    Preconditions.checkNotNull(
-        client, "Attempted operation with a null octopusClient.");
+  private static <T> String generalCase(
+      final OctopusClient client,
+      CommandBody<?> payload,
+      final Function<SpaceHome, String> spaceHomePathSupplier)
+      throws IOException {
+    Preconditions.checkNotNull(client, "Attempted operation with a null octopusClient.");
     Preconditions.checkNotNull(payload, "Attempted operation with null payload.");
 
     final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
     final SpaceHome spaceHome = spaceHomeApi.getByName(payload.getSpaceName());
 
-    return client.post(RequestEndpoint.fromPath(spaceHomePathSupplier.apply(spaceHome)), payload, String.class);
+    return client.post(
+        RequestEndpoint.fromPath(spaceHomePathSupplier.apply(spaceHome)), payload, String.class);
   }
 }

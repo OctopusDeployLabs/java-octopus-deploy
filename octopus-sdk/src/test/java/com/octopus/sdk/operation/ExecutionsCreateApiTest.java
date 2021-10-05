@@ -29,92 +29,87 @@ import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
 import com.octopus.sdk.model.commands.CreateReleaseCommandParameters;
 import com.octopus.sdk.model.commands.ExecuteRunbookCommandParameters;
+import com.octopus.sdk.model.space.SpaceHome;
 import com.octopus.sdk.support.TestHelpers;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 class ExecutionsCreateApiTest {
 
   private final OctopusClient mockClient = mock(OctopusClient.class);
+  private final SpaceHome mockSpaceHome = mock(SpaceHome.class);
+  private final String createReleaseLink = "/api/Space-1/createRelease";
+  private final String createDeploymentLink = "/api/Space-1/createDeployment";
+  private final String executeRunbookLink = "/api/Space-1/executeRunbook";
+  private final String responseBody = "responseBody";
+
+  private final ExecutionsCreateApi executionsCreateApi =
+      new ExecutionsCreateApi(mockClient, mockSpaceHome);
+
+  @BeforeEach
+  public void setup() throws IOException {
+    when(mockSpaceHome.getExecutionsCreateApiReleasesCreateLink()).thenReturn(createReleaseLink);
+    when(mockSpaceHome.getExecutionsCreateApiDeploymentCreateLink())
+        .thenReturn(createDeploymentLink);
+    when(mockSpaceHome.getExecutionsCreateApiRunbookRunCreateLink()).thenReturn(executeRunbookLink);
+    when(mockClient.post(any(), any(), eq(String.class))).thenReturn(responseBody);
+    when(mockClient.supportsSpaces()).thenReturn(true);
+    when(mockClient.getRootDocument()).thenReturn(TestHelpers.defaultRootDoc());
+  }
 
   @Test
-  public void hitsReportedEndpointReceivedFromSpace() throws IOException {
-
-    final Map<String, String> commandLinks = new HashMap<>();
-    final String commandLink = "/api/createDeploymentLink";
-    commandLinks.put("ExecutionsCreateApiDeploymentCreate", commandLink);
-
+  public void hitsReportedEndpointWhenCreatingDeployment() throws IOException {
     final CreateDeploymentCommandParameters parameters =
         new CreateDeploymentCommandParameters("MyProject", singletonList("dev"), "1.0.0");
     final CommandBody<CreateDeploymentCommandParameters> body =
         new CommandBody<>("TheSpace", parameters);
-    final String returnedDeploymentId = "DeploymentId";
 
-    when(mockClient.post(any(), eq(body), eq(String.class))).thenReturn(returnedDeploymentId);
-    when(mockClient.getRootDocument()).thenReturn(TestHelpers.rootDocWithLinks(commandLinks));
+    final String deploymentId = executionsCreateApi.createDeployment(body);
 
-    final String deploymentId = ExecutionsCreateApi.createDeployment(mockClient, body);
-
-    assertThat(deploymentId).isEqualTo(returnedDeploymentId);
+    assertThat(deploymentId).isEqualTo(responseBody);
     final ArgumentCaptor<RequestEndpoint> requestedEndpoint =
         ArgumentCaptor.forClass(RequestEndpoint.class);
     verify(mockClient).post(requestedEndpoint.capture(), eq(body), eq(String.class));
 
-    assertThat(requestedEndpoint.getValue().getPath()).isEqualTo(commandLink);
+    assertThat(requestedEndpoint.getValue().getPath()).isEqualTo(createDeploymentLink);
   }
 
   @Test
   public void hitsReportedEndpointWhenCreatingRelease() throws IOException {
-    final Map<String, String> rootDocLinks = new HashMap<>();
-    final String commandLink = "/api/createReleaseLink";
-    rootDocLinks.put("ReleasesCreateApiReleaseCreate", commandLink);
-
     final CreateReleaseCommandParameters parameters =
         new CreateReleaseCommandParameters("TheProject", "1.0.0");
     final CommandBody<CreateReleaseCommandParameters> body =
         new CommandBody<>("theSpace", parameters);
-    final String releaseIdToReturn = "releaseId";
 
-    when(mockClient.post(any(), eq(body), eq(String.class))).thenReturn(releaseIdToReturn);
-    when(mockClient.getRootDocument()).thenReturn(TestHelpers.rootDocWithLinks(rootDocLinks));
+    final String releaseId = executionsCreateApi.createRelease(body);
 
-    final String releaseId = ExecutionsCreateApi.createRelease(mockClient, body);
-
-    assertThat(releaseId).isEqualTo(releaseIdToReturn);
+    assertThat(releaseId).isEqualTo(responseBody);
     final ArgumentCaptor<RequestEndpoint> requestedEndpoint =
         ArgumentCaptor.forClass(RequestEndpoint.class);
     verify(mockClient).post(requestedEndpoint.capture(), eq(body), eq(String.class));
 
-    assertThat(requestedEndpoint.getValue().getPath()).isEqualTo(commandLink);
+    assertThat(requestedEndpoint.getValue().getPath()).isEqualTo(createReleaseLink);
   }
 
   @Test
   public void hitsCorrectEndpointWithDataWhenExecutingRunbook() throws IOException {
-    final Map<String, String> rootDocLinks = new HashMap<>();
-    final String commandLink = "/api/runbookRunCreate";
-    rootDocLinks.put("ExecutionsCreateApiRunbookRunCreate", commandLink);
     final ExecuteRunbookCommandParameters parameters =
         new ExecuteRunbookCommandParameters(
             "projectName", singletonList("TheEnvironment"), "runbookName");
     final CommandBody<ExecuteRunbookCommandParameters> body =
         new CommandBody<>("theSpace", parameters);
-    final String runbookId = "TheRunbookId";
 
-    when(mockClient.post(any(), eq(body), eq(String.class))).thenReturn(runbookId);
-    when(mockClient.getRootDocument()).thenReturn(TestHelpers.rootDocWithLinks(rootDocLinks));
+    final String returnedRunbookId = executionsCreateApi.executeRunbook(body);
 
-    final String returnedRunbookId = ExecutionsCreateApi.executeRunbook(mockClient, body);
-
-    assertThat(returnedRunbookId).isEqualTo(runbookId);
+    assertThat(returnedRunbookId).isEqualTo(responseBody);
     final ArgumentCaptor<RequestEndpoint> requestedEndpoint =
         ArgumentCaptor.forClass(RequestEndpoint.class);
     verify(mockClient).post(requestedEndpoint.capture(), eq(body), eq(String.class));
 
-    assertThat(requestedEndpoint.getValue().getPath()).isEqualTo(commandLink);
+    assertThat(requestedEndpoint.getValue().getPath()).isEqualTo(executeRunbookLink);
   }
 }

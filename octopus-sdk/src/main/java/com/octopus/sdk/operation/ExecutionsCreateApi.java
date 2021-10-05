@@ -15,7 +15,6 @@
 
 package com.octopus.sdk.operation;
 
-import com.octopus.sdk.api.SpaceHomeApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.commands.CommandBody;
@@ -25,43 +24,43 @@ import com.octopus.sdk.model.commands.ExecuteRunbookCommandParameters;
 import com.octopus.sdk.model.space.SpaceHome;
 
 import java.io.IOException;
-import java.util.function.Function;
 
 import com.google.common.base.Preconditions;
 
 public class ExecutionsCreateApi {
 
-  public static String createDeployment(
-      final OctopusClient client, final CommandBody<CreateDeploymentCommandParameters> payload)
-      throws IOException {
-    return generalCase(client, payload, SpaceHome::getExecutionsCreateApiDeploymentCreateLink);
+  private final OctopusClient client;
+  private final SpaceHome spaceHome;
+
+  public ExecutionsCreateApi(final OctopusClient client, final SpaceHome spaceHome) {
+    Preconditions.checkNotNull(client, "Supplied a null client");
+    Preconditions.checkNotNull(
+        spaceHome, "Cannot create an ExecutionsCreateApi in a null spaceHome");
+    this.client = client;
+    this.spaceHome = spaceHome;
   }
 
-  public static String createRelease(
-      final OctopusClient client, final CommandBody<CreateReleaseCommandParameters> payload)
+  public String createDeployment(final CommandBody<CreateDeploymentCommandParameters> payload)
       throws IOException {
-
-    return generalCase(client, payload, SpaceHome::getExecutionsCreateApiReleasesCreateLink);
-  }
-
-  public static String executeRunbook(
-      final OctopusClient client, final CommandBody<ExecuteRunbookCommandParameters> payload)
-      throws IOException {
-    return generalCase(client, payload, SpaceHome::getExecutionsCreateApiRunbookRunCreateLink);
-  }
-
-  private static <T> String generalCase(
-      final OctopusClient client,
-      CommandBody<?> payload,
-      final Function<SpaceHome, String> spaceHomePathSupplier)
-      throws IOException {
-    Preconditions.checkNotNull(client, "Attempted operation with a null octopusClient.");
-    Preconditions.checkNotNull(payload, "Attempted operation with null payload.");
-
-    final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
-    final SpaceHome spaceHome = spaceHomeApi.getByName(payload.getSpaceName());
-
     return client.post(
-        RequestEndpoint.fromPath(spaceHomePathSupplier.apply(spaceHome)), payload, String.class);
+        RequestEndpoint.fromPath(spaceHome.getExecutionsCreateApiDeploymentCreateLink()),
+        payload,
+        String.class);
+  }
+
+  public String createRelease(final CommandBody<CreateReleaseCommandParameters> payload)
+      throws IOException {
+    return client.post(
+        RequestEndpoint.fromPath(spaceHome.getExecutionsCreateApiReleasesCreateLink()),
+        payload,
+        String.class);
+  }
+
+  public String executeRunbook(final CommandBody<ExecuteRunbookCommandParameters> payload)
+      throws IOException {
+    return client.post(
+        RequestEndpoint.fromPath(spaceHome.getExecutionsCreateApiRunbookRunCreateLink()),
+        payload,
+        String.class);
   }
 }

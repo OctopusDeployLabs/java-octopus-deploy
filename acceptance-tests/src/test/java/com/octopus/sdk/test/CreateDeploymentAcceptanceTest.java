@@ -27,7 +27,6 @@ import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
 import com.octopus.sdk.model.environment.EnvironmentResourceWithLinks;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.model.release.ReleaseResourceWithLinks;
-import com.octopus.sdk.operation.ExecutionsCreateApi;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -69,8 +68,9 @@ public class CreateDeploymentAcceptanceTest extends SpaceScopedAcceptanceTest {
         new CreateDeploymentCommandParameters(projectName, singletonList(envName), releaseVersion);
 
     final String deploymentId =
-        ExecutionsCreateApi.createDeployment(
-            client, new CommandBody<>(createdSpace.getProperties().getName(), params));
+        createdSpace
+            .executionsApi()
+            .createDeployment(new CommandBody<>(createdSpace.getProperties().getName(), params));
 
     final DeploymentApi deploymentApi = DeploymentApi.create(client, spaceHome);
     final Optional<Deployment> deployment = deploymentApi.getById(deploymentId);

@@ -20,35 +20,17 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
-import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.RootDocument;
 import com.octopus.sdk.support.TestHelpers;
 
-import java.net.URL;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import okhttp3.OkHttpClient;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockserver.integration.ClientAndServer;
 
-class SpaceHomeApiTest {
-  private URL serverUrl;
-  private OctopusClient client;
-  private ClientAndServer mockOctopusServer;
-  private final Gson gson = new GsonBuilder().create();
-
-  @BeforeEach
-  public void setup() {
-    mockOctopusServer = new ClientAndServer();
-    serverUrl = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
-    client = new OctopusClient(new OkHttpClient(), serverUrl);
-  }
+class SpaceHomeApiTest extends BaseApiTest {
 
   @Test
   public void throwExceptionIfSpaceRequestedByServerDoesNotSupportSpaces() {
     final RootDocument rootDoc = TestHelpers.rootDocWithLinks(emptyMap());
+    mockOctopusServer.clear(request().withPath("/api")); // remove existing expectation
     mockOctopusServer
         .when(request().withPath("/api"))
         .respond(response().withStatusCode(200).withBody(gson.toJson(rootDoc)));
@@ -63,19 +45,21 @@ class SpaceHomeApiTest {
   @Test
   public void getDefaultThrowsExceptionIfServerHasNoDefaultSpace() {
     final RootDocument rootDoc = TestHelpers.rootDocWithLinks(emptyMap());
+    mockOctopusServer.clear(request().withPath("/api")); // remove existing expectation
     mockOctopusServer
         .when(request().withPath("/api"))
         .respond(response().withStatusCode(200).withBody(gson.toJson(rootDoc)));
 
     final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
 
-    assertThatThrownBy(() -> spaceHomeApi.getDefault())
+    assertThatThrownBy(spaceHomeApi::getDefault)
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("no default space available");
   }
 
   @Test
   public void throwsExceptionIfGetSpaceByNameWithNullName() {
+    mockOctopusServer.clear(request().withPath("/api")); // remove existing expectation
     mockOctopusServer
         .when(request().withPath("/api"))
         .respond(

@@ -15,7 +15,6 @@
 
 package com.octopus.sdk.api;
 
-import static com.octopus.sdk.support.TestHelpers.defaultRootDoc;
 import static com.octopus.sdk.support.TestHelpers.rootDocWithLinks;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
@@ -30,37 +29,15 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.RootDocument;
 import com.octopus.sdk.model.spaces.SpaceOverviewPaginatedCollection;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
-import com.octopus.sdk.support.TestHelpers;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import okhttp3.OkHttpClient;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockserver.integration.ClientAndServer;
 
-class SpacesOverviewApiTest {
-
-  private URL serverUrl;
-  private OctopusClient client;
-  private final Gson gson = new GsonBuilder().create();
-
-  private ClientAndServer mockOctopusServer;
-
-  @BeforeEach
-  public void setup() {
-    mockOctopusServer = new ClientAndServer();
-    serverUrl = TestHelpers.createLocalhostOctopusServerUrl(mockOctopusServer.getPort());
-    client = new OctopusClient(new OkHttpClient(), serverUrl);
-    mockOctopusServer
-        .when(request().withPath("/api"))
-        .respond(response().withStatusCode(200).withBody(gson.toJson(defaultRootDoc())));
-  }
+class SpacesOverviewApiTest extends BaseApiTest {
 
   @Test
   public void canDecodeAnEmptyResponseWhenSearchingByPartialNameMatch() throws IOException {
@@ -128,7 +105,7 @@ class SpacesOverviewApiTest {
 
   @Test
   public void requestSpaceWhenOctopusDoesntSupportSpacesThrowsIllegalStateException() {
-    client = new OctopusClient(new OkHttpClient(), serverUrl);
+    client = new OctopusClient(new OkHttpClient(), client.getServerUrl());
 
     final RootDocument rootDoc = rootDocWithLinks(emptyMap());
     mockOctopusServer.clear(request().withPath("/api")); // remove existing expectation

@@ -18,7 +18,6 @@ package com.octopus.sdk.test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.octopus.sdk.api.OverwriteMode;
-import com.octopus.sdk.api.PackageApi;
 import com.octopus.sdk.model.packages.PackageFromBuiltInFeedResource;
 import com.octopus.sdk.operation.pushpackage.PushPackageUploader;
 import com.octopus.sdk.operation.pushpackage.PushPackageUploaderContext;

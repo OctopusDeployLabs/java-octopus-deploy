@@ -31,7 +31,7 @@ public class ProjectGroupApi
         ProjectGroupPaginatedCollection,
         ProjectGroup> {
 
-  public ProjectGroupsApi(final OctopusClient client, final String rootPath) {
+  public ProjectGroupApi(final OctopusClient client, final String rootPath) {
     super(
         client,
         rootPath,
@@ -39,11 +39,11 @@ public class ProjectGroupApi
         ProjectGroupPaginatedCollection.class);
   }
 
-  public static ProjectGroupsApi create(final OctopusClient client, final SpaceHome spaceHome) {
+  public static ProjectGroupApi create(final OctopusClient client, final SpaceHome spaceHome) {
     Preconditions.checkNotNull(client, "Supplied a null client");
     Preconditions.checkNotNull(
         spaceHome, "Cannot create a ProjectGroupsApi in a space with a 'null' space");
-    return new ProjectGroupsApi(client, spaceHome.getProjectGroupsLink());
+    return new ProjectGroupApi(client, spaceHome.getProjectGroupsLink());
   }
 
   @Override

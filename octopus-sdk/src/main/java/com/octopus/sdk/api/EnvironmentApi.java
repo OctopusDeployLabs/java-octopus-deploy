@@ -30,15 +30,15 @@ public class EnvironmentApi
         EnvironmentResourceWithLinks,
         EnvironmentPaginatedCollection,
         Environment> {
-  public EnvironmentsApi(final OctopusClient client, final String rootPath) {
+  public EnvironmentApi(final OctopusClient client, final String rootPath) {
     super(
         client, rootPath, EnvironmentResourceWithLinks.class, EnvironmentPaginatedCollection.class);
   }
 
-  public static EnvironmentsApi create(final OctopusClient client, final SpaceHome spaceHome) {
+  public static EnvironmentApi create(final OctopusClient client, final SpaceHome spaceHome) {
     Preconditions.checkNotNull(client, "Supplied a null client");
     Preconditions.checkNotNull(spaceHome, "Cannot create a EnvironmentApi in a 'null' space");
-    return new EnvironmentsApi(client, spaceHome.getEnvironmentsLink());
+    return new EnvironmentApi(client, spaceHome.getEnvironmentsLink());
   }
 
   @Override

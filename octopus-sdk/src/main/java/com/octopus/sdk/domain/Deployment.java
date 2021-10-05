@@ -16,7 +16,7 @@
 package com.octopus.sdk.domain;
 
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.deployments.DeploymentResourceWithLinks;
+import com.octopus.sdk.model.deployment.DeploymentResourceWithLinks;
 
 public class Deployment {
 

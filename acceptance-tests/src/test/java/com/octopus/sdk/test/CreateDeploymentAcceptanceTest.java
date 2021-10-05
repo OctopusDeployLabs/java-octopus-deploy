@@ -18,7 +18,7 @@ package com.octopus.sdk.test;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.octopus.sdk.api.DeploymentsApi;
+import com.octopus.sdk.api.DeploymentApi;
 import com.octopus.sdk.domain.Deployment;
 import com.octopus.sdk.domain.Project;
 import com.octopus.sdk.domain.ProjectGroup;
@@ -72,8 +72,8 @@ public class CreateDeploymentAcceptanceTest extends SpaceScopedAcceptanceTest {
         ExecutionsCreateApi.createDeployment(
             client, new CommandBody<>(createdSpace.getProperties().getName(), params));
 
-    final DeploymentsApi deploymentsApi = DeploymentsApi.create(client, spaceHome);
-    final Optional<Deployment> deployment = deploymentsApi.getById(deploymentId);
+    final DeploymentApi deploymentApi = DeploymentApi.create(client, spaceHome);
+    final Optional<Deployment> deployment = deploymentApi.getById(deploymentId);
 
     assertThat(deployment).isNotEmpty();
   }

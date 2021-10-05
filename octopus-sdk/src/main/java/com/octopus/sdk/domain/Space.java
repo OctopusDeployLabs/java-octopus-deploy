@@ -16,14 +16,14 @@
 package com.octopus.sdk.domain;
 
 import com.octopus.sdk.api.BuildInformationApi;
-import com.octopus.sdk.api.EnvironmentsApi;
-import com.octopus.sdk.api.PackagesApi;
+import com.octopus.sdk.api.EnvironmentApi;
+import com.octopus.sdk.api.PackageApi;
 import com.octopus.sdk.api.ProjectApi;
-import com.octopus.sdk.api.ProjectGroupsApi;
+import com.octopus.sdk.api.ProjectGroupApi;
 import com.octopus.sdk.api.ReleaseApi;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.spaces.SpaceHome;
-import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
+import com.octopus.sdk.model.space.SpaceHome;
+import com.octopus.sdk.model.space.SpaceOverviewWithLinks;
 
 public class Space {
   private final OctopusClient client;
@@ -47,16 +47,16 @@ public class Space {
     return ReleaseApi.create(client, spaceHome);
   }
 
-  public EnvironmentsApi environments() {
-    return EnvironmentsApi.create(client, spaceHome);
+  public EnvironmentApi environments() {
+    return EnvironmentApi.create(client, spaceHome);
   }
 
-  public PackagesApi packages() {
-    return PackagesApi.create(client, spaceHome);
+  public PackageApi packages() {
+    return PackageApi.create(client, spaceHome);
   }
 
-  public ProjectGroupsApi projectGroups() {
-    return ProjectGroupsApi.create(client, spaceHome);
+  public ProjectGroupApi projectGroups() {
+    return ProjectGroupApi.create(client, spaceHome);
   }
 
   public BuildInformationApi buildInformation() {

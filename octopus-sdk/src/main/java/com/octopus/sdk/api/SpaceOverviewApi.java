@@ -27,11 +27,11 @@ public class SpaceOverviewApi
         SpaceOverviewPaginatedCollection,
         SpaceOverviewWithLinks> {
 
-  protected SpacesOverviewApi(final OctopusClient client, final String rootPath) {
+  protected SpaceOverviewApi(final OctopusClient client, final String rootPath) {
     super(client, rootPath, SpaceOverviewWithLinks.class, SpaceOverviewPaginatedCollection.class);
   }
 
-  public static SpacesOverviewApi create(final OctopusClient client) {
+  public static SpaceOverviewApi create(final OctopusClient client) {
     if (!client.supportsSpaces()) {
       final String error =
           String.format(
@@ -40,7 +40,7 @@ public class SpaceOverviewApi
               client.getServerUrl());
       throw new IllegalArgumentException(error);
     }
-    return new SpacesOverviewApi(client, client.getRootDocument().getSpacesLink());
+    return new SpaceOverviewApi(client, client.getRootDocument().getSpacesLink());
   }
 
   @Override

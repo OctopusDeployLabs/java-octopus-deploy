@@ -16,7 +16,7 @@
 package com.octopus.sdk.domain;
 
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.environments.EnvironmentResourceWithLinks;
+import com.octopus.sdk.model.environment.EnvironmentResourceWithLinks;
 
 public class Environment {
 

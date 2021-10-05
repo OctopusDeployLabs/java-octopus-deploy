@@ -24,21 +24,21 @@ import com.octopus.sdk.model.space.SpaceHome;
 
 import com.google.common.base.Preconditions;
 
-public class DeploymentsApi
+public class DeploymentApi
     extends BaseNamedResourceApi<
         DeploymentResource,
         DeploymentResourceWithLinks,
         DeploymentPaginatedCollection,
         Deployment> {
 
-  public DeploymentsApi(final OctopusClient client, final String rootPath) {
+  public DeploymentApi(final OctopusClient client, final String rootPath) {
     super(client, rootPath, DeploymentResourceWithLinks.class, DeploymentPaginatedCollection.class);
   }
 
-  public static DeploymentsApi create(final OctopusClient client, final SpaceHome spaceHome) {
+  public static DeploymentApi create(final OctopusClient client, final SpaceHome spaceHome) {
     Preconditions.checkNotNull(client, "Supplied a null client");
     Preconditions.checkNotNull(spaceHome, "Cannot create a DeploymentsApi in a 'null' space");
-    return new DeploymentsApi(client, spaceHome.getDeploymentsLink());
+    return new DeploymentApi(client, spaceHome.getDeploymentsLink());
   }
 
   @Override

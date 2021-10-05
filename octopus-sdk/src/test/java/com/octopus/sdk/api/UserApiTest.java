@@ -20,7 +20,7 @@ import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 import static org.mockserver.verify.VerificationTimes.once;
 
-import com.octopus.sdk.model.users.UserResource;
+import com.octopus.sdk.model.user.UserResource;
 
 import java.io.IOException;
 

@@ -20,8 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
-import com.octopus.sdk.api.SpacesOverviewApi;
-import com.octopus.sdk.api.UsersApi;
+import com.octopus.sdk.api.SpaceOverviewApi;
+import com.octopus.sdk.api.UserApi;
 import com.octopus.sdk.http.HttpException;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.space.SpaceOverviewResource;
@@ -59,7 +59,7 @@ public class SpacesOverviewAcceptanceTest extends BaseOctopusServerEnabledTest {
   public void returnsOptionalEmptyIfNoSpaceWithRequestedNameIsSelected() throws IOException {
     final OctopusClient client =
         new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
-    final SpaceOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
+    final SpaceOverviewApi spaceOverviewApi = SpaceOverviewApi.create(client);
     final Optional<SpaceOverviewWithLinks> requestedSpace =
         spaceOverviewApi.getByName("NonExistentSpace");
 
@@ -71,16 +71,16 @@ public class SpacesOverviewAcceptanceTest extends BaseOctopusServerEnabledTest {
     final String spaceName = "TheTestSpace";
     final OctopusClient client =
         new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
-    final SpaceOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
-    final UserApi users = UsersApi.create(client);
+    final SpaceOverviewApi spaceOverviewApi = SpaceOverviewApi.create(client);
+    final UserApi users = UserApi.create(client);
 
-    assertThat(spacesOverviewApi.getByName(spaceName)).isEmpty();
+    assertThat(spaceOverviewApi.getByName(spaceName)).isEmpty();
 
     final SpaceOverviewWithLinks toCreate =
         new SpaceOverviewWithLinks(
             spaceName, Sets.newLinkedHashSet(users.getCurrentUser().getId()));
 
-    final SpaceOverviewWithLinks createdSpace = spacesOverviewApi.create(toCreate);
+    final SpaceOverviewWithLinks createdSpace = spaceOverviewApi.create(toCreate);
 
     try {
       assertThat(createdSpace).isNotNull();
@@ -89,11 +89,11 @@ public class SpacesOverviewAcceptanceTest extends BaseOctopusServerEnabledTest {
           .containsExactly(users.getCurrentUser().getId());
 
       createdSpace.setTaskQueueStopped(true);
-      final SpaceOverviewResource modifiedSpace = spacesOverviewApi.update(createdSpace);
+      final SpaceOverviewResource modifiedSpace = spaceOverviewApi.update(createdSpace);
       assertThat(modifiedSpace.getTaskQueueStopped()).isTrue();
 
     } finally {
-      deleteSpaceValidly(spacesOverviewApi, createdSpace);
+      deleteSpaceValidly(spaceOverviewApi, createdSpace);
     }
   }
 

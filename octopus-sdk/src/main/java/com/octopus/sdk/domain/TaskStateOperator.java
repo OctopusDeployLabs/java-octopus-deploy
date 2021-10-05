@@ -16,25 +16,28 @@
 package com.octopus.sdk.domain;
 
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.task.TaskResourceWithLinks;
+import com.octopus.sdk.http.RequestEndpoint;
+import com.octopus.sdk.model.task.TaskState;
 
-public class Task {
+import java.io.IOException;
 
-  @SuppressWarnings("UnusedVariable")
+public class TaskStateOperator {
+
   private final OctopusClient client;
+  private final String path;
 
-  private final TaskResourceWithLinks properties;
-
-  public Task(final OctopusClient client, final TaskResourceWithLinks properties) {
+  public TaskStateOperator(final OctopusClient client, final String path) {
     this.client = client;
-    this.properties = properties;
+    this.path = path;
   }
 
-  public TaskResourceWithLinks getProperties() {
-    return properties;
+  public TaskState get() throws IOException {
+    final String stringValue = client.get(RequestEndpoint.fromPath(path), String.class);
+    return TaskState.fromValue(stringValue);
   }
 
-  public TaskStateOperator getTaskState() {
-    return new TaskStateOperator(client, properties.getStateLink());
+  public void set(final TaskState value) throws IOException {
+    client.put(RequestEndpoint.fromPath(path), value, void.class);
+    // not sure if this is meant to return anything
   }
 }

@@ -17,13 +17,13 @@ package com.octopus.sdk.api;
 
 import static java.util.Collections.singletonList;
 
+import com.octopus.sdk.domain.BuildInformation;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformationMappedResource;
 import com.octopus.sdk.model.buildinformation.PackageVersionBuildInformationMappedResourcePaginatedCollection;
 import com.octopus.sdk.model.spaces.SpaceHome;
-import com.octopus.sdk.repository.buildinformation.BuildInformation;
 
 import java.io.IOException;
 import java.util.HashMap;

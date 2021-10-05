@@ -17,11 +17,11 @@ package com.octopus.sdk.operations;
 
 import com.octopus.sdk.api.ProjectApi;
 import com.octopus.sdk.api.SpacesOverviewApi;
+import com.octopus.sdk.domain.Project;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.spaces.SpaceHome;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
-import com.octopus.sdk.repository.project.Project;
 
 import java.io.IOException;
 import java.util.Optional;

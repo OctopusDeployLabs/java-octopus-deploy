@@ -19,15 +19,15 @@ import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.octopus.sdk.api.DeploymentsApi;
+import com.octopus.sdk.domain.Deployment;
+import com.octopus.sdk.domain.Project;
+import com.octopus.sdk.domain.ProjectGroup;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
 import com.octopus.sdk.model.environments.EnvironmentResourceWithLinks;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.model.release.ReleaseResourceWithLinks;
 import com.octopus.sdk.operations.ExecutionsCreateApi;
-import com.octopus.sdk.repository.deployment.Deployment;
-import com.octopus.sdk.repository.project.Project;
-import com.octopus.sdk.repository.projectgroup.ProjectGroup;
 
 import java.io.IOException;
 import java.util.Optional;

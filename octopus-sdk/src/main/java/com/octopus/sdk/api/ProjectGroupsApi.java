@@ -15,12 +15,12 @@
 
 package com.octopus.sdk.api;
 
+import com.octopus.sdk.domain.ProjectGroup;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.projectgroup.ProjectGroupPaginatedCollection;
 import com.octopus.sdk.model.projectgroup.ProjectGroupResource;
 import com.octopus.sdk.model.projectgroup.ProjectGroupResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
-import com.octopus.sdk.repository.projectgroup.ProjectGroup;
 
 import com.google.common.base.Preconditions;
 

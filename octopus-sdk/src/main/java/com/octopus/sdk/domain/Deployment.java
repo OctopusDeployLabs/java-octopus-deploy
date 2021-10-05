@@ -13,7 +13,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.repository.deployment;
+package com.octopus.sdk.domain;
 
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.deployments.DeploymentResourceWithLinks;

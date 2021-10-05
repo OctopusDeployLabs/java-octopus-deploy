@@ -13,13 +13,12 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.repository.release;
+package com.octopus.sdk.domain;
 
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.model.release.ReleaseResourceWithLinks;
-import com.octopus.sdk.repository.project.Project;
 
 import java.io.IOException;
 

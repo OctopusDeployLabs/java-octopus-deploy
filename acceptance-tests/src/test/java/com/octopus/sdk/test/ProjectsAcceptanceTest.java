@@ -18,10 +18,11 @@ package com.octopus.sdk.test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.octopus.sdk.api.ProjectApi;
+import com.octopus.sdk.domain.Project;
 import com.octopus.sdk.model.project.ProjectResource;
-import com.octopus.sdk.repository.project.Project;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
@@ -40,5 +41,12 @@ public class ProjectsAcceptanceTest extends SpaceScopedAcceptanceTest {
         new ProjectResource("Test Project", "Lifecycles-1", "ProjectGroups-42");
     final Project createdProject = projectApi.create(projectToCreate);
     assertThat(createdProject).isNotNull();
+
+    final Optional<Project> retrievedProject =
+        projectApi.getById(createdProject.getProperties().getId());
+    assertThat(retrievedProject).isNotEmpty();
+
+    projectApi.delete(createdProject.getProperties().getId());
+    assertThat(projectApi.getById(createdProject.getProperties().getId())).isEmpty();
   }
 }

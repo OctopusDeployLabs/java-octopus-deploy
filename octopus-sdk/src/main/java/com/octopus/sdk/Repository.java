@@ -13,29 +13,20 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.repository.projectgroup;
+package com.octopus.sdk;
 
-import com.octopus.sdk.api.ProjectApi;
+import com.octopus.sdk.api.SpaceApi;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.projectgroup.ProjectGroupResourceWithLinks;
 
-public class ProjectGroup {
+public class Repository {
 
   private final OctopusClient client;
-  private final ProjectGroupResourceWithLinks resourceWithLinks;
 
-  public ProjectGroup(
-      final OctopusClient client, final ProjectGroupResourceWithLinks resourceWithLinks) {
+  public Repository(final OctopusClient client) {
     this.client = client;
-    this.resourceWithLinks = resourceWithLinks;
   }
 
-  public ProjectApi getProjects() {
-    final String link = resourceWithLinks.getProjectsLink();
-    return new ProjectApi(client, link);
-  }
-
-  public ProjectGroupResourceWithLinks getProperties() {
-    return resourceWithLinks;
+  public SpaceApi spaces() {
+    return new SpaceApi(client, client.getRootDocument().getSpacesLink());
   }
 }

@@ -45,12 +45,13 @@ public abstract class BaseNamedResourceApi<
   }
 
   public List<WRAPPED_TYPE> getByPartialName(final String partialName) throws IOException {
-    Preconditions.checkNotNull(partialName, "Cannot search for a project with a null partial name");
+    Preconditions.checkNotNull(
+        partialName, "Cannot search for a resource with a null partial name");
     return getByQuery(singletonMap("partialName", singletonList(partialName)));
   }
 
   public Optional<WRAPPED_TYPE> getByName(final String completeName) throws IOException {
-    Preconditions.checkNotNull(completeName, "Cannot search for a space with a null name");
+    Preconditions.checkNotNull(completeName, "Cannot search for a resource with a null name");
 
     final List<RESPONSE_TYPE> partialNameMatch =
         getRawByQuery(singletonMap("partialName", singletonList(completeName)));
@@ -66,7 +67,7 @@ public abstract class BaseNamedResourceApi<
       return Optional.of(createServerObject(exactNameMatch.get(0)));
     } else {
       throw new IllegalStateException(
-          "Octopus Server reports more than 1 space with an identical name");
+          "Octopus Server reports more than 1 resource with an identical name");
     }
   }
 }

@@ -15,13 +15,14 @@
 
 package com.octopus.sdk.test;
 
+import com.octopus.sdk.Repository;
 import com.octopus.sdk.api.SpaceHomeApi;
 import com.octopus.sdk.api.UsersApi;
+import com.octopus.sdk.domain.Space;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.spaces.SpaceHome;
+import com.octopus.sdk.model.spaces.SpaceOverviewResource;
 import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
-import com.octopus.sdk.repository.Repository;
-import com.octopus.sdk.repository.space.Space;
 import com.octopus.testsupport.BaseOctopusServerEnabledTest;
 
 import java.io.IOException;
@@ -64,8 +65,10 @@ public class SpaceScopedAcceptanceTest extends BaseOctopusServerEnabledTest {
   @AfterEach
   public void cleanup() throws IOException {
     if (repo != null && createdSpace != null) {
-      final String spaceId = createdSpace.getProperties().getId();
-      repo.spaces().removeById(spaceId);
+      final SpaceOverviewResource resource = createdSpace.getProperties();
+      resource.setTaskQueueStopped(true);
+      repo.spaces().update(resource);
+      repo.spaces().delete(resource);
     }
     createdSpace = null;
   }

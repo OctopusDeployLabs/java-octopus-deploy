@@ -13,20 +13,25 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.repository;
+package com.octopus.sdk.domain;
 
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.repository.space.SpaceRepository;
+import com.octopus.sdk.model.environments.EnvironmentResourceWithLinks;
 
-public class Repository {
+public class Environment {
 
+  @SuppressWarnings("UnusedVariable")
   private final OctopusClient client;
 
-  public Repository(final OctopusClient client) {
+  private final EnvironmentResourceWithLinks resourceWithLinks;
+
+  public Environment(
+      final OctopusClient client, final EnvironmentResourceWithLinks resourceWithLinks) {
     this.client = client;
+    this.resourceWithLinks = resourceWithLinks;
   }
 
-  public SpaceRepository spaces() {
-    return new SpaceRepository(client);
+  public EnvironmentResourceWithLinks getProperties() {
+    return resourceWithLinks;
   }
 }

@@ -13,7 +13,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.repository.space;
+package com.octopus.sdk.domain;
 
 import com.octopus.sdk.api.BuildInformationApi;
 import com.octopus.sdk.api.EnvironmentsApi;

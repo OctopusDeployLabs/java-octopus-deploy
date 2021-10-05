@@ -13,25 +13,29 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.repository.environment;
+package com.octopus.sdk.domain;
 
+import com.octopus.sdk.api.ProjectApi;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.environments.EnvironmentResourceWithLinks;
+import com.octopus.sdk.model.projectgroup.ProjectGroupResourceWithLinks;
 
-public class Environment {
+public class ProjectGroup {
 
-  @SuppressWarnings("UnusedVariable")
   private final OctopusClient client;
+  private final ProjectGroupResourceWithLinks resourceWithLinks;
 
-  private final EnvironmentResourceWithLinks resourceWithLinks;
-
-  public Environment(
-      final OctopusClient client, final EnvironmentResourceWithLinks resourceWithLinks) {
+  public ProjectGroup(
+      final OctopusClient client, final ProjectGroupResourceWithLinks resourceWithLinks) {
     this.client = client;
     this.resourceWithLinks = resourceWithLinks;
   }
 
-  public EnvironmentResourceWithLinks getProperties() {
+  public ProjectApi getProjects() {
+    final String link = resourceWithLinks.getProjectsLink();
+    return new ProjectApi(client, link);
+  }
+
+  public ProjectGroupResourceWithLinks getProperties() {
     return resourceWithLinks;
   }
 }

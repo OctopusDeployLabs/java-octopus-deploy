@@ -15,12 +15,12 @@
 
 package com.octopus.sdk.api;
 
+import com.octopus.sdk.domain.Deployment;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.deployments.DeploymentPaginatedCollection;
 import com.octopus.sdk.model.deployments.DeploymentResource;
 import com.octopus.sdk.model.deployments.DeploymentResourceWithLinks;
 import com.octopus.sdk.model.spaces.SpaceHome;
-import com.octopus.sdk.repository.deployment.Deployment;
 
 import com.google.common.base.Preconditions;
 

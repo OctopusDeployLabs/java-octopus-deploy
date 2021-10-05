@@ -15,6 +15,9 @@
 
 package com.octopus.sdk.test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import com.octopus.sdk.domain.Channel;
 import com.octopus.sdk.domain.Lifecycle;
 import com.octopus.sdk.domain.Project;
 import com.octopus.sdk.domain.ProjectGroup;
@@ -24,13 +27,14 @@ import com.octopus.sdk.model.project.ProjectResource;
 import com.octopus.sdk.model.projectgroup.ProjectGroupResource;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
 public class ChannelAcceptanceTest extends SpaceScopedAcceptanceTest {
 
   @Test
-  public void canCreateNewChannel() throws IOException {
+  public void canCreateNewChannelAndDeleteIt() throws IOException {
     final Lifecycle lifecycle =
         createdSpace.lifecycles().create(new LifecycleResource("MyLifecycle"));
     final ProjectGroup projectGroup =
@@ -44,8 +48,28 @@ public class ChannelAcceptanceTest extends SpaceScopedAcceptanceTest {
                     lifecycle.getProperties().getId(),
                     projectGroup.getProperties().getId()));
 
-    createdSpace
-        .channels()
-        .create(new ChannelResource("myChannel", project.getProperties().getId()));
+    final Channel createdChannel =
+        createdSpace
+            .channels()
+            .create(new ChannelResource("myChannel", project.getProperties().getId()));
+
+    assertThat(createdChannel).isNotNull();
+    assertThat(createdChannel.project().getProperties().getName())
+        .isEqualTo(project.getProperties().getName());
+
+    final Optional<Channel> projectScopedChannel =
+        createdSpace
+            .projects()
+            .getByName(project.getProperties().getName())
+            .get()
+            .getChannels()
+            .getByName(createdChannel.getProperties().getName());
+    assertThat(projectScopedChannel).isNotEmpty();
+
+    createdSpace.channels().delete(createdChannel.getProperties().getId());
+
+    assertThat(createdSpace.channels().getAll())
+        .map(c -> c.getProperties().getName())
+        .doesNotContain(createdSpace.getProperties().getName());
   }
 }

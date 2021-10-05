@@ -17,8 +17,6 @@ package com.octopus.sdk.model.space;
 
 import java.util.Set;
 
-import java.util.Set;
-
 public class SpaceOverviewWithLinks extends SpaceOverviewResource {
 
   public SpaceOverviewWithLinks(final String name, final Set<String> spaceManagersTeamMembers) {

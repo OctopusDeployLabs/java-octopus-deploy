@@ -17,10 +17,10 @@ package com.octopus.testsupport;
 
 import com.octopus.sdk.api.ApiKeyApi;
 import com.octopus.sdk.api.LicenseApi;
-import com.octopus.sdk.api.UsersApi;
+import com.octopus.sdk.api.UserApi;
 import com.octopus.sdk.http.InMemoryCookieJar;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.users.UserResourceWithLinks;
+import com.octopus.sdk.model.user.UserResourceWithLinks;
 
 import java.io.IOException;
 import java.net.URL;
@@ -163,7 +163,7 @@ public class DockerisedOctopusDeployServer implements OctopusDeployServer {
   }
 
   public static String createApiKeyForCurrentUser(final OctopusClient client) throws IOException {
-    final UsersApi users = UsersApi.create(client);
+    final UserApi users = UserApi.create(client);
     final UserResourceWithLinks currentUserResource = users.getCurrentUser();
     final ApiKeyApi apiKeyApi = ApiKeyApi.create(client, currentUserResource);
     return apiKeyApi

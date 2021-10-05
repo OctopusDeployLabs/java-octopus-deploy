@@ -24,7 +24,7 @@ import static org.mockserver.model.HttpResponse.response;
 import com.octopus.sdk.model.buildinformation.BuildInformationResource;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformationMappedResource;
-import com.octopus.sdk.model.spaces.SpaceHome;
+import com.octopus.sdk.model.space.SpaceHome;
 
 import java.io.IOException;
 import java.util.Collections;

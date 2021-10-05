@@ -17,12 +17,12 @@ package com.octopus.sdk.test;
 
 import com.octopus.sdk.Repository;
 import com.octopus.sdk.api.SpaceHomeApi;
-import com.octopus.sdk.api.UsersApi;
+import com.octopus.sdk.api.UserApi;
 import com.octopus.sdk.domain.Space;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.spaces.SpaceHome;
-import com.octopus.sdk.model.spaces.SpaceOverviewResource;
-import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
+import com.octopus.sdk.model.space.SpaceHome;
+import com.octopus.sdk.model.space.SpaceOverviewResource;
+import com.octopus.sdk.model.space.SpaceOverviewWithLinks;
 import com.octopus.testsupport.BaseOctopusServerEnabledTest;
 
 import java.io.IOException;
@@ -49,7 +49,7 @@ public class SpaceScopedAcceptanceTest extends BaseOctopusServerEnabledTest {
   public void localSetup(final TestInfo testInfo) throws IOException {
     client = new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
     repo = new Repository(client);
-    final UsersApi users = UsersApi.create(client);
+    final UserApi users = UserApi.create(client);
 
     final String spaceName =
         testInfo

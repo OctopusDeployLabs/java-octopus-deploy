@@ -20,7 +20,7 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.release.ReleasePaginatedCollection;
 import com.octopus.sdk.model.release.ReleaseResource;
 import com.octopus.sdk.model.release.ReleaseResourceWithLinks;
-import com.octopus.sdk.model.spaces.SpaceHome;
+import com.octopus.sdk.model.space.SpaceHome;
 
 import com.google.common.base.Preconditions;
 

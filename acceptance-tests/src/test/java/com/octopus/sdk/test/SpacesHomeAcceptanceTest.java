@@ -18,9 +18,9 @@ package com.octopus.sdk.test;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.octopus.sdk.api.SpaceHomeApi;
-import com.octopus.sdk.api.SpacesOverviewApi;
+import com.octopus.sdk.api.SpaceOverviewApi;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
+import com.octopus.sdk.model.space.SpaceOverviewWithLinks;
 import com.octopus.testsupport.BaseOctopusServerEnabledTest;
 
 import java.io.IOException;
@@ -46,15 +46,15 @@ public class SpacesHomeAcceptanceTest extends BaseOctopusServerEnabledTest {
     final OctopusClient client =
         new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
 
-    final SpacesOverviewApi spacesOverviewApi = SpacesOverviewApi.create(client);
-    final List<SpaceOverviewWithLinks> spaces = spacesOverviewApi.getAll();
+    final SpaceOverviewApi spaceOverviewApi = SpaceOverviewApi.create(client);
+    final List<SpaceOverviewWithLinks> spaces = spaceOverviewApi.getAll();
     // Ensure no defaultSpaces exist
     final Optional<SpaceOverviewWithLinks> alteredSpace =
         spaces.stream().filter(SpaceOverviewWithLinks::getDefault).findFirst();
 
     if (alteredSpace.isPresent()) {
       alteredSpace.get().setDefault(false);
-      spacesOverviewApi.update(alteredSpace.get());
+      spaceOverviewApi.update(alteredSpace.get());
     }
 
     try {
@@ -64,7 +64,7 @@ public class SpacesHomeAcceptanceTest extends BaseOctopusServerEnabledTest {
     } finally {
       if (alteredSpace.isPresent()) {
         alteredSpace.get().setDefault(true);
-        spacesOverviewApi.update(alteredSpace.get());
+        spaceOverviewApi.update(alteredSpace.get());
       }
     }
   }

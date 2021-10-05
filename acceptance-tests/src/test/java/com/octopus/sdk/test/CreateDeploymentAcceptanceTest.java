@@ -18,16 +18,16 @@ package com.octopus.sdk.test;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.octopus.sdk.api.DeploymentsApi;
+import com.octopus.sdk.api.DeploymentApi;
 import com.octopus.sdk.domain.Deployment;
 import com.octopus.sdk.domain.Project;
 import com.octopus.sdk.domain.ProjectGroup;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
-import com.octopus.sdk.model.environments.EnvironmentResourceWithLinks;
+import com.octopus.sdk.model.environment.EnvironmentResourceWithLinks;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.model.release.ReleaseResourceWithLinks;
-import com.octopus.sdk.operations.ExecutionsCreateApi;
+import com.octopus.sdk.operation.ExecutionsCreateApi;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -72,8 +72,8 @@ public class CreateDeploymentAcceptanceTest extends SpaceScopedAcceptanceTest {
         ExecutionsCreateApi.createDeployment(
             client, new CommandBody<>(createdSpace.getProperties().getName(), params));
 
-    final DeploymentsApi deploymentsApi = DeploymentsApi.create(client, spaceHome);
-    final Optional<Deployment> deployment = deploymentsApi.getById(deploymentId);
+    final DeploymentApi deploymentApi = DeploymentApi.create(client, spaceHome);
+    final Optional<Deployment> deployment = deploymentApi.getById(deploymentId);
 
     assertThat(deployment).isNotEmpty();
   }

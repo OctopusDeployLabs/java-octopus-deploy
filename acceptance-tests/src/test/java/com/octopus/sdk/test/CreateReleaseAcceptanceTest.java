@@ -23,7 +23,7 @@ import com.octopus.sdk.domain.Release;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.commands.CreateReleaseCommandParameters;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
-import com.octopus.sdk.operations.ExecutionsCreateApi;
+import com.octopus.sdk.operation.ExecutionsCreateApi;
 
 import java.io.IOException;
 import java.util.Optional;

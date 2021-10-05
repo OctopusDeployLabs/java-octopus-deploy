@@ -18,7 +18,7 @@ package com.octopus.sdk.test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.octopus.sdk.domain.Environment;
-import com.octopus.sdk.model.environments.EnvironmentResourceWithLinks;
+import com.octopus.sdk.model.environment.EnvironmentResourceWithLinks;
 
 import java.io.IOException;
 import java.util.Optional;

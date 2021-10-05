@@ -19,9 +19,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.octopus.sdk.api.OverwriteMode;
 import com.octopus.sdk.model.packages.PackageFromBuiltInFeedResource;
-import com.octopus.sdk.operations.pushpackage.PushPackageUploader;
-import com.octopus.sdk.operations.pushpackage.PushPackageUploaderContext;
-import com.octopus.sdk.operations.pushpackage.PushPackageUploaderContextBuilder;
+import com.octopus.sdk.operation.pushpackage.PushPackageUploader;
+import com.octopus.sdk.operation.pushpackage.PushPackageUploaderContext;
+import com.octopus.sdk.operation.pushpackage.PushPackageUploaderContextBuilder;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

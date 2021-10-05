@@ -18,7 +18,7 @@ package com.octopus.sdk.test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.octopus.sdk.api.UsersApi;
+import com.octopus.sdk.api.UserApi;
 import com.octopus.sdk.http.HttpException;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.testsupport.BaseOctopusServerEnabledTest;
@@ -36,15 +36,15 @@ public class UserAcceptanceTest extends BaseOctopusServerEnabledTest {
   public void throwsExceptionWhenQueryingForCurrentUserWhenNotAuthenticated() throws IOException {
     // No Api key is provided - so unable to get current user
     client = new OctopusClient(httpClient, new URL(server.getOctopusUrl()));
-    final UsersApi usersApi = UsersApi.create(client);
-    assertThatThrownBy(usersApi::getCurrentUser).isInstanceOf(HttpException.class);
+    final UserApi userApi = UserApi.create(client);
+    assertThatThrownBy(userApi::getCurrentUser).isInstanceOf(HttpException.class);
   }
 
   @Test
   public void canGetCurrentUserWhenAuthenticated() throws IOException {
     client = new OctopusClient(httpClient, new URL(server.getOctopusUrl()), server.getApiKey());
-    final UsersApi usersApi = UsersApi.create(client);
+    final UserApi userApi = UserApi.create(client);
 
-    assertThat(usersApi.getCurrentUser()).isNotNull();
+    assertThat(userApi.getCurrentUser()).isNotNull();
   }
 }

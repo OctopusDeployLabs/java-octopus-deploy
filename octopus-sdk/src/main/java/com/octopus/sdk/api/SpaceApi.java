@@ -17,10 +17,10 @@ package com.octopus.sdk.api;
 
 import com.octopus.sdk.domain.Space;
 import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.spaces.SpaceHome;
-import com.octopus.sdk.model.spaces.SpaceOverviewPaginatedCollection;
-import com.octopus.sdk.model.spaces.SpaceOverviewResource;
-import com.octopus.sdk.model.spaces.SpaceOverviewWithLinks;
+import com.octopus.sdk.model.space.SpaceHome;
+import com.octopus.sdk.model.space.SpaceOverviewPaginatedCollection;
+import com.octopus.sdk.model.space.SpaceOverviewResource;
+import com.octopus.sdk.model.space.SpaceOverviewWithLinks;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;

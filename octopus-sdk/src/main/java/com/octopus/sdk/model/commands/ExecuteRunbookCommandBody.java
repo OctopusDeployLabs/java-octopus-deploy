@@ -21,7 +21,7 @@ import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("UnusedVariable")
-public class ExecuteRunbookCommandParameters extends BaseCommandParameters {
+public class ExecuteRunbookCommandBody extends BaseExecutionCommandBody {
 
   @SerializedName("runbookIdOrName")
   private String runbookName;
@@ -29,9 +29,12 @@ public class ExecuteRunbookCommandParameters extends BaseCommandParameters {
   @SerializedName("snapshot")
   private String snapshot;
 
-  public ExecuteRunbookCommandParameters(
-      final String projectIdOrName, final List<String> environmentNames, final String runbookName) {
-    super(projectIdOrName, environmentNames);
+  public ExecuteRunbookCommandBody(
+      final String spaceIdOrName,
+      final String projectIdOrName,
+      final List<String> environmentNames,
+      final String runbookName) {
+    super(spaceIdOrName, projectIdOrName, environmentNames);
     Preconditions.checkNotNull(runbookName, "runbookName cannot be null");
     this.runbookName = runbookName;
   }

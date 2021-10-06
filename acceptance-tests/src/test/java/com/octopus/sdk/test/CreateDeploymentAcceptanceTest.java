@@ -22,12 +22,10 @@ import com.octopus.sdk.api.DeploymentApi;
 import com.octopus.sdk.domain.Deployment;
 import com.octopus.sdk.domain.Project;
 import com.octopus.sdk.domain.ProjectGroup;
-import com.octopus.sdk.model.commands.CommandBody;
-import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
+import com.octopus.sdk.model.commands.CreateDeploymentCommandBody;
 import com.octopus.sdk.model.environment.EnvironmentResourceWithLinks;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 import com.octopus.sdk.model.release.ReleaseResourceWithLinks;
-import com.octopus.sdk.operation.ExecutionsCreateApi;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -65,12 +63,14 @@ public class CreateDeploymentAcceptanceTest extends SpaceScopedAcceptanceTest {
   @Test
   @Disabled
   public void createDeployment() throws IOException {
-    final CreateDeploymentCommandParameters params =
-        new CreateDeploymentCommandParameters(projectName, singletonList(envName), releaseVersion);
+    final CreateDeploymentCommandBody body =
+        new CreateDeploymentCommandBody(
+            createdSpace.getProperties().getName(),
+            projectName,
+            singletonList(envName),
+            releaseVersion);
 
-    final String deploymentId =
-        ExecutionsCreateApi.createDeployment(
-            client, new CommandBody<>(createdSpace.getProperties().getName(), params));
+    final String deploymentId = createdSpace.executionsApi().createDeployment(body);
 
     final DeploymentApi deploymentApi = DeploymentApi.create(client, spaceHome);
     final Optional<Deployment> deployment = deploymentApi.getById(deploymentId);

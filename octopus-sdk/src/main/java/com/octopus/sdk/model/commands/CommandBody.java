@@ -18,26 +18,17 @@ package com.octopus.sdk.model.commands;
 import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
 
-public class CommandBody<T extends TParameters> {
+public class CommandBody {
 
   @SerializedName("spaceIdOrName")
-  private final String spaceName;
+  private final String spaceIdOrName;
 
-  @SerializedName("parameters")
-  private final T parameters;
-
-  public CommandBody(final String spaceName, final T parameters) {
-    Preconditions.checkNotNull(spaceName, "Spacename must be specified");
-    Preconditions.checkNotNull(parameters, "Parameters must be specified");
-    this.spaceName = spaceName;
-    this.parameters = parameters;
+  public CommandBody(final String spaceIdOrName) {
+    Preconditions.checkNotNull(spaceIdOrName, "spaceIdOrName must be specified");
+    this.spaceIdOrName = spaceIdOrName;
   }
 
-  public String getSpaceName() {
-    return spaceName;
-  }
-
-  public T getParameters() {
-    return parameters;
+  public String getSpaceIdOrName() {
+    return spaceIdOrName;
   }
 }

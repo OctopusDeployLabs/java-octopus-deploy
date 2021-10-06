@@ -23,13 +23,13 @@ import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("UnusedVariable")
-public class BaseCommandParameters implements TParameters {
+public class BaseExecutionCommandBody extends CommandBody {
 
   @SerializedName("projectIdOrName")
   private String projectIdOrName;
 
   @SerializedName("environmentIdsOrNames")
-  private List<String> environmentNames;
+  private List<String> environmentIdsOrNames;
 
   @SerializedName("tenants")
   private List<String> tenantIdsOrNames;
@@ -61,22 +61,25 @@ public class BaseCommandParameters implements TParameters {
   @SerializedName("variables")
   private Map<String, String> variables;
 
-  public BaseCommandParameters(final String projectIdOrName, final List<String> environmentNames) {
-    Preconditions.checkNotNull(projectIdOrName, "projectName cannot be null");
-    Preconditions.checkNotNull(environmentNames, "environmentNames cannot be null");
+  public BaseExecutionCommandBody(
+      final String spaceNameOrId,
+      final String projectIdOrName,
+      final List<String> environmentIdsOrNames) {
+    super(spaceNameOrId);
+    Preconditions.checkNotNull(projectIdOrName, "projectIdOrName cannot be null");
+    Preconditions.checkNotNull(environmentIdsOrNames, "environmentIdsOrNames cannot be null");
     Preconditions.checkArgument(
-        !environmentNames.isEmpty(), "environmentNames list cannot be empty");
-
+        !environmentIdsOrNames.isEmpty(), "environmentNames list cannot be empty");
     this.projectIdOrName = projectIdOrName;
-    this.environmentNames = environmentNames;
+    this.environmentIdsOrNames = environmentIdsOrNames;
   }
 
   public void setProjectIdOrName(final String projectIdOrName) {
     this.projectIdOrName = projectIdOrName;
   }
 
-  public void setEnvironmentNames(final List<String> environmentNames) {
-    this.environmentNames = environmentNames;
+  public void setEnvironmentIdsOrNames(final List<String> environmentIdsOrNames) {
+    this.environmentIdsOrNames = environmentIdsOrNames;
   }
 
   public void setTenantIdsOrNames(final List<String> tenantIdsOrNames) {

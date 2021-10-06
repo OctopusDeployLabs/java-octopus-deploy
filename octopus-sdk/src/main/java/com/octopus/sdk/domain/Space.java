@@ -26,6 +26,7 @@ import com.octopus.sdk.api.ReleaseApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.space.SpaceHome;
 import com.octopus.sdk.model.space.SpaceOverviewWithLinks;
+import com.octopus.sdk.operation.ExecutionsCreateApi;
 
 public class Space {
   private final OctopusClient client;
@@ -75,5 +76,13 @@ public class Space {
 
   public SpaceOverviewWithLinks getProperties() {
     return spaceOverviewResource;
+  }
+
+  public SpaceHome getHome() {
+    return spaceHome;
+  }
+
+  public ExecutionsCreateApi executionsApi() {
+    return new ExecutionsCreateApi(client, spaceHome);
   }
 }

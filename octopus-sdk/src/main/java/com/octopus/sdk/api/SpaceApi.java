@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 
 public class SpaceApi
-    extends BaseResourceApi<
+    extends BaseNamedResourceApi<
         SpaceOverviewResource, SpaceOverviewWithLinks, SpaceOverviewPaginatedCollection, Space> {
 
   private final SpaceHomeApi homeApi;

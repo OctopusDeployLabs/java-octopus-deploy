@@ -20,10 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.octopus.sdk.api.ReleaseApi;
 import com.octopus.sdk.domain.ProjectGroup;
 import com.octopus.sdk.domain.Release;
-import com.octopus.sdk.model.commands.CommandBody;
-import com.octopus.sdk.model.commands.CreateReleaseCommandParameters;
+import com.octopus.sdk.model.commands.CreateReleaseCommandBody;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
-import com.octopus.sdk.operation.ExecutionsCreateApi;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -53,12 +51,11 @@ public class CreateReleaseAcceptanceTest extends SpaceScopedAcceptanceTest {
   @Disabled
   public void createdReleaseCanBeQueried() throws IOException {
     final String releaseVersion = "1.0.0";
-    final CreateReleaseCommandParameters parameters =
-        new CreateReleaseCommandParameters(projectName, releaseVersion);
-    final CommandBody<CreateReleaseCommandParameters> body =
-        new CommandBody<>(createdSpace.getProperties().getName(), parameters);
+    final CreateReleaseCommandBody body =
+        new CreateReleaseCommandBody(
+            createdSpace.getProperties().getName(), projectName, releaseVersion);
 
-    final String createdReleaseId = ExecutionsCreateApi.createRelease(client, body);
+    final String createdReleaseId = createdSpace.executionsApi().createRelease(body);
 
     final ReleaseApi releaseApi = ReleaseApi.create(client, spaceHome);
     final Optional<Release> release = releaseApi.getById(createdReleaseId);

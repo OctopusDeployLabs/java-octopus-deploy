@@ -21,7 +21,7 @@ import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("UnusedVariable")
-public class CreateReleaseCommandParameters implements TParameters {
+public class CreateReleaseCommandBody extends CommandBody {
 
   @SerializedName("projectIdOrName")
   private String projectIdOrName;
@@ -62,13 +62,9 @@ public class CreateReleaseCommandParameters implements TParameters {
   @SerializedName("packagePrerelease")
   private String packagePrerelease;
 
-  @SerializedName("whatIf")
-  private boolean whatIf;
-
-  @SerializedName("deployToEnvironmentIdsOrNames")
-  private List<String> deployToEnvironmentIdsOrNames;
-
-  public CreateReleaseCommandParameters(final String projectIdOrName, final String packageVersion) {
+  public CreateReleaseCommandBody(
+      final String spaceIdOrName, final String projectIdOrName, final String packageVersion) {
+    super(spaceIdOrName);
     Preconditions.checkNotNull(projectIdOrName, "projectIdOrName cannot be null");
     Preconditions.checkNotNull(packageVersion, "packageVersion cannot be null");
     this.projectIdOrName = projectIdOrName;
@@ -127,13 +123,5 @@ public class CreateReleaseCommandParameters implements TParameters {
 
   public void setPackagePrerelease(final String packagePrerelease) {
     this.packagePrerelease = packagePrerelease;
-  }
-
-  public void setWhatIf(final boolean whatIf) {
-    this.whatIf = whatIf;
-  }
-
-  public void setDeployToEnvironmentIdsOrNames(final List<String> deployToEnvironmentIdsOrNames) {
-    this.deployToEnvironmentIdsOrNames = deployToEnvironmentIdsOrNames;
   }
 }

@@ -21,7 +21,7 @@ import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("UnusedVariable")
-public class CreateDeploymentCommandParameters extends BaseCommandParameters {
+public class CreateDeploymentCommandBody extends BaseExecutionCommandBody {
 
   @SerializedName("releaseVersion")
   private String releaseVersion;
@@ -35,9 +35,12 @@ public class CreateDeploymentCommandParameters extends BaseCommandParameters {
   @SerializedName("updateVariableSnapshot")
   private boolean updateVariableSnapshot;
 
-  public CreateDeploymentCommandParameters(
-      final String projectName, final List<String> environmentNames, final String releaseVersion) {
-    super(projectName, environmentNames);
+  public CreateDeploymentCommandBody(
+      final String spaceIdOrName,
+      final String projectIdOrName,
+      final List<String> environmentNames,
+      final String releaseVersion) {
+    super(spaceIdOrName, projectIdOrName, environmentNames);
     Preconditions.checkNotNull(releaseVersion, "releaseVersion cannot be null");
     this.releaseVersion = releaseVersion;
   }

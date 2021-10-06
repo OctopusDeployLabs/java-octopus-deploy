@@ -25,10 +25,9 @@ import static org.mockito.Mockito.when;
 
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
-import com.octopus.sdk.model.commands.CommandBody;
-import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
-import com.octopus.sdk.model.commands.CreateReleaseCommandParameters;
-import com.octopus.sdk.model.commands.ExecuteRunbookCommandParameters;
+import com.octopus.sdk.model.commands.CreateDeploymentCommandBody;
+import com.octopus.sdk.model.commands.CreateReleaseCommandBody;
+import com.octopus.sdk.model.commands.ExecuteRunbookCommandBody;
 import com.octopus.sdk.model.space.SpaceHome;
 import com.octopus.sdk.support.TestHelpers;
 
@@ -63,10 +62,8 @@ class ExecutionsCreateApiTest {
 
   @Test
   public void hitsReportedEndpointWhenCreatingDeployment() throws IOException {
-    final CreateDeploymentCommandParameters parameters =
-        new CreateDeploymentCommandParameters("MyProject", singletonList("dev"), "1.0.0");
-    final CommandBody<CreateDeploymentCommandParameters> body =
-        new CommandBody<>("TheSpace", parameters);
+    final CreateDeploymentCommandBody body =
+        new CreateDeploymentCommandBody("TheSpace", "MyProject", singletonList("dev"), "1.0.0");
 
     final String deploymentId = executionsCreateApi.createDeployment(body);
 
@@ -80,10 +77,8 @@ class ExecutionsCreateApiTest {
 
   @Test
   public void hitsReportedEndpointWhenCreatingRelease() throws IOException {
-    final CreateReleaseCommandParameters parameters =
-        new CreateReleaseCommandParameters("TheProject", "1.0.0");
-    final CommandBody<CreateReleaseCommandParameters> body =
-        new CommandBody<>("theSpace", parameters);
+    final CreateReleaseCommandBody body =
+        new CreateReleaseCommandBody("TheSpace", "TheProject", "1.0.0");
 
     final String releaseId = executionsCreateApi.createRelease(body);
 
@@ -97,11 +92,9 @@ class ExecutionsCreateApiTest {
 
   @Test
   public void hitsCorrectEndpointWithDataWhenExecutingRunbook() throws IOException {
-    final ExecuteRunbookCommandParameters parameters =
-        new ExecuteRunbookCommandParameters(
-            "projectName", singletonList("TheEnvironment"), "runbookName");
-    final CommandBody<ExecuteRunbookCommandParameters> body =
-        new CommandBody<>("theSpace", parameters);
+    final ExecuteRunbookCommandBody body =
+        new ExecuteRunbookCommandBody(
+            "TheSpace", "projectName", singletonList("TheEnvironment"), "runbookName");
 
     final String returnedRunbookId = executionsCreateApi.executeRunbook(body);
 

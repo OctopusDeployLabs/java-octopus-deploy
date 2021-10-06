@@ -17,10 +17,9 @@ package com.octopus.sdk.operation;
 
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
-import com.octopus.sdk.model.commands.CommandBody;
-import com.octopus.sdk.model.commands.CreateDeploymentCommandParameters;
-import com.octopus.sdk.model.commands.CreateReleaseCommandParameters;
-import com.octopus.sdk.model.commands.ExecuteRunbookCommandParameters;
+import com.octopus.sdk.model.commands.CreateDeploymentCommandBody;
+import com.octopus.sdk.model.commands.CreateReleaseCommandBody;
+import com.octopus.sdk.model.commands.ExecuteRunbookCommandBody;
 import com.octopus.sdk.model.space.SpaceHome;
 
 import java.io.IOException;
@@ -40,24 +39,21 @@ public class ExecutionsCreateApi {
     this.spaceHome = spaceHome;
   }
 
-  public String createDeployment(final CommandBody<CreateDeploymentCommandParameters> payload)
-      throws IOException {
+  public String createDeployment(final CreateDeploymentCommandBody payload) throws IOException {
     return client.post(
         RequestEndpoint.fromPath(spaceHome.getExecutionsCreateApiDeploymentCreateLink()),
         payload,
         String.class);
   }
 
-  public String createRelease(final CommandBody<CreateReleaseCommandParameters> payload)
-      throws IOException {
+  public String createRelease(final CreateReleaseCommandBody payload) throws IOException {
     return client.post(
         RequestEndpoint.fromPath(spaceHome.getExecutionsCreateApiReleasesCreateLink()),
         payload,
         String.class);
   }
 
-  public String executeRunbook(final CommandBody<ExecuteRunbookCommandParameters> payload)
-      throws IOException {
+  public String executeRunbook(final ExecuteRunbookCommandBody payload) throws IOException {
     return client.post(
         RequestEndpoint.fromPath(spaceHome.getExecutionsCreateApiRunbookRunCreateLink()),
         payload,

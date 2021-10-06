@@ -25,7 +25,6 @@ import java.util.Objects;
 
 import com.google.gson.annotations.SerializedName;
 
-/** LifecycleResource */
 @SuppressWarnings("UnusedVariable")
 public class LifecycleResource extends NamedResource {
   @SerializedName("LastModifiedBy")

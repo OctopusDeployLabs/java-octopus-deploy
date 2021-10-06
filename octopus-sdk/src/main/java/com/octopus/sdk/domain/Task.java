@@ -20,7 +20,6 @@ import com.octopus.sdk.model.task.TaskResourceWithLinks;
 
 public class Task {
 
-  @SuppressWarnings("UnusedVariable")
   private final OctopusClient client;
 
   private final TaskResourceWithLinks properties;

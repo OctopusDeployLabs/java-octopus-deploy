@@ -13,25 +13,31 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk;
+package com.octopus.sdk.domain;
 
-import com.octopus.sdk.api.SpaceApi;
-import com.octopus.sdk.api.TaskApi;
 import com.octopus.sdk.http.OctopusClient;
+import com.octopus.sdk.http.RequestEndpoint;
+import com.octopus.sdk.model.task.TaskState;
 
-public class Repository {
+import java.io.IOException;
+
+public class TaskStateOperator {
 
   private final OctopusClient client;
+  private final String path;
 
-  public Repository(final OctopusClient client) {
+  public TaskStateOperator(final OctopusClient client, final String path) {
     this.client = client;
+    this.path = path;
   }
 
-  public SpaceApi spaces() {
-    return new SpaceApi(client, client.getRootDocument().getSpacesLink());
+  public TaskState get() throws IOException {
+    final String stringValue = client.get(RequestEndpoint.fromPath(path), String.class);
+    return TaskState.fromValue(stringValue);
   }
 
-  public TaskApi tasks() {
-    return TaskApi.create(client);
+  public void set(final TaskState value) throws IOException {
+    client.put(RequestEndpoint.fromPath(path), value, void.class);
+    // not sure if this is meant to return anything
   }
 }

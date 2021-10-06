@@ -13,25 +13,19 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk;
+package com.octopus.sdk.model.channel;
 
-import com.octopus.sdk.api.SpaceApi;
-import com.octopus.sdk.api.TaskApi;
-import com.octopus.sdk.http.OctopusClient;
+public class ChannelResourceWithLinks extends ChannelResource {
 
-public class Repository {
-
-  private final OctopusClient client;
-
-  public Repository(final OctopusClient client) {
-    this.client = client;
+  public ChannelResourceWithLinks(final String name, final String projectId) {
+    super(name, projectId);
   }
 
-  public SpaceApi spaces() {
-    return new SpaceApi(client, client.getRootDocument().getSpacesLink());
+  public String getProjectLink() {
+    return getCleansedLink("Project");
   }
 
-  public TaskApi tasks() {
-    return TaskApi.create(client);
+  public String getReleasesLink() {
+    return getCleansedLink("Releases");
   }
 }

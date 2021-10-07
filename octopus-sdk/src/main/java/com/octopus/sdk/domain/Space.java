@@ -23,6 +23,7 @@ import com.octopus.sdk.api.PackageApi;
 import com.octopus.sdk.api.ProjectApi;
 import com.octopus.sdk.api.ProjectGroupApi;
 import com.octopus.sdk.api.ReleaseApi;
+import com.octopus.sdk.api.TagSetApi;
 import com.octopus.sdk.api.TenantApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.space.SpaceHome;
@@ -77,6 +78,10 @@ public class Space {
 
   public TenantApi tenants() {
     return TenantApi.create(client, spaceHome);
+  }
+
+  public TagSetApi tags() {
+    return TagSetApi.create(client, spaceHome);
   }
 
   public SpaceOverviewWithLinks getProperties() {

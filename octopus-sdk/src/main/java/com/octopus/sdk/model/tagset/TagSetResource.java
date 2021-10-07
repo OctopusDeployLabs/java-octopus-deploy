@@ -15,8 +15,8 @@
 
 package com.octopus.sdk.model.tagset;
 
-import com.octopus.openapi.model.TagResource;
 import com.octopus.sdk.model.NamedResource;
+import com.octopus.sdk.model.tag.TagResource;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;

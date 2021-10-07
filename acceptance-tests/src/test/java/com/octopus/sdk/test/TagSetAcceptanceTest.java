@@ -18,12 +18,12 @@ public class TagSetAcceptanceTest extends SpaceScopedAcceptanceTest {
     final TagSetResource newTagSet = new TagSetResource("TagSet1");
     newTagSet.addTagsItem(new TagResource("Tag1", "#333333"));
 
-    final TagSet createdTagSet = createdSpace.tags().create(newTagSet);
+    final TagSet createdTagSet = createdSpace.tagSet().create(newTagSet);
 
     assertThat(createdTagSet).isNotNull();
 
     final Optional<TagSet> foundTagSet =
-        createdSpace.tags().getById(createdTagSet.getProperties().getId());
+        createdSpace.tagSet().getById(createdTagSet.getProperties().getId());
 
     assertThat(foundTagSet).isNotEmpty();
     assertThat(foundTagSet.get().getProperties().getId())
@@ -35,7 +35,7 @@ public class TagSetAcceptanceTest extends SpaceScopedAcceptanceTest {
         .extracting("name")
         .isEqualTo("Tag1");
 
-    createdSpace.tags().delete(createdTagSet.getProperties().getId());
-    assertThat(createdSpace.tags().getById(createdTagSet.getProperties().getId())).isEmpty();
+    createdSpace.tagSet().delete(createdTagSet.getProperties().getId());
+    assertThat(createdSpace.tagSet().getById(createdTagSet.getProperties().getId())).isEmpty();
   }
 }

@@ -32,8 +32,9 @@ public class TagResource extends NamedResource {
   @SerializedName("SortOrder")
   private Integer sortOrder;
 
-  public TagResource(final String name) {
+  public TagResource(final String name, final String color) {
     super(name);
+    this.color = color;
   }
 
   public TagResource canonicalTagName(String canonicalTagName) {

@@ -3,7 +3,7 @@ package com.octopus.sdk.test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.octopus.sdk.domain.Tenant;
-import com.octopus.sdk.model.tenant.TenantResourceWithLinks;
+import com.octopus.sdk.model.tenant.TenantResource;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -14,8 +14,7 @@ public class TenantAcceptanceTest extends SpaceScopedAcceptanceTest {
 
   @Test
   public void canCreateAndDeleteTenant() throws IOException {
-    final Tenant createdTenant =
-        createdSpace.tenants().create(new TenantResourceWithLinks("Tenant1"));
+    final Tenant createdTenant = createdSpace.tenants().create(new TenantResource("Tenant1"));
 
     assertThat(createdTenant).isNotNull();
 

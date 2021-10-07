@@ -24,10 +24,6 @@ public class TenantResourceWithLinks extends TenantResource {
     return getCleansedLink("Logo");
   }
 
-  public String getSelfLink() {
-    return getCleansedLink("Self");
-  }
-
   public String getVariablesLink() {
     return getCleansedLink("Variables");
   }

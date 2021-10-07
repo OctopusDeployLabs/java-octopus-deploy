@@ -18,7 +18,11 @@ package com.octopus.sdk.model.tenant;
 import com.octopus.sdk.model.NamedResource;
 
 import java.time.OffsetDateTime;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -20,8 +20,4 @@ public class TagSetResourceWithLinks extends TagSetResource {
   public TagSetResourceWithLinks(final String name) {
     super(name);
   }
-
-  public String getSelfLink() {
-    return getCleansedLink("Self");
-  }
 }

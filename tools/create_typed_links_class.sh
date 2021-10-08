@@ -3,8 +3,8 @@
 #Show debug output
 #set -eux
 
-API_KEY=API-D62EQ9I4EVET1E2LJUBKEHLNBYWMO3
-ROOT_PATH='http://localhost:8065/api/'
+API_KEY=API-WPYFOZLIEBKZT08TRCV84LZMNJ29JC85
+ROOT_PATH='http://localhost:8066/api/'
 INPUT=$1
 
 writeClassHeader() {

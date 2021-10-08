@@ -45,6 +45,7 @@ try {
 }
 
 $ClassFile = @"
+
 /*
  * Copyright (c) Octopus Deploy and contributors. All rights reserved.
  *
@@ -68,16 +69,14 @@ public class ${ResourceName}WithLinks extends $ResourceName {
     super(name);
   }
 
- $(
-  foreach($name in $LinkNames) {
+ $(foreach($name in $LinkNames) {
 @"
  public String get${name}Link() {
     return getCleansedLink("${name}");
   }`n
 
 "@
-  }
- )
+  })
 }
 
 "@

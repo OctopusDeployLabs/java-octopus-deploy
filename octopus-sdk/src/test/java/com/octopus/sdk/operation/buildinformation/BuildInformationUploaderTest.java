@@ -15,6 +15,7 @@
 
 package com.octopus.sdk.operation.buildinformation;
 
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -104,6 +105,8 @@ class BuildInformationUploaderTest {
     assertThat(transmittedBuildInfo.getBuildEnvironment()).isEqualTo(context.getBuildEnvironment());
     assertThat(transmittedBuildInfo.getVcsRoot()).isEqualTo(context.getVcsRoot().get());
     assertThat(transmittedBuildInfo.getVcsType()).isEqualTo(context.getVcsType().get());
+    assertThat(transmittedBuildInfo.getBuildUrl())
+        .isEqualTo(context.getBuildUrl().get().toString());
     assertThat(transmittedBuildInfo.getCommits()).hasSize(1);
   }
 
@@ -130,5 +133,47 @@ class BuildInformationUploaderTest {
     assertThatThrownBy(() -> uploader.upload(buildInformationUploaderContextBuilder.build()))
         .isEqualTo(spaceHomeException);
     verify(mockSpaceHomeSelector, times(1)).getSpaceHome(Optional.of(spaceName));
+  }
+
+  @Test
+  public void missingBuildUrlPostsNullUrlToServer() throws IOException {
+    final String buildInfoLink = "/api/buildInfoLink";
+    when(mockSpaceHome.getBuildInformationLink()).thenReturn(buildInfoLink);
+    when(mockSpaceHomeSelector.getSpaceHome(Optional.empty())).thenReturn(mockSpaceHome);
+
+    final BuildInformationUploaderContext context =
+        new BuildInformationUploaderContextBuilder()
+            .withBuildEnvironment("Environment")
+            .withBuildUrl(null)
+            .withBuildNumber("16")
+            .withSpaceName(null)
+            .withPackageId("myPackage.app")
+            .withPackageVersion("1.0")
+            .withOverwriteMode(OverwriteMode.OverwriteExisting)
+            .withCommits(emptyList())
+            .withVcsCommitNumber("12345")
+            .withVcsType("git")
+            .withVcsRoot("vcsRoot")
+            .build();
+
+    final OctopusPackageVersionBuildInformationMappedResource response =
+        mock(OctopusPackageVersionBuildInformationMappedResource.class);
+    when(response.getId()).thenReturn("ObjectId");
+    when(mockClient.post(any(), any(), any())).thenReturn(response);
+
+    final BuildInformationUploader uploader =
+        new BuildInformationUploader(mockClient, mockSpaceHomeSelector);
+
+    uploader.upload(context);
+
+    final ArgumentCaptor<OctopusPackageVersionBuildInformation> buildInfoCaptor =
+        ArgumentCaptor.forClass(OctopusPackageVersionBuildInformation.class);
+    verify(mockClient, times(1))
+        .post(
+            any(),
+            buildInfoCaptor.capture(),
+            eq(OctopusPackageVersionBuildInformationMappedResource.class));
+
+    assertThat(buildInfoCaptor.getValue().getBuildInformation().getBuildUrl()).isNull();
   }
 }

@@ -3,44 +3,50 @@
 #Show debug output
 #set -eux
 
-API_KEY=API-D62EQ9I4EVET1E2LJUBKEHLNBYWMO3
-ROOT_PATH='http://localhost:8065/api/'
-INPUT=$1
+while getopts u:a: flag
+do
+    case "${flag}" in
+        u) url=${OPTARG};;
+        a) api_key=${OPTARG};;
+    esac
+done
 
-writeClassHeader() {
-echo "
+if [ -z "$url" ]
+then
+      printf "URL cannot be null or empty"
+      exit 1
+fi
 
-package com.octopus.sdk.model.links;
+if [ -z "$api_key" ]
+then
+    if [ -z "$OCTOPUS_SERVER_API_KEY" ]
+    then
+        printf "API key cannot be null or empty"
+        exit 1
+    else
+        api_key="$OCTOPUS_SERVER_API_KEY"
+    fi
+fi
 
-import java.util.Map;
 
-
-public class ResourceWithLinks extends Resource { 
-
-  public ResourceWithLinks(final Map<String, String> rawLinks) {
-    super(rawLinks);
-  }"
-}
-
-createClassFromLinksBlock() {
-  LINK_NAMES=$1
-  writeClassHeader
-  wrapStringInFunc $LINK_NAMES
-  echo "}"
+outputGetMethodText() {
+  link_names=$1
+  printf -- "--------------------------------------------------\n\n"
+  wrapStringInFunc $link_names
+  printf -- "--------------------------------------------------"
 }
 
 
 wrapStringInFunc() {
   for i in $@
   do
-    VARNAME=`echo $i | sed s/\"//g | sed s/\\\\.//g`
-    #echo "  public String get${VARNAME}Link() { return getCleansedRawLink($i); }"
-    echo "  public String get${VARNAME}Link() { return getCleansedLink($i); }"
+    varname=`echo $i | sed s/\"//g | sed s/\\\\.//g`
+    printf "public String get${varname}Link() {\n  return getCleansedLink($i);\n}\n\n"
   done
 }
 
 #echo We are fetching $INPUT
-CONTENT=`curl -s --header """X-Octopus-ApiKey: $API_KEY""" --header """Content-Type: application/json""" -X GET $INPUT`
+content=`curl -s --header """X-Octopus-ApiKey: $api_key""" --header """Content-Type: application/json""" -X GET $url`
 #echo $CONTENT
-LINKS_CONTENT=`echo $CONTENT | tr '\r\n' ' '| jq '.Links' | jq 'keys | .[]'`
-createClassFromLinksBlock  "$LINKS_CONTENT"
+links_content=`echo $content | tr '\r\n' ' '| jq '.Links' | jq 'keys | .[]'`
+outputGetMethodText "$links_content"

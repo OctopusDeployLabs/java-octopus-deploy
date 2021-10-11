@@ -27,6 +27,7 @@ import com.octopus.sdk.operation.common.BaseUploader;
 import com.octopus.sdk.operation.common.SpaceHomeSelector;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.stream.Collectors;
 
 import com.google.common.base.Preconditions;
@@ -71,7 +72,7 @@ public class BuildInformationUploader extends BaseUploader {
     final BuildInformationResource resource = new BuildInformationResource();
     resource
         .buildNumber(context.getBuildNumber())
-        .buildUrl(context.getBuildUrl().toString())
+        .buildUrl(context.getBuildUrl().map(URL::toString).orElse(null))
         .buildEnvironment(context.getBuildEnvironment())
         .branch(context.getBranch().orElse(null))
         .vcsRoot(context.getVcsRoot().orElse(null))

@@ -17,15 +17,14 @@ public class TenantAcceptanceTest extends SpaceScopedAcceptanceTest {
     final Tenant createdTenant = createdSpace.tenants().create(new TenantResource("Tenant1"));
 
     assertThat(createdTenant).isNotNull();
+    final String createdTenantId = createdTenant.getProperties().getId();
 
-    final Optional<Tenant> foundTenant =
-        createdSpace.tenants().getById(createdTenant.getProperties().getId());
+    final Optional<Tenant> foundTenant = createdSpace.tenants().getById(createdTenantId);
 
     assertThat(foundTenant).isNotEmpty();
-    assertThat(foundTenant.get().getProperties().getId())
-        .isEqualTo(createdTenant.getProperties().getId());
+    assertThat(foundTenant.get().getProperties().getId()).isEqualTo(createdTenantId);
 
     createdSpace.tenants().delete(createdTenant.getProperties().getId());
-    assertThat(createdSpace.tenants().getById(createdTenant.getProperties().getId())).isEmpty();
+    assertThat(createdSpace.tenants().getById(createdTenantId)).isEmpty();
   }
 }

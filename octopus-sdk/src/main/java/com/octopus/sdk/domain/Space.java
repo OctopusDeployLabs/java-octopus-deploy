@@ -80,7 +80,7 @@ public class Space {
     return TenantApi.create(client, spaceHome);
   }
 
-  public TagSetApi tagSet() {
+  public TagSetApi tagSets() {
     return TagSetApi.create(client, spaceHome);
   }
 

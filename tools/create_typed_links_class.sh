@@ -30,9 +30,9 @@ fi
 
 
 outputGetMethodText() {
-  LINK_NAMES=$1
+  link_names=$1
   printf -- "--------------------------------------------------\n\n"
-  wrapStringInFunc $LINK_NAMES
+  wrapStringInFunc $link_names
   printf -- "--------------------------------------------------"
 }
 
@@ -40,13 +40,13 @@ outputGetMethodText() {
 wrapStringInFunc() {
   for i in $@
   do
-    VARNAME=`echo $i | sed s/\"//g | sed s/\\\\.//g`
-    printf "public String get${VARNAME}Link() {\n  return getCleansedLink($i);\n}\n\n"
+    varname=`echo $i | sed s/\"//g | sed s/\\\\.//g`
+    printf "public String get${varname}Link() {\n  return getCleansedLink($i);\n}\n\n"
   done
 }
 
 #echo We are fetching $INPUT
-CONTENT=`curl -s --header """X-Octopus-ApiKey: $api_key""" --header """Content-Type: application/json""" -X GET $url`
+content=`curl -s --header """X-Octopus-ApiKey: $api_key""" --header """Content-Type: application/json""" -X GET $url`
 #echo $CONTENT
-LINKS_CONTENT=`echo $CONTENT | tr '\r\n' ' '| jq '.Links' | jq 'keys | .[]'`
-outputGetMethodText "$LINKS_CONTENT"
+links_content=`echo $content | tr '\r\n' ' '| jq '.Links' | jq 'keys | .[]'`
+outputGetMethodText "$links_content"

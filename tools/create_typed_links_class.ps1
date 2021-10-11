@@ -11,7 +11,7 @@
     The full URL to the desired resource (eg. "http://localhost:8065/api/tenants/Tenants-1").
 .PARAMETER ApiKey
     A valid API key for the URL provided, if not provided the script attempts to find the API key
-    as an environment variable called: OCTOPUS_SDK_TYPED_LINKS_API_KEY.
+    as an environment variable called: OCTOPUS_SERVER_API_KEY.
 #>
 [CmdletBinding()]
 param (

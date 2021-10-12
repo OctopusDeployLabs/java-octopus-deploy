@@ -15,7 +15,6 @@
 
 package com.octopus.sdk.model.task;
 
-import com.octopus.openapi.model.TaskState;
 import com.octopus.sdk.model.NamedResource;
 
 import java.time.OffsetDateTime;

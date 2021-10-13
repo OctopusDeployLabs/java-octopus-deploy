@@ -23,6 +23,7 @@ import com.octopus.sdk.api.PackageApi;
 import com.octopus.sdk.api.ProjectApi;
 import com.octopus.sdk.api.ProjectGroupApi;
 import com.octopus.sdk.api.ReleaseApi;
+import com.octopus.sdk.api.RunbookApi;
 import com.octopus.sdk.api.TagSetApi;
 import com.octopus.sdk.api.TenantApi;
 import com.octopus.sdk.http.OctopusClient;
@@ -94,5 +95,9 @@ public class Space {
 
   public ExecutionsCreateApi executionsApi() {
     return new ExecutionsCreateApi(client, spaceHome);
+  }
+
+  public RunbookApi runbooks() {
+    return RunbookApi.create(client, spaceHome);
   }
 }

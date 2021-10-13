@@ -20,6 +20,9 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.runbook.RunbookPaginatedCollection;
 import com.octopus.sdk.model.runbook.RunbookResource;
 import com.octopus.sdk.model.runbook.RunbookResourceWithLinks;
+import com.octopus.sdk.model.space.SpaceHome;
+
+import com.google.common.base.Preconditions;
 
 public class RunbookApi
     extends BaseNamedResourceApi<
@@ -27,6 +30,13 @@ public class RunbookApi
 
   public RunbookApi(final OctopusClient client, final String rootPath) {
     super(client, rootPath, RunbookResourceWithLinks.class, RunbookPaginatedCollection.class);
+  }
+
+  public static RunbookApi create(final OctopusClient client, final SpaceHome spaceHome) {
+    Preconditions.checkNotNull(client, "Supplied a null client");
+    Preconditions.checkNotNull(
+        spaceHome, "Cannot create a RunbookApi in a space with a 'null' space");
+    return new RunbookApi(client, spaceHome.getRunbookRunsLink());
   }
 
   @Override

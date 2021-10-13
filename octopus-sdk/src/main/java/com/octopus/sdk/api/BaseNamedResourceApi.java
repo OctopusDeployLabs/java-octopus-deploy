@@ -70,4 +70,14 @@ public abstract class BaseNamedResourceApi<
           "Octopus Server reports more than 1 resource with an identical name");
     }
   }
+
+  public Optional<WRAPPED_TYPE> getByIdOrName(final String identifier) throws IOException {
+    final Optional<WRAPPED_TYPE> fromId = getById(identifier);
+
+    if (fromId.isPresent()) {
+      return fromId;
+    }
+
+    return getByName(identifier);
+  }
 }

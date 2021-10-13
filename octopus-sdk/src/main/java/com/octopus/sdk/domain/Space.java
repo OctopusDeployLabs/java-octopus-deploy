@@ -29,7 +29,7 @@ import com.octopus.sdk.api.TenantApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.space.SpaceHome;
 import com.octopus.sdk.model.space.SpaceOverviewWithLinks;
-import com.octopus.sdk.operation.ExecutionsCreateApi;
+import com.octopus.sdk.operation.executionapi.ExecutionsCreateApi;
 
 public class Space {
   private final OctopusClient client;

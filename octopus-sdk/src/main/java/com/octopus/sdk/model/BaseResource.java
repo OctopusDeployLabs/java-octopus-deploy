@@ -17,6 +17,8 @@ package com.octopus.sdk.model;
 
 import java.util.Map;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.annotations.SerializedName;
 
 public class BaseResource {
@@ -31,8 +33,13 @@ public class BaseResource {
     return id;
   }
 
-  public Map<String, String> getLinks() {
-    return links;
+  public ImmutableMap<String, String> getLinks() {
+    return ImmutableMap.copyOf(links);
+  }
+
+  @VisibleForTesting
+  public void setLinks(final Map<String, String> links) {
+    this.links = links;
   }
 
   protected String getCleansedLink(final String linkTag) {

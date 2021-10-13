@@ -64,9 +64,9 @@ public abstract class BaseResourceApi<
 
   protected Optional<RESPONSE_TYPE> getRawTypeById(final String id) throws IOException {
     Preconditions.checkNotNull(id, "Cannot provide a resource with a null id");
-    final String spacePath = String.format("%s/%s", rootPath, id);
+    final String resourcePath = String.format("%s/%s", rootPath, id);
     try {
-      final RESPONSE_TYPE overview = client.get(RequestEndpoint.fromPath(spacePath), responseType);
+      final RESPONSE_TYPE overview = client.get(RequestEndpoint.fromPath(resourcePath), responseType);
       return Optional.of(overview);
     } catch (final HttpException e) {
       LOG.error(

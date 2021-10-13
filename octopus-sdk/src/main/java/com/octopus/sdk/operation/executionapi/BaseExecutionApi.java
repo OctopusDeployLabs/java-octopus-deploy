@@ -33,7 +33,7 @@ public abstract class BaseExecutionApi<T extends CommandBody, U> {
     this.client = client;
   }
 
-  protected U execute(final T payload) throws IOException {
+  public U execute(final T payload) throws IOException {
     final SpaceOverviewApi spaceOverviewApi = SpaceOverviewApi.create(client);
     final String spaceIdentifier = payload.getSpaceIdOrName();
     Optional<SpaceOverviewWithLinks> spaceOverview =

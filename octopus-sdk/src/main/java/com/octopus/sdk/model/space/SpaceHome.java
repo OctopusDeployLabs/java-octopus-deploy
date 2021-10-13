@@ -356,7 +356,7 @@ public class SpaceHome {
   }
 
   public String getExecutionsCreateApiReleasesCreateLink() {
-    return LinkHelpers.getCleansedRawLink(getLinks().get("ReleasesCreateApiReleaseCreate"));
+    return LinkHelpers.getCleansedRawLink(getLinks().get("ExecutionsCreateApiReleaseCreate"));
   }
 
   public String getExecutionsCreateApiRunbookRunCreateLink() {

@@ -124,4 +124,56 @@ public class CreateReleaseCommandBody extends CommandBody {
   public void setPackagePrerelease(final String packagePrerelease) {
     this.packagePrerelease = packagePrerelease;
   }
+
+  public String getProjectIdOrName() {
+    return projectIdOrName;
+  }
+
+  public String getPackageVersion() {
+    return packageVersion;
+  }
+
+  public String getGitCommit() {
+    return gitCommit;
+  }
+
+  public String getGitRef() {
+    return gitRef;
+  }
+
+  public String getReleaseVersion() {
+    return releaseVersion;
+  }
+
+  public String getChannelIdOrName() {
+    return channelIdOrName;
+  }
+
+  public List<String> getPackages() {
+    return packages;
+  }
+
+  public String getPackageFolder() {
+    return packageFolder;
+  }
+
+  public String getReleaseNotes() {
+    return releaseNotes;
+  }
+
+  public String getReleaseNotesFile() {
+    return releaseNotesFile;
+  }
+
+  public boolean isIgnoreExisting() {
+    return ignoreExisting;
+  }
+
+  public boolean isIgnoreChannelRules() {
+    return ignoreChannelRules;
+  }
+
+  public String getPackagePrerelease() {
+    return packagePrerelease;
+  }
 }

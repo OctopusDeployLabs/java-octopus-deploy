@@ -47,4 +47,12 @@ public class ExecuteRunbookCommandBody extends BaseExecutionCommandBody {
   public void setSnapshot(final String snapshot) {
     this.snapshot = snapshot;
   }
+
+  public String getRunbookName() {
+    return runbookName;
+  }
+
+  public String getSnapshot() {
+    return snapshot;
+  }
 }

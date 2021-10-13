@@ -60,4 +60,20 @@ public class CreateDeploymentCommandBody extends BaseExecutionCommandBody {
   public void setUpdateVariableSnapshot(final boolean updateVariableSnapshot) {
     this.updateVariableSnapshot = updateVariableSnapshot;
   }
+
+  public String getReleaseVersion() {
+    return releaseVersion;
+  }
+
+  public String getChannelIdOrName() {
+    return channelIdOrName;
+  }
+
+  public boolean isForcePackageRedeployment() {
+    return forcePackageRedeployment;
+  }
+
+  public boolean isUpdateVariableSnapshot() {
+    return updateVariableSnapshot;
+  }
 }

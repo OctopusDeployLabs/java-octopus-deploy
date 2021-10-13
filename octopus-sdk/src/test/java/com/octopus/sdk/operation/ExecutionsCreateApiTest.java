@@ -68,13 +68,12 @@ class ExecutionsCreateApiTest {
     spaceHome = new SpaceHome(spaceHomeLinks);
     executionsCreateApi = new ExecutionsCreateApi(mockClient, spaceHome);
 
-
     // Setup a 'real' space home and overview
     final SpaceOverviewWithLinks spaceOverview = new SpaceOverviewWithLinks("TheSpace", emptySet());
     spaceOverview.setLinks(singletonMap("SpaceHome", spaceHomeLink));
 
-    when(mockClient.get(eq(RequestEndpoint.fromPath("/api/spaces/TheSpace")), any())).thenReturn(
-        spaceOverview);
+    when(mockClient.get(eq(RequestEndpoint.fromPath("/api/spaces/TheSpace")), any()))
+        .thenReturn(spaceOverview);
     when(mockClient.get(eq(RequestEndpoint.fromPath(spaceHomeLink)), any())).thenReturn(spaceHome);
 
     when(mockClient.post(any(), any(), eq(String.class))).thenReturn(responseBody);
@@ -130,7 +129,6 @@ class ExecutionsCreateApiTest {
 
   @Test
   public void createReleaseWrapperInvokesCorrectEndpointWithType() throws IOException {
-
 
     final CreateReleaseCommandBody body =
         new CreateReleaseCommandBody("TheSpace", "TheProject", "1.0.0");

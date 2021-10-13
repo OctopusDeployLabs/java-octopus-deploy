@@ -66,7 +66,8 @@ public abstract class BaseResourceApi<
     Preconditions.checkNotNull(id, "Cannot provide a resource with a null id");
     final String resourcePath = String.format("%s/%s", rootPath, id);
     try {
-      final RESPONSE_TYPE overview = client.get(RequestEndpoint.fromPath(resourcePath), responseType);
+      final RESPONSE_TYPE overview =
+          client.get(RequestEndpoint.fromPath(resourcePath), responseType);
       return Optional.of(overview);
     } catch (final HttpException e) {
       LOG.error(

@@ -19,13 +19,14 @@ import com.octopus.sdk.domain.Runbook;
 import com.octopus.sdk.model.runbook.RunbookParameters;
 import com.octopus.sdk.model.runbook.RunbookRunResource;
 import com.octopus.sdk.model.task.TaskState;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class TaskAcceptanceTest extends SpaceScopedAcceptanceTest {
 
@@ -45,9 +46,10 @@ public class TaskAcceptanceTest extends SpaceScopedAcceptanceTest {
     params.setEnvironmentIds(Collections.singletonList("Environments-1"));
     final List<RunbookRunResource> result = runbooks.get().executeRunbook(params);
     final RunbookRunResource theTaskResult = result.get(0);
-    while(true) {
-      final TaskState answer = repo.tasks().getById(theTaskResult.getTaskId()).get().getProperties().getState();
-      if(answer == TaskState.SUCCESS) {
+    while (true) {
+      final TaskState answer =
+          repo.tasks().getById(theTaskResult.getTaskId()).get().getProperties().getState();
+      if (answer == TaskState.SUCCESS) {
         break;
       }
     }

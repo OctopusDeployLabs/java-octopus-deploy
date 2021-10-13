@@ -29,15 +29,14 @@ public class ExistingOctopusDeployServer implements OctopusDeployServer {
   @Override
   public String getApiKey() {
     final String apiKey = System.getenv("OCTOPUS_SERVER_API_KEY");
-    if(apiKey == null) {
+    if (apiKey == null) {
       throw new RuntimeException("OCTOPUS_SERVER_API_KEY env var has not been set");
     }
     return apiKey;
   }
 
   @Override
-  public void close() {
-  }
+  public void close() {}
 
   @Override
   public int getPort() {

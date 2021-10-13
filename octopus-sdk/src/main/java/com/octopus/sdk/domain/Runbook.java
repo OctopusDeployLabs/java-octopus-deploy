@@ -15,7 +15,6 @@
 
 package com.octopus.sdk.domain;
 
-import com.google.common.reflect.TypeToken;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.runbook.RunbookParameters;
@@ -23,8 +22,6 @@ import com.octopus.sdk.model.runbook.RunbookResourceWithLinks;
 import com.octopus.sdk.model.runbook.RunbookRunResource;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,11 +39,13 @@ public class Runbook {
     return properties;
   }
 
-  public List<RunbookRunResource> executeRunbook(final RunbookParameters parameters) throws IOException {
-    final RunbookRunResource[] result = client.post(
-        RequestEndpoint.fromPath(properties.getCreateRunbookRunLink()),
-        parameters,
-        RunbookRunResource[].class);
+  public List<RunbookRunResource> executeRunbook(final RunbookParameters parameters)
+      throws IOException {
+    final RunbookRunResource[] result =
+        client.post(
+            RequestEndpoint.fromPath(properties.getCreateRunbookRunLink()),
+            parameters,
+            RunbookRunResource[].class);
 
     return Arrays.asList(result);
   }

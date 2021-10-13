@@ -16,6 +16,7 @@
 package com.octopus.sdk.model.runbook;
 
 import com.octopus.openapi.model.RetentionPeriod;
+import com.octopus.sdk.model.NamedResource;
 
 import java.time.OffsetDateTime;
 import java.util.HashMap;
@@ -25,7 +26,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.google.gson.annotations.SerializedName;
-import com.octopus.sdk.model.NamedResource;
 
 /** RunbookRunResource */
 @SuppressWarnings("UnusedVariable")

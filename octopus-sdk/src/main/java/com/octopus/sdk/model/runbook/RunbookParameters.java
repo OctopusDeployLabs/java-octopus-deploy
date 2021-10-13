@@ -15,10 +15,10 @@
 
 package com.octopus.sdk.model.runbook;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 import java.util.Map;
+
+import com.google.gson.annotations.SerializedName;
 
 public class RunbookParameters {
 

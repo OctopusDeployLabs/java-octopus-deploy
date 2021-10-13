@@ -33,5 +33,4 @@ public class Task {
   public TaskResourceWithLinks getProperties() {
     return properties;
   }
-
 }

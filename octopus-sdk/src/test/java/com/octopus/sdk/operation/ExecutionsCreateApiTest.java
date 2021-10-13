@@ -29,6 +29,7 @@ import com.octopus.sdk.model.commands.CreateDeploymentCommandBody;
 import com.octopus.sdk.model.commands.CreateReleaseCommandBody;
 import com.octopus.sdk.model.commands.ExecuteRunbookCommandBody;
 import com.octopus.sdk.model.space.SpaceHome;
+import com.octopus.sdk.operation.executionapi.ExecutionsCreateApi;
 import com.octopus.sdk.support.TestHelpers;
 
 import java.io.IOException;

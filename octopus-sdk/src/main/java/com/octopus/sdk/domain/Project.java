@@ -17,6 +17,7 @@ package com.octopus.sdk.domain;
 
 import com.octopus.sdk.api.ChannelApi;
 import com.octopus.sdk.api.ReleaseApi;
+import com.octopus.sdk.api.RunbookApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.project.ProjectResourceWithLinks;
 
@@ -74,8 +75,8 @@ public class Project {
     throw new UnsupportedOperationException();
   }
 
-  public String getRunbooks() {
-    throw new UnsupportedOperationException();
+  public RunbookApi runBooks() {
+    return new RunbookApi(client, properties.getRunbooksLink());
   }
 
   public String getScheduledTriggers() {

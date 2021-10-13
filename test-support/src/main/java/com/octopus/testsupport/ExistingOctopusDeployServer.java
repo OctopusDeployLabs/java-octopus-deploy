@@ -19,12 +19,20 @@ public class ExistingOctopusDeployServer implements OctopusDeployServer {
 
   @Override
   public String getOctopusUrl() {
-    return System.getenv("OCTOPUS_SERVER_URL");
+    final String serverUrl = System.getenv("OCTOPUS_SERVER_URL");
+    if (serverUrl == null) {
+      throw new RuntimeException("OCTOPUS_SERVER_URL env var has not been set");
+    }
+    return serverUrl;
   }
 
   @Override
   public String getApiKey() {
-    return System.getenv("OCTOPUS_SERVER_API_KEY");
+    final String apiKey = System.getenv("OCTOPUS_SERVER_API_KEY");
+    if (apiKey == null) {
+      throw new RuntimeException("OCTOPUS_SERVER_API_KEY env var has not been set");
+    }
+    return apiKey;
   }
 
   @Override

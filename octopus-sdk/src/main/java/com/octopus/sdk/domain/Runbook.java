@@ -17,27 +17,36 @@ package com.octopus.sdk.domain;
 
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
-import com.octopus.sdk.model.task.TaskState;
+import com.octopus.sdk.model.runbook.RunbookParameters;
+import com.octopus.sdk.model.runbook.RunbookResourceWithLinks;
+import com.octopus.sdk.model.runbook.RunbookRunResource;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
-public class TaskStateOperator {
+public class Runbook {
 
   private final OctopusClient client;
-  private final String path;
+  private final RunbookResourceWithLinks properties;
 
-  public TaskStateOperator(final OctopusClient client, final String path) {
+  public Runbook(final OctopusClient client, final RunbookResourceWithLinks properties) {
     this.client = client;
-    this.path = path;
+    this.properties = properties;
   }
 
-  public TaskState get() throws IOException {
-    final String stringValue = client.get(RequestEndpoint.fromPath(path), String.class);
-    return TaskState.fromValue(stringValue);
+  public RunbookResourceWithLinks getProperties() {
+    return properties;
   }
 
-  public void set(final TaskState value) throws IOException {
-    client.put(RequestEndpoint.fromPath(path), value, void.class);
-    // not sure if this is meant to return anything
+  public List<RunbookRunResource> executeRunbook(final RunbookParameters parameters)
+      throws IOException {
+    final RunbookRunResource[] result =
+        client.post(
+            RequestEndpoint.fromPath(properties.getCreateRunbookRunLink()),
+            parameters,
+            RunbookRunResource[].class);
+
+    return Arrays.asList(result);
   }
 }

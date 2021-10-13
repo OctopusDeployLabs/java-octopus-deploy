@@ -13,25 +13,21 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.domain;
+package com.octopus.sdk.model.runbook;
 
-import com.octopus.sdk.http.OctopusClient;
-import com.octopus.sdk.model.task.TaskResourceWithLinks;
+import com.octopus.sdk.model.PaginatedCollection;
 
-public class Task {
+import java.util.List;
+import java.util.Map;
 
-  @SuppressWarnings("UnusedVariable")
-  private final OctopusClient client;
-
-  private final TaskResourceWithLinks properties;
-
-  public Task(final OctopusClient client, final TaskResourceWithLinks properties) {
-    this.client = client;
-    this.properties = properties;
+public class RunbookPaginatedCollection extends PaginatedCollection<RunbookResourceWithLinks> {
+  public RunbookPaginatedCollection(
+      final Map<String, String> links,
+      final int totalResults,
+      final int itemsPerPage,
+      final int numberOfPages,
+      final int pageNumber,
+      final List<RunbookResourceWithLinks> items) {
+    super(links, totalResults, itemsPerPage, numberOfPages, pageNumber, items);
   }
-
-  public TaskResourceWithLinks getProperties() {
-    return properties;
-  }
-
 }

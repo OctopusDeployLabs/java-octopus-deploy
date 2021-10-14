@@ -121,4 +121,52 @@ public class BaseExecutionCommandBody extends CommandBody {
   public void setVariables(final Map<String, String> variables) {
     this.variables = variables;
   }
+
+  public String getProjectIdOrName() {
+    return projectIdOrName;
+  }
+
+  public List<String> getEnvironmentIdsOrNames() {
+    return environmentIdsOrNames;
+  }
+
+  public List<String> getTenantIdsOrNames() {
+    return tenantIdsOrNames;
+  }
+
+  public List<String> getTenantTags() {
+    return tenantTags;
+  }
+
+  public boolean isForcePackageDownload() {
+    return forcePackageDownload;
+  }
+
+  public List<String> getSpecificMachineNames() {
+    return specificMachineNames;
+  }
+
+  public List<String> getExcludeMachineNames() {
+    return excludeMachineNames;
+  }
+
+  public List<String> getSkipStepNames() {
+    return skipStepNames;
+  }
+
+  public boolean isUseGuidedFailure() {
+    return useGuidedFailure;
+  }
+
+  public Instant getRunAt() {
+    return runAt;
+  }
+
+  public Instant getNoRunAfter() {
+    return noRunAfter;
+  }
+
+  public Map<String, String> getVariables() {
+    return variables;
+  }
 }

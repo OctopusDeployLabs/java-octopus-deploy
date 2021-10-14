@@ -21,6 +21,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
+import com.octopus.sdk.exceptions.OctopusRequestException;
 import com.octopus.sdk.support.HttpMessageBodyObject;
 
 import java.io.IOException;
@@ -85,10 +86,11 @@ class OctopusClientTest {
     final OctopusClient client = createClientSendingToMockServer();
     final Throwable thrown =
         catchThrowable(() -> client.get(RequestEndpoint.fromPath(PATH), Integer.class));
-    assertThat(thrown).isInstanceOf(HttpException.class);
+    assertThat(thrown).isInstanceOf(OctopusRequestException.class);
 
-    final HttpException httpException = (HttpException) thrown;
-    assertThat(httpException.getStatusCode()).isEqualTo(404);
+    final OctopusRequestException octopusRequestException = (OctopusRequestException) thrown;
+    assertThat(octopusRequestException.getStatusCode()).isEqualTo(404);
+    assertThat(octopusRequestException.getMessage()).isEqualTo("Resource not available");
   }
 
   @Test

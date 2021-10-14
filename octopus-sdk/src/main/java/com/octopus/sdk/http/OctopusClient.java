@@ -17,6 +17,9 @@ package com.octopus.sdk.http;
 
 import static java.util.Collections.singletonList;
 
+import com.octopus.sdk.exceptions.OctopusRequestException;
+import com.octopus.sdk.exceptions.OctopusServerException;
+import com.octopus.sdk.model.ErrorResponse;
 import com.octopus.sdk.model.RootDocument;
 import com.octopus.sdk.model.login.LoginBody;
 
@@ -32,6 +35,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.api.client.http.HttpStatusCodes;
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -168,8 +172,8 @@ public class OctopusClient {
     try (final Response response = call.execute()) {
       final ResponseBody body = response.body();
       if (body == null) {
-        throw new HttpException(
-            response.code(), "Response from " + call.request().url() + " contained no body");
+        throw new IllegalStateException(
+            "Response from " + call.request().url() + " contained no body");
       }
       final String responseBody = response.body().string();
       if (response.isSuccessful()) {
@@ -183,7 +187,7 @@ public class OctopusClient {
           throw e;
         }
       } else {
-        throw new HttpException(response.code(), responseBody);
+        throw constructException(response.code(), responseBody);
       }
     } catch (final UnknownHostException e) {
       LOG.error("Failed to connect to Octopus Server at {}", call.request().url());
@@ -207,7 +211,9 @@ public class OctopusClient {
         requiredHeaders.put("X-Octopus-Csrf-Token", singletonList(csrfToken));
       } else {
         LOG.error("Failed to login to {}", serverUrl);
-        throw new HttpException(response.code(), response.message());
+        final String responseBody = response.body().string();
+        final ErrorResponse errorResponse = gson.fromJson(responseBody, ErrorResponse.class);
+        throw new OctopusServerException(response.code(), errorResponse);
       }
     } catch (final UnknownHostException e) {
       LOG.error("Failed to connect to Octopus Server at {}", loginCall.request().url());
@@ -238,6 +244,18 @@ public class OctopusClient {
     } catch (final Exception e) {
       LOG.error("Failed to extract csrf token from '{}'", csrfCookieContent);
       throw e;
+    }
+  }
+
+  private OctopusRequestException constructException(final int code, final String responseBody) {
+    switch (code) {
+      case HttpStatusCodes.STATUS_CODE_BAD_REQUEST:
+      case HttpStatusCodes.STATUS_CODE_UNAUTHORIZED:
+      case HttpStatusCodes.STATUS_CODE_CONFLICT:
+        final ErrorResponse errorResponse = gson.fromJson(responseBody, ErrorResponse.class);
+        return new OctopusServerException(code, errorResponse);
+      default:
+        return new OctopusRequestException(code, responseBody);
     }
   }
 }

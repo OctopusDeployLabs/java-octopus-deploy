@@ -15,7 +15,7 @@
 
 package com.octopus.sdk.api;
 
-import com.octopus.sdk.http.HttpException;
+import com.octopus.sdk.exceptions.OctopusRequestException;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.BaseResource;
@@ -69,7 +69,7 @@ public abstract class BaseResourceApi<
       final RESPONSE_TYPE overview =
           client.get(RequestEndpoint.fromPath(resourcePath), responseType);
       return Optional.of(overview);
-    } catch (final HttpException e) {
+    } catch (final OctopusRequestException e) {
       LOG.error(
           "Failed to retrieve a resource with an Id of {} (http {}:{})",
           id,

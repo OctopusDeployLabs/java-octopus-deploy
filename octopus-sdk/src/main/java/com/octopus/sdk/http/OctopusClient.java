@@ -17,6 +17,8 @@ package com.octopus.sdk.http;
 
 import static java.util.Collections.singletonList;
 
+import com.google.api.client.http.HttpStatusCodes;
+import com.octopus.sdk.model.ErrorResponse;
 import com.octopus.sdk.model.RootDocument;
 import com.octopus.sdk.model.login.LoginBody;
 
@@ -29,8 +31,10 @@ import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
@@ -183,7 +187,7 @@ public class OctopusClient {
           throw e;
         }
       } else {
-        throw new HttpException(response.code(), responseBody);
+        handleFailureResponse(response.code(), responseBody);
       }
     } catch (final UnknownHostException e) {
       LOG.error("Failed to connect to Octopus Server at {}", call.request().url());
@@ -239,5 +243,23 @@ public class OctopusClient {
       LOG.error("Failed to extract csrf token from '{}'", csrfCookieContent);
       throw e;
     }
+  }
+
+  private void handleFailureResponse(final int code, final String responseBody) {
+    switch(code){
+      case HttpStatusCodes.STATUS_CODE_BAD_REQUEST:
+        final ErrorResponse errorResponse = gson.fromJson(responseBody, ErrorResponse.class);
+        if(errorResponse.getErrors().isEmpty()) {
+          throw new HttpException(code, errorResponse.getErrorMessage());
+        } else {
+          final String concatErrorString = String.join("\n", errorResponse.getErrors());
+          throw new HttpException(code, concatErrorString);
+        }
+      default:
+        throw new HttpException(code, responseBody);
+
+
+    }
+
   }
 }

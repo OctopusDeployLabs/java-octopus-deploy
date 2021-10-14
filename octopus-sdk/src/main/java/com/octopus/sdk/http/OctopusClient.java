@@ -250,6 +250,8 @@ public class OctopusClient {
   private OctopusRequestException constructException(final int code, final String responseBody) {
     switch (code) {
       case HttpStatusCodes.STATUS_CODE_BAD_REQUEST:
+      case HttpStatusCodes.STATUS_CODE_UNAUTHORIZED:
+      case HttpStatusCodes.STATUS_CODE_CONFLICT:
         final ErrorResponse errorResponse = gson.fromJson(responseBody, ErrorResponse.class);
         return new OctopusServerException(code, errorResponse);
       default:

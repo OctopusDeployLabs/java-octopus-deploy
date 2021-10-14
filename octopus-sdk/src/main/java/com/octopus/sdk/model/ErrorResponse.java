@@ -15,20 +15,22 @@
 
 package com.octopus.sdk.model;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("FieldCanBeFinal")
 public class ErrorResponse {
 
   @SerializedName("ErrorMessage")
   private String errorMessage;
 
   @SerializedName("Errors")
-  private List<String> errors;
+  private List<String> errors = Collections.emptyList();
 
   @SerializedName("ParsedHelpLink")
-  private List<String> parsedHelpLinks;
+  private List<String> parsedHelpLinks = Collections.emptyList();
 
   public String getErrorMessage() {
     return errorMessage;

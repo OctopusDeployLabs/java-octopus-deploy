@@ -13,18 +13,28 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.http;
+package com.octopus.sdk.exceptions;
 
-public class HttpException extends RuntimeException {
+import com.octopus.sdk.model.ErrorResponse;
 
-  private final int statusCode;
+public class OctopusServerException extends OctopusRequestException {
+  private final ErrorResponse errorResponse;
 
-  public HttpException(final int statusCode, final String message) {
-    super(message);
-    this.statusCode = statusCode;
+  public OctopusServerException(final int statusCode, final ErrorResponse errorResponse) {
+    super(statusCode);
+    this.errorResponse = errorResponse;
   }
 
-  public int getStatusCode() {
-    return statusCode;
+  @Override
+  public String getMessage() {
+    if (errorResponse.getErrors().isEmpty()) {
+      return errorResponse.getErrorMessage();
+    } else {
+      return String.join("\n", errorResponse.getErrors());
+    }
+  }
+
+  public ErrorResponse getErrorResponse() {
+    return errorResponse;
   }
 }

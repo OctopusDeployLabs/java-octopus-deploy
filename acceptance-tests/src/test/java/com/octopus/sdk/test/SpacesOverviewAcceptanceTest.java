@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 
 import com.octopus.sdk.api.SpaceOverviewApi;
 import com.octopus.sdk.api.UserApi;
-import com.octopus.sdk.http.HttpException;
+import com.octopus.sdk.exceptions.OctopusServerException;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.space.SpaceOverviewResource;
 import com.octopus.sdk.model.space.SpaceOverviewWithLinks;
@@ -50,9 +50,9 @@ public class SpacesOverviewAcceptanceTest extends BaseOctopusServerEnabledTest {
     final OctopusClient client =
         new OctopusClient(httpClient, new URL(server.getOctopusUrl()), "BadKey");
     final Throwable thrown = catchThrowable(() -> SpaceOverviewApi.create(client));
-    assertThat(thrown).isInstanceOf(HttpException.class);
-    final HttpException httpException = (HttpException) thrown;
-    assertThat(httpException.getStatusCode()).isEqualTo(401);
+    assertThat(thrown).isInstanceOf(OctopusServerException.class);
+    final OctopusServerException octopusServerException = (OctopusServerException) thrown;
+    assertThat(octopusServerException.getStatusCode()).isEqualTo(401);
   }
 
   @Test
@@ -155,7 +155,7 @@ public class SpacesOverviewAcceptanceTest extends BaseOctopusServerEnabledTest {
     try {
       createdSpace.setName("");
       assertThatThrownBy(() -> spaceOverviewApi.update(createdSpace))
-          .isInstanceOf(HttpException.class);
+          .isInstanceOf(OctopusServerException.class);
     } finally {
       createdSpace.setName(spaceName);
       deleteSpaceValidly(spaceOverviewApi, createdSpace);

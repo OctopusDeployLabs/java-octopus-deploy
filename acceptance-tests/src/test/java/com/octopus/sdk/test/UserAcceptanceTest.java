@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.octopus.sdk.api.UserApi;
-import com.octopus.sdk.http.HttpException;
+import com.octopus.sdk.exceptions.OctopusServerException;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.testsupport.BaseOctopusServerEnabledTest;
 
@@ -37,7 +37,7 @@ public class UserAcceptanceTest extends BaseOctopusServerEnabledTest {
     // No Api key is provided - so unable to get current user
     client = new OctopusClient(httpClient, new URL(server.getOctopusUrl()));
     final UserApi userApi = UserApi.create(client);
-    assertThatThrownBy(userApi::getCurrentUser).isInstanceOf(HttpException.class);
+    assertThatThrownBy(userApi::getCurrentUser).isInstanceOf(OctopusServerException.class);
   }
 
   @Test

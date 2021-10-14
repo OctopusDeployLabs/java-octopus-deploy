@@ -13,32 +13,23 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.model;
+package com.octopus.sdk.exceptions;
 
-import java.util.List;
+public class OctopusRequestException extends RuntimeException {
 
-import com.google.gson.annotations.SerializedName;
+  private final int statusCode;
 
-public class ErrorResponse {
-
-  @SerializedName("ErrorMessage")
-  private String errorMessage;
-
-  @SerializedName("Errors")
-  private List<String> errors;
-
-  @SerializedName("ParsedHelpLink")
-  private List<String> parsedHelpLinks;
-
-  public String getErrorMessage() {
-    return errorMessage;
+  public OctopusRequestException(final int statusCode, final String message) {
+    super(message);
+    this.statusCode = statusCode;
   }
 
-  public List<String> getErrors() {
-    return errors;
+  protected OctopusRequestException(final int statusCode) {
+    super();
+    this.statusCode = statusCode;
   }
 
-  public List<String> getParsedHelpLinks() {
-    return parsedHelpLinks;
+  public int getStatusCode() {
+    return statusCode;
   }
 }

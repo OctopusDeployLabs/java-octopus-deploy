@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.octopus.sdk.api.BuildInformationApi;
 import com.octopus.sdk.api.OverwriteMode;
-import com.octopus.sdk.http.HttpException;
+import com.octopus.sdk.exceptions.OctopusServerException;
 import com.octopus.sdk.model.buildinformation.BuildInformationResource;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformationMappedResource;
@@ -118,7 +118,7 @@ public class BuildInformationAcceptanceTest extends SpaceScopedAcceptanceTest {
     buildInfo.buildUrl("differentURL");
 
     assertThatThrownBy(() -> buildInfoApi.create(resource, OverwriteMode.FailIfExists))
-        .isInstanceOf(HttpException.class);
+        .isInstanceOf(OctopusServerException.class);
   }
 
   private BuildInformationResource createValidBuildInformation() {

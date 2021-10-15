@@ -147,7 +147,7 @@ subprojects {
 
     test {
         useJUnitPlatform()
-        testLogging.showStandardStreams = false
+        testLogging.showStandardStreams = true
     }
 
     tasks.withType(Test) {

@@ -211,6 +211,6 @@ class OctopusClientTest {
 
     assertThatThrownBy(client::getRootDocument)
         .isInstanceOf(UncheckedIOException.class)
-        .hasMessageStartingWith("Failed to connect to localhost/127.0.0.1");
+        .hasMessageStartingWith("Failed to connect to localhost");
   }
 }

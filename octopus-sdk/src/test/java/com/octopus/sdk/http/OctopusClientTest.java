@@ -17,6 +17,7 @@ package com.octopus.sdk.http;
 
 import static com.octopus.sdk.support.TestHelpers.createLocalhostOctopusServerUrl;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
@@ -25,6 +26,7 @@ import com.octopus.sdk.exceptions.OctopusRequestException;
 import com.octopus.sdk.support.HttpMessageBodyObject;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
@@ -200,5 +202,15 @@ class OctopusClientTest {
         mockOctopusServer.retrieveRecordedRequests(
             request().withQueryStringParameters(queryParams));
     assertThat(requests).hasSize(1);
+  }
+
+  @Test
+  public void fetchingRootDocumentThrowsExceptionWithMessaegIndicatingConnectionFailure() {
+    final OctopusClient client = createClientSendingToMockServer();
+    mockOctopusServer.close();
+
+    assertThatThrownBy(client::getRootDocument)
+        .isInstanceOf(UncheckedIOException.class)
+        .hasMessageStartingWith("Failed to connect to localhost");
   }
 }

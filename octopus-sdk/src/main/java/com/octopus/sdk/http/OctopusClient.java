@@ -88,8 +88,8 @@ public class OctopusClient {
   public RootDocument getRootDocument() {
     try {
       return get(RequestEndpoint.fromPath(ROOT_PATH), RootDocument.class);
-    } catch (IOException e) {
-      throw new UncheckedIOException("Failed to fetch the root document", e);
+    } catch (final IOException e) {
+      throw new UncheckedIOException(e.getMessage(), e);
     }
   }
 

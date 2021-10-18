@@ -225,4 +225,108 @@ public class ProjectResource extends NamedResource {
   public void setVersioningStrategy(final VersioningStrategyResource versioningStrategy) {
     this.versioningStrategy = versioningStrategy;
   }
+
+  public Boolean getAutoCreateRelease() {
+    return autoCreateRelease;
+  }
+
+  public Set<AutoDeployReleaseOverrideResource> getAutoDeployReleaseOverrides() {
+    return autoDeployReleaseOverrides;
+  }
+
+  public String getClonedFromProjectId() {
+    return clonedFromProjectId;
+  }
+
+  public GuidedFailureMode getDefaultGuidedFailureMode() {
+    return defaultGuidedFailureMode;
+  }
+
+  public Boolean getDefaultToSkipIfAlreadyInstalled() {
+    return defaultToSkipIfAlreadyInstalled;
+  }
+
+  public String getDeploymentChangesTemplate() {
+    return deploymentChangesTemplate;
+  }
+
+  public String getDeploymentProcessId() {
+    return deploymentProcessId;
+  }
+
+  public Boolean getDiscreteChannelRelease() {
+    return discreteChannelRelease;
+  }
+
+  public List<ExtensionSettingsValues> getExtensionSettings() {
+    return extensionSettings;
+  }
+
+  public List<String> getIncludedLibraryVariableSetIds() {
+    return includedLibraryVariableSetIds;
+  }
+
+  public Boolean getDisabled() {
+    return isDisabled;
+  }
+
+  public Boolean getVersionControlled() {
+    return isVersionControlled;
+  }
+
+  public String getLastModifiedBy() {
+    return lastModifiedBy;
+  }
+
+  public OffsetDateTime getLastModifiedOn() {
+    return lastModifiedOn;
+  }
+
+  public String getLifecycleId() {
+    return lifecycleId;
+  }
+
+  public PersistenceSettingsResource getPersistenceSettings() {
+    return persistenceSettings;
+  }
+
+  public DeploymentConnectivityPolicy getProjectConnectivityPolicy() {
+    return projectConnectivityPolicy;
+  }
+
+  public String getProjectGroupId() {
+    return projectGroupId;
+  }
+
+  public ReleaseCreationStrategyResource getReleaseCreationStrategy() {
+    return releaseCreationStrategy;
+  }
+
+  public String getReleaseNotesTemplate() {
+    return releaseNotesTemplate;
+  }
+
+  public String getSlug() {
+    return slug;
+  }
+
+  public String getSpaceId() {
+    return spaceId;
+  }
+
+  public List<ActionTemplateParameterResource> getTemplates() {
+    return templates;
+  }
+
+  public TenantedDeploymentMode getTenantedDeploymentMode() {
+    return tenantedDeploymentMode;
+  }
+
+  public String getVariableSetId() {
+    return variableSetId;
+  }
+
+  public VersioningStrategyResource getVersioningStrategy() {
+    return versioningStrategy;
+  }
 }

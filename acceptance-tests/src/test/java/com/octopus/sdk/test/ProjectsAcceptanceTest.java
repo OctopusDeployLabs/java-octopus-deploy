@@ -16,10 +16,13 @@
 package com.octopus.sdk.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.octopus.sdk.api.ProjectApi;
 import com.octopus.sdk.domain.Project;
 import com.octopus.sdk.domain.ProjectGroup;
+import com.octopus.sdk.exceptions.OctopusRequestException;
+import com.octopus.sdk.exceptions.OctopusServerException;
 import com.octopus.sdk.model.project.ProjectResource;
 import com.octopus.sdk.model.projectgroup.ProjectGroupResource;
 
@@ -56,14 +59,11 @@ public class ProjectsAcceptanceTest extends SpaceScopedAcceptanceTest {
   public void createProjectFromProjectGroup() throws IOException {
     final ProjectGroup theProjectGroup =
         createdSpace.projectGroups().create(new ProjectGroupResource("TheGroup"));
-    final ProjectGroup otherProjectGroup =
-        createdSpace.projectGroups().create(new ProjectGroupResource("OtherGroup"));
 
     final ProjectResource theProject =
         new ProjectResource("TheProject", "Lifecycle-1", theProjectGroup.getProperties().getId());
-    final Project createdProject = theProjectGroup.projects().create(theProject);
 
-    assertThat(createdProject.getProperties().getProjectGroupId())
-        .isEqualTo(theProjectGroup.getProperties().getId());
+    // You are unable to create a project via the ProjectGroup, instead, it must be performed at the space level.
+    assertThatThrownBy(() -> theProjectGroup.projects().create(theProject)).isInstanceOf(OctopusRequestException.class);
   }
 }

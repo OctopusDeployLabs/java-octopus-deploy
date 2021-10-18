@@ -187,7 +187,7 @@ public class OctopusClient {
           throw e;
         }
       } else {
-        final String errorString = !responseBody.isEmpty() ? responseBody : response.message();
+        final String errorString = responseBody.isEmpty() ? response.message() : responseBody;
         throw constructException(response.code(), errorString);
       }
     } catch (final UnknownHostException e) {

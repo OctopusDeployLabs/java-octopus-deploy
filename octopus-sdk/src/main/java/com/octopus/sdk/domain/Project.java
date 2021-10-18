@@ -31,7 +31,7 @@ public class Project {
     this.properties = properties;
   }
 
-  public ChannelApi getChannels() {
+  public ChannelApi channels() {
     return new ChannelApi(client, properties.getChannelsLink());
   }
 
@@ -63,7 +63,7 @@ public class Project {
     throw new UnsupportedOperationException();
   }
 
-  public ReleaseApi getReleases() {
+  public ReleaseApi releases() {
     return new ReleaseApi(client, properties.getReleasesLink());
   }
 

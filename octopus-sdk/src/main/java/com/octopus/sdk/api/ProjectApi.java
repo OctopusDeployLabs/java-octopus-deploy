@@ -39,7 +39,7 @@ public class ProjectApi
   }
 
   @Override
-  public Project createServerObject(final ProjectResourceWithLinks resource) {
+  protected Project createServerObject(final ProjectResourceWithLinks resource) {
     return new Project(client, resource);
   }
 }

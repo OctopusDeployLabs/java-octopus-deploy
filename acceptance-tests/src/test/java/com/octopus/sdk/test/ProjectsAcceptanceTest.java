@@ -19,11 +19,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.octopus.sdk.api.ProjectApi;
 import com.octopus.sdk.domain.Project;
+import com.octopus.sdk.domain.ProjectGroup;
 import com.octopus.sdk.model.project.ProjectResource;
 
 import java.io.IOException;
 import java.util.Optional;
 
+import com.octopus.sdk.model.projectgroup.ProjectGroupResource;
 import org.junit.jupiter.api.Test;
 
 public class ProjectsAcceptanceTest extends SpaceScopedAcceptanceTest {
@@ -48,5 +50,18 @@ public class ProjectsAcceptanceTest extends SpaceScopedAcceptanceTest {
 
     projectApi.delete(createdProject.getProperties().getId());
     assertThat(projectApi.getById(createdProject.getProperties().getId())).isEmpty();
+  }
+
+
+  @Test
+  public void createProjectFromProjectGroup() throws IOException {
+    final ProjectGroup theProjectGroup = createdSpace.projectGroups().create(new ProjectGroupResource("TheGroup"));
+    final ProjectGroup otherProjectGroup = createdSpace.projectGroups().create(new ProjectGroupResource("OtherGroup"));
+
+    final ProjectResource theProject = new ProjectResource("TheProject", "Lifecycle-1",
+        theProjectGroup.getProperties().getId());
+    final Project createdProject = theProjectGroup.projects().create(theProject);
+
+    assertThat(createdProject.getProperties().getProjectGroupId()).isEqualTo(theProjectGroup.getProperties().getId());
   }
 }

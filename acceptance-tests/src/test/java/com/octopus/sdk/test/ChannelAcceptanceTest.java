@@ -62,7 +62,7 @@ public class ChannelAcceptanceTest extends SpaceScopedAcceptanceTest {
             .projects()
             .getByName(project.getProperties().getName())
             .get()
-            .getChannels()
+            .channels()
             .getByName(createdChannel.getProperties().getName());
     assertThat(projectScopedChannel).isNotEmpty();
 

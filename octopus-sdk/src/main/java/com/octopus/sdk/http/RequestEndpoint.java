@@ -58,18 +58,23 @@ public class RequestEndpoint {
 
     try {
       final URI uri = new URI(pathWithQuery);
-      final Iterable<String> items = Splitter.on('&').split(uri.getQuery());
-      final Map<String, List<String>> queryParams = new HashMap<>();
-      for (final String item : items) {
-        final List<String> splitItem = Splitter.on('=').splitToList(item);
-        queryParams
-            .computeIfAbsent(splitItem.get(0), v -> Lists.newArrayList())
-            .add(splitItem.get(1));
-      }
+      final Map<String, List<String>> queryParams = queryMapFromString(uri.getQuery());
       return new RequestEndpoint(uri.getPath(), queryParams);
     } catch (final URISyntaxException e) {
       throw new IllegalArgumentException(errorString, e);
     }
+  }
+
+  public static Map<String, List<String>> queryMapFromString(final String queryString) {
+    final Iterable<String> items = Splitter.on('&').split(queryString);
+    final Map<String, List<String>> queryParams = new HashMap<>();
+    for (final String item : items) {
+      final List<String> splitItem = Splitter.on('=').splitToList(item);
+      queryParams
+          .computeIfAbsent(splitItem.get(0), v -> Lists.newArrayList())
+          .add(splitItem.get(1));
+    }
+    return queryParams;
   }
 
   private static boolean isValidPathAndQuery(String pathWithQuery) {

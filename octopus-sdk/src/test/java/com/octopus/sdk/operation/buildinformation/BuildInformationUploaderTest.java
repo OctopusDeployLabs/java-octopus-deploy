@@ -33,12 +33,10 @@ import com.octopus.sdk.model.buildinformation.BuildInformationResource;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformationMappedResource;
 import com.octopus.sdk.model.space.SpaceHome;
-import com.octopus.sdk.operation.common.SpaceHomeSelector;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -47,13 +45,11 @@ class BuildInformationUploaderTest {
 
   private final OctopusClient mockClient = mock(OctopusClient.class);
   private final SpaceHome mockSpaceHome = mock(SpaceHome.class);
-  private final SpaceHomeSelector mockSpaceHomeSelector = mock(SpaceHomeSelector.class);
 
   @Test
   public void buildInformationIsPostedToCorrectEndpointWithQueryParams() throws IOException {
     final String buildInfoLink = "/api/buildInfoLink";
     when(mockSpaceHome.getBuildInformationLink()).thenReturn(buildInfoLink);
-    when(mockSpaceHomeSelector.getSpaceHome(Optional.empty())).thenReturn(mockSpaceHome);
 
     final Commit commit = new Commit("12345", "SomeWorkPerformed");
     final BuildInformationUploaderContext context =
@@ -76,12 +72,10 @@ class BuildInformationUploaderTest {
     when(response.getId()).thenReturn("ObjectId");
     when(mockClient.post(any(), any(), any())).thenReturn(response);
 
-    final BuildInformationUploader uploader =
-        new BuildInformationUploader(mockClient, mockSpaceHomeSelector);
+    final BuildInformationUploader uploader = new BuildInformationUploader(mockClient);
 
-    final String result = uploader.upload(context);
+    final String result = uploader.execute(context);
     assertThat(result).isEqualTo(response.getId());
-    verify(mockSpaceHomeSelector, times(1)).getSpaceHome(Optional.empty());
 
     final ArgumentCaptor<RequestEndpoint> requestEndpointCaptor =
         ArgumentCaptor.forClass(RequestEndpoint.class);
@@ -125,21 +119,17 @@ class BuildInformationUploaderTest {
             .withOverwriteMode(OverwriteMode.OverwriteExisting);
 
     final Exception spaceHomeException = new IllegalArgumentException("No space exists");
-    when(mockSpaceHomeSelector.getSpaceHome(any())).thenThrow(spaceHomeException);
 
-    final BuildInformationUploader uploader =
-        new BuildInformationUploader(mockClient, mockSpaceHomeSelector);
+    final BuildInformationUploader uploader = new BuildInformationUploader(mockClient);
 
-    assertThatThrownBy(() -> uploader.upload(buildInformationUploaderContextBuilder.build()))
+    assertThatThrownBy(() -> uploader.execute(buildInformationUploaderContextBuilder.build()))
         .isEqualTo(spaceHomeException);
-    verify(mockSpaceHomeSelector, times(1)).getSpaceHome(Optional.of(spaceName));
   }
 
   @Test
   public void missingBuildUrlPostsNullUrlToServer() throws IOException {
     final String buildInfoLink = "/api/buildInfoLink";
     when(mockSpaceHome.getBuildInformationLink()).thenReturn(buildInfoLink);
-    when(mockSpaceHomeSelector.getSpaceHome(Optional.empty())).thenReturn(mockSpaceHome);
 
     final BuildInformationUploaderContext context =
         new BuildInformationUploaderContextBuilder()
@@ -161,10 +151,9 @@ class BuildInformationUploaderTest {
     when(response.getId()).thenReturn("ObjectId");
     when(mockClient.post(any(), any(), any())).thenReturn(response);
 
-    final BuildInformationUploader uploader =
-        new BuildInformationUploader(mockClient, mockSpaceHomeSelector);
+    final BuildInformationUploader uploader = new BuildInformationUploader(mockClient);
 
-    uploader.upload(context);
+    uploader.execute(context);
 
     final ArgumentCaptor<OctopusPackageVersionBuildInformation> buildInfoCaptor =
         ArgumentCaptor.forClass(OctopusPackageVersionBuildInformation.class);

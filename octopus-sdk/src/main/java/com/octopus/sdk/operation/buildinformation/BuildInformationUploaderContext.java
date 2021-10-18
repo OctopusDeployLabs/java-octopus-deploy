@@ -15,16 +15,16 @@
 package com.octopus.sdk.operation.buildinformation;
 
 import com.octopus.sdk.api.OverwriteMode;
+import com.octopus.sdk.model.commands.CommandBody;
 
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.StringJoiner;
 
-public class BuildInformationUploaderContext {
+public class BuildInformationUploaderContext extends CommandBody {
   private final String buildEnvironment;
   private final String buildNumber;
-  private final Optional<String> spaceName;
 
   private final Optional<URL> buildUrl;
   private final Optional<String> branch;
@@ -46,10 +46,11 @@ public class BuildInformationUploaderContext {
       final Optional<String> vcsRoot,
       final Optional<String> vcsCommitNumber,
       final List<Commit> commits,
-      final Optional<String> spaceName,
+      final String spaceIdOrName,
       final String packageId,
       final String packageVersion,
       final OverwriteMode overwriteMode) {
+    super(spaceIdOrName);
     this.buildEnvironment = buildEnvironment;
     this.branch = branch;
     this.buildNumber = buildNumber;
@@ -58,7 +59,6 @@ public class BuildInformationUploaderContext {
     this.vcsRoot = vcsRoot;
     this.vcsCommitNumber = vcsCommitNumber;
     this.commits = commits;
-    this.spaceName = spaceName;
     this.packageId = packageId;
     this.packageVersion = packageVersion;
     this.overwriteMode = overwriteMode;
@@ -96,10 +96,6 @@ public class BuildInformationUploaderContext {
     return commits;
   }
 
-  public Optional<String> getSpaceName() {
-    return spaceName;
-  }
-
   public String getPackageId() {
     return packageId;
   }
@@ -123,7 +119,7 @@ public class BuildInformationUploaderContext {
         .add("vcsRoot='" + vcsRoot + "'")
         .add("vcsCommitNumber='" + vcsCommitNumber + "'")
         .add("commits=" + commits)
-        .add("spaceName='" + spaceName + "'")
+        .add("spaceIdOrName='" + getSpaceIdOrName() + "'")
         .add("packageId=" + packageId)
         .add("packageVersion='" + packageVersion + "'")
         .add("overwriteMode=" + overwriteMode)

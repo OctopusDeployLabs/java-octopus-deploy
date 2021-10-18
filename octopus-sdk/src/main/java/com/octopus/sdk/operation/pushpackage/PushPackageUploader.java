@@ -16,12 +16,10 @@
 package com.octopus.sdk.operation.pushpackage;
 
 import com.octopus.sdk.api.PackageApi;
-import com.octopus.sdk.api.SpaceHomeApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.packages.PackageFromBuiltInFeedResource;
 import com.octopus.sdk.model.space.SpaceHome;
-import com.octopus.sdk.operation.common.BaseUploader;
-import com.octopus.sdk.operation.common.SpaceHomeSelector;
+import com.octopus.sdk.operation.SpaceScopedOperation;
 
 import java.io.IOException;
 
@@ -29,25 +27,18 @@ import com.google.common.base.Preconditions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class PushPackageUploader extends BaseUploader {
+public class PushPackageUploader
+    extends SpaceScopedOperation<PushPackageUploaderContext, PackageFromBuiltInFeedResource> {
   private static final Logger LOG = LogManager.getLogger();
 
-  public PushPackageUploader(
-      final OctopusClient client, final SpaceHomeSelector spaceHomeSelector) {
-    super(client, spaceHomeSelector);
+  public PushPackageUploader(final OctopusClient client) {
+    super(client);
   }
 
-  public static PushPackageUploader create(final OctopusClient client) {
-    final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
-    final SpaceHomeSelector spaceHomeSelector = new SpaceHomeSelector(spaceHomeApi);
-    return new PushPackageUploader(client, spaceHomeSelector);
-  }
-
-  public PackageFromBuiltInFeedResource upload(final PushPackageUploaderContext context)
-      throws IOException {
+  @Override
+  public PackageFromBuiltInFeedResource performOperation(
+      final SpaceHome spaceHome, final PushPackageUploaderContext context) throws IOException {
     Preconditions.checkNotNull(context, "Attempted to upload a package with null context.");
-
-    final SpaceHome spaceHome = spaceHomeSelector.getSpaceHome(context.getSpaceName());
     final PackageApi packageApi = PackageApi.create(client, spaceHome);
 
     LOG.debug("Uploading {}", context.getFile());

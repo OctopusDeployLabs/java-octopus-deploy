@@ -25,7 +25,7 @@ import com.google.common.base.Preconditions;
 public class BuildInformationUploaderContextBuilder {
   private String buildEnvironment;
   private String buildNumber;
-  private Optional<String> spaceName = Optional.empty();
+  private String spaceIdOrName;
 
   private Optional<URL> buildUrl = Optional.empty();
   private Optional<String> branch = Optional.empty();
@@ -79,8 +79,8 @@ public class BuildInformationUploaderContextBuilder {
     return this;
   }
 
-  public BuildInformationUploaderContextBuilder withSpaceName(final String spaceName) {
-    this.spaceName = Optional.ofNullable(spaceName);
+  public BuildInformationUploaderContextBuilder withSpaceIdOrName(final String spaceIdOrName) {
+    this.spaceIdOrName = spaceIdOrName;
     return this;
   }
 
@@ -101,6 +101,7 @@ public class BuildInformationUploaderContextBuilder {
   }
 
   public BuildInformationUploaderContext build() {
+    Preconditions.checkNotNull(spaceIdOrName, "The spaceIdOrName must be specified");
     Preconditions.checkNotNull(
         buildEnvironment, "buildEnvironment must be set on a build information context");
     Preconditions.checkNotNull(

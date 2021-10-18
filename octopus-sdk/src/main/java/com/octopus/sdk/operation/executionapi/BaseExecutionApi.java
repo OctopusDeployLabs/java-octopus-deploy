@@ -15,37 +15,22 @@
 
 package com.octopus.sdk.operation.executionapi;
 
-import com.octopus.sdk.api.SpaceHomeApi;
-import com.octopus.sdk.api.SpaceOverviewApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.commands.CommandBody;
 import com.octopus.sdk.model.space.SpaceHome;
-import com.octopus.sdk.model.space.SpaceOverviewWithLinks;
+import com.octopus.sdk.operation.SpaceScopedOperation;
 
 import java.io.IOException;
-import java.util.Optional;
 
-public abstract class BaseExecutionApi<T extends CommandBody, U> {
-
-  protected final OctopusClient client;
+public abstract class BaseExecutionApi<T extends CommandBody, U>
+    extends SpaceScopedOperation<T, U> {
 
   public BaseExecutionApi(final OctopusClient client) {
-    this.client = client;
+    super(client);
   }
 
-  public U execute(final T payload) throws IOException {
-    final SpaceOverviewApi spaceOverviewApi = SpaceOverviewApi.create(client);
-    final String spaceIdentifier = payload.getSpaceIdOrName();
-    Optional<SpaceOverviewWithLinks> spaceOverview =
-        spaceOverviewApi.getByIdOrName(spaceIdentifier);
-
-    if (!spaceOverview.isPresent()) {
-      throw new IllegalArgumentException(
-          "No spaces exist with an Id or Name of '" + spaceIdentifier + "'");
-    }
-
-    final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
-    final SpaceHome spaceHome = spaceHomeApi.getBySpaceOverview(spaceOverview.get());
+  @Override
+  protected U performOperation(final SpaceHome spaceHome, final T payload) throws IOException {
     final ExecutionsCreateApi api = new ExecutionsCreateApi(client, spaceHome);
     return sendRequest(api, payload);
   }

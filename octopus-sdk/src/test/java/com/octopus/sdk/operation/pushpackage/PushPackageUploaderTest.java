@@ -17,7 +17,6 @@ package com.octopus.sdk.operation.pushpackage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -29,12 +28,10 @@ import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.packages.PackageFromBuiltInFeedResource;
 import com.octopus.sdk.model.space.SpaceHome;
-import com.octopus.sdk.operation.common.SpaceHomeSelector;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -43,15 +40,13 @@ public class PushPackageUploaderTest {
 
   private final OctopusClient mockClient = mock(OctopusClient.class);
   private final SpaceHome mockSpaceHome = mock(SpaceHome.class);
-  private final SpaceHomeSelector mockSpaceHomeSelector = mock(SpaceHomeSelector.class);
 
   @Test
   public void sendsFileToDefaultSpace() throws IOException {
     final String pushPackageLink = "/api/pushPackages";
     when(mockSpaceHome.getPackageUploadLink()).thenReturn(pushPackageLink);
-    when(mockSpaceHomeSelector.getSpaceHome(Optional.empty())).thenReturn(mockSpaceHome);
 
-    final PushPackageUploader uploader = new PushPackageUploader(mockClient, mockSpaceHomeSelector);
+    final PushPackageUploader uploader = new PushPackageUploader(mockClient);
 
     final PushPackageUploaderContext context =
         new PushPackageUploaderContextBuilder()
@@ -60,8 +55,7 @@ public class PushPackageUploaderTest {
             .withFileToUpload(Paths.get("theFile.1.1.1.zip").toFile())
             .build();
 
-    uploader.upload(context);
-    verify(mockSpaceHomeSelector, times(1)).getSpaceHome(context.getSpaceName());
+    uploader.execute(context);
 
     final ArgumentCaptor<RequestEndpoint> requestEndpointCaptor =
         ArgumentCaptor.forClass(RequestEndpoint.class);
@@ -82,7 +76,7 @@ public class PushPackageUploaderTest {
   }
 
   @Test
-  public void exceptionIsThrownIfUnableToFindAMatchingSpace() throws IOException {
+  public void exceptionIsThrownIfUnableToFindAMatchingSpace() {
     final String spaceName = "theSpace";
     final PushPackageUploaderContext context =
         new PushPackageUploaderContextBuilder()
@@ -91,12 +85,8 @@ public class PushPackageUploaderTest {
             .withFileToUpload(Paths.get("theFile.1.1.1.zip").toFile())
             .build();
 
-    final Exception spaceHomeException = new IllegalArgumentException("No space exists");
-    when(mockSpaceHomeSelector.getSpaceHome(any())).thenThrow(spaceHomeException);
-
-    final PushPackageUploader uploader = new PushPackageUploader(mockClient, mockSpaceHomeSelector);
-
-    assertThatThrownBy(() -> uploader.upload(context)).isEqualTo(spaceHomeException);
-    verify(mockSpaceHomeSelector, times(1)).getSpaceHome(Optional.of(spaceName));
+    final PushPackageUploader uploader = new PushPackageUploader(mockClient);
+    assertThatThrownBy(() -> uploader.execute(context))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 }

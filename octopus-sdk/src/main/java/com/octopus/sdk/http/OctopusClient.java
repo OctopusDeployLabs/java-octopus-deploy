@@ -187,7 +187,8 @@ public class OctopusClient {
           throw e;
         }
       } else {
-        throw constructException(response.code(), responseBody);
+        final String errorString = responseBody.isEmpty() ? response.message() : responseBody;
+        throw constructException(response.code(), errorString);
       }
     } catch (final UnknownHostException e) {
       LOG.error("Failed to connect to Octopus Server at {}", call.request().url());

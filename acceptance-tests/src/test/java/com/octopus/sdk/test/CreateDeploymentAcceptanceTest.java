@@ -50,7 +50,7 @@ public class CreateDeploymentAcceptanceTest extends SpaceScopedAcceptanceTest {
     final ProjectResourceWithLinks projectToCreate =
         new ProjectResourceWithLinks(
             projectName, "Lifecycles-1", projectGroup.getProperties().getId());
-    final Project projectCreated = projectGroup.getProjects().create(projectToCreate);
+    final Project projectCreated = projectGroup.projects().create(projectToCreate);
 
     createdSpace.environments().create(new EnvironmentResourceWithLinks(envName));
 

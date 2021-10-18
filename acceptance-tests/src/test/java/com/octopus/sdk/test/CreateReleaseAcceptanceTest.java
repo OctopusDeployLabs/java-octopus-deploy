@@ -41,7 +41,7 @@ public class CreateReleaseAcceptanceTest extends SpaceScopedAcceptanceTest {
             .orElseThrow(() -> new RuntimeException("No Project Groups exist on server"));
 
     projectGroup
-        .getProjects()
+        .projects()
         .create(
             new ProjectResourceWithLinks(
                 projectName, "Lifecycles-1", projectGroup.getProperties().getId()));

@@ -17,6 +17,7 @@ package com.octopus.examples;
 
 import com.octopus.sdk.Repository;
 import com.octopus.sdk.domain.Lifecycle;
+import com.octopus.sdk.domain.Project;
 import com.octopus.sdk.domain.ProjectGroup;
 import com.octopus.sdk.domain.Space;
 import com.octopus.sdk.http.ConnectData;
@@ -66,7 +67,7 @@ public class CreateProject {
             lifecycle.get().getProperties().getId(),
             projGroup.get().getProperties().getId());
     projectToCreate.setAutoCreateRelease(false);
-    space.get().projects().create(projectToCreate);
+    final Project createdProject = space.get().projects().create(projectToCreate);
   }
 
   // Create an authenticated connection to your Octopus Deploy Server

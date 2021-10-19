@@ -16,9 +16,12 @@
 package com.octopus.examples;
 
 import com.octopus.sdk.Repository;
+import com.octopus.sdk.domain.Environment;
+import com.octopus.sdk.domain.Space;
 import com.octopus.sdk.http.ConnectData;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.OctopusClientFactory;
+import com.octopus.sdk.model.environment.EnvironmentResource;
 import com.octopus.sdk.model.space.SpaceOverviewResource;
 
 import java.io.IOException;
@@ -27,7 +30,7 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.Collections;
 
-public class AddSpace {
+public class AddSpaceWithEnvironments {
 
   static final String octopusServerUrl = "http://localhost:8065";
   static final String apiKey =
@@ -37,10 +40,14 @@ public class AddSpace {
     final OctopusClient client = createClient();
 
     final Repository repo = new Repository(client);
-    repo.spaces()
-        .create(
-            new SpaceOverviewResource(
-                "NewSpaceName", Collections.singleton("spaceManagerTeamMembers")));
+    final Space createdSpace =
+        repo.spaces()
+            .create(
+                new SpaceOverviewResource(
+                    "NewSpaceName", Collections.singleton("spaceManagerTeamMembers")));
+    final Environment testEnv = createdSpace.environments().create(new EnvironmentResource("Test"));
+    final Environment prodEnv =
+        createdSpace.environments().create(new EnvironmentResource("Production"));
   }
 
   // Create an authenticated connection to your Octopus Deploy Server

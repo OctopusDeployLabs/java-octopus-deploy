@@ -15,8 +15,11 @@
 
 package com.octopus.sdk.operation.buildinformation;
 
+import static com.octopus.sdk.http.RequestEndpoint.queryMapFromString;
 import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonList;
+import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.eq;
@@ -27,17 +30,25 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.octopus.sdk.api.OverwriteMode;
+import com.octopus.sdk.exceptions.OctopusRequestException;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
+import com.octopus.sdk.model.RootDocument;
 import com.octopus.sdk.model.buildinformation.BuildInformationResource;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformationMappedResource;
 import com.octopus.sdk.model.space.SpaceHome;
+import com.octopus.sdk.model.space.SpaceOverviewPaginatedCollection;
+import com.octopus.sdk.model.space.SpaceOverviewWithLinks;
+import com.octopus.sdk.support.TestHelpers;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -45,19 +56,45 @@ class BuildInformationUploaderTest {
 
   private final OctopusClient mockClient = mock(OctopusClient.class);
   private final SpaceHome mockSpaceHome = mock(SpaceHome.class);
+  private final String existingSpaceId = "TheSpace-Id";
+  private final String buildInfoLink = "api/build-information";
+
+  private Map<String, String> createSpaceHomeLinks() {
+    final Map<String, String> result = new HashMap<>();
+    result.put("BuildInformation", buildInfoLink);
+    return result;
+  }
+
+  @BeforeEach
+  public void setup() throws IOException {
+    // Setup Client to appear that a single space exists:
+    final SpaceHome spaceHome = new SpaceHome(createSpaceHomeLinks());
+    when(mockClient.supportsSpaces()).thenReturn(true);
+    when(mockClient.getRootDocument()).thenReturn(TestHelpers.defaultRootDoc());
+
+    final SpaceOverviewWithLinks spaceOverview =
+        new SpaceOverviewWithLinks("MySpace", Collections.emptySet());
+    spaceOverview.setLinks(singletonMap("SpaceHome", "/api/" + existingSpaceId));
+
+    when(mockClient.get(RequestEndpoint.fromPath("/api"), RootDocument.class))
+        .thenReturn(TestHelpers.defaultRootDoc());
+    when(mockClient.get(
+            RequestEndpoint.fromPath("/api/spaces/" + existingSpaceId),
+            SpaceOverviewWithLinks.class))
+        .thenReturn(spaceOverview);
+    when(mockClient.get(RequestEndpoint.fromPath("/api/" + existingSpaceId), SpaceHome.class))
+        .thenReturn(spaceHome);
+  }
 
   @Test
   public void buildInformationIsPostedToCorrectEndpointWithQueryParams() throws IOException {
-    final String buildInfoLink = "/api/buildInfoLink";
-    when(mockSpaceHome.getBuildInformationLink()).thenReturn(buildInfoLink);
-
     final Commit commit = new Commit("12345", "SomeWorkPerformed");
     final BuildInformationUploaderContext context =
         new BuildInformationUploaderContextBuilder()
             .withBuildEnvironment("Environment")
             .withBuildUrl(new URL("http://buildServer.com/5"))
             .withBuildNumber("16")
-            .withSpaceIdOrName(null)
+            .withSpaceIdOrName(existingSpaceId)
             .withPackageId("myPackage.app")
             .withPackageVersion("1.0")
             .withOverwriteMode(OverwriteMode.OverwriteExisting)
@@ -106,24 +143,33 @@ class BuildInformationUploaderTest {
 
   @Test
   public void exceptionIsThrownIfUnableToFindAMatchingSpace() throws IOException {
-    final String spaceName = "theSpace";
+    when(mockClient.get(eq(RequestEndpoint.fromPath("/api/spaces/NonexistentSpace")), any()))
+        .thenThrow(new OctopusRequestException(404, "No Resource"));
+
+    // return NO spaces matching the supplied name
+    when(mockClient.get(
+            eq(
+                new RequestEndpoint(
+                    "/api/spaces", queryMapFromString("partialName=NonexistentSpace"))),
+            any()))
+        .thenReturn(new SpaceOverviewPaginatedCollection(emptyMap(), 0, 30, 1, 1, emptyList()));
+
     final BuildInformationUploaderContextBuilder buildInformationUploaderContextBuilder =
         new BuildInformationUploaderContextBuilder()
             .withBuildEnvironment("Environment")
             .withBuildUrl(new URL("http://teamcityServer/buildid"))
             .withBuildNumber("16")
-            .withSpaceIdOrName(spaceName)
+            .withSpaceIdOrName("NonexistentSpace")
             .withPackageId("myPackage.app")
             .withPackageVersion("1.0")
             .withCommits(Collections.emptyList())
             .withOverwriteMode(OverwriteMode.OverwriteExisting);
 
-    final Exception spaceHomeException = new IllegalArgumentException("No space exists");
-
     final BuildInformationUploader uploader = new BuildInformationUploader(mockClient);
 
     assertThatThrownBy(() -> uploader.execute(buildInformationUploaderContextBuilder.build()))
-        .isEqualTo(spaceHomeException);
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageStartingWith("No spaces exist with an Id or Name of");
   }
 
   @Test
@@ -136,7 +182,7 @@ class BuildInformationUploaderTest {
             .withBuildEnvironment("Environment")
             .withBuildUrl(null)
             .withBuildNumber("16")
-            .withSpaceIdOrName(null)
+            .withSpaceIdOrName("TheSpace-Id")
             .withPackageId("myPackage.app")
             .withPackageVersion("1.0")
             .withOverwriteMode(OverwriteMode.OverwriteExisting)

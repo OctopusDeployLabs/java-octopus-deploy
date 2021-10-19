@@ -46,7 +46,7 @@ public class PushPackageUploaderAcceptanceTest extends SpaceScopedAcceptanceTest
 
     final PushPackageUploaderContext parameters =
         new PushPackageUploaderContextBuilder()
-            .withSpaceName(createdSpace.getProperties().getName())
+            .withSpaceIdOrName(createdSpace.getProperties().getName())
             .withOverwriteMode(OverwriteMode.OverwriteExisting)
             .withFileToUpload(packageFile.toFile())
             .build();

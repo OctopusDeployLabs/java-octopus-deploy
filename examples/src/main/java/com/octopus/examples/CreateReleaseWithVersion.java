@@ -17,6 +17,7 @@ package com.octopus.examples;
 
 import com.octopus.sdk.Repository;
 import com.octopus.sdk.domain.Project;
+import com.octopus.sdk.domain.Release;
 import com.octopus.sdk.domain.Space;
 import com.octopus.sdk.http.ConnectData;
 import com.octopus.sdk.http.OctopusClient;
@@ -53,7 +54,7 @@ public class CreateReleaseWithVersion {
 
     final ReleaseResource releaseResource =
         new ReleaseResource("1.0", project.get().getProperties().getId());
-    space.get().releases().create(releaseResource);
+    final Release createdRelease = space.get().releases().create(releaseResource);
   }
 
   // Create an authenticated connection to your Octopus Deploy Server

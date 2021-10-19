@@ -42,7 +42,7 @@ public class PushPackageUploaderAcceptanceTest extends SpaceScopedAcceptanceTest
         "ArbitraryContent".getBytes(StandardCharsets.UTF_8),
         StandardOpenOption.CREATE);
 
-    final PushPackageUploader uploader = PushPackageUploader.create(client);
+    final PushPackageUploader uploader = new PushPackageUploader(client);
 
     final PushPackageUploaderContext parameters =
         new PushPackageUploaderContextBuilder()
@@ -51,7 +51,7 @@ public class PushPackageUploaderAcceptanceTest extends SpaceScopedAcceptanceTest
             .withFileToUpload(packageFile.toFile())
             .build();
 
-    final PackageFromBuiltInFeedResource result = uploader.upload(parameters);
+    final PackageFromBuiltInFeedResource result = uploader.execute(parameters);
     try {
       assertThat(result).isNotNull();
     } finally {

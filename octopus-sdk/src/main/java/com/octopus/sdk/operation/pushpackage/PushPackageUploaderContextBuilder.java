@@ -26,7 +26,7 @@ public class PushPackageUploaderContextBuilder {
   private File fileToUpload;
   private OverwriteMode overwriteMode;
 
-  public PushPackageUploaderContextBuilder withSpaceName(final String spaceIdOrName) {
+  public PushPackageUploaderContextBuilder withSpaceIdOrName(final String spaceIdOrName) {
     this.spaceIdOrName = spaceIdOrName;
     return this;
   }
@@ -49,6 +49,6 @@ public class PushPackageUploaderContextBuilder {
         overwriteMode,
         "overwriteMode must be specified when pushing packages to Octopus " + "Server");
 
-    return new PushPackageUploaderContext(spaceName, fileToUpload, overwriteMode);
+    return new PushPackageUploaderContext(spaceIdOrName, fileToUpload, overwriteMode);
   }
 }

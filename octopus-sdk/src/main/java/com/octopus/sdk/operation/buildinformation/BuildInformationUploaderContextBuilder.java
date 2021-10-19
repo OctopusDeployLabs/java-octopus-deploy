@@ -123,7 +123,7 @@ public class BuildInformationUploaderContextBuilder {
         vcsRoot,
         vcsCommitNumber,
         commits,
-        spaceName,
+        spaceIdOrName,
         packageId,
         packageVersion,
         overwriteMode);

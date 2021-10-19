@@ -149,5 +149,5 @@ public abstract class BaseResourceApi<
     return result;
   }
 
-  public abstract WRAPPED_TYPE createServerObject(final RESPONSE_TYPE resource);
+  protected abstract WRAPPED_TYPE createServerObject(final RESPONSE_TYPE resource);
 }

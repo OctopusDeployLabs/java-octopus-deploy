@@ -30,7 +30,7 @@ public class ProjectGroup {
     this.resourceWithLinks = resourceWithLinks;
   }
 
-  public ProjectApi getProjects() {
+  public ProjectApi projects() {
     final String link = resourceWithLinks.getProjectsLink();
     return new ProjectApi(client, link);
   }

@@ -78,7 +78,7 @@ public class SpacesOverviewAcceptanceTest extends BaseOctopusServerEnabledTest {
 
     final SpaceOverviewWithLinks toCreate =
         new SpaceOverviewWithLinks(
-            spaceName, Sets.newLinkedHashSet(users.getCurrentUser().getId()));
+            spaceName, Sets.newLinkedHashSet(users.getCurrentUser().getProperties().getId()));
 
     final SpaceOverviewWithLinks createdSpace = spaceOverviewApi.create(toCreate);
 
@@ -86,7 +86,7 @@ public class SpacesOverviewAcceptanceTest extends BaseOctopusServerEnabledTest {
       assertThat(createdSpace).isNotNull();
       assertThat(createdSpace.getName()).isEqualTo(spaceName);
       assertThat(createdSpace.getSpaceManagersTeamMembers())
-          .containsExactly(users.getCurrentUser().getId());
+          .containsExactly(users.getCurrentUser().getProperties().getId());
 
       createdSpace.setTaskQueueStopped(true);
       final SpaceOverviewResource modifiedSpace = spaceOverviewApi.update(createdSpace);
@@ -106,7 +106,8 @@ public class SpacesOverviewAcceptanceTest extends BaseOctopusServerEnabledTest {
 
     final List<SpaceOverviewWithLinks> spacesCreated = Lists.newArrayList();
     try {
-      final Set<String> spaceManagerTeam = Sets.newLinkedHashSet(users.getCurrentUser().getId());
+      final Set<String> spaceManagerTeam =
+          Sets.newLinkedHashSet(users.getCurrentUser().getProperties().getId());
       for (int i = 0; i < 10; i++) {
         final SpaceOverviewWithLinks toCreate =
             new SpaceOverviewWithLinks(String.format("Space%d", i), spaceManagerTeam);
@@ -149,7 +150,7 @@ public class SpacesOverviewAcceptanceTest extends BaseOctopusServerEnabledTest {
 
     final SpaceOverviewWithLinks toCreate =
         new SpaceOverviewWithLinks(
-            spaceName, Sets.newLinkedHashSet(users.getCurrentUser().getId()));
+            spaceName, Sets.newLinkedHashSet(users.getCurrentUser().getProperties().getId()));
 
     final SpaceOverviewWithLinks createdSpace = spaceOverviewApi.create(toCreate);
     try {

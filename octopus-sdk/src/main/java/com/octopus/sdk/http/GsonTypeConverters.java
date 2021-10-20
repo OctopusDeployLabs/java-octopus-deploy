@@ -19,11 +19,9 @@ import java.lang.reflect.Type;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 
-import com.google.api.client.json.JsonString;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
@@ -43,8 +41,9 @@ class GsonTypeConverters {
 
   public static class OffsetDateTimeSerializer implements JsonSerializer<OffsetDateTime> {
 
-    @Override public JsonElement serialize(final OffsetDateTime src, final Type typeOfSrc,
-        final JsonSerializationContext context) {
+    @Override
+    public JsonElement serialize(
+        final OffsetDateTime src, final Type typeOfSrc, final JsonSerializationContext context) {
       return new JsonPrimitive(src.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
     }
   }

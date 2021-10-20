@@ -32,4 +32,8 @@ public class User {
   final ApiKeyApi apiKeys() {
     return new ApiKeyApi(client, properties.getApiKeysLink());
   }
+
+  public UserResourceWithLinks getProperties() {
+    return properties;
+  }
 }

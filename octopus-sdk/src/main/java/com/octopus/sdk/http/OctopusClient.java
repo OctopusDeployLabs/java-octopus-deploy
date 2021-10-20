@@ -72,7 +72,8 @@ public class OctopusClient {
         new GsonBuilder()
             .registerTypeAdapter(
                 OffsetDateTime.class, new GsonTypeConverters.OffsetDateTimeDeserializer())
-            .registerTypeAdapter(OffsetDateTime.class, new GsonTypeConverters.OffsetDateTimeSerializer())
+            .registerTypeAdapter(
+                OffsetDateTime.class, new GsonTypeConverters.OffsetDateTimeSerializer())
             .disableHtmlEscaping()
             .create();
   }

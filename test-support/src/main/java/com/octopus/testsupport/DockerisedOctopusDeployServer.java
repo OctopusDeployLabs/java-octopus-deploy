@@ -15,6 +15,8 @@
 
 package com.octopus.testsupport;
 
+import static java.time.ZoneId.systemDefault;
+
 import com.octopus.sdk.api.ApiKeyApi;
 import com.octopus.sdk.api.LicenseApi;
 import com.octopus.sdk.api.UserApi;
@@ -25,7 +27,7 @@ import com.octopus.sdk.model.user.UserResourceWithLinks;
 import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
-import java.time.Instant;
+import java.time.OffsetDateTime;
 
 import okhttp3.OkHttpClient;
 import org.apache.logging.log4j.LogManager;
@@ -167,7 +169,7 @@ public class DockerisedOctopusDeployServer implements OctopusDeployServer {
     final UserResourceWithLinks currentUserResource = users.getCurrentUser();
     final ApiKeyApi apiKeyApi = ApiKeyApi.create(client, currentUserResource);
     return apiKeyApi
-        .addApiKey("For Testing", Instant.now().plus(Duration.ofDays(1)))
+        .addApiKey("For Testing", OffsetDateTime.now(systemDefault()).plus(Duration.ofDays(1)))
         .getApiKey();
   }
 

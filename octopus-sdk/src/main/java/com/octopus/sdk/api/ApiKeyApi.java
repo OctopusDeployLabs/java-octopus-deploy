@@ -15,7 +15,6 @@
 
 package com.octopus.sdk.api;
 
-import com.google.common.base.Preconditions;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.apikey.ApiKeyCreatedResource;
@@ -25,6 +24,8 @@ import com.octopus.sdk.model.user.UserResourceWithLinks;
 
 import java.io.IOException;
 import java.time.OffsetDateTime;
+
+import com.google.common.base.Preconditions;
 
 public class ApiKeyApi
     extends BaseResourceApi<
@@ -49,7 +50,7 @@ public class ApiKeyApi
   @Override
   public ApiKeyResource update(final ApiKeyResource resourceToUpdate) throws IOException {
     throw new UnsupportedOperationException(
-        "ApiKeys cannot be updated, the must be deleted and a new one created.");
+        "ApiKeys cannot be updated, the must be deleted and then a new apiKey created.");
   }
 
   @Override

@@ -1,30 +1,28 @@
 /*
-* Copyright (c) Octopus Deploy and contributors. All rights reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-* these files except in compliance with the License. You may obtain a copy of the
-* License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software distributed
-* under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-* CONDITIONS OF ANY KIND, either express or implied. See the License for the
-* specific language governing permissions and limitations under the License.
-*/
-
+ * Copyright (c) Octopus Deploy and contributors. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+ * these files except in compliance with the License. You may obtain a copy of the
+ * License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
 
 package com.octopus.sdk.model.apikey;
 
-import com.google.gson.annotations.SerializedName;
 import com.octopus.sdk.model.BaseResource;
 
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
-/**
- * ApiKeyCreatedResource
- */
+import com.google.gson.annotations.SerializedName;
+
+/** ApiKeyCreatedResource */
 @SuppressWarnings("UnusedVariable")
 public class ApiKeyCreatedResource extends BaseResource {
   @SerializedName("ApiKey")
@@ -49,7 +47,7 @@ public class ApiKeyCreatedResource extends BaseResource {
   private String userId;
 
   public ApiKeyCreatedResource apiKey(String apiKey) {
-    
+
     this.apiKey = apiKey;
     return this;
   }
@@ -62,9 +60,8 @@ public class ApiKeyCreatedResource extends BaseResource {
     this.apiKey = apiKey;
   }
 
-
   public ApiKeyCreatedResource created(OffsetDateTime created) {
-    
+
     this.created = created;
     return this;
   }
@@ -77,9 +74,8 @@ public class ApiKeyCreatedResource extends BaseResource {
     this.created = created;
   }
 
-
   public ApiKeyCreatedResource expires(OffsetDateTime expires) {
-    
+
     this.expires = expires;
     return this;
   }
@@ -93,7 +89,7 @@ public class ApiKeyCreatedResource extends BaseResource {
   }
 
   public ApiKeyCreatedResource lastModifiedBy(String lastModifiedBy) {
-    
+
     this.lastModifiedBy = lastModifiedBy;
     return this;
   }
@@ -106,9 +102,8 @@ public class ApiKeyCreatedResource extends BaseResource {
     this.lastModifiedBy = lastModifiedBy;
   }
 
-
   public ApiKeyCreatedResource lastModifiedOn(OffsetDateTime lastModifiedOn) {
-    
+
     this.lastModifiedOn = lastModifiedOn;
     return this;
   }
@@ -121,9 +116,8 @@ public class ApiKeyCreatedResource extends BaseResource {
     this.lastModifiedOn = lastModifiedOn;
   }
 
-
   public ApiKeyCreatedResource purpose(String purpose) {
-    
+
     this.purpose = purpose;
     return this;
   }
@@ -136,9 +130,8 @@ public class ApiKeyCreatedResource extends BaseResource {
     this.purpose = purpose;
   }
 
-
   public ApiKeyCreatedResource userId(String userId) {
-    
+
     this.userId = userId;
     return this;
   }
@@ -151,7 +144,6 @@ public class ApiKeyCreatedResource extends BaseResource {
     this.userId = userId;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -161,20 +153,29 @@ public class ApiKeyCreatedResource extends BaseResource {
       return false;
     }
     ApiKeyCreatedResource apiKeyCreatedResource = (ApiKeyCreatedResource) o;
-    return Objects.equals(this.apiKey, apiKeyCreatedResource.apiKey) &&
-        Objects.equals(this.created, apiKeyCreatedResource.created) &&
-        Objects.equals(this.expires, apiKeyCreatedResource.expires) &&
-        Objects.equals(this.getId(), apiKeyCreatedResource.getId()) &&
-        Objects.equals(this.lastModifiedBy, apiKeyCreatedResource.lastModifiedBy) &&
-        Objects.equals(this.lastModifiedOn, apiKeyCreatedResource.lastModifiedOn) &&
-        Objects.equals(this.getLinks(), apiKeyCreatedResource.getLinks()) &&
-        Objects.equals(this.purpose, apiKeyCreatedResource.purpose) &&
-        Objects.equals(this.userId, apiKeyCreatedResource.userId);
+    return Objects.equals(this.apiKey, apiKeyCreatedResource.apiKey)
+        && Objects.equals(this.created, apiKeyCreatedResource.created)
+        && Objects.equals(this.expires, apiKeyCreatedResource.expires)
+        && Objects.equals(this.getId(), apiKeyCreatedResource.getId())
+        && Objects.equals(this.lastModifiedBy, apiKeyCreatedResource.lastModifiedBy)
+        && Objects.equals(this.lastModifiedOn, apiKeyCreatedResource.lastModifiedOn)
+        && Objects.equals(this.getLinks(), apiKeyCreatedResource.getLinks())
+        && Objects.equals(this.purpose, apiKeyCreatedResource.purpose)
+        && Objects.equals(this.userId, apiKeyCreatedResource.userId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(apiKey, created, expires, getId(), lastModifiedBy, lastModifiedOn, getLinks(), purpose, userId);
+    return Objects.hash(
+        apiKey,
+        created,
+        expires,
+        getId(),
+        lastModifiedBy,
+        lastModifiedOn,
+        getLinks(),
+        purpose,
+        userId);
   }
 
   @Override
@@ -195,8 +196,7 @@ public class ApiKeyCreatedResource extends BaseResource {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -204,6 +204,4 @@ public class ApiKeyCreatedResource extends BaseResource {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
 }
-

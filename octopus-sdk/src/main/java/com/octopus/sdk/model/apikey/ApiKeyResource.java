@@ -16,12 +16,12 @@
 package com.octopus.sdk.model.apikey;
 
 import com.octopus.sdk.model.BaseResource;
+import com.octopus.sdk.model.SensitiveValue;
 
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
 import com.google.gson.annotations.SerializedName;
-import com.octopus.sdk.model.SensitiveValue;
 
 /** ApiKeyResource */
 @SuppressWarnings("UnusedVariable")

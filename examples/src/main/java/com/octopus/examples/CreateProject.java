@@ -57,7 +57,7 @@ public class CreateProject {
     final Optional<ProjectGroup> projGroup =
         space.get().projectGroups().getByName("MyProjectGroup");
     if (!projGroup.isPresent()) {
-      System.out.println("No lifecycle named 'MyProjectGroup' exists on server");
+      System.out.println("No ProjectGroup named 'MyProjectGroup' exists on server");
       return;
     }
 

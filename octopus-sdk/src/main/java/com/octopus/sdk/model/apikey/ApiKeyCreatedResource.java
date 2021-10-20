@@ -22,7 +22,6 @@ import java.util.Objects;
 
 import com.google.gson.annotations.SerializedName;
 
-/** ApiKeyCreatedResource */
 @SuppressWarnings("UnusedVariable")
 public class ApiKeyCreatedResource extends BaseResource {
   @SerializedName("ApiKey")

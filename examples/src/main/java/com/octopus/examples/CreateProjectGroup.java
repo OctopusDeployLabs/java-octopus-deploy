@@ -45,7 +45,8 @@ public class CreateProjectGroup {
       System.out.println("No space named 'TheSpaceName' exists on server");
       return;
     }
-    final ProjectGroupResource projectGroupResource = new ProjectGroupResource("TheProjectGroupName");
+    final ProjectGroupResource projectGroupResource =
+        new ProjectGroupResource("TheProjectGroupName");
     final ProjectGroup createdProjectGroup =
         space.get().projectGroups().create(projectGroupResource);
   }

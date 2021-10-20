@@ -48,8 +48,8 @@ public class UserApi
   }
 
   public User getCurrentUser() throws IOException {
-    return new User(client,
-        client.get(RequestEndpoint.fromPath(currentUserPath), UserResourceWithLinks.class));
+    return new User(
+        client, client.get(RequestEndpoint.fromPath(currentUserPath), UserResourceWithLinks.class));
   }
 
   @Override

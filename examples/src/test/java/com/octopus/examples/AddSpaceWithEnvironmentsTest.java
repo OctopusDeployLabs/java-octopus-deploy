@@ -17,6 +17,4 @@ package com.octopus.examples;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AddSpaceWithEnvironmentsTest {
-
-}
+class AddSpaceWithEnvironmentsTest {}

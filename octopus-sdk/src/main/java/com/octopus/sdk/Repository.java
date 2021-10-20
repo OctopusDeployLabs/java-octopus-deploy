@@ -36,5 +36,7 @@ public class Repository {
     return TaskApi.create(client);
   }
 
-  public UserApi users() { return UserApi.create(client); }
+  public UserApi users() {
+    return UserApi.create(client);
+  }
 }

@@ -17,13 +17,11 @@ package com.octopus.examples;
 
 import com.octopus.sdk.Repository;
 import com.octopus.sdk.api.ApiKeyApi;
-import com.octopus.sdk.api.UserApi;
 import com.octopus.sdk.domain.User;
 import com.octopus.sdk.http.ConnectData;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.OctopusClientFactory;
 import com.octopus.sdk.model.apikey.ApiKeyCreatedResource;
-import com.octopus.sdk.model.user.UserResourceWithLinks;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -44,8 +42,8 @@ public class CreateApiKey {
     final User theUser = repo.users().getCurrentUser();
 
     final ApiKeyApi apiKeyApi = ApiKeyApi.create(client, theUser.getProperties());
-    final ApiKeyCreatedResource apiKey = apiKeyApi.addApiKey("For Use In testing",
-        OffsetDateTime.now().plus(Duration.ofDays(365)));
+    final ApiKeyCreatedResource apiKey =
+        apiKeyApi.addApiKey("For Use In testing", OffsetDateTime.now().plus(Duration.ofDays(365)));
 
     // Api keys should not be logged to output in production systems
     System.out.println("The Key is " + apiKey.getApiKey());

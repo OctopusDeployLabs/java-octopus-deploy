@@ -63,7 +63,8 @@ public class SpaceScopedAcceptanceTest extends BaseOctopusServerEnabledTest {
     final String spaceName = generateSpaceName(testInfo.getDisplayName());
 
     LOG.info("Test operating in space {}", spaceName);
-    final Set<String> spaceManagers = Sets.newHashSet(users.getCurrentUser().getProperties().getId());
+    final Set<String> spaceManagers =
+        Sets.newHashSet(users.getCurrentUser().getProperties().getId());
     createdSpace = repo.spaces().create(new SpaceOverviewWithLinks(spaceName, spaceManagers));
     spaceHome = new SpaceHomeApi(client).getBySpaceOverview(createdSpace.getProperties());
   }

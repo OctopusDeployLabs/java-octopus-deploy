@@ -51,7 +51,8 @@ public class CreateLifecycle {
       return;
     }
 
-    final Lifecycle createdLifecycle = space.get().lifecycles().create(new LifecycleResource(lifecycleName));
+    final Lifecycle createdLifecycle =
+        space.get().lifecycles().create(new LifecycleResource(lifecycleName));
   }
 
   // Create an authenticated connection to your Octopus Deploy Server

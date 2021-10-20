@@ -15,7 +15,6 @@
 
 package com.octopus.examples;
 
-import com.google.common.collect.Sets;
 import com.octopus.sdk.Repository;
 import com.octopus.sdk.domain.Environment;
 import com.octopus.sdk.domain.Space;
@@ -30,8 +29,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
-import java.util.Collections;
 import java.util.Set;
+
+import com.google.common.collect.Sets;
 
 public class AddSpaceWithEnvironments {
 

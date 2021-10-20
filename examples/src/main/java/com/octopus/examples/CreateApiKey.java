@@ -32,8 +32,8 @@ import java.time.OffsetDateTime;
 public class CreateApiKey {
 
   static final String octopusServerUrl = "http://localhost:8065";
-  static final String apiKey =
-      "YOUR_API_KEY"; // as read from your profile in your Octopus Deploy server
+  // as read from your profile in your Octopus Deploy server
+  static final String apiKey = "YOUR_API_KEY";
 
   public static void main(final String... args) throws IOException {
     final OctopusClient client = createClient();
@@ -43,8 +43,7 @@ public class CreateApiKey {
     final UserResourceWithLinks currentUser = userApi.getCurrentUser();
 
     final ApiKeyApi apiKeyApi = ApiKeyApi.create(client, currentUser);
-    apiKeyApi.createApiKeyForUser(
-        "FOr Use In testing", OffsetDateTime.now().plus(Duration.ofDays(365)));
+    apiKeyApi.addApiKey("FOr Use In testing", OffsetDateTime.now().plus(Duration.ofDays(365)));
   }
 
   // Create an authenticated connection to your Octopus Deploy Server

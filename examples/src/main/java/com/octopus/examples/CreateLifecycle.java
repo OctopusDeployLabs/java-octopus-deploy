@@ -45,7 +45,7 @@ public class CreateLifecycle {
 
     final String lifecycleName = "TheLifecycle";
 
-    if(space.get().lifecycles().getByName(lifecycleName).isPresent()) {
+    if (space.get().lifecycles().getByName(lifecycleName).isPresent()) {
       System.out.println("Lifecycle called 'TheLifecycle' already exists");
       return;
     }

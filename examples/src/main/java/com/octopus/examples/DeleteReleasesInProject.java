@@ -52,7 +52,7 @@ public class DeleteReleasesInProject {
       return;
     }
 
-    for(final Release release: projectToClean.get().releases().getAll()) {
+    for (final Release release : projectToClean.get().releases().getAll()) {
       space.get().releases().delete(release.getProperties());
     }
   }

@@ -21,7 +21,6 @@ import com.octopus.sdk.api.UserApi;
 import com.octopus.sdk.http.ConnectData;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.OctopusClientFactory;
-import com.octopus.sdk.model.user.UserResource;
 import com.octopus.sdk.model.user.UserResourceWithLinks;
 
 import java.io.IOException;
@@ -36,7 +35,6 @@ public class CreateApiKey {
   static final String apiKey =
       "YOUR_API_KEY"; // as read from your profile in your Octopus Deploy server
 
-
   public static void main(final String... args) throws IOException {
     final OctopusClient client = createClient();
     final Repository repo = new Repository(client);
@@ -45,11 +43,9 @@ public class CreateApiKey {
     final UserResourceWithLinks currentUser = userApi.getCurrentUser();
 
     final ApiKeyApi apiKeyApi = ApiKeyApi.create(client, currentUser);
-    apiKeyApi.createApiKeyForUser("FOr Use In testing", OffsetDateTime.now().plus(Duration.ofDays(365)));
-
-
+    apiKeyApi.createApiKeyForUser(
+        "FOr Use In testing", OffsetDateTime.now().plus(Duration.ofDays(365)));
   }
-
 
   // Create an authenticated connection to your Octopus Deploy Server
   private static OctopusClient createClient() throws MalformedURLException {

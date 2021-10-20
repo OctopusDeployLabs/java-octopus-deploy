@@ -15,14 +15,12 @@
 
 package com.octopus.sdk.model.apikey;
 
+import com.google.gson.annotations.SerializedName;
 import com.octopus.sdk.model.BaseResource;
 
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
-import com.google.gson.annotations.SerializedName;
-
-/** ApiKeyCreatedResource */
 @SuppressWarnings("UnusedVariable")
 public class ApiKeyCreatedResource extends BaseResource {
   @SerializedName("ApiKey")

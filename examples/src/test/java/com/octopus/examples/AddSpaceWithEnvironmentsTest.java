@@ -13,28 +13,10 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk;
+package com.octopus.examples;
 
-import com.octopus.sdk.api.SpaceApi;
-import com.octopus.sdk.api.TaskApi;
-import com.octopus.sdk.api.UserApi;
-import com.octopus.sdk.http.OctopusClient;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class Repository {
+class AddSpaceWithEnvironmentsTest {
 
-  private final OctopusClient client;
-
-  public Repository(final OctopusClient client) {
-    this.client = client;
-  }
-
-  public SpaceApi spaces() {
-    return new SpaceApi(client, client.getRootDocument().getSpacesLink());
-  }
-
-  public TaskApi tasks() {
-    return TaskApi.create(client);
-  }
-
-  public UserApi users() { return UserApi.create(client); }
 }

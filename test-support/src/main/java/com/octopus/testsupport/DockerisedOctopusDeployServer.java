@@ -166,7 +166,7 @@ public class DockerisedOctopusDeployServer implements OctopusDeployServer {
 
   public static String createApiKeyForCurrentUser(final OctopusClient client) throws IOException {
     final UserApi users = UserApi.create(client);
-    final UserResourceWithLinks currentUserResource = users.getCurrentUser();
+    final UserResourceWithLinks currentUserResource = users.getCurrentUser().getProperties();
     final ApiKeyApi apiKeyApi = ApiKeyApi.create(client, currentUserResource);
     return apiKeyApi
         .addApiKey("For Testing", OffsetDateTime.now(systemDefault()).plus(Duration.ofDays(1)))

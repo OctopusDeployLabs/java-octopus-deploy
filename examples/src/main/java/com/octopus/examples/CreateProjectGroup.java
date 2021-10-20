@@ -32,8 +32,8 @@ import java.util.Optional;
 public class CreateProjectGroup {
 
   static final String octopusServerUrl = "http://localhost:8065";
-  static final String apiKey =
-      "YOUR_API_KEY"; // as read from your profile in your Octopus Deploy server
+  // as read from your profile in your Octopus Deploy server
+  static final String apiKey = System.getenv("OCTOPUS_SERVER_API_KEY");
 
   public static void main(final String... args) throws IOException {
     final OctopusClient client = createClient();
@@ -45,7 +45,7 @@ public class CreateProjectGroup {
       System.out.println("No space named 'TheSpaceName' exists on server");
       return;
     }
-    final ProjectGroupResource projectGroupResource = new ProjectGroupResource("TheProjectGroup");
+    final ProjectGroupResource projectGroupResource = new ProjectGroupResource("TheProjectGroupName");
     final ProjectGroup createdProjectGroup =
         space.get().projectGroups().create(projectGroupResource);
   }

@@ -16,7 +16,6 @@
 package com.octopus.examples;
 
 import com.octopus.sdk.Repository;
-import com.octopus.sdk.domain.Project;
 import com.octopus.sdk.domain.ProjectGroup;
 import com.octopus.sdk.domain.Space;
 import com.octopus.sdk.http.ConnectData;
@@ -47,7 +46,8 @@ public class CreateProjectGroup {
       return;
     }
     final ProjectGroupResource projectGroupResource = new ProjectGroupResource("TheProjectGroup");
-    final ProjectGroup createdProjectGroup = space.get().projectGroups().create(projectGroupResource);
+    final ProjectGroup createdProjectGroup =
+        space.get().projectGroups().create(projectGroupResource);
   }
 
   // Create an authenticated connection to your Octopus Deploy Server

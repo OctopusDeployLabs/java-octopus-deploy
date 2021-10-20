@@ -2,6 +2,7 @@ import net.ltgt.gradle.errorprone.CheckSeverity
 
 dependencies {
   implementation project(":octopus-sdk")
+  implementation 'com.google.guava:guava'
 }
 
 jar.enabled = false

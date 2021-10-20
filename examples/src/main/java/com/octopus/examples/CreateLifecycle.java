@@ -16,10 +16,12 @@
 package com.octopus.examples;
 
 import com.octopus.sdk.Repository;
+import com.octopus.sdk.domain.Lifecycle;
 import com.octopus.sdk.domain.Space;
 import com.octopus.sdk.http.ConnectData;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.OctopusClientFactory;
+import com.octopus.sdk.model.lifecycle.LifecycleResource;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -27,7 +29,7 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.Optional;
 
-public class DeleteSpace {
+public class CreateLifecycle {
 
   static final String octopusServerUrl = "http://localhost:8065";
   // as read from your profile in your Octopus Deploy server
@@ -42,9 +44,15 @@ public class DeleteSpace {
       return;
     }
 
-    space.get().getProperties().setTaskQueueStopped(true);
-    final Space stoppedSpace = repo.spaces().update(space.get().getProperties());
-    repo.spaces().delete(stoppedSpace.getProperties());
+    final String lifecycleName = "TheLifecycleName";
+
+    if (space.get().lifecycles().getByName(lifecycleName).isPresent()) {
+      System.out.println("Lifecycle called 'TheLifecycleName' already exists");
+      return;
+    }
+
+    final Lifecycle createdLifecycle =
+        space.get().lifecycles().create(new LifecycleResource(lifecycleName));
   }
 
   // Create an authenticated connection to your Octopus Deploy Server

@@ -34,8 +34,8 @@ import java.util.Optional;
 public class CreateProject {
 
   static final String octopusServerUrl = "http://localhost:8065";
-  static final String apiKey =
-      "YOUR_API_KEY"; // as read from your profile in your Octopus Deploy server
+  // as read from your profile in your Octopus Deploy server
+  static final String apiKey = System.getenv("OCTOPUS_SERVER_API_KEY");
 
   public static void main(final String... args) throws IOException {
     final OctopusClient client = createClient();
@@ -48,25 +48,26 @@ public class CreateProject {
       return;
     }
 
-    final Optional<Lifecycle> lifecycle = space.get().lifecycles().getByName("MyLifecycle");
+    final Optional<Lifecycle> lifecycle = space.get().lifecycles().getByName("TheLifecycleName");
     if (!lifecycle.isPresent()) {
-      System.out.println("No lifecycle named 'MyLifecycle' exists on server");
+      System.out.println("No lifecycle named 'TheLifecycleName' exists on server");
       return;
     }
 
     final Optional<ProjectGroup> projGroup =
-        space.get().projectGroups().getByName("MyProjectGroup");
+        space.get().projectGroups().getByName("TheProjectGroupName");
     if (!projGroup.isPresent()) {
-      System.out.println("No ProjectGroup named 'MyProjectGroup' exists on server");
+      System.out.println("No ProjectGroup named 'TheProjectGroupName' exists on server");
       return;
     }
 
     final ProjectResource projectToCreate =
         new ProjectResource(
-            "Test Project",
+            "TheProjectName",
             lifecycle.get().getProperties().getId(),
             projGroup.get().getProperties().getId());
     projectToCreate.setAutoCreateRelease(false);
+
     final Project createdProject = space.get().projects().create(projectToCreate);
   }
 

@@ -16,18 +16,22 @@
 package com.octopus.examples;
 
 import com.octopus.sdk.Repository;
-import com.octopus.sdk.domain.Space;
+import com.octopus.sdk.api.ApiKeyApi;
+import com.octopus.sdk.domain.User;
 import com.octopus.sdk.http.ConnectData;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.OctopusClientFactory;
+import com.octopus.sdk.model.apikey.ApiKeyCreatedResource;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Clock;
 import java.time.Duration;
-import java.util.Optional;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
-public class DeleteSpace {
+public class CreateApiKey {
 
   static final String octopusServerUrl = "http://localhost:8065";
   // as read from your profile in your Octopus Deploy server
@@ -36,15 +40,17 @@ public class DeleteSpace {
   public static void main(final String... args) throws IOException {
     final OctopusClient client = createClient();
     final Repository repo = new Repository(client);
-    final Optional<Space> space = repo.spaces().getByName("TheSpaceName");
-    if (!space.isPresent()) {
-      System.out.println("No space named 'TheSpaceName' exists on server");
-      return;
-    }
 
-    space.get().getProperties().setTaskQueueStopped(true);
-    final Space stoppedSpace = repo.spaces().update(space.get().getProperties());
-    repo.spaces().delete(stoppedSpace.getProperties());
+    final User theUser = repo.users().getCurrentUser();
+
+    final ApiKeyApi apiKeyApi = ApiKeyApi.create(client, theUser.getProperties());
+    final ApiKeyCreatedResource apiKey =
+        apiKeyApi.addApiKey(
+            "For Use In testing",
+            OffsetDateTime.now(Clock.system(ZoneId.systemDefault())).plus(Duration.ofDays(365)));
+
+    // Api keys should not be logged to output in production systems
+    System.out.println("The Key is " + apiKey.getApiKey());
   }
 
   // Create an authenticated connection to your Octopus Deploy Server

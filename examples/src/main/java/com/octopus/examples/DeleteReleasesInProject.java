@@ -16,6 +16,9 @@
 package com.octopus.examples;
 
 import com.octopus.sdk.Repository;
+import com.octopus.sdk.api.ProjectApi;
+import com.octopus.sdk.domain.Project;
+import com.octopus.sdk.domain.Release;
 import com.octopus.sdk.domain.Space;
 import com.octopus.sdk.http.ConnectData;
 import com.octopus.sdk.http.OctopusClient;
@@ -27,8 +30,7 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.Optional;
 
-public class DeleteSpace {
-
+public class DeleteReleasesInProject {
   static final String octopusServerUrl = "http://localhost:8065";
   // as read from your profile in your Octopus Deploy server
   static final String apiKey = System.getenv("OCTOPUS_SERVER_API_KEY");
@@ -42,9 +44,16 @@ public class DeleteSpace {
       return;
     }
 
-    space.get().getProperties().setTaskQueueStopped(true);
-    final Space stoppedSpace = repo.spaces().update(space.get().getProperties());
-    repo.spaces().delete(stoppedSpace.getProperties());
+    final ProjectApi projectApi = space.get().projects();
+    final Optional<Project> projectToClean = projectApi.getByName("TheProjectName");
+    if (!projectToClean.isPresent()) {
+      System.out.println("No project named 'TheProjectName' exists on server");
+      return;
+    }
+
+    for (final Release release : projectToClean.get().releases().getAll()) {
+      space.get().releases().delete(release.getProperties());
+    }
   }
 
   // Create an authenticated connection to your Octopus Deploy Server

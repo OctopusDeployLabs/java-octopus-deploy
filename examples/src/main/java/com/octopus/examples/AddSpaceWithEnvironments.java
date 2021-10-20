@@ -18,6 +18,7 @@ package com.octopus.examples;
 import com.octopus.sdk.Repository;
 import com.octopus.sdk.domain.Environment;
 import com.octopus.sdk.domain.Space;
+import com.octopus.sdk.domain.User;
 import com.octopus.sdk.http.ConnectData;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.OctopusClientFactory;
@@ -28,23 +29,24 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
-import java.util.Collections;
+import java.util.Set;
+
+import com.google.common.collect.Sets;
 
 public class AddSpaceWithEnvironments {
 
   static final String octopusServerUrl = "http://localhost:8065";
-  static final String apiKey =
-      "YOUR_API_KEY"; // as read from your profile in your Octopus Deploy server
+  // as read from your profile in your Octopus Deploy server
+  static final String apiKey = System.getenv("OCTOPUS_SERVER_API_KEY");
 
   public static void main(final String... args) throws IOException {
     final OctopusClient client = createClient();
 
     final Repository repo = new Repository(client);
+    final User currentUser = repo.users().getCurrentUser();
+    final Set<String> spaceManagers = Sets.newHashSet(currentUser.getProperties().getId());
     final Space createdSpace =
-        repo.spaces()
-            .create(
-                new SpaceOverviewResource(
-                    "NewSpaceName", Collections.singleton("spaceManagerTeamMembers")));
+        repo.spaces().create(new SpaceOverviewResource("TheSpaceName", spaceManagers));
     final Environment testEnv = createdSpace.environments().create(new EnvironmentResource("Test"));
     final Environment prodEnv =
         createdSpace.environments().create(new EnvironmentResource("Production"));

@@ -167,7 +167,7 @@ public class DockerisedOctopusDeployServer implements OctopusDeployServer {
     final UserResourceWithLinks currentUserResource = users.getCurrentUser();
     final ApiKeyApi apiKeyApi = ApiKeyApi.create(client, currentUserResource);
     return apiKeyApi
-        .createApiKeyForUser("For Testing", Instant.now().plus(Duration.ofDays(1)))
+        .addApiKey("For Testing", Instant.now().plus(Duration.ofDays(1)))
         .getApiKey();
   }
 

@@ -13,30 +13,27 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk;
+package com.octopus.sdk.domain;
 
-import com.octopus.sdk.api.SpaceApi;
-import com.octopus.sdk.api.TaskApi;
-import com.octopus.sdk.api.UserApi;
+import com.octopus.sdk.api.ApiKeyApi;
 import com.octopus.sdk.http.OctopusClient;
+import com.octopus.sdk.model.user.UserResourceWithLinks;
 
-public class Repository {
+public class User {
 
   private final OctopusClient client;
+  private final UserResourceWithLinks properties;
 
-  public Repository(final OctopusClient client) {
+  public User(final OctopusClient client, final UserResourceWithLinks properties) {
     this.client = client;
+    this.properties = properties;
   }
 
-  public SpaceApi spaces() {
-    return new SpaceApi(client, client.getRootDocument().getSpacesLink());
+  final ApiKeyApi apiKeys() {
+    return new ApiKeyApi(client, properties.getApiKeysLink());
   }
 
-  public TaskApi tasks() {
-    return TaskApi.create(client);
-  }
-
-  public UserApi users() {
-    return UserApi.create(client);
+  public UserResourceWithLinks getProperties() {
+    return properties;
   }
 }

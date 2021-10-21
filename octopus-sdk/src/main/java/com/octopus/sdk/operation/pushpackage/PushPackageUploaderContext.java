@@ -16,26 +16,21 @@
 package com.octopus.sdk.operation.pushpackage;
 
 import com.octopus.sdk.api.OverwriteMode;
+import com.octopus.sdk.model.commands.CommandBody;
 
 import java.io.File;
-import java.util.Optional;
 import java.util.StringJoiner;
 
-public class PushPackageUploaderContext {
+public class PushPackageUploaderContext extends CommandBody {
 
-  private final Optional<String> spaceName;
   private final File filename;
   private final OverwriteMode overwriteMode;
 
   public PushPackageUploaderContext(
-      final Optional<String> spaceName, final File filename, final OverwriteMode overwriteMode) {
-    this.spaceName = spaceName;
+      final String spaceIdOrName, final File filename, final OverwriteMode overwriteMode) {
+    super(spaceIdOrName);
     this.filename = filename;
     this.overwriteMode = overwriteMode;
-  }
-
-  public Optional<String> getSpaceName() {
-    return spaceName;
   }
 
   public File getFile() {
@@ -49,7 +44,7 @@ public class PushPackageUploaderContext {
   @Override
   public String toString() {
     return new StringJoiner(", ", PushPackageUploaderContext.class.getSimpleName() + "[", "]")
-        .add("spaceName=" + spaceName)
+        .add("spaceIdOrName=" + getSpaceIdOrName())
         .add("filename=" + filename)
         .add("overwriteMode=" + overwriteMode)
         .toString();

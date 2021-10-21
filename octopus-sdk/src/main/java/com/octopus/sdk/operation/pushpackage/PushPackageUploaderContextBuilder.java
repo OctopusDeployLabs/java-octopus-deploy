@@ -18,17 +18,16 @@ package com.octopus.sdk.operation.pushpackage;
 import com.octopus.sdk.api.OverwriteMode;
 
 import java.io.File;
-import java.util.Optional;
 
 import com.google.common.base.Preconditions;
 
 public class PushPackageUploaderContextBuilder {
-  private Optional<String> spaceName = Optional.empty();
+  private String spaceIdOrName;
   private File fileToUpload;
   private OverwriteMode overwriteMode;
 
-  public PushPackageUploaderContextBuilder withSpaceName(final String spaceName) {
-    this.spaceName = Optional.ofNullable(spaceName);
+  public PushPackageUploaderContextBuilder withSpaceIdOrName(final String spaceIdOrName) {
+    this.spaceIdOrName = spaceIdOrName;
     return this;
   }
 
@@ -43,12 +42,13 @@ public class PushPackageUploaderContextBuilder {
   }
 
   public PushPackageUploaderContext build() {
+    Preconditions.checkNotNull(spaceIdOrName, "The spaceIdOrName must be specified");
     Preconditions.checkNotNull(
         fileToUpload, "The file to be pushed to Octopus Server must be specified");
     Preconditions.checkNotNull(
         overwriteMode,
         "overwriteMode must be specified when pushing packages to Octopus " + "Server");
 
-    return new PushPackageUploaderContext(spaceName, fileToUpload, overwriteMode);
+    return new PushPackageUploaderContext(spaceIdOrName, fileToUpload, overwriteMode);
   }
 }

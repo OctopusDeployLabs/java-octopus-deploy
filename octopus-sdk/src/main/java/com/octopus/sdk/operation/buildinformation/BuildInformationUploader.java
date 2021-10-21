@@ -17,14 +17,12 @@ package com.octopus.sdk.operation.buildinformation;
 
 import com.octopus.openapi.model.CommitDetails;
 import com.octopus.sdk.api.BuildInformationApi;
-import com.octopus.sdk.api.SpaceHomeApi;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.buildinformation.BuildInformationResource;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformation;
 import com.octopus.sdk.model.buildinformation.OctopusPackageVersionBuildInformationMappedResource;
 import com.octopus.sdk.model.space.SpaceHome;
-import com.octopus.sdk.operation.common.BaseUploader;
-import com.octopus.sdk.operation.common.SpaceHomeSelector;
+import com.octopus.sdk.operation.SpaceScopedOperation;
 
 import java.io.IOException;
 import java.net.URL;
@@ -32,23 +30,18 @@ import java.util.stream.Collectors;
 
 import com.google.common.base.Preconditions;
 
-public class BuildInformationUploader extends BaseUploader {
+public class BuildInformationUploader
+    extends SpaceScopedOperation<BuildInformationUploaderContext, String> {
 
-  public BuildInformationUploader(
-      final OctopusClient client, final SpaceHomeSelector spaceHomeSelector) {
-    super(client, spaceHomeSelector);
+  public BuildInformationUploader(final OctopusClient client) {
+    super(client);
   }
 
-  public static BuildInformationUploader create(final OctopusClient client) {
-    final SpaceHomeApi spaceHomeApi = new SpaceHomeApi(client);
-    final SpaceHomeSelector spaceHomeSelector = new SpaceHomeSelector(spaceHomeApi);
-    return new BuildInformationUploader(client, spaceHomeSelector);
-  }
-
-  public String upload(final BuildInformationUploaderContext context) throws IOException {
+  @Override
+  public String performOperation(
+      final SpaceHome spaceHome, final BuildInformationUploaderContext context) throws IOException {
     Preconditions.checkNotNull(context, "Attempted to upload build information with null context.");
 
-    final SpaceHome spaceHome = spaceHomeSelector.getSpaceHome(context.getSpaceName());
     final BuildInformationApi buildInfoApi = BuildInformationApi.create(client, spaceHome);
     final OctopusPackageVersionBuildInformationMappedResource result =
         uploadToSpace(context, buildInfoApi);

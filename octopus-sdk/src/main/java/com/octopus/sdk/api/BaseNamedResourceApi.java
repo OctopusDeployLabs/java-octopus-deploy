@@ -18,6 +18,7 @@ package com.octopus.sdk.api;
 import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
 
+import com.octopus.sdk.exceptions.OctopusRequestException;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.NamedResource;
 import com.octopus.sdk.model.PaginatedCollection;
@@ -28,6 +29,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.google.common.base.Preconditions;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public abstract class BaseNamedResourceApi<
         CREATE_TYPE extends NamedResource,
@@ -35,6 +38,8 @@ public abstract class BaseNamedResourceApi<
         PAGINATION_TYPE extends PaginatedCollection<RESPONSE_TYPE>,
         WRAPPED_TYPE>
     extends BaseResourceApi<CREATE_TYPE, RESPONSE_TYPE, PAGINATION_TYPE, WRAPPED_TYPE> {
+
+  private static final Logger LOG = LogManager.getLogger();
 
   public BaseNamedResourceApi(
       final OctopusClient client,
@@ -72,10 +77,15 @@ public abstract class BaseNamedResourceApi<
   }
 
   public Optional<WRAPPED_TYPE> getByIdOrName(final String identifier) throws IOException {
-    final Optional<WRAPPED_TYPE> fromId = getById(identifier);
+    Optional<RESPONSE_TYPE> fromId = Optional.empty();
+    try {
+      fromId = getRawTypeById(identifier);
+    } catch (final OctopusRequestException e) {
+      LOG.debug("Unable to retrieve resource {} by id", identifier);
+    }
 
     if (fromId.isPresent()) {
-      return fromId;
+      return fromId.map(this::createServerObject);
     }
 
     return getByName(identifier);

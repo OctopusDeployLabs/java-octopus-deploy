@@ -17,6 +17,7 @@ package com.octopus.sdk;
 
 import com.octopus.sdk.api.SpaceApi;
 import com.octopus.sdk.api.TaskApi;
+import com.octopus.sdk.api.UserApi;
 import com.octopus.sdk.http.OctopusClient;
 
 public class Repository {
@@ -33,5 +34,9 @@ public class Repository {
 
   public TaskApi tasks() {
     return TaskApi.create(client);
+  }
+
+  public UserApi users() {
+    return UserApi.create(client);
   }
 }

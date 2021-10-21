@@ -1,5 +1,6 @@
 rootProject.name='octopus-java-sdk'
-include 'octopus-sdk'
-include 'octopus-openapi-wrapper'
 include 'acceptance-tests'
+include 'octopus-openapi-wrapper'
+include 'octopus-sdk'
+include 'examples'
 include 'test-support'

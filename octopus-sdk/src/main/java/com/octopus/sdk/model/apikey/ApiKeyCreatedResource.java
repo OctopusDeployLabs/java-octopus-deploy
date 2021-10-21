@@ -16,18 +16,16 @@
 package com.octopus.sdk.model.apikey;
 
 import com.octopus.sdk.model.BaseResource;
-import com.octopus.sdk.model.SensitiveValue;
 
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
 import com.google.gson.annotations.SerializedName;
 
-/** ApiKeyResource */
 @SuppressWarnings("UnusedVariable")
-public class ApiKeyResource extends BaseResource {
+public class ApiKeyCreatedResource extends BaseResource {
   @SerializedName("ApiKey")
-  private SensitiveValue apiKey;
+  private String apiKey;
 
   @SerializedName("Created")
   private OffsetDateTime created;
@@ -47,21 +45,21 @@ public class ApiKeyResource extends BaseResource {
   @SerializedName("UserId")
   private String userId;
 
-  public ApiKeyResource apiKey(SensitiveValue apiKey) {
+  public ApiKeyCreatedResource apiKey(String apiKey) {
 
     this.apiKey = apiKey;
     return this;
   }
 
-  public SensitiveValue getApiKey() {
+  public String getApiKey() {
     return apiKey;
   }
 
-  public void setApiKey(SensitiveValue apiKey) {
+  public void setApiKey(String apiKey) {
     this.apiKey = apiKey;
   }
 
-  public ApiKeyResource created(OffsetDateTime created) {
+  public ApiKeyCreatedResource created(OffsetDateTime created) {
 
     this.created = created;
     return this;
@@ -75,7 +73,7 @@ public class ApiKeyResource extends BaseResource {
     this.created = created;
   }
 
-  public ApiKeyResource expires(OffsetDateTime expires) {
+  public ApiKeyCreatedResource expires(OffsetDateTime expires) {
 
     this.expires = expires;
     return this;
@@ -89,7 +87,7 @@ public class ApiKeyResource extends BaseResource {
     this.expires = expires;
   }
 
-  public ApiKeyResource lastModifiedBy(String lastModifiedBy) {
+  public ApiKeyCreatedResource lastModifiedBy(String lastModifiedBy) {
 
     this.lastModifiedBy = lastModifiedBy;
     return this;
@@ -103,7 +101,7 @@ public class ApiKeyResource extends BaseResource {
     this.lastModifiedBy = lastModifiedBy;
   }
 
-  public ApiKeyResource lastModifiedOn(OffsetDateTime lastModifiedOn) {
+  public ApiKeyCreatedResource lastModifiedOn(OffsetDateTime lastModifiedOn) {
 
     this.lastModifiedOn = lastModifiedOn;
     return this;
@@ -117,7 +115,7 @@ public class ApiKeyResource extends BaseResource {
     this.lastModifiedOn = lastModifiedOn;
   }
 
-  public ApiKeyResource purpose(String purpose) {
+  public ApiKeyCreatedResource purpose(String purpose) {
 
     this.purpose = purpose;
     return this;
@@ -131,7 +129,7 @@ public class ApiKeyResource extends BaseResource {
     this.purpose = purpose;
   }
 
-  public ApiKeyResource userId(String userId) {
+  public ApiKeyCreatedResource userId(String userId) {
 
     this.userId = userId;
     return this;
@@ -153,30 +151,43 @@ public class ApiKeyResource extends BaseResource {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ApiKeyResource apiKeyResource = (ApiKeyResource) o;
-    return Objects.equals(this.apiKey, apiKeyResource.apiKey)
-        && Objects.equals(this.created, apiKeyResource.created)
-        && Objects.equals(this.expires, apiKeyResource.expires)
-        && Objects.equals(this.lastModifiedBy, apiKeyResource.lastModifiedBy)
-        && Objects.equals(this.lastModifiedOn, apiKeyResource.lastModifiedOn)
-        && Objects.equals(this.purpose, apiKeyResource.purpose)
-        && Objects.equals(this.userId, apiKeyResource.userId);
+    ApiKeyCreatedResource apiKeyCreatedResource = (ApiKeyCreatedResource) o;
+    return Objects.equals(this.apiKey, apiKeyCreatedResource.apiKey)
+        && Objects.equals(this.created, apiKeyCreatedResource.created)
+        && Objects.equals(this.expires, apiKeyCreatedResource.expires)
+        && Objects.equals(this.getId(), apiKeyCreatedResource.getId())
+        && Objects.equals(this.lastModifiedBy, apiKeyCreatedResource.lastModifiedBy)
+        && Objects.equals(this.lastModifiedOn, apiKeyCreatedResource.lastModifiedOn)
+        && Objects.equals(this.getLinks(), apiKeyCreatedResource.getLinks())
+        && Objects.equals(this.purpose, apiKeyCreatedResource.purpose)
+        && Objects.equals(this.userId, apiKeyCreatedResource.userId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(apiKey, created, expires, lastModifiedBy, lastModifiedOn, purpose, userId);
+    return Objects.hash(
+        apiKey,
+        created,
+        expires,
+        getId(),
+        lastModifiedBy,
+        lastModifiedOn,
+        getLinks(),
+        purpose,
+        userId);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ApiKeyResource {\n");
+    sb.append("class ApiKeyCreatedResource {\n");
     sb.append("    apiKey: ").append(toIndentedString(apiKey)).append("\n");
     sb.append("    created: ").append(toIndentedString(created)).append("\n");
     sb.append("    expires: ").append(toIndentedString(expires)).append("\n");
+    sb.append("    id: ").append(toIndentedString(getId())).append("\n");
     sb.append("    lastModifiedBy: ").append(toIndentedString(lastModifiedBy)).append("\n");
     sb.append("    lastModifiedOn: ").append(toIndentedString(lastModifiedOn)).append("\n");
+    sb.append("    links: ").append(toIndentedString(getLinks())).append("\n");
     sb.append("    purpose: ").append(toIndentedString(purpose)).append("\n");
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("}");

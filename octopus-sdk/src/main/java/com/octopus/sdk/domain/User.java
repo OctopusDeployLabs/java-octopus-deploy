@@ -13,25 +13,27 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.octopus.sdk.http;
+package com.octopus.sdk.domain;
 
-import java.lang.reflect.Type;
-import java.time.OffsetDateTime;
+import com.octopus.sdk.api.ApiKeyApi;
+import com.octopus.sdk.http.OctopusClient;
+import com.octopus.sdk.model.user.UserResourceWithLinks;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
+public class User {
 
-class Deserialisers {
+  private final OctopusClient client;
+  private final UserResourceWithLinks properties;
 
-  public static class OffsetDateTimeDeserialiser implements JsonDeserializer<OffsetDateTime> {
+  public User(final OctopusClient client, final UserResourceWithLinks properties) {
+    this.client = client;
+    this.properties = properties;
+  }
 
-    @Override
-    public OffsetDateTime deserialize(
-        final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
-        throws JsonParseException {
-      return OffsetDateTime.parse(json.getAsString());
-    }
+  final ApiKeyApi apiKeys() {
+    return new ApiKeyApi(client, properties.getApiKeysLink());
+  }
+
+  public UserResourceWithLinks getProperties() {
+    return properties;
   }
 }

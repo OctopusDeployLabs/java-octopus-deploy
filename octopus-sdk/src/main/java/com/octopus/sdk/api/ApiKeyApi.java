@@ -15,15 +15,15 @@
 
 package com.octopus.sdk.api;
 
-import com.octopus.openapi.model.ApiKeyCreatedResource;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
+import com.octopus.sdk.model.apikey.ApiKeyCreatedResource;
 import com.octopus.sdk.model.apikey.ApiKeyPaginatedCollection;
 import com.octopus.sdk.model.apikey.ApiKeyResource;
 import com.octopus.sdk.model.user.UserResourceWithLinks;
 
 import java.io.IOException;
-import java.time.Instant;
+import java.time.OffsetDateTime;
 
 import com.google.common.base.Preconditions;
 
@@ -44,7 +44,13 @@ public class ApiKeyApi
   @Override
   public ApiKeyResource create(final ApiKeyResource resourceToCreate) throws IOException {
     throw new UnsupportedOperationException(
-        "ApiKeys cannot be created via this interface, it must be conducted via 'addKey' function.");
+        "ApiKeys cannot be created via this interface, it must be conducted via 'addApiKey' function.");
+  }
+
+  @Override
+  public ApiKeyResource update(final ApiKeyResource resourceToUpdate) throws IOException {
+    throw new UnsupportedOperationException(
+        "ApiKeys cannot be updated, the must be deleted and then a new apiKey created.");
   }
 
   @Override
@@ -52,13 +58,11 @@ public class ApiKeyApi
     return resource;
   }
 
-  public ApiKeyCreatedResource createApiKeyForUser(final String purpose, final Instant expiry)
+  public ApiKeyCreatedResource addApiKey(final String purpose, final OffsetDateTime expiry)
       throws IOException {
     final ApiKeyCreatedResource keyCreationInputParams = new ApiKeyCreatedResource();
     keyCreationInputParams.setPurpose(purpose);
-    // NOTE: Cannot set the expiry atm, as Gson inside of openApiGenerator is not configured to
-    // serialise instants.
-    // keyCreationInputParams.setExpires(OffsetDateTime.ofInstant(expiry, ZoneOffset.UTC));
+    keyCreationInputParams.setExpires(expiry);
     return client.post(
         RequestEndpoint.fromPath(rootPath), keyCreationInputParams, ApiKeyCreatedResource.class);
   }

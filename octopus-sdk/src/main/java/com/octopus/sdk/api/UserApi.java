@@ -15,6 +15,7 @@
 
 package com.octopus.sdk.api;
 
+import com.octopus.sdk.domain.User;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.http.RequestEndpoint;
 import com.octopus.sdk.model.RootDocument;
@@ -40,14 +41,15 @@ public class UserApi
     this.currentUserPath = currentUserPath;
   }
 
-  public static UserApi create(final OctopusClient client) throws IOException {
+  public static UserApi create(final OctopusClient client) {
     final RootDocument rootDoc = client.getRootDocument();
     Preconditions.checkNotNull(client, "Supplied a null client");
     return new UserApi(client, rootDoc.getUsersLink(), rootDoc.getCurrentUserLink());
   }
 
-  public UserResourceWithLinks getCurrentUser() throws IOException {
-    return client.get(RequestEndpoint.fromPath(currentUserPath), UserResourceWithLinks.class);
+  public User getCurrentUser() throws IOException {
+    return new User(
+        client, client.get(RequestEndpoint.fromPath(currentUserPath), UserResourceWithLinks.class));
   }
 
   @Override

@@ -1,7 +1,8 @@
 
 apply plugin: 'com.adarshr.test-logger'
 
-jar { enabled = false }
+jar.enabled = false
+test.enabled = false
 
 dependencies {
   testImplementation project(":test-support")
@@ -27,14 +28,12 @@ dependencies {
   testImplementation 'org.testcontainers:junit-jupiter'
 }
 
-test.enabled = false
-
 task acceptanceTest(type: Test) {
 
   // Running e2e tests in parallel starts a new OctopusDeploy docker container for each
   // runner - which is slow enough, that running all in series (against a single OctopusDeploy)
   // is significantly faster
-  // As tests get longer (or more involved) - it may be worh increasing this.
+  // As tests get longer (or more involved) - it may be worth increasing this.
   maxParallelForks = 1;
 
   java {

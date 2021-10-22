@@ -81,7 +81,7 @@ public abstract class BaseNamedResourceApi<
     try {
       fromId = getRawTypeById(identifier);
     } catch (final OctopusRequestException e) {
-      LOG.debug("Unable to retrieve resource {} by id", identifier);
+      LOG.debug("Unable to retrieve resource {} by Id, checking by name", identifier);
     }
 
     if (fromId.isPresent()) {

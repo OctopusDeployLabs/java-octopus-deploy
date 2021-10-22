@@ -180,7 +180,7 @@ subprojects {
 }
 
 tasks.getByName("compileJava").dependsOn project(":octopus-openapi-wrapper").getTasksByName("openApiGenerate", false)
-jar.enabled = false
+jar { enabled = false }
 
 
 // Do not allow publishing if all tests haven't passed

@@ -158,7 +158,7 @@ subprojects {
         maxParallelForks = (System.getenv('GRADLE_MAX_TEST_FORKS') ?: (Runtime.runtime.availableProcessors().intdiv(2) ?: 1)).toInteger()
     }
 
-    if (!List.of("acceptance-tests", "examples").contains(project.name)) {
+    if (!Arrays.asList("acceptance-tests", "examples").contains(project.name)) {
         apply plugin: 'maven-publish'
 
         publishing {

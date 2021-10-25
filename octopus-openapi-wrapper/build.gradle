@@ -40,7 +40,7 @@ openApiGenerate {
 
   // Ignore files does not alter behaviour
   ignoreFileOverride = ".openapi-generator-ignore"
-  inputSpec = "${projectDir}/spec/swagger.json"
+  inputSpec = "${projectDir}/spec/new.json"
   templateDir = "${projectDir}/templates"
   outputDir = "${buildDir}/generated"
   apiPackage = "com.octopus.openapi.api"

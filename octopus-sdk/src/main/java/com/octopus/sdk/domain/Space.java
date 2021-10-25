@@ -17,6 +17,8 @@ package com.octopus.sdk.domain;
 
 import com.octopus.sdk.api.BuildInformationApi;
 import com.octopus.sdk.api.ChannelApi;
+import com.octopus.sdk.api.DeploymentApi;
+import com.octopus.sdk.api.DeploymentProcessApi;
 import com.octopus.sdk.api.EnvironmentApi;
 import com.octopus.sdk.api.LifecycleApi;
 import com.octopus.sdk.api.PackageApi;
@@ -100,4 +102,6 @@ public class Space {
   public RunbookApi runbooks() {
     return RunbookApi.create(client, spaceHome);
   }
+
+  public DeploymentProcessApi deploymentProcesses() { return DeploymentProcessApi.create(client, spaceHome)}
 }

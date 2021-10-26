@@ -20,11 +20,13 @@ import com.octopus.sdk.model.deploymentprocess.DeploymentProcessResourceWithLink
 
 public class DeploymentProcess {
 
+  @SuppressWarnings("UnusedVariable")
   private final OctopusClient client;
+
   private final DeploymentProcessResourceWithLinks properties;
 
-  public DeploymentProcess(final OctopusClient client,
-      final DeploymentProcessResourceWithLinks properties) {
+  public DeploymentProcess(
+      final OctopusClient client, final DeploymentProcessResourceWithLinks properties) {
     this.client = client;
     this.properties = properties;
   }

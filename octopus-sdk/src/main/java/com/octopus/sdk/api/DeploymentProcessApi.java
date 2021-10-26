@@ -15,7 +15,6 @@
 
 package com.octopus.sdk.api;
 
-import com.google.common.base.Preconditions;
 import com.octopus.sdk.domain.DeploymentProcess;
 import com.octopus.sdk.http.OctopusClient;
 import com.octopus.sdk.model.deploymentprocess.DeploymentProcessPaginatedCollection;
@@ -23,21 +22,33 @@ import com.octopus.sdk.model.deploymentprocess.DeploymentProcessResource;
 import com.octopus.sdk.model.deploymentprocess.DeploymentProcessResourceWithLinks;
 import com.octopus.sdk.model.space.SpaceHome;
 
-public class DeploymentProcessApi extends BaseResourceApi<DeploymentProcessResource,
-    DeploymentProcessResourceWithLinks, DeploymentProcessPaginatedCollection, DeploymentProcess> {
+import com.google.common.base.Preconditions;
 
+public class DeploymentProcessApi
+    extends BaseResourceApi<
+        DeploymentProcessResource,
+        DeploymentProcessResourceWithLinks,
+        DeploymentProcessPaginatedCollection,
+        DeploymentProcess> {
 
   public DeploymentProcessApi(final OctopusClient client, final String rootPath) {
-    super(client, rootPath, DeploymentProcessResourceWithLinks.class, DeploymentProcessPaginatedCollection.class);
+    super(
+        client,
+        rootPath,
+        DeploymentProcessResourceWithLinks.class,
+        DeploymentProcessPaginatedCollection.class);
   }
 
   public static DeploymentProcessApi create(final OctopusClient client, final SpaceHome spaceHome) {
     Preconditions.checkNotNull(client, "Supplied a null client");
-    Preconditions.checkNotNull(spaceHome, "Cannot create a deploymentProcess in a space with a 'null' space");
+    Preconditions.checkNotNull(
+        spaceHome, "Cannot create a deploymentProcess in a space with a 'null' space");
     return new DeploymentProcessApi(client, spaceHome.getChannelsLink());
   }
 
-  @Override protected DeploymentProcess createServerObject(final DeploymentProcessResourceWithLinks resource) {
+  @Override
+  protected DeploymentProcess createServerObject(
+      final DeploymentProcessResourceWithLinks resource) {
     return new DeploymentProcess(client, resource);
   }
 }

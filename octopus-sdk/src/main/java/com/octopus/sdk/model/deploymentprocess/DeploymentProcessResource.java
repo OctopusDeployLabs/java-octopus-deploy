@@ -1,35 +1,30 @@
 /*
-* Copyright (c) Octopus Deploy and contributors. All rights reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-* these files except in compliance with the License. You may obtain a copy of the
-* License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software distributed
-* under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-* CONDITIONS OF ANY KIND, either express or implied. See the License for the
-* specific language governing permissions and limitations under the License.
-*/
-
+ * Copyright (c) Octopus Deploy and contributors. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+ * these files except in compliance with the License. You may obtain a copy of the
+ * License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
 
 package com.octopus.sdk.model.deploymentprocess;
 
-import com.google.gson.annotations.SerializedName;
-import com.octopus.openapi.model.DeploymentStepResource;
 import com.octopus.sdk.model.BaseResource;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
-/**
- * DeploymentProcessResource
- */
+import com.google.gson.annotations.SerializedName;
+
+/** DeploymentProcessResource */
 @SuppressWarnings("UnusedVariable")
 public class DeploymentProcessResource extends BaseResource {
 
@@ -55,7 +50,7 @@ public class DeploymentProcessResource extends BaseResource {
   private Integer version;
 
   public DeploymentProcessResource lastModifiedBy(String lastModifiedBy) {
-    
+
     this.lastModifiedBy = lastModifiedBy;
     return this;
   }
@@ -68,9 +63,8 @@ public class DeploymentProcessResource extends BaseResource {
     this.lastModifiedBy = lastModifiedBy;
   }
 
-
   public DeploymentProcessResource lastModifiedOn(OffsetDateTime lastModifiedOn) {
-    
+
     this.lastModifiedOn = lastModifiedOn;
     return this;
   }
@@ -83,9 +77,8 @@ public class DeploymentProcessResource extends BaseResource {
     this.lastModifiedOn = lastModifiedOn;
   }
 
-
   public DeploymentProcessResource lastSnapshotId(String lastSnapshotId) {
-    
+
     this.lastSnapshotId = lastSnapshotId;
     return this;
   }
@@ -98,9 +91,8 @@ public class DeploymentProcessResource extends BaseResource {
     this.lastSnapshotId = lastSnapshotId;
   }
 
-
   public DeploymentProcessResource projectId(String projectId) {
-    
+
     this.projectId = projectId;
     return this;
   }
@@ -113,9 +105,8 @@ public class DeploymentProcessResource extends BaseResource {
     this.projectId = projectId;
   }
 
-
   public DeploymentProcessResource spaceId(String spaceId) {
-    
+
     this.spaceId = spaceId;
     return this;
   }
@@ -128,9 +119,8 @@ public class DeploymentProcessResource extends BaseResource {
     this.spaceId = spaceId;
   }
 
-
   public DeploymentProcessResource steps(List<DeploymentStepResource> steps) {
-    
+
     this.steps = steps;
     return this;
   }
@@ -148,9 +138,8 @@ public class DeploymentProcessResource extends BaseResource {
     this.steps = steps;
   }
 
-
   public DeploymentProcessResource version(Integer version) {
-    
+
     this.version = version;
     return this;
   }
@@ -163,7 +152,6 @@ public class DeploymentProcessResource extends BaseResource {
     this.version = version;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -173,20 +161,28 @@ public class DeploymentProcessResource extends BaseResource {
       return false;
     }
     DeploymentProcessResource deploymentProcessResource = (DeploymentProcessResource) o;
-    return Objects.equals(this.getId(), deploymentProcessResource.getId()) &&
-        Objects.equals(this.lastModifiedBy, deploymentProcessResource.lastModifiedBy) &&
-        Objects.equals(this.lastModifiedOn, deploymentProcessResource.lastModifiedOn) &&
-        Objects.equals(this.lastSnapshotId, deploymentProcessResource.lastSnapshotId) &&
-        Objects.equals(this.getLinks(), deploymentProcessResource.getLinks()) &&
-        Objects.equals(this.projectId, deploymentProcessResource.projectId) &&
-        Objects.equals(this.spaceId, deploymentProcessResource.spaceId) &&
-        Objects.equals(this.steps, deploymentProcessResource.steps) &&
-        Objects.equals(this.version, deploymentProcessResource.version);
+    return Objects.equals(this.getId(), deploymentProcessResource.getId())
+        && Objects.equals(this.lastModifiedBy, deploymentProcessResource.lastModifiedBy)
+        && Objects.equals(this.lastModifiedOn, deploymentProcessResource.lastModifiedOn)
+        && Objects.equals(this.lastSnapshotId, deploymentProcessResource.lastSnapshotId)
+        && Objects.equals(this.getLinks(), deploymentProcessResource.getLinks())
+        && Objects.equals(this.projectId, deploymentProcessResource.projectId)
+        && Objects.equals(this.spaceId, deploymentProcessResource.spaceId)
+        && Objects.equals(this.steps, deploymentProcessResource.steps)
+        && Objects.equals(this.version, deploymentProcessResource.version);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getId(), lastModifiedBy, lastModifiedOn, lastSnapshotId, getLinks(), projectId, spaceId, steps,
+    return Objects.hash(
+        getId(),
+        lastModifiedBy,
+        lastModifiedOn,
+        lastSnapshotId,
+        getLinks(),
+        projectId,
+        spaceId,
+        steps,
         version);
   }
 
@@ -208,8 +204,7 @@ public class DeploymentProcessResource extends BaseResource {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -217,6 +212,4 @@ public class DeploymentProcessResource extends BaseResource {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
 }
-

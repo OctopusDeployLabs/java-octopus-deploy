@@ -20,11 +20,15 @@ import com.octopus.sdk.model.PaginatedCollection;
 import java.util.List;
 import java.util.Map;
 
-public class DeploymentProcessPaginatedCollection extends PaginatedCollection<DeploymentProcessResourceWithLinks> {
+public class DeploymentProcessPaginatedCollection
+    extends PaginatedCollection<DeploymentProcessResourceWithLinks> {
 
-  public DeploymentProcessPaginatedCollection(final Map<String, String> links, final int totalResults,
+  public DeploymentProcessPaginatedCollection(
+      final Map<String, String> links,
+      final int totalResults,
       final int itemsPerPage,
-      final int numberOfPages, final int pageNumber,
+      final int numberOfPages,
+      final int pageNumber,
       final List<DeploymentProcessResourceWithLinks> items) {
     super(links, totalResults, itemsPerPage, numberOfPages, pageNumber, items);
   }

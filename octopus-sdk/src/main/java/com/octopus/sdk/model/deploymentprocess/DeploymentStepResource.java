@@ -15,11 +15,6 @@
 
 package com.octopus.sdk.model.deploymentprocess;
 
-import com.octopus.openapi.model.DeploymentActionResource;
-import com.octopus.openapi.model.DeploymentStepCondition;
-import com.octopus.openapi.model.DeploymentStepPackageRequirement;
-import com.octopus.openapi.model.DeploymentStepStartTrigger;
-import com.octopus.openapi.model.PropertyValueResource;
 import com.octopus.sdk.model.NamedResource;
 
 import java.util.List;

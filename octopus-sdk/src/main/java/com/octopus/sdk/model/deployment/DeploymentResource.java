@@ -16,8 +16,8 @@
 package com.octopus.sdk.model.deployment;
 
 import com.octopus.openapi.model.ReleaseChangesResource;
-import com.octopus.openapi.model.RetentionPeriod;
 import com.octopus.sdk.model.NamedResource;
+import com.octopus.sdk.model.common.RetentionPeriod;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;

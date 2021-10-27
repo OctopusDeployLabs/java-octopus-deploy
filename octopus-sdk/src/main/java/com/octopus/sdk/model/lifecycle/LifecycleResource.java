@@ -15,7 +15,6 @@
 
 package com.octopus.sdk.model.lifecycle;
 
-import com.octopus.openapi.model.PhaseResource;
 import com.octopus.openapi.model.RetentionPeriod;
 import com.octopus.sdk.model.NamedResource;
 

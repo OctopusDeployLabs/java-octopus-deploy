@@ -58,17 +58,9 @@ public abstract class BaseResourceApi<
   }
 
   public Optional<WRAPPED_TYPE> getById(final String id) throws IOException {
-    Optional<RESPONSE_TYPE> response = getRawTypeById(id);
-    return response.map(this::createServerObject);
-  }
-
-  protected Optional<RESPONSE_TYPE> getRawTypeById(final String id) throws IOException {
-    Preconditions.checkNotNull(id, "Cannot provide a resource with a null id");
-    final String resourcePath = String.format("%s/%s", rootPath, id);
     try {
-      final RESPONSE_TYPE overview =
-          client.get(RequestEndpoint.fromPath(resourcePath), responseType);
-      return Optional.of(overview);
+      Optional<RESPONSE_TYPE> response = getRawTypeById(id);
+      return response.map(this::createServerObject);
     } catch (final OctopusRequestException e) {
       LOG.error(
           "Failed to retrieve a resource with an Id of {} (http {}:{})",
@@ -76,6 +68,16 @@ public abstract class BaseResourceApi<
           e.getStatusCode(),
           e.getMessage());
       return Optional.empty();
+    }
+  }
+
+  protected Optional<RESPONSE_TYPE> getRawTypeById(final String id) throws IOException {
+    Preconditions.checkNotNull(id, "Cannot provide a resource with a null id");
+    final String resourcePath = String.format("%s/%s", rootPath, id);
+    try {
+      final RESPONSE_TYPE resource =
+          client.get(RequestEndpoint.fromPath(resourcePath), responseType);
+      return Optional.of(resource);
     } catch (final JsonSyntaxException e) {
       final String error =
           String.format(

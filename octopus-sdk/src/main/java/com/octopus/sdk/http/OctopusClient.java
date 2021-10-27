@@ -35,7 +35,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.api.client.http.HttpStatusCodes;
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -250,14 +249,11 @@ public class OctopusClient {
   }
 
   private OctopusRequestException constructException(final int code, final String responseBody) {
-    switch (code) {
-      case HttpStatusCodes.STATUS_CODE_BAD_REQUEST:
-      case HttpStatusCodes.STATUS_CODE_UNAUTHORIZED:
-      case HttpStatusCodes.STATUS_CODE_CONFLICT:
-        final ErrorResponse errorResponse = gson.fromJson(responseBody, ErrorResponse.class);
-        return new OctopusServerException(code, errorResponse);
-      default:
-        return new OctopusRequestException(code, responseBody);
+    try {
+      final ErrorResponse errorResponse = gson.fromJson(responseBody, ErrorResponse.class);
+      return new OctopusServerException(code, errorResponse);
+    } catch (final JsonSyntaxException e) {
+      return new OctopusRequestException(code, responseBody);
     }
   }
 }

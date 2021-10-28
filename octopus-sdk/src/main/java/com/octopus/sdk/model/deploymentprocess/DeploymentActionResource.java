@@ -19,6 +19,9 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.emptySet;
 
+import com.octopus.openapi.model.DeploymentActionCondition;
+import com.octopus.openapi.model.DeploymentActionContainerResource;
+import com.octopus.openapi.model.PropertyValueResource;
 import com.octopus.sdk.model.NamedResource;
 
 import java.time.OffsetDateTime;

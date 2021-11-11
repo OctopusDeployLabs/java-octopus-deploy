@@ -26,7 +26,6 @@ import java.util.Set;
 
 import com.google.gson.annotations.SerializedName;
 
-/** PhaseResource */
 @SuppressWarnings("UnusedVariable")
 public class PhaseResource extends NamedResource {
   @SerializedName("AutomaticDeploymentTargets")

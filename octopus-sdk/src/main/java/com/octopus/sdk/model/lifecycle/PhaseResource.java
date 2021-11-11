@@ -17,8 +17,8 @@ package com.octopus.sdk.model.lifecycle;
 
 import static java.util.Collections.emptySet;
 
-import com.octopus.openapi.model.RetentionPeriod;
 import com.octopus.sdk.model.NamedResource;
+import com.octopus.sdk.model.common.RetentionPeriod;
 
 import java.util.LinkedHashSet;
 import java.util.Objects;

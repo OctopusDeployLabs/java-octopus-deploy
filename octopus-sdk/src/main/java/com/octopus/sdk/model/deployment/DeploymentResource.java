@@ -617,7 +617,11 @@ public class DeploymentResource extends NamedResource {
         && Objects.equals(this.taskId, deploymentResource.taskId)
         && Objects.equals(this.tenantId, deploymentResource.tenantId)
         && Objects.equals(this.tentacleRetentionPeriod, deploymentResource.tentacleRetentionPeriod)
-        && Objects.equals(this.useGuidedFailure, deploymentResource.useGuidedFailure);
+        && Objects.equals(this.useGuidedFailure, deploymentResource.useGuidedFailure)
+        && Objects.equals(this.getId(), deploymentResource.getId())
+        && Objects.equals(this.getName(), deploymentResource.getName())
+        && Objects.equals(this.getLinks(), deploymentResource.getLinks())
+        && Objects.equals(this.getDescription(), deploymentResource.getDescription());
   }
 
   @Override
@@ -651,7 +655,11 @@ public class DeploymentResource extends NamedResource {
         taskId,
         tenantId,
         tentacleRetentionPeriod,
-        useGuidedFailure);
+        useGuidedFailure,
+        getId(),
+        getName(),
+        getDescription(),
+        getLinks());
   }
 
   @Override
@@ -699,6 +707,10 @@ public class DeploymentResource extends NamedResource {
         .append(toIndentedString(tentacleRetentionPeriod))
         .append("\n");
     sb.append("    useGuidedFailure: ").append(toIndentedString(useGuidedFailure)).append("\n");
+    sb.append("    id: ").append(toIndentedString(this.getId())).append("\n");
+    sb.append("    name: ").append(toIndentedString(this.getName())).append("\n");
+    sb.append("    description: ").append(toIndentedString(this.getDescription())).append("\n");
+    sb.append("    links: ").append(toIndentedString(this.getLinks())).append("\n");
     sb.append("}");
     return sb.toString();
   }

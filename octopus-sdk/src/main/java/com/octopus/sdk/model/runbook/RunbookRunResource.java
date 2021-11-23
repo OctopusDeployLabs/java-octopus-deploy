@@ -550,7 +550,11 @@ public class RunbookRunResource extends NamedResource {
         && Objects.equals(this.taskId, runbookRunResource.taskId)
         && Objects.equals(this.tenantId, runbookRunResource.tenantId)
         && Objects.equals(this.tentacleRetentionPeriod, runbookRunResource.tentacleRetentionPeriod)
-        && Objects.equals(this.useGuidedFailure, runbookRunResource.useGuidedFailure);
+        && Objects.equals(this.useGuidedFailure, runbookRunResource.useGuidedFailure)
+        && Objects.equals(this.getId(), runbookRunResource.getId())
+        && Objects.equals(this.getName(), runbookRunResource.getName())
+        && Objects.equals(this.getLinks(), runbookRunResource.getLinks())
+        && Objects.equals(this.getDescription(), runbookRunResource.getDescription());
   }
 
   @Override
@@ -581,7 +585,11 @@ public class RunbookRunResource extends NamedResource {
         taskId,
         tenantId,
         tentacleRetentionPeriod,
-        useGuidedFailure);
+        useGuidedFailure,
+        getId(),
+        getName(),
+        getDescription(),
+        getLinks());
   }
 
   @Override
@@ -624,6 +632,10 @@ public class RunbookRunResource extends NamedResource {
         .append(toIndentedString(tentacleRetentionPeriod))
         .append("\n");
     sb.append("    useGuidedFailure: ").append(toIndentedString(useGuidedFailure)).append("\n");
+    sb.append("    id: ").append(toIndentedString(this.getId())).append("\n");
+    sb.append("    name: ").append(toIndentedString(this.getName())).append("\n");
+    sb.append("    description: ").append(toIndentedString(this.getDescription())).append("\n");
+    sb.append("    links: ").append(toIndentedString(this.getLinks())).append("\n");
     sb.append("}");
     return sb.toString();
   }

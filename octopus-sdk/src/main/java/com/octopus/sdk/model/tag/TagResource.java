@@ -90,12 +90,17 @@ public class TagResource extends NamedResource {
     TagResource tagResource = (TagResource) o;
     return Objects.equals(this.canonicalTagName, tagResource.canonicalTagName)
         && Objects.equals(this.color, tagResource.color)
-        && Objects.equals(this.sortOrder, tagResource.sortOrder);
+        && Objects.equals(this.sortOrder, tagResource.sortOrder)
+        && Objects.equals(this.getId(), tagResource.getId())
+        && Objects.equals(this.getName(), tagResource.getName())
+        && Objects.equals(this.getLinks(), tagResource.getLinks())
+        && Objects.equals(this.getDescription(), tagResource.getDescription());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(canonicalTagName, color, sortOrder);
+    return Objects.hash(
+        canonicalTagName, color, sortOrder, getId(), getName(), getDescription(), getLinks());
   }
 
   @Override
@@ -105,6 +110,10 @@ public class TagResource extends NamedResource {
     sb.append("    canonicalTagName: ").append(toIndentedString(canonicalTagName)).append("\n");
     sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("    sortOrder: ").append(toIndentedString(sortOrder)).append("\n");
+    sb.append("    id: ").append(toIndentedString(this.getId())).append("\n");
+    sb.append("    name: ").append(toIndentedString(this.getName())).append("\n");
+    sb.append("    description: ").append(toIndentedString(this.getDescription())).append("\n");
+    sb.append("    links: ").append(toIndentedString(this.getLinks())).append("\n");
     sb.append("}");
     return sb.toString();
   }

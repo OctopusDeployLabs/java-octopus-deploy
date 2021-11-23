@@ -28,6 +28,7 @@ import com.octopus.sdk.model.NamedResource;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import com.google.gson.annotations.SerializedName;
@@ -328,5 +329,160 @@ public class ProjectResource extends NamedResource {
 
   public VersioningStrategyResource getVersioningStrategy() {
     return versioningStrategy;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ProjectResource projectResource = (ProjectResource) o;
+    return Objects.equals(this.autoCreateRelease, projectResource.autoCreateRelease)
+        && Objects.equals(
+            this.autoDeployReleaseOverrides, projectResource.autoDeployReleaseOverrides)
+        && Objects.equals(this.clonedFromProjectId, projectResource.clonedFromProjectId)
+        && Objects.equals(this.defaultGuidedFailureMode, projectResource.defaultGuidedFailureMode)
+        && Objects.equals(
+            this.defaultToSkipIfAlreadyInstalled, projectResource.defaultToSkipIfAlreadyInstalled)
+        && Objects.equals(this.deploymentChangesTemplate, projectResource.deploymentChangesTemplate)
+        && Objects.equals(this.deploymentProcessId, projectResource.deploymentProcessId)
+        && Objects.equals(this.getDescription(), projectResource.getDescription())
+        && Objects.equals(this.discreteChannelRelease, projectResource.discreteChannelRelease)
+        && Objects.equals(this.extensionSettings, projectResource.extensionSettings)
+        && Objects.equals(this.getId(), projectResource.getId())
+        && Objects.equals(
+            this.includedLibraryVariableSetIds, projectResource.includedLibraryVariableSetIds)
+        && Objects.equals(this.isDisabled, projectResource.isDisabled)
+        && Objects.equals(this.isVersionControlled, projectResource.isVersionControlled)
+        && Objects.equals(this.lastModifiedBy, projectResource.lastModifiedBy)
+        && Objects.equals(this.lastModifiedOn, projectResource.lastModifiedOn)
+        && Objects.equals(this.lifecycleId, projectResource.lifecycleId)
+        && Objects.equals(this.getLinks(), projectResource.getLinks())
+        && Objects.equals(this.getName(), projectResource.getName())
+        && Objects.equals(this.persistenceSettings, projectResource.persistenceSettings)
+        && Objects.equals(this.projectConnectivityPolicy, projectResource.projectConnectivityPolicy)
+        && Objects.equals(this.projectGroupId, projectResource.projectGroupId)
+        && Objects.equals(this.releaseCreationStrategy, projectResource.releaseCreationStrategy)
+        && Objects.equals(this.releaseNotesTemplate, projectResource.releaseNotesTemplate)
+        && Objects.equals(this.slug, projectResource.slug)
+        && Objects.equals(this.spaceId, projectResource.spaceId)
+        && Objects.equals(this.templates, projectResource.templates)
+        && Objects.equals(this.tenantedDeploymentMode, projectResource.tenantedDeploymentMode)
+        && Objects.equals(this.variableSetId, projectResource.variableSetId)
+        && Objects.equals(this.versioningStrategy, projectResource.versioningStrategy);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        autoCreateRelease,
+        autoDeployReleaseOverrides,
+        clonedFromProjectId,
+        defaultGuidedFailureMode,
+        defaultToSkipIfAlreadyInstalled,
+        deploymentChangesTemplate,
+        deploymentProcessId,
+        getDescription(),
+        discreteChannelRelease,
+        extensionSettings,
+        getId(),
+        includedLibraryVariableSetIds,
+        isDisabled,
+        isVersionControlled,
+        lastModifiedBy,
+        lastModifiedOn,
+        lifecycleId,
+        getLinks(),
+        getName(),
+        persistenceSettings,
+        projectConnectivityPolicy,
+        projectGroupId,
+        releaseCreationStrategy,
+        releaseNotesTemplate,
+        slug,
+        spaceId,
+        templates,
+        tenantedDeploymentMode,
+        variableSetId,
+        versioningStrategy);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class ProjectResource {\n");
+    sb.append("    autoCreateRelease: ").append(toIndentedString(autoCreateRelease)).append("\n");
+    sb.append("    autoDeployReleaseOverrides: ")
+        .append(toIndentedString(autoDeployReleaseOverrides))
+        .append("\n");
+    sb.append("    clonedFromProjectId: ")
+        .append(toIndentedString(clonedFromProjectId))
+        .append("\n");
+    sb.append("    defaultGuidedFailureMode: ")
+        .append(toIndentedString(defaultGuidedFailureMode))
+        .append("\n");
+    sb.append("    defaultToSkipIfAlreadyInstalled: ")
+        .append(toIndentedString(defaultToSkipIfAlreadyInstalled))
+        .append("\n");
+    sb.append("    deploymentChangesTemplate: ")
+        .append(toIndentedString(deploymentChangesTemplate))
+        .append("\n");
+    sb.append("    deploymentProcessId: ")
+        .append(toIndentedString(deploymentProcessId))
+        .append("\n");
+    sb.append("    description: ").append(toIndentedString(getDescription())).append("\n");
+    sb.append("    discreteChannelRelease: ")
+        .append(toIndentedString(discreteChannelRelease))
+        .append("\n");
+    sb.append("    extensionSettings: ").append(toIndentedString(extensionSettings)).append("\n");
+    sb.append("    id: ").append(toIndentedString(getId())).append("\n");
+    sb.append("    includedLibraryVariableSetIds: ")
+        .append(toIndentedString(includedLibraryVariableSetIds))
+        .append("\n");
+    sb.append("    isDisabled: ").append(toIndentedString(isDisabled)).append("\n");
+    sb.append("    isVersionControlled: ")
+        .append(toIndentedString(isVersionControlled))
+        .append("\n");
+    sb.append("    lastModifiedBy: ").append(toIndentedString(lastModifiedBy)).append("\n");
+    sb.append("    lastModifiedOn: ").append(toIndentedString(lastModifiedOn)).append("\n");
+    sb.append("    lifecycleId: ").append(toIndentedString(lifecycleId)).append("\n");
+    sb.append("    links: ").append(toIndentedString(getLinks())).append("\n");
+    sb.append("    name: ").append(toIndentedString(getName())).append("\n");
+    sb.append("    persistenceSettings: ")
+        .append(toIndentedString(persistenceSettings))
+        .append("\n");
+    sb.append("    projectConnectivityPolicy: ")
+        .append(toIndentedString(projectConnectivityPolicy))
+        .append("\n");
+    sb.append("    projectGroupId: ").append(toIndentedString(projectGroupId)).append("\n");
+    sb.append("    releaseCreationStrategy: ")
+        .append(toIndentedString(releaseCreationStrategy))
+        .append("\n");
+    sb.append("    releaseNotesTemplate: ")
+        .append(toIndentedString(releaseNotesTemplate))
+        .append("\n");
+    sb.append("    slug: ").append(toIndentedString(slug)).append("\n");
+    sb.append("    spaceId: ").append(toIndentedString(spaceId)).append("\n");
+    sb.append("    templates: ").append(toIndentedString(templates)).append("\n");
+    sb.append("    tenantedDeploymentMode: ")
+        .append(toIndentedString(tenantedDeploymentMode))
+        .append("\n");
+    sb.append("    variableSetId: ").append(toIndentedString(variableSetId)).append("\n");
+    sb.append("    versioningStrategy: ").append(toIndentedString(versioningStrategy)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
   }
 }

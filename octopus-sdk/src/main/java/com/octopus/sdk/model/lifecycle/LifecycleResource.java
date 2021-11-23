@@ -137,7 +137,11 @@ public class LifecycleResource extends NamedResource {
         && Objects.equals(this.phases, lifecycleResource.phases)
         && Objects.equals(this.releaseRetentionPolicy, lifecycleResource.releaseRetentionPolicy)
         && Objects.equals(this.spaceId, lifecycleResource.spaceId)
-        && Objects.equals(this.tentacleRetentionPolicy, lifecycleResource.tentacleRetentionPolicy);
+        && Objects.equals(this.tentacleRetentionPolicy, lifecycleResource.tentacleRetentionPolicy)
+        && Objects.equals(this.getId(), lifecycleResource.getId())
+        && Objects.equals(this.getName(), lifecycleResource.getName())
+        && Objects.equals(this.getLinks(), lifecycleResource.getLinks())
+        && Objects.equals(this.getDescription(), lifecycleResource.getDescription());
   }
 
   @Override
@@ -148,7 +152,11 @@ public class LifecycleResource extends NamedResource {
         phases,
         releaseRetentionPolicy,
         spaceId,
-        tentacleRetentionPolicy);
+        tentacleRetentionPolicy,
+        getId(),
+        getName(),
+        getDescription(),
+        getLinks());
   }
 
   @Override
@@ -165,6 +173,10 @@ public class LifecycleResource extends NamedResource {
     sb.append("    tentacleRetentionPolicy: ")
         .append(toIndentedString(tentacleRetentionPolicy))
         .append("\n");
+    sb.append("    id: ").append(toIndentedString(this.getId())).append("\n");
+    sb.append("    name: ").append(toIndentedString(this.getName())).append("\n");
+    sb.append("    description: ").append(toIndentedString(this.getDescription())).append("\n");
+    sb.append("    links: ").append(toIndentedString(this.getLinks())).append("\n");
     sb.append("}");
     return sb.toString();
   }

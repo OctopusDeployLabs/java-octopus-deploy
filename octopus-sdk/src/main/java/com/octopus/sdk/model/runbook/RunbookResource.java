@@ -250,7 +250,11 @@ public class RunbookResource extends NamedResource {
             this.publishedRunbookSnapshotId, runbookResource.publishedRunbookSnapshotId)
         && Objects.equals(this.runbookProcessId, runbookResource.runbookProcessId)
         && Objects.equals(this.runRetentionPolicy, runbookResource.runRetentionPolicy)
-        && Objects.equals(this.spaceId, runbookResource.spaceId);
+        && Objects.equals(this.spaceId, runbookResource.spaceId)
+        && Objects.equals(this.getId(), runbookResource.getId())
+        && Objects.equals(this.getName(), runbookResource.getName())
+        && Objects.equals(this.getLinks(), runbookResource.getLinks())
+        && Objects.equals(this.getDescription(), runbookResource.getDescription());
   }
 
   @Override
@@ -267,7 +271,11 @@ public class RunbookResource extends NamedResource {
         publishedRunbookSnapshotId,
         runbookProcessId,
         runRetentionPolicy,
-        spaceId);
+        spaceId,
+        getId(),
+        getName(),
+        getDescription(),
+        getLinks());
   }
 
   @Override
@@ -290,6 +298,10 @@ public class RunbookResource extends NamedResource {
     sb.append("    runbookProcessId: ").append(toIndentedString(runbookProcessId)).append("\n");
     sb.append("    runRetentionPolicy: ").append(toIndentedString(runRetentionPolicy)).append("\n");
     sb.append("    spaceId: ").append(toIndentedString(spaceId)).append("\n");
+    sb.append("    id: ").append(toIndentedString(this.getId())).append("\n");
+    sb.append("    name: ").append(toIndentedString(this.getName())).append("\n");
+    sb.append("    description: ").append(toIndentedString(this.getDescription())).append("\n");
+    sb.append("    links: ").append(toIndentedString(this.getLinks())).append("\n");
     sb.append("}");
     return sb.toString();
   }

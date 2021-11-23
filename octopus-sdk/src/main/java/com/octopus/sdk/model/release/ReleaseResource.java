@@ -346,7 +346,9 @@ public class ReleaseResource extends BaseResource {
         && Objects.equals(this.selectedPackages, releaseResource.selectedPackages)
         && Objects.equals(this.spaceId, releaseResource.spaceId)
         && Objects.equals(this.version, releaseResource.version)
-        && Objects.equals(this.versionControlReference, releaseResource.versionControlReference);
+        && Objects.equals(this.versionControlReference, releaseResource.versionControlReference)
+        && Objects.equals(this.getId(), releaseResource.getId())
+        && Objects.equals(this.getLinks(), releaseResource.getLinks());
   }
 
   @Override
@@ -366,7 +368,9 @@ public class ReleaseResource extends BaseResource {
         selectedPackages,
         spaceId,
         version,
-        versionControlReference);
+        versionControlReference,
+        getId(),
+        getLinks());
   }
 
   @Override
@@ -396,6 +400,8 @@ public class ReleaseResource extends BaseResource {
     sb.append("    versionControlReference: ")
         .append(toIndentedString(versionControlReference))
         .append("\n");
+    sb.append("    id: ").append(toIndentedString(this.getId())).append("\n");
+    sb.append("    links: ").append(toIndentedString(this.getLinks())).append("\n");
     sb.append("}");
     return sb.toString();
   }

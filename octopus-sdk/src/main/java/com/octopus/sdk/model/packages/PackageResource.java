@@ -289,7 +289,9 @@ public class PackageResource extends BaseResource {
         && Objects.equals(this.releaseNotes, packageResource.releaseNotes)
         && Objects.equals(this.summary, packageResource.summary)
         && Objects.equals(this.title, packageResource.title)
-        && Objects.equals(this.version, packageResource.version);
+        && Objects.equals(this.version, packageResource.version)
+        && Objects.equals(this.getId(), packageResource.getId())
+        && Objects.equals(this.getLinks(), packageResource.getLinks());
   }
 
   @Override

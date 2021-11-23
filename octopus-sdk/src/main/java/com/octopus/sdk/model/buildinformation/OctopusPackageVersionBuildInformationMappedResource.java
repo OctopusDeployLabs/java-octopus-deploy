@@ -384,7 +384,10 @@ public class OctopusPackageVersionBuildInformationMappedResource extends BaseRes
         && Objects.equals(this.vcsType, octopusPackageVersionBuildInformationMappedResource.vcsType)
         && Objects.equals(this.version, octopusPackageVersionBuildInformationMappedResource.version)
         && Objects.equals(
-            this.workItems, octopusPackageVersionBuildInformationMappedResource.workItems);
+            this.workItems, octopusPackageVersionBuildInformationMappedResource.workItems)
+        && Objects.equals(this.getId(), octopusPackageVersionBuildInformationMappedResource.getId())
+        && Objects.equals(
+            this.getLinks(), octopusPackageVersionBuildInformationMappedResource.getLinks());
   }
 
   @Override
@@ -406,7 +409,9 @@ public class OctopusPackageVersionBuildInformationMappedResource extends BaseRes
         vcsRoot,
         vcsType,
         version,
-        workItems);
+        workItems,
+        getId(),
+        getLinks());
   }
 
   @Override
@@ -432,6 +437,8 @@ public class OctopusPackageVersionBuildInformationMappedResource extends BaseRes
     sb.append("    vcsType: ").append(toIndentedString(vcsType)).append("\n");
     sb.append("    version: ").append(toIndentedString(version)).append("\n");
     sb.append("    workItems: ").append(toIndentedString(workItems)).append("\n");
+    sb.append("    id: ").append(toIndentedString(this.getId())).append("\n");
+    sb.append("    links: ").append(toIndentedString(this.getLinks())).append("\n");
     sb.append("}");
     return sb.toString();
   }

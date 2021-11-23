@@ -156,7 +156,11 @@ public class EnvironmentResource extends NamedResource {
         && Objects.equals(this.lastModifiedOn, environmentResource.lastModifiedOn)
         && Objects.equals(this.sortOrder, environmentResource.sortOrder)
         && Objects.equals(this.spaceId, environmentResource.spaceId)
-        && Objects.equals(this.useGuidedFailure, environmentResource.useGuidedFailure);
+        && Objects.equals(this.useGuidedFailure, environmentResource.useGuidedFailure)
+        && Objects.equals(this.getId(), environmentResource.getId())
+        && Objects.equals(this.getName(), environmentResource.getName())
+        && Objects.equals(this.getLinks(), environmentResource.getLinks())
+        && Objects.equals(this.getDescription(), environmentResource.getDescription());
   }
 
   @Override
@@ -168,7 +172,11 @@ public class EnvironmentResource extends NamedResource {
         lastModifiedOn,
         sortOrder,
         spaceId,
-        useGuidedFailure);
+        useGuidedFailure,
+        getId(),
+        getName(),
+        getDescription(),
+        getLinks());
   }
 
   @Override
@@ -184,6 +192,10 @@ public class EnvironmentResource extends NamedResource {
     sb.append("    sortOrder: ").append(toIndentedString(sortOrder)).append("\n");
     sb.append("    spaceId: ").append(toIndentedString(spaceId)).append("\n");
     sb.append("    useGuidedFailure: ").append(toIndentedString(useGuidedFailure)).append("\n");
+    sb.append("    id: ").append(toIndentedString(this.getId())).append("\n");
+    sb.append("    name: ").append(toIndentedString(this.getName())).append("\n");
+    sb.append("    description: ").append(toIndentedString(this.getDescription())).append("\n");
+    sb.append("    links: ").append(toIndentedString(this.getLinks())).append("\n");
     sb.append("}");
     return sb.toString();
   }

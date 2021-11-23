@@ -165,7 +165,11 @@ public class TenantResource extends NamedResource {
         && Objects.equals(this.lastModifiedOn, tenantResource.lastModifiedOn)
         && Objects.equals(this.projectEnvironments, tenantResource.projectEnvironments)
         && Objects.equals(this.spaceId, tenantResource.spaceId)
-        && Objects.equals(this.tenantTags, tenantResource.tenantTags);
+        && Objects.equals(this.tenantTags, tenantResource.tenantTags)
+        && Objects.equals(this.getId(), tenantResource.getId())
+        && Objects.equals(this.getName(), tenantResource.getName())
+        && Objects.equals(this.getLinks(), tenantResource.getLinks())
+        && Objects.equals(this.getDescription(), tenantResource.getDescription());
   }
 
   @Override
@@ -176,7 +180,11 @@ public class TenantResource extends NamedResource {
         lastModifiedOn,
         projectEnvironments,
         spaceId,
-        tenantTags);
+        tenantTags,
+        getId(),
+        getName(),
+        getDescription(),
+        getLinks());
   }
 
   @Override
@@ -191,6 +199,10 @@ public class TenantResource extends NamedResource {
         .append("\n");
     sb.append("    spaceId: ").append(toIndentedString(spaceId)).append("\n");
     sb.append("    tenantTags: ").append(toIndentedString(tenantTags)).append("\n");
+    sb.append("    id: ").append(toIndentedString(this.getId())).append("\n");
+    sb.append("    name: ").append(toIndentedString(this.getName())).append("\n");
+    sb.append("    description: ").append(toIndentedString(this.getDescription())).append("\n");
+    sb.append("    links: ").append(toIndentedString(this.getLinks())).append("\n");
     sb.append("}");
     return sb.toString();
   }

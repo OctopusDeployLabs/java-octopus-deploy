@@ -5,7 +5,7 @@
 * N/A
 
 ### Bugs Resolved:
-* N/A
+* Updated Log4J dependency to mitigate Dec 2021 RCE 0-Day exploit
 
 ### Known Issues:
 * N/A

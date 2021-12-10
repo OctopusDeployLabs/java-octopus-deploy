@@ -24,7 +24,7 @@ To use the SDK in a gradle project, add the following to your build.gradle:
 
 ```
 dependencies {
-  implementation 'org.octopus:octopus-sdk:0.0.1
+  implementation 'org.octopus:octopus-sdk:<version>
 }
 ```
 

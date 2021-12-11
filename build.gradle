@@ -160,6 +160,7 @@ subprojects {
 
     if (!Arrays.asList("acceptance-tests", "examples").contains(project.name)) {
         apply plugin: 'maven-publish'
+        apply plugin: 'com.jfrog.artifactory'
 
         publishing {
             publications {

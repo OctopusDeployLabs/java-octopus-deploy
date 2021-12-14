@@ -1,11 +1,21 @@
 # Octopus Java SDK Changelog
 
-## VERSION 0.0.4-SNAPSHOT
+## VERSION 0.0.5-SNAPSHOT
 ### Features Added:
 * N/A
 
 ### Bugs Resolved:
 * N/A
+
+### Known Issues:
+* N/A
+
+## VERSION 0.0.4
+### Features Added:
+* N/A
+
+### Bugs Resolved:
+* Updated Log4j to 2.16.0 to mitigate follow on DDOS by disabling JNDI by default
 
 ### Known Issues:
 * N/A

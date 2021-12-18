@@ -30,7 +30,7 @@
 * N/A
 
 ### Bugs Resolved:
-* Updated Log4j to 2.16.0 to mitigate follow on DDOS by disabling JNDI by default
+* Updated Log4j to 2.16.0 to mitigate follow on DDOS by disabling JNDI by default (CVE-2021-44228)
 
 ### Known Issues:
 * N/A
@@ -40,7 +40,7 @@
 * N/A
 
 ### Bugs Resolved:
-* Updated Log4J dependency to mitigate Dec 2021 RCE 0-Day exploit
+* Updated Log4J dependency to mitigate Dec 2021 RCE 0-Day exploit (CVE-2021-45046)
 
 ### Known Issues:
 * N/A

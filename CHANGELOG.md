@@ -1,6 +1,21 @@
 # Octopus Java SDK Changelog
 
-## VERSION 0.0.5-SNAPSHOT
+
+## VERSION 0.0.6-SNAPSHOT
+### Features Added:
+* N/A
+
+### Bugs Resolved:
+* N/A
+
+### Known Issues:
+* N/A
+
+## VERSION 0.0.4
+### Features Added:
+* N/A
+
+## VERSION 0.0.5
 ### Features Added:
 * N/A
 

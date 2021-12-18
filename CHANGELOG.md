@@ -5,7 +5,7 @@
 * N/A
 
 ### Bugs Resolved:
-* N/A
+* Updated Log4j to 2.17.0
 
 ### Known Issues:
 * N/A

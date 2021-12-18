@@ -11,10 +11,6 @@
 ### Known Issues:
 * N/A
 
-## VERSION 0.0.4
-### Features Added:
-* N/A
-
 ## VERSION 0.0.5
 ### Features Added:
 * N/A

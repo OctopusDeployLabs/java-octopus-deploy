@@ -20,7 +20,7 @@
 * N/A
 
 ### Bugs Resolved:
-* Updated Log4j to 2.17.0 address CVE-2021-45105
+* Updated Log4j to 2.17.0 to address CVE-2021-45105
 
 ### Known Issues:
 * N/A

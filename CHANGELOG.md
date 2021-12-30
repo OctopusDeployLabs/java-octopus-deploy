@@ -6,7 +6,7 @@
 * N/A
 
 ### Bugs Resolved:
-* N/A
+* Updated Log4j to 2.17.1 to mitigate CVE-2021-44832
 
 ### Known Issues:
 * N/A

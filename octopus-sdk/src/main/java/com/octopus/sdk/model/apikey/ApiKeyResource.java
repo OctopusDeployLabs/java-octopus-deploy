@@ -160,12 +160,23 @@ public class ApiKeyResource extends BaseResource {
         && Objects.equals(this.lastModifiedBy, apiKeyResource.lastModifiedBy)
         && Objects.equals(this.lastModifiedOn, apiKeyResource.lastModifiedOn)
         && Objects.equals(this.purpose, apiKeyResource.purpose)
-        && Objects.equals(this.userId, apiKeyResource.userId);
+        && Objects.equals(this.userId, apiKeyResource.userId)
+        && Objects.equals(this.getId(), apiKeyResource.getId())
+        && Objects.equals(this.getLinks(), apiKeyResource.getLinks());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(apiKey, created, expires, lastModifiedBy, lastModifiedOn, purpose, userId);
+    return Objects.hash(
+        apiKey,
+        created,
+        expires,
+        lastModifiedBy,
+        lastModifiedOn,
+        purpose,
+        userId,
+        getId(),
+        getLinks());
   }
 
   @Override
@@ -179,6 +190,8 @@ public class ApiKeyResource extends BaseResource {
     sb.append("    lastModifiedOn: ").append(toIndentedString(lastModifiedOn)).append("\n");
     sb.append("    purpose: ").append(toIndentedString(purpose)).append("\n");
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
+    sb.append("    id: ").append(toIndentedString(this.getId())).append("\n");
+    sb.append("    links: ").append(toIndentedString(this.getLinks())).append("\n");
     sb.append("}");
     return sb.toString();
   }

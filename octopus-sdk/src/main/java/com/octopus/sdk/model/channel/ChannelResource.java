@@ -204,7 +204,11 @@ public class ChannelResource extends NamedResource {
         && Objects.equals(this.projectId, channelResource.projectId)
         && Objects.equals(this.rules, channelResource.rules)
         && Objects.equals(this.spaceId, channelResource.spaceId)
-        && Objects.equals(this.tenantTags, channelResource.tenantTags);
+        && Objects.equals(this.tenantTags, channelResource.tenantTags)
+        && Objects.equals(this.getId(), channelResource.getId())
+        && Objects.equals(this.getName(), channelResource.getName())
+        && Objects.equals(this.getLinks(), channelResource.getLinks())
+        && Objects.equals(this.getDescription(), channelResource.getDescription());
   }
 
   @Override
@@ -217,7 +221,11 @@ public class ChannelResource extends NamedResource {
         projectId,
         rules,
         spaceId,
-        tenantTags);
+        tenantTags,
+        getId(),
+        getName(),
+        getDescription(),
+        getLinks());
   }
 
   @Override
@@ -232,6 +240,10 @@ public class ChannelResource extends NamedResource {
     sb.append("    rules: ").append(toIndentedString(rules)).append("\n");
     sb.append("    spaceId: ").append(toIndentedString(spaceId)).append("\n");
     sb.append("    tenantTags: ").append(toIndentedString(tenantTags)).append("\n");
+    sb.append("    id: ").append(toIndentedString(this.getId())).append("\n");
+    sb.append("    name: ").append(toIndentedString(this.getName())).append("\n");
+    sb.append("    description: ").append(toIndentedString(this.getDescription())).append("\n");
+    sb.append("    links: ").append(toIndentedString(this.getLinks())).append("\n");
     sb.append("}");
     return sb.toString();
   }

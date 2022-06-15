@@ -34,6 +34,9 @@ public class BaseResource {
   }
 
   public ImmutableMap<String, String> getLinks() {
+    if (links == null) {
+      return ImmutableMap.of();
+    }
     return ImmutableMap.copyOf(links);
   }
 

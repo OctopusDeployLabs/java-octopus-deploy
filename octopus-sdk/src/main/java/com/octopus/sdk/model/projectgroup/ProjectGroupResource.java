@@ -137,12 +137,25 @@ public class ProjectGroupResource extends NamedResource {
         && Objects.equals(this.lastModifiedBy, projectGroupResource.lastModifiedBy)
         && Objects.equals(this.lastModifiedOn, projectGroupResource.lastModifiedOn)
         && Objects.equals(this.retentionPolicyId, projectGroupResource.retentionPolicyId)
-        && Objects.equals(this.spaceId, projectGroupResource.spaceId);
+        && Objects.equals(this.spaceId, projectGroupResource.spaceId)
+        && Objects.equals(this.getId(), projectGroupResource.getId())
+        && Objects.equals(this.getName(), projectGroupResource.getName())
+        && Objects.equals(this.getLinks(), projectGroupResource.getLinks())
+        && Objects.equals(this.getDescription(), projectGroupResource.getDescription());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(environmentIds, lastModifiedBy, lastModifiedOn, retentionPolicyId, spaceId);
+    return Objects.hash(
+        environmentIds,
+        lastModifiedBy,
+        lastModifiedOn,
+        retentionPolicyId,
+        spaceId,
+        getId(),
+        getName(),
+        getDescription(),
+        getLinks());
   }
 
   @Override
@@ -154,6 +167,10 @@ public class ProjectGroupResource extends NamedResource {
     sb.append("    lastModifiedOn: ").append(toIndentedString(lastModifiedOn)).append("\n");
     sb.append("    retentionPolicyId: ").append(toIndentedString(retentionPolicyId)).append("\n");
     sb.append("    spaceId: ").append(toIndentedString(spaceId)).append("\n");
+    sb.append("    id: ").append(toIndentedString(this.getId())).append("\n");
+    sb.append("    name: ").append(toIndentedString(this.getName())).append("\n");
+    sb.append("    description: ").append(toIndentedString(this.getDescription())).append("\n");
+    sb.append("    links: ").append(toIndentedString(this.getLinks())).append("\n");
     sb.append("}");
     return sb.toString();
   }

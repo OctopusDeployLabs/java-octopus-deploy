@@ -3,7 +3,7 @@
 
 ## VERSION 0.0.7-SNAPSHOT
 ### Features Added:
-* N/A
+* Hascode and Object.equals functions now factor in all parameters of parent class (not just local members)
 
 ### Bugs Resolved:
 * N/A

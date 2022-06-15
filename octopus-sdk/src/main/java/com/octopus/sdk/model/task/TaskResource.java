@@ -388,7 +388,11 @@ public class TaskResource extends NamedResource {
         && Objects.equals(this.serverNode, taskResource.serverNode)
         && Objects.equals(this.spaceId, taskResource.spaceId)
         && Objects.equals(this.startTime, taskResource.startTime)
-        && Objects.equals(this.state, taskResource.state);
+        && Objects.equals(this.state, taskResource.state)
+        && Objects.equals(this.getId(), taskResource.getId())
+        && Objects.equals(this.getName(), taskResource.getName())
+        && Objects.equals(this.getLinks(), taskResource.getLinks())
+        && Objects.equals(this.getDescription(), taskResource.getDescription());
   }
 
   @Override
@@ -413,7 +417,11 @@ public class TaskResource extends NamedResource {
         serverNode,
         spaceId,
         startTime,
-        state);
+        state,
+        getId(),
+        getName(),
+        getDescription(),
+        getLinks());
   }
 
   @Override
@@ -448,6 +456,10 @@ public class TaskResource extends NamedResource {
     sb.append("    spaceId: ").append(toIndentedString(spaceId)).append("\n");
     sb.append("    startTime: ").append(toIndentedString(startTime)).append("\n");
     sb.append("    state: ").append(toIndentedString(state)).append("\n");
+    sb.append("    id: ").append(toIndentedString(this.getId())).append("\n");
+    sb.append("    name: ").append(toIndentedString(this.getName())).append("\n");
+    sb.append("    description: ").append(toIndentedString(this.getDescription())).append("\n");
+    sb.append("    links: ").append(toIndentedString(this.getLinks())).append("\n");
     sb.append("}");
     return sb.toString();
   }

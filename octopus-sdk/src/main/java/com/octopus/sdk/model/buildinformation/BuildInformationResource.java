@@ -324,7 +324,9 @@ public class BuildInformationResource extends BaseResource {
         && Objects.equals(this.vcsCommitUrl, buildInformationResource.vcsCommitUrl)
         && Objects.equals(this.vcsRoot, buildInformationResource.vcsRoot)
         && Objects.equals(this.vcsType, buildInformationResource.vcsType)
-        && Objects.equals(this.workItems, buildInformationResource.workItems);
+        && Objects.equals(this.workItems, buildInformationResource.workItems)
+        && Objects.equals(this.getId(), buildInformationResource.getId())
+        && Objects.equals(this.getLinks(), buildInformationResource.getLinks());
   }
 
   @Override
@@ -344,7 +346,9 @@ public class BuildInformationResource extends BaseResource {
         vcsCommitUrl,
         vcsRoot,
         vcsType,
-        workItems);
+        workItems,
+        getId(),
+        getLinks());
   }
 
   @Override
@@ -368,6 +372,8 @@ public class BuildInformationResource extends BaseResource {
     sb.append("    vcsRoot: ").append(toIndentedString(vcsRoot)).append("\n");
     sb.append("    vcsType: ").append(toIndentedString(vcsType)).append("\n");
     sb.append("    workItems: ").append(toIndentedString(workItems)).append("\n");
+    sb.append("    id: ").append(toIndentedString(this.getId())).append("\n");
+    sb.append("    links: ").append(toIndentedString(this.getLinks())).append("\n");
     sb.append("}");
     return sb.toString();
   }
